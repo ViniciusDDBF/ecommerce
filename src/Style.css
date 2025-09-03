@@ -1,0 +1,153 @@
+/* Tailwind v4 Configuration - Add to your main CSS file */
+@import 'tailwindcss';
+
+@font-face {
+  font-family: 'Satoshi';
+  src: url('/fonts/Satoshi-Variable.woff2') format('woff2');
+  font-weight: 100 900; /* supports all weights */
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Satoshi';
+  src: url('/fonts/Satoshi-VariableItalic.woff2') format('woff2');
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+body {
+  font-family: 'Satoshi', sans-serif;
+}
+
+@theme {
+  /* Your Personal Brand Color System */
+
+  /* Charcoal Family - Your Foundation */
+  --color-charcoal-50: #f8f8f8;
+  --color-charcoal-100: #e8e8e8;
+  --color-charcoal-200: #c8c8c8;
+  --color-charcoal-300: #888888;
+  --color-charcoal-400: #666666;
+  --color-charcoal-500: #4a4a4a;
+  --color-charcoal-600: #3d3d3d;
+  --color-charcoal-700: #2a2a2a;
+  --color-charcoal-800: #1f1f1f;
+  --color-charcoal-900: #141414;
+
+  /* Ember Family - Your Personality */
+  --color-ember-50: #fff8f0;
+  --color-ember-100: #ffe8d1;
+  --color-ember-200: #ffd4a3;
+  --color-ember-300: #ffb366;
+  --color-ember-400: #ff9142;
+  --color-ember-500: #ff6b35;
+  --color-ember-600: #e55a2b;
+  --color-ember-700: #cc4a21;
+  --color-ember-800: #b23a17;
+  --color-ember-900: #8a2a0d;
+
+  /* Custom Animations */
+  --animate-glow: glow 2s ease-in-out infinite alternate;
+
+  /* Custom Effects */
+  --drop-shadow-ember: 0 4px 20px rgb(255 107 53 / 0.3);
+  --drop-shadow-ember-lg: 0 8px 40px rgb(255 107 53 / 0.4);
+}
+
+/* Custom Keyframes */
+@keyframes glow {
+  from {
+    box-shadow: 0 0 20px rgb(255 107 53 / 0.3);
+  }
+  to {
+    box-shadow: 0 0 30px rgb(255 107 53 / 0.6);
+  }
+}
+
+/* Custom Utility Classes */
+@utility ember-glow {
+  box-shadow: 0 0 20px rgb(255 107 53 / 0.3);
+}
+
+@utility ember-glow-strong {
+  box-shadow: 0 0 40px rgb(255 107 53 / 0.5);
+}
+
+@utility glass-effect {
+  background: rgb(61 61 61 / 0.3);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgb(255 107 53 / 0.2);
+}
+
+@utility glass-ember {
+  background: rgb(255 107 53 / 0.1);
+  backdrop-filter: blur(15px);
+  border: 1px solid rgb(255 107 53 / 0.3);
+}
+
+/* Background Gradients - Your Go-To Combinations */
+@utility bg-gradient-charcoal {
+  background: linear-gradient(
+    135deg,
+    var(--color-charcoal-900),
+    var(--color-charcoal-800)
+  );
+}
+
+@utility bg-gradient-ember {
+  background: linear-gradient(
+    135deg,
+    var(--color-ember-500),
+    var(--color-ember-600)
+  );
+}
+
+@utility bg-gradient-hero {
+  background: linear-gradient(
+    135deg,
+    var(--color-charcoal-900),
+    var(--color-charcoal-800),
+    var(--color-charcoal-700)
+  );
+}
+
+@utility bg-gradient-subtle {
+  background: linear-gradient(
+    135deg,
+    var(--color-charcoal-800),
+    var(--color-charcoal-700)
+  );
+}
+
+/* Text Gradients */
+@utility text-gradient-ember {
+  background: linear-gradient(
+    135deg,
+    var(--color-ember-400),
+    var(--color-ember-600)
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Interactive Utilities - Pre-built Interactions */
+@utility lift-base {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+@utility lift-hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgb(0 0 0 / 0.3);
+}
+
+@utility ember-transition {
+  transition: all 0.3s ease;
+}
+
+@utility ember-hover-border {
+  border-color: rgb(255 107 53 / 0.5);
+  box-shadow: 0 0 20px rgb(255 107 53 / 0.2);
+}
