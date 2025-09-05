@@ -13,9 +13,7 @@ const App = () => {
   return (
     <div>
       <ThemePicker />
-      <Button loading loaderType="spinner">
-        Vini
-      </Button>
+      <Button text="Vini" loading />
       {modal && <h1>{counter}</h1>}
       <div>
         <h1 className="bg-black text-orange-400">VINI</h1>

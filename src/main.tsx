@@ -1,19 +1,15 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import { Provider } from 'react-redux';
-import store from './store/configureStore.ts';
-import App from './App';
+import React from "react";
+import ReactDOM from "react-dom/client";
+import { RouterProvider } from "react-router/dom";
+import { router } from "./router";
 
-const rootElement = document.getElementById('root');
+const rootElement = document.getElementById("root");
 if (rootElement) {
-  const root = ReactDOM.createRoot(rootElement);
-  root.render(
+  ReactDOM.createRoot(rootElement).render(
     <React.StrictMode>
-      <Provider store={store}>
-        <App />
-      </Provider>
+      <RouterProvider router={router} />
     </React.StrictMode>
   );
 } else {
-  console.error('Root element not found');
+  console.error("Root element not found");
 }

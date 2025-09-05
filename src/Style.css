@@ -1,10 +1,9 @@
-/* Tailwind v4 Configuration - Add to your main CSS file */
 @import 'tailwindcss';
 
 @font-face {
   font-family: 'Satoshi';
   src: url('/fonts/Satoshi-Variable.woff2') format('woff2');
-  font-weight: 100 900; /* supports all weights */
+  font-weight: 100 900;
   font-style: normal;
   font-display: swap;
 }
@@ -48,12 +47,28 @@ body {
   --color-ember-800: #b23a17;
   --color-ember-900: #8a2a0d;
 
+  --color-silver-100: #eceef0; /* Light frosted silver - backgrounds, overlays */
+  --color-silver-200: #d4d6d8; /* Platinum Glow - main metallic accent, text, badges */
+  --color-silver-300: #bfc1c4; /* Premium Silver - borders, product highlights */
+  --color-silver-400: #8e9194; /* Gunmetal Silver - deep shadows, subtle text, accents */
+
+  /* 
+charcoal-900/800: Main backgrounds - creates that premium, professional depth
+charcoal-700/600: Secondary surfaces - cards, modals, sections
+charcoal-500/400: Text and borders - maintains readability
+charcoal-300/200: Subtle elements - dividers, disabled states
+
+ember-500: Your signature color - use sparingly for maximum impact
+ember-400/300: Interactive elements - buttons, links, highlights
+ember-200/100: Backgrounds and subtle accents
+ember-50: Your "white" - clean but warm
+*/
+
   /* Custom Animations */
   --animate-glow: glow 2s ease-in-out infinite alternate;
 
   /* Custom Effects */
   --drop-shadow-ember: 0 4px 20px rgb(255 107 53 / 0.3);
-  --drop-shadow-ember-lg: 0 8px 40px rgb(255 107 53 / 0.4);
 }
 
 /* Custom Keyframes */
@@ -66,13 +81,41 @@ body {
   }
 }
 
+/* Existing in your provided CSS */
+.ripple-container {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  pointer-events: none;
+}
+
+.ripple {
+  position: absolute;
+  border-radius: 50%;
+  transform: scale(0);
+  animation: ripple-effect 1.5s ease forwards;
+  opacity: 1;
+}
+
+@keyframes ripple-effect {
+  0% {
+    transform: scale(0);
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.375;
+  }
+  100% {
+    transform: scale(2.5);
+    opacity: 0;
+  }
+}
+
 /* Custom Utility Classes */
 @utility ember-glow {
   box-shadow: 0 0 20px rgb(255 107 53 / 0.3);
-}
-
-@utility ember-glow-strong {
-  box-shadow: 0 0 40px rgb(255 107 53 / 0.5);
 }
 
 @utility glass-effect {
@@ -91,8 +134,8 @@ body {
 @utility bg-gradient-charcoal {
   background: linear-gradient(
     135deg,
-    var(--color-charcoal-900),
-    var(--color-charcoal-800)
+    var(--color-charcoal-800),
+    var(--color-charcoal-900)
   );
 }
 
@@ -101,23 +144,6 @@ body {
     135deg,
     var(--color-ember-500),
     var(--color-ember-600)
-  );
-}
-
-@utility bg-gradient-hero {
-  background: linear-gradient(
-    135deg,
-    var(--color-charcoal-900),
-    var(--color-charcoal-800),
-    var(--color-charcoal-700)
-  );
-}
-
-@utility bg-gradient-subtle {
-  background: linear-gradient(
-    135deg,
-    var(--color-charcoal-800),
-    var(--color-charcoal-700)
   );
 }
 
@@ -133,21 +159,31 @@ body {
   -webkit-text-fill-color: transparent;
 }
 
-/* Interactive Utilities - Pre-built Interactions */
-@utility lift-base {
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-@utility lift-hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 25px rgb(0 0 0 / 0.3);
-}
-
-@utility ember-transition {
-  transition: all 0.3s ease;
+@utility text-gradient-charcoal {
+  background: linear-gradient(
+    135deg,
+    var(--color-charcoal-400),
+    var(--color-charcoal-600)
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 @utility ember-hover-border {
   border-color: rgb(255 107 53 / 0.5);
-  box-shadow: 0 0 20px rgb(255 107 53 / 0.2);
+  box-shadow: 0 0 10px rgb(255 107 53 / 0.2);
+}
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:active {
+  /* Force the input to use your styles */
+  -webkit-box-shadow: 0 0 0px 1000px var(--color-charcoal-800) inset; /* sets background */
+  -webkit-text-fill-color: var(--color-ember-50); /* sets text color */
+  transition: background-color 5000s ease-in-out 0s; /* prevents flash */
+}
+input:-webkit-autofill:focus {
+  outline: none; /* focus:outline-none */
+  box-shadow: 0 0 0 2px #ff6f3c; /* focus:ring-2 + focus:ring-ember-500 (replace with your actual ember-500 color) */
+  border-color: transparent; /* focus:border-transparent */
 }
