@@ -1,4 +1,5 @@
 import { ShoppingCart } from 'lucide-react';
+import IconOverlay from '../IconOverlay';
 
 type CartIconProps = {
   count?: number;
@@ -7,20 +8,12 @@ type CartIconProps = {
 
 const CartIcon: React.FC<CartIconProps> = ({ count = 1, onClick }) => {
   return (
-    <div
+    <IconOverlay
+      icon={<ShoppingCart className="w-6 h-6 text-gray-200" />}
+      showBadge={true}
+      count={count}
       onClick={onClick}
-      className="relative inline-flex items-center justify-center w-12 h-12 rounded-full bg-charcoal-700 hover:bg-charcoal-600 transition-colors cursor-pointer align-middle"
-    >
-      {/* Cart Icon */}
-      <ShoppingCart className="w-6 h-6 text-gray-200" />
-
-      {/* Badge (small circle above) */}
-      {count > 0 && (
-        <span className="absolute -top-1.5 -right-1.5 bg-ember-500 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center shadow-md">
-          {count}
-        </span>
-      )}
-    </div>
+    />
   );
 };
 

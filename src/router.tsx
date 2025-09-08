@@ -1,6 +1,6 @@
 import { createBrowserRouter } from 'react-router';
 import { Provider } from 'react-redux';
-import store from './store/configureStore';
+import store from './store/store.ts';
 import RootLayout from './layouts/RootLayout';
 import ProductsPage, { productsLoader } from './pages/ProductsPage';
 import HomePage from './pages/HomePage';

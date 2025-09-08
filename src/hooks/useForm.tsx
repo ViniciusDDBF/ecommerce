@@ -1,4 +1,11 @@
 import { useState } from 'react';
+import { maskCNPJ } from '../utils/masks/cnpj';
+import { maskPhone } from '../utils/masks/phone';
+import { maskCPF } from '../utils/masks/cpf';
+import { validateCPF } from '../utils/validation/validateCpf';
+import { validateCNPJ } from '../utils/validation/validateCnpj';
+
+type MaskType = 'phone' | 'cpf' | 'cnpj';
 
 type FormField = {
   name: string;
@@ -10,6 +17,8 @@ type FormField = {
   validation?: (value: any) => string | null;
   colSpan?: 1 | 2 | 3 | 4;
   className?: string;
+  applyMask?: MaskType;
+  helper?: string;
 };
 
 export const useForm = (
@@ -30,10 +39,55 @@ export const useForm = (
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const setValue = (name: string, value: any) => {
-    setValues((prev) => ({ ...prev, [name]: value }));
-    // Clear error when user starts typing
-    if (errors[name]) {
-      setErrors((prev) => ({ ...prev, [name]: '' }));
+    let maskedValue = value;
+
+    // Find the field configuration for this name
+    const field = fields.find((f) => f.name === name);
+
+    // Apply mask based on field's applyMask property
+    if (field?.applyMask === 'cpf') {
+      maskedValue = maskCPF(value);
+    } else if (field?.applyMask === 'cnpj') {
+      maskedValue = maskCNPJ(value);
+    } else if (field?.applyMask === 'phone') {
+      maskedValue = maskPhone(value);
+    }
+
+    setValues((prev) => ({ ...prev, [name]: maskedValue }));
+
+    const lowerName = name.toLowerCase();
+
+    // Real-time validation
+    if (lowerName.includes('cpf') || field?.applyMask === 'cpf') {
+      const cleaned = maskedValue.replace(/\D/g, '');
+      setErrors((prev) => ({
+        ...prev,
+        [name]:
+          cleaned.length === 11 && !validateCPF(maskedValue)
+            ? 'CPF inválido'
+            : '',
+      }));
+    }
+
+    if (lowerName.includes('cnpj') || field?.applyMask === 'cnpj') {
+      const cleaned = maskedValue.replace(/\D/g, '');
+      setErrors((prev) => ({
+        ...prev,
+        [name]:
+          cleaned.length === 14 && !validateCNPJ(maskedValue)
+            ? 'CNPJ inválido'
+            : '',
+      }));
+    }
+
+    // Clear other errors
+    if (
+      !lowerName.includes('cpf') &&
+      !lowerName.includes('cnpj') &&
+      field?.applyMask !== 'cpf' &&
+      field?.applyMask !== 'cnpj'
+    ) {
+      if (errors[name]) setErrors((prev) => ({ ...prev, [name]: '' }));
     }
   };
 
@@ -42,6 +96,7 @@ export const useForm = (
 
     fields.forEach((field) => {
       const value = values[field.name];
+      const lowerName = field.name.toLowerCase();
 
       // Required validation
       if (
@@ -50,6 +105,24 @@ export const useForm = (
       ) {
         newErrors[field.name] = `${field.label} is required`;
         return;
+      }
+
+      // CPF validation (based on field name or applyMask)
+      if (
+        (lowerName.includes('cpf') || field.applyMask === 'cpf') &&
+        value &&
+        !validateCPF(value)
+      ) {
+        newErrors[field.name] = 'CPF inválido';
+      }
+
+      // CNPJ validation (based on field name or applyMask)
+      if (
+        (lowerName.includes('cnpj') || field.applyMask === 'cnpj') &&
+        value &&
+        !validateCNPJ(value)
+      ) {
+        newErrors[field.name] = 'CNPJ inválido';
       }
 
       // Custom validation
@@ -93,4 +166,4 @@ export const useForm = (
   };
 };
 
-export type { FormField };
+export type { FormField, MaskType };

@@ -1,6 +1,7 @@
 import React from 'react';
 import type { FormField as FormFieldType } from '../hooks/useForm';
 import CustomSelect from './CustomSelect';
+import Helper from './Helper';
 
 type FormFieldProps = {
   field: FormFieldType;
@@ -100,11 +101,16 @@ const FormField: React.FC<FormFieldProps> = ({
   };
 
   return (
-    <div className={`space-y-2 ${field.className || ''}`}>
+    <div className={`space-y-2 relative ${field.className || ''}`}>
       {field.type !== 'checkbox' && (
-        <label className="block text-sm font-medium text-charcoal-200">
-          {field.label}
-          {field.required && <span className="text-red-400 ml-1">*</span>}
+        <label className="text-sm font-medium text-charcoal-200 flex items-center gap-2 justify-between">
+          <div>
+            {field.label}
+            {field.required && <span className="text-red-400 ml-1">*</span>}
+          </div>
+
+          {/* Render helper if field.helper exists */}
+          {field.helper && <Helper tooltip={field.helper} />}
         </label>
       )}
 

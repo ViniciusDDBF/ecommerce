@@ -64,14 +64,14 @@ const Dialog: React.FC<DialogProps> = ({
       <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
         <div
           ref={dialogRef}
-          className={`relative w-full ${sizeClasses[size]} mx-auto bg-gradient-charcoal backdrop-blur-xl border border-ember-600/30 rounded-2xl shadow-2xl max-h-[90vh] overflow-hidden flex flex-col`}
+          className={`overflow-visible relative w-full ${sizeClasses[size]} mx-auto bg-gradient-charcoal backdrop-blur-xl border border-ember-600/30 rounded-2xl shadow-2xl max-h-[90vh] overflow-hidden flex flex-col`}
         >
           {/* Header */}
           <div className="flex items-center justify-between p-6 pb-4 border-b border-charcoal-700/50">
-            <div className="flex items-center gap-3">
+            <div className=" flex items-center gap-3">
               {icon && (
-                <div className="p-2 rounded-lg flex items-center">
-                  <div className="w-5 h-5 text-ember-400">{icon}</div>
+                <div className=" p-2 rounded-lg flex items-center">
+                  <div className=" w-5 h-5 text-ember-400">{icon}</div>
                 </div>
               )}
               <div>
@@ -95,7 +95,7 @@ const Dialog: React.FC<DialogProps> = ({
           </div>
 
           {/* Body */}
-          <div className="flex-1 overflow-y-auto p-6">{children}</div>
+          <div className="overflow-y-visible flex-1 p-6">{children}</div>
 
           {/* Footer with Buttons */}
           {buttons && (

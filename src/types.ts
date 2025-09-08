@@ -1,5 +1,5 @@
 // types/index.ts - Single source of truth for all your app types
-import type { store } from './store/configureStore';
+import type { store } from './store/store.ts';
 
 // ===== REDUX TYPES =====
 export type RootState = ReturnType<typeof store.getState>;

@@ -1,19 +1,16 @@
 import { User } from 'lucide-react';
+import IconOverlay from '../IconOverlay';
 
 type AccountIcon = {
-  count?: number;
   onClick?: React.MouseEventHandler<HTMLDivElement>;
 };
 
 const AccountIcon: React.FC<AccountIcon> = ({ onClick }) => {
   return (
-    <div
+    <IconOverlay
       onClick={onClick}
-      className="relative inline-flex items-center justify-center w-12 h-12 rounded-full bg-charcoal-700 hover:bg-charcoal-600 transition-colors cursor-pointer align-middle"
-    >
-      {/* User Icon */}
-      <User className="w-6 h-6 text-gray-200" />
-    </div>
+      icon={<User className="w-6 h-6 text-gray-200" />}
+    />
   );
 };
 
