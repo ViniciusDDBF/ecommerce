@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-type ButtonVariant = 'primary' | 'secondary';
+type ButtonVariant = 'primary' | 'secondary' | 'ghost' | 'outline';
 type ButtonSize = 'sm' | 'md' | 'lg' | 'full';
 
 export interface ButtonProps
@@ -16,35 +16,47 @@ export interface ButtonProps
   style?: React.CSSProperties;
 }
 
-/* ---------------- Spinner Loader ---------------- */
-const SpinnerLoader: React.FC<{ size: number; color: string }> = ({
-  size,
-  color,
-}) => (
-  <div className="relative" style={{ width: size, height: size }}>
-    <svg
-      className="animate-spin absolute inset-0"
-      width={size}
-      height={size}
-      viewBox="0 0 24 24"
-      fill="none"
-    >
-      <circle
-        cx="12"
-        cy="12"
-        r="10"
-        stroke={color}
-        strokeWidth="2"
-        strokeLinecap="round"
-        className="opacity-25"
-      />
-      <path
-        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-        fill={color}
-      />
-    </svg>
-  </div>
-);
+/* ---------------- Enhanced Spinner Loader ---------------- */
+const SpinnerLoader: React.FC<{
+  size: ButtonSize;
+  color: string;
+}> = ({ size, color }) => {
+  // Size mappings for spinners to match button proportions
+  const spinnerConfig = {
+    sm: { diameter: 16, strokeWidth: 2, className: 'w-4 h-4' },
+    md: { diameter: 20, strokeWidth: 2, className: 'w-5 h-5' },
+    lg: { diameter: 24, strokeWidth: 2.5, className: 'w-6 h-6' },
+    full: { diameter: 20, strokeWidth: 2, className: 'w-5 h-5' },
+  };
+
+  const config = spinnerConfig[size];
+
+  return (
+    <div className={`relative ${config.className}`}>
+      <svg
+        className="absolute inset-0 animate-spin"
+        width={config.diameter}
+        height={config.diameter}
+        viewBox="0 0 24 24"
+        fill="none"
+      >
+        <circle
+          cx="12"
+          cy="12"
+          r="10"
+          stroke={color}
+          strokeWidth={config.strokeWidth}
+          strokeLinecap="round"
+          className="opacity-25"
+        />
+        <path
+          d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+          fill={color}
+        />
+      </svg>
+    </div>
+  );
+};
 
 /* ---------------- Button Sizes ---------------- */
 const buttonSizes = {
@@ -57,7 +69,7 @@ const buttonSizes = {
 /* ---------------- Variant Styles with Selected States ---------------- */
 const getVariantStyles = (
   variant: ButtonVariant,
-  selected: boolean = false
+  selected: boolean = false,
 ) => {
   switch (variant) {
     case 'primary':
@@ -101,6 +113,48 @@ const getVariantStyles = (
         focus: '',
         loaderColor: '#FF9142', // ember-400
         rippleColor: 'rgba(255, 145, 66, 0.5)', // ember-400 with opacity
+      };
+    case 'ghost':
+      if (selected) {
+        return {
+          base: 'bg-ember-500/10 text-ember-400 border border-ember-500/40',
+          hover:
+            'hover:bg-ember-500/20 hover:text-ember-300 hover:border-ember-400/60',
+          active: 'active:bg-ember-500/30 active:scale-[0.98]',
+          focus: '',
+          loaderColor: '#FF9142', // ember-400
+          rippleColor: 'rgba(255, 145, 66, 0.2)', // ember-400 with low opacity
+        };
+      }
+      return {
+        base: 'bg-transparent text-charcoal-300 border border-transparent',
+        hover:
+          'hover:bg-charcoal-700/50 hover:text-ember-400 hover:border-ember-500/20',
+        active: 'active:bg-charcoal-600/50 active:scale-[0.98]',
+        focus: '',
+        loaderColor: '#888888', // charcoal-300
+        rippleColor: 'rgba(136, 136, 136, 0.2)', // charcoal-300 with low opacity
+      };
+    case 'outline':
+      if (selected) {
+        return {
+          base: 'bg-ember-500/15 text-ember-400 border-2 border-ember-500 shadow-lg',
+          hover:
+            'hover:bg-ember-500/25 hover:text-ember-300 hover:border-ember-400',
+          active: 'active:bg-ember-500/35 active:scale-[0.98]',
+          focus: '',
+          loaderColor: '#FF9142', // ember-400
+          rippleColor: 'rgba(255, 145, 66, 0.3)', // ember-400 with opacity
+        };
+      }
+      return {
+        base: 'bg-transparent text-charcoal-300 border-2 border-charcoal-500',
+        hover:
+          'hover:bg-charcoal-700/30 hover:text-ember-400 hover:border-ember-500',
+        active: 'active:bg-charcoal-600/40 active:scale-[0.98]',
+        focus: '',
+        loaderColor: '#888888', // charcoal-300
+        rippleColor: 'rgba(136, 136, 136, 0.25)', // charcoal-300 with opacity
       };
     default:
       return getVariantStyles('primary', selected);
@@ -154,12 +208,11 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       onClick,
       ...props
     },
-    ref
+    ref,
   ) => {
     const [ripples, setRipples] = useState<Ripple[]>([]);
     const variantStyles = getVariantStyles(variant, selected);
     const isDisabled = disabled || loading;
-    const iconSize = size === 'sm' ? 16 : size === 'md' ? 18 : 20;
 
     const sizeClasses = buttonSizes[size];
 
@@ -233,10 +286,10 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
 
         {/* Start Icon or Loader */}
         {loading ? (
-          <SpinnerLoader size={iconSize} color={variantStyles.loaderColor} />
+          <SpinnerLoader size={size} color={variantStyles.loaderColor} />
         ) : (
           startIcon && (
-            <span className="flex items-center justify-center flex-shrink-0">
+            <span className="flex flex-shrink-0 items-center justify-center">
               {startIcon}
             </span>
           )
@@ -244,7 +297,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
 
         {/* Button Text */}
         <span
-          className={`flex items-center justify-center relative z-10 ${
+          className={`relative z-10 flex items-center justify-center ${
             loading ? 'opacity-70' : ''
           }`}
         >
@@ -253,13 +306,13 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
 
         {/* End Icon (hidden during loading) */}
         {!loading && endIcon && (
-          <span className="flex items-center justify-center flex-shrink-0 relative z-10">
+          <span className="relative z-10 flex flex-shrink-0 items-center justify-center">
             {endIcon}
           </span>
         )}
       </button>
     );
-  }
+  },
 );
 
 Button.displayName = 'Button';

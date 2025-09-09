@@ -1,4 +1,3 @@
-import React from 'react';
 import { useRef, useState } from 'react';
 import { UserPlus, LogIn, CircleCheck, Store, Mail } from 'lucide-react';
 import { useClickOutside } from '../../hooks/useClickOutside';
@@ -7,7 +6,11 @@ import Dialog from '../Dialog';
 import FormGrid from '../FormGrid';
 import type { FormField } from '../../hooks/useForm';
 import { useForm } from '../../hooks/useForm';
-import { ThunkLogIn } from '../../store/slices/userSlice';
+import {
+  ThunkCreateCustomer,
+  ThunkLogIn,
+  type CreateCustomerArgs,
+} from '../../store/slices/userSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import type { RootState, AppDispatch } from '../../store/store';
 import AccountDropdown from './AccountDropdown';
@@ -19,17 +22,17 @@ const loginFields: FormField[] = [
     name: 'email',
     label: 'Email',
     type: 'email',
-    required: true,
     placeholder: 'Enter your email',
     colSpan: 2,
+    validation: { required: true },
   },
   {
     name: 'password',
     label: 'Password',
     type: 'password',
-    required: true,
     placeholder: 'Enter your password',
     colSpan: 2,
+    validation: { required: true },
   },
 ];
 
@@ -38,60 +41,64 @@ const signUpFieldsCpf: FormField[] = [
     name: 'first_name',
     label: 'First Name',
     type: 'text',
-    required: true,
     placeholder: 'Enter your first name',
     colSpan: 1,
+    validation: { required: true },
   },
   {
     name: 'last_name',
     label: 'Last Name',
     type: 'text',
-    required: true,
     placeholder: 'Enter your Last name',
     colSpan: 1,
+    validation: { required: true },
   },
   {
     name: 'phone',
     label: 'Phone',
     type: 'text',
-    required: true,
     placeholder: 'Enter your phone number',
     colSpan: 1,
     applyMask: 'phone',
+    validation: { required: true },
   },
   {
     name: 'cpf',
     label: 'CPF',
     type: 'text',
-    required: true,
     placeholder: 'Enter your CPF',
     colSpan: 1,
     applyMask: 'cpf',
-    helper: `You can use: 11144477735`,
+    helper: {
+      text: 'Use test CPF',
+      value: '11144477735',
+    },
+    validation: { required: true },
   },
   {
     name: 'email',
     label: 'Email',
     type: 'email',
-    required: true,
     placeholder: 'Enter your email',
     colSpan: 2,
+    validation: { required: true },
   },
   {
     name: 'password',
     label: 'Password',
     type: 'password',
-    required: true,
     placeholder: 'Enter your password',
     colSpan: 1,
+    validation: { required: true },
+    confirmField: 'confirm_password',
   },
   {
     name: 'confirm_password',
     label: 'Confirm your Password',
     type: 'password',
-    required: true,
     placeholder: 'Enter your password again',
     colSpan: 1,
+    validation: { required: true },
   },
 ];
 
@@ -100,59 +107,61 @@ const signUpFieldsCnpj: FormField[] = [
     name: 'legal_name',
     label: 'Legal Name',
     type: 'text',
-    required: true,
     placeholder: 'Enter your legal name',
     colSpan: 1,
+    validation: { required: true },
   },
   {
     name: 'company_name',
     label: 'Company Name',
     type: 'text',
-    required: true,
     placeholder: 'Enter your company name',
     colSpan: 1,
+    validation: { required: true },
   },
   {
     name: 'phone',
     label: 'Phone',
     type: 'text',
-    required: true,
     placeholder: 'Enter your phone number',
     colSpan: 1,
     applyMask: 'phone',
+    validation: { required: true },
   },
   {
     name: 'cnpj',
     label: 'CNPJ',
     type: 'text',
-    required: true,
     placeholder: 'Enter your CNPJ',
     colSpan: 1,
     applyMask: 'cnpj',
+    validation: { required: true },
+    helper: { text: 'Use test CNPJ', value: '12.345.678/0001-95' },
   },
   {
     name: 'email',
     label: 'Email',
     type: 'email',
-    required: true,
     placeholder: 'Enter your email',
     colSpan: 2,
+    validation: { required: true },
   },
   {
     name: 'password',
     label: 'Password',
     type: 'password',
-    required: true,
     placeholder: 'Enter your password',
     colSpan: 1,
+    validation: { required: true },
+    confirmField: 'confirm_password',
   },
   {
     name: 'confirm_password',
     label: 'Confirm your Password',
     type: 'password',
-    required: true,
     placeholder: 'Enter your password again',
     colSpan: 1,
+    validation: { required: true },
   },
 ];
 
@@ -181,17 +190,18 @@ const GoogleIcon = ({ className = 'w-5 h-5' }) => (
   </svg>
 );
 
+// Updated handleGoogleSignIn function
 const handleGoogleSignIn = async () => {
   try {
-    const data = await supabase.auth.signInWithOAuth({
+    await supabase.auth.signInWithOAuth({
       provider: 'google',
       options: {
-        redirectTo: `https://niihlyofonxtmzgzanpv.supabase.co/auth/v1/callback`,
+        redirectTo: `${window.location.origin}/auth/callback`,
       },
     });
-
-    console.log(data);
-  } catch (err) {}
+  } catch (err) {
+    console.error('Error during Google Sign-In:', err);
+  }
 };
 
 const Account = () => {
@@ -205,7 +215,7 @@ const Account = () => {
   const choicesRef = useRef<HTMLDivElement | null>(null);
   const login = useForm(loginFields);
   const signUpCpf = useForm(signUpFieldsCpf);
-  const signUpCnpj = useForm(signUpFieldsCpf);
+  const signUpCnpj = useForm(signUpFieldsCnpj);
   const user = useSelector((state: RootState) => state.user);
   const dispatch = useDispatch<AppDispatch>();
 
@@ -217,17 +227,19 @@ const Account = () => {
   const handleSubmitLogin = async () => {
     if (!login.validate()) return;
     await dispatch(
-      ThunkLogIn({ email: login.values.email, password: login.values.password })
+      ThunkLogIn({
+        email: login.values.email,
+        password: login.values.password,
+      }),
     );
   };
 
   const handleSubmitSignUpCPF = async () => {
     if (!signUpCpf.validate()) return;
-
-    signUpCpf.setIsSubmitting(true);
+    const { confirm_password, ...newUser } = signUpCpf.values;
+    await dispatch(ThunkCreateCustomer(newUser as CreateCustomerArgs));
     try {
-      await new Promise((resolve) => setTimeout(resolve, 2000));
-      console.log('Form submitted:', signUpCpf.values);
+      signUpCpf.setIsSubmitting(true);
       setSignUpCpfIsOpen(false);
       signUpCpf.reset();
     } finally {
@@ -238,11 +250,11 @@ const Account = () => {
   const handleSubmitSignUpCNPJ = async () => {
     if (!signUpCnpj.validate()) return;
 
-    signUpCnpj.setIsSubmitting(true);
+    const { confirm_password, ...newUser } = signUpCnpj.values;
+    await dispatch(ThunkCreateCustomer(newUser as CreateCustomerArgs));
     try {
-      await new Promise((resolve) => setTimeout(resolve, 2000));
-      console.log('Form submitted:', signUpCnpj.values);
-      setSignUpCpfIsOpen(false);
+      signUpCnpj.setIsSubmitting(true);
+      setSignUpCnpjIsOpen(false);
       signUpCnpj.reset();
     } finally {
       signUpCnpj.setIsSubmitting(false);
@@ -276,10 +288,10 @@ const Account = () => {
                 text="Continue with Google"
                 variant="secondary"
                 size="md"
-                loading={false}
+                loading={user.isLoading}
                 onClick={handleGoogleSignIn}
                 startIcon={<GoogleIcon />}
-                className="bg-charcoal-800 hover:bg-charcoal-700 border border-charcoal-600 hover:border-charcoal-500 glass-effect"
+                className="bg-charcoal-800 hover:bg-charcoal-700 border-charcoal-600 hover:border-charcoal-500 glass-effect border"
               />
 
               {/*  ----- Email button ----- */}
@@ -293,7 +305,7 @@ const Account = () => {
                   setLoginIsOpen(true);
                 }}
                 startIcon={<Mail />}
-                className="bg-charcoal-800 hover:bg-charcoal-700 border border-charcoal-600 hover:border-charcoal-500 glass-effect"
+                className="bg-charcoal-800 hover:bg-charcoal-700 border-charcoal-600 hover:border-charcoal-500 glass-effect border"
               />
             </div>
           </Dialog>
@@ -343,11 +355,11 @@ const Account = () => {
             {/* Already have an account link */}
             {!user.user && (
               <div className="mt-4 text-center">
-                <span className="text-sm text-charcoal-300">
+                <span className="text-charcoal-300 text-sm">
                   Don't have a account?{' '}
                   <button
                     type="button"
-                    className="text-ember-400 hover:underline font-semibold cursor-pointer"
+                    className="text-ember-400 cursor-pointer font-semibold hover:underline"
                     onClick={() => {
                       setSignUpCpfIsOpen(true);
                       setLoginIsOpen(false);
@@ -388,12 +400,12 @@ const Account = () => {
               columns={2}
             />
             {/* Already have an account link */}
-            <div className="mt-4 text-center flex flex-col gap-4">
-              <span className="text-sm text-charcoal-300">
+            <div className="mt-4 flex flex-col gap-4 text-center">
+              <span className="text-charcoal-300 text-sm">
                 Already have a account?{' '}
                 <button
                   type="button"
-                  className="text-ember-400 hover:underline font-semibold cursor-pointer"
+                  className="text-ember-400 cursor-pointer font-semibold hover:underline"
                   onClick={() => {
                     setLoginIsOpen(true);
                     setSignUpCnpjIsOpen(false);
@@ -404,11 +416,11 @@ const Account = () => {
                 </button>
               </span>
 
-              <span className="text-sm text-charcoal-300">
+              <span className="text-charcoal-300 text-sm">
                 You have a CNPJ?{' '}
                 <button
                   type="button"
-                  className="text-ember-400 hover:underline font-semibold cursor-pointer"
+                  className="text-ember-400 cursor-pointer font-semibold hover:underline"
                   onClick={() => {
                     setSignUpCnpjIsOpen(true);
                     setSignUpCpfIsOpen(false);
@@ -449,12 +461,12 @@ const Account = () => {
               columns={2}
             />
             {/* Already have an account link */}
-            <div className="mt-4 text-center flex flex-col gap-4">
-              <span className="text-sm text-charcoal-300">
+            <div className="mt-4 flex flex-col gap-4 text-center">
+              <span className="text-charcoal-300 text-sm">
                 Already have a account?{' '}
                 <button
                   type="button"
-                  className="text-ember-400 hover:underline font-semibold cursor-pointer"
+                  className="text-ember-400 cursor-pointer font-semibold hover:underline"
                   onClick={() => {
                     setLoginIsOpen(true);
                     setSignUpCnpjIsOpen(false);
@@ -465,11 +477,11 @@ const Account = () => {
                 </button>
               </span>
 
-              <span className="text-sm text-charcoal-300">
+              <span className="text-charcoal-300 text-sm">
                 You have a CPF?{' '}
                 <button
                   type="button"
-                  className="text-ember-400 hover:underline font-semibold cursor-pointer"
+                  className="text-ember-400 cursor-pointer font-semibold hover:underline"
                   onClick={() => {
                     setSignUpCpfIsOpen(true);
                     setSignUpCnpjIsOpen(false);

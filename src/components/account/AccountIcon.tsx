@@ -9,7 +9,7 @@ const AccountIcon: React.FC<AccountIcon> = ({ onClick }) => {
   return (
     <IconOverlay
       onClick={onClick}
-      icon={<User className="w-6 h-6 text-gray-200" />}
+      icon={<User className="h-6 w-6 text-gray-200" />}
     />
   );
 };

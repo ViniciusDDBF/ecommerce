@@ -7,23 +7,30 @@ import { validateCNPJ } from '../utils/validation/validateCnpj';
 
 type MaskType = 'phone' | 'cpf' | 'cnpj';
 
-type FormField = {
+interface Validation {
+  minLength?: number;
+  maxLength?: number;
+  required?: boolean;
+  custom?: (value: any) => string | null;
+}
+
+interface FormField {
   name: string;
   label: string;
   type: 'text' | 'email' | 'password' | 'textarea' | 'select' | 'checkbox';
   placeholder?: string;
-  required?: boolean;
   options?: { value: string; label: string }[];
-  validation?: (value: any) => string | null;
-  colSpan?: 1 | 2 | 3 | 4;
+  validation?: Validation;
+  colSpan?: 1 | 2;
   className?: string;
   applyMask?: MaskType;
-  helper?: string;
-};
+  helper?: { text: string; value?: string };
+  confirmField?: string;
+}
 
 export const useForm = (
   fields: FormField[],
-  initialValues: Record<string, any> = {}
+  initialValues: Record<string, any> = {},
 ) => {
   const [values, setValues] = useState(() => {
     const defaultValues = { ...initialValues };
@@ -39,12 +46,15 @@ export const useForm = (
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const setValue = (name: string, value: any) => {
-    let maskedValue = value;
+    if (typeof value !== 'string') {
+      setValues((prev) => ({ ...prev, [name]: '' }));
+      setErrors((prev) => ({ ...prev, [name]: 'Invalid input' }));
+      return;
+    }
 
-    // Find the field configuration for this name
+    let maskedValue = value;
     const field = fields.find((f) => f.name === name);
 
-    // Apply mask based on field's applyMask property
     if (field?.applyMask === 'cpf') {
       maskedValue = maskCPF(value);
     } else if (field?.applyMask === 'cnpj') {
@@ -55,40 +65,67 @@ export const useForm = (
 
     setValues((prev) => ({ ...prev, [name]: maskedValue }));
 
-    const lowerName = name.toLowerCase();
+    const newErrors: Record<string, string> = { ...errors };
 
-    // Real-time validation
-    if (lowerName.includes('cpf') || field?.applyMask === 'cpf') {
+    if (field?.applyMask === 'cpf') {
       const cleaned = maskedValue.replace(/\D/g, '');
-      setErrors((prev) => ({
-        ...prev,
-        [name]:
-          cleaned.length === 11 && !validateCPF(maskedValue)
-            ? 'CPF inválido'
-            : '',
-      }));
+      newErrors[name] =
+        cleaned.length === 11 && !validateCPF(maskedValue)
+          ? 'Invalid CPF'
+          : cleaned.length > 0 && cleaned.length !== 11
+            ? 'CPF must have 11 digits'
+            : '';
     }
 
-    if (lowerName.includes('cnpj') || field?.applyMask === 'cnpj') {
+    if (field?.applyMask === 'cnpj') {
       const cleaned = maskedValue.replace(/\D/g, '');
-      setErrors((prev) => ({
-        ...prev,
-        [name]:
-          cleaned.length === 14 && !validateCNPJ(maskedValue)
-            ? 'CNPJ inválido'
-            : '',
-      }));
+      newErrors[name] =
+        cleaned.length === 14 && !validateCNPJ(maskedValue)
+          ? 'Invalid CNPJ'
+          : cleaned.length > 0 && cleaned.length !== 14
+            ? 'CNPJ must have 14 digits'
+            : '';
     }
 
-    // Clear other errors
-    if (
-      !lowerName.includes('cpf') &&
-      !lowerName.includes('cnpj') &&
-      field?.applyMask !== 'cpf' &&
-      field?.applyMask !== 'cnpj'
-    ) {
-      if (errors[name]) setErrors((prev) => ({ ...prev, [name]: '' }));
+    if (field?.applyMask === 'phone') {
+      const cleaned = maskedValue.replace(/\D/g, '');
+      newErrors[name] =
+        cleaned.length > 0 && cleaned.length < 10
+          ? 'Phone must have at least 10 digits'
+          : '';
     }
+
+    if (field?.confirmField) {
+      const confirmValue = values[field.confirmField];
+      newErrors[name] =
+        maskedValue && confirmValue && maskedValue !== confirmValue
+          ? 'Passwords do not match'
+          : '';
+    }
+
+    if (field?.validation) {
+      const { minLength, maxLength, required, custom } = field.validation;
+      if (
+        required &&
+        (!maskedValue ||
+          (typeof maskedValue === 'string' && !maskedValue.trim()))
+      ) {
+        newErrors[name] = `${field.label} is required`;
+      } else if (minLength && maskedValue.length < minLength) {
+        newErrors[name] =
+          `${field.label} must have at least ${minLength} characters`;
+      } else if (maxLength && maskedValue.length > maxLength) {
+        newErrors[name] =
+          `${field.label} must have at most ${maxLength} characters`;
+      } else if (custom) {
+        const customError = custom(maskedValue);
+        if (customError) newErrors[name] = customError;
+      } else if (newErrors[name]) {
+        newErrors[name] = '';
+      }
+    }
+
+    setErrors(newErrors);
   };
 
   const validate = () => {
@@ -96,48 +133,75 @@ export const useForm = (
 
     fields.forEach((field) => {
       const value = values[field.name];
-      const lowerName = field.name.toLowerCase();
 
-      // Required validation
       if (
-        field.required &&
+        field.validation?.required &&
         (!value || (typeof value === 'string' && !value.trim()))
       ) {
         newErrors[field.name] = `${field.label} is required`;
         return;
       }
 
-      // CPF validation (based on field name or applyMask)
       if (
-        (lowerName.includes('cpf') || field.applyMask === 'cpf') &&
+        field.validation?.minLength &&
         value &&
-        !validateCPF(value)
+        value.length < field.validation.minLength
       ) {
-        newErrors[field.name] = 'CPF inválido';
+        newErrors[field.name] =
+          `${field.label} must have at least ${field.validation.minLength} characters`;
       }
-
-      // CNPJ validation (based on field name or applyMask)
       if (
-        (lowerName.includes('cnpj') || field.applyMask === 'cnpj') &&
+        field.validation?.maxLength &&
         value &&
-        !validateCNPJ(value)
+        value.length > field.validation.maxLength
       ) {
-        newErrors[field.name] = 'CNPJ inválido';
+        newErrors[field.name] =
+          `${field.label} must have at most ${field.validation.maxLength} characters`;
       }
 
-      // Custom validation
-      if (field.validation && value) {
-        const error = field.validation(value);
-        if (error) newErrors[field.name] = error;
+      if (field.applyMask === 'cpf' && value) {
+        const cleaned = value.replace(/\D/g, '');
+        if (cleaned.length !== 11) {
+          newErrors[field.name] = 'CPF must have 11 digits';
+        } else if (!validateCPF(value)) {
+          newErrors[field.name] = 'Invalid CPF';
+        }
       }
 
-      // Email validation
+      if (field.applyMask === 'cnpj' && value) {
+        const cleaned = value.replace(/\D/g, '');
+        if (cleaned.length !== 14) {
+          newErrors[field.name] = 'CNPJ must have 14 digits';
+        } else if (!validateCNPJ(value)) {
+          newErrors[field.name] = 'Invalid CNPJ';
+        }
+      }
+
+      if (field.applyMask === 'phone' && value) {
+        const cleaned = value.replace(/\D/g, '');
+        if (cleaned.length < 10) {
+          newErrors[field.name] = 'Phone must have at least 10 digits';
+        }
+      }
+
+      if (field.confirmField && value) {
+        const confirmValue = values[field.confirmField];
+        if (value !== confirmValue) {
+          newErrors[field.name] = 'Passwords do not match';
+        }
+      }
+
       if (
         field.type === 'email' &&
         value &&
         !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)
       ) {
-        newErrors[field.name] = 'Please enter a valid email address';
+        newErrors[field.name] = 'Please, provide a valid email';
+      }
+
+      if (field.validation?.custom && value) {
+        const error = field.validation.custom(value);
+        if (error) newErrors[field.name] = error;
       }
     });
 
@@ -166,4 +230,4 @@ export const useForm = (
   };
 };
 
-export type { FormField, MaskType };
+export type { FormField, MaskType, Validation };

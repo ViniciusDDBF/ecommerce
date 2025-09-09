@@ -1,18 +1,9 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import type { PayloadAction } from '@reduxjs/toolkit';
-import type { Session } from '@supabase/supabase-js';
 import { supabase } from '../../SupabaseConfig';
+import { isAnyOf } from '@reduxjs/toolkit';
 
-interface UserData {
-  customer_id: number;
-  user_id: string;
-  first_name: string | null;
-  last_name: string | null;
-  email: string;
-  phone: string | null;
-  cpf_cnpj: string | null;
-  stores_id: number | null;
-  address_id: number | null;
+interface AddressData {
+  address_id: number;
   address_name: string | null;
   street: string | null;
   district: string | null;
@@ -25,32 +16,94 @@ interface UserData {
   complement: string | null;
 }
 
-type UserPayload = {
-  user: UserData;
-  session: Session;
-};
+interface UserData {
+  customer_id: number;
+  user_id: string;
+  first_name: string | null;
+  last_name: string | null;
+  email: string | null;
+  phone: string | null;
+  cpf: string | null;
+  cnpj: string | null;
+  company_name: string | null;
+  legal_name: string | null;
+  is_cpf: boolean;
+  addresses: AddressData[]; // JSON array of addresses
+  stores_id: number | null;
+}
+
+export interface CreateCustomerArgs {
+  first_name: string;
+  last_name: string;
+  phone: string;
+  cpf: string;
+  email: string;
+  password: string;
+}
 
 type UserThunk = {
-  session: Session | null;
   user: UserData | null;
   isLoading: boolean;
   error: any;
-  LogInSPBS?: () => void;
 };
 
+type LoginArgs = { email: string; password: string };
+
+type SignUpArgs = { email: string; password: string };
+
 const initialState: UserThunk = {
-  session: null,
   user: null,
   isLoading: false,
   error: null,
 };
 
-async function FetchDoLogIn(email: string, password: string) {
+async function FetchSignUp(email: string, password: string) {
+  let { data, error } = await supabase.auth.signUp({
+    email,
+    password,
+  });
+  return { data, error };
+}
+
+async function FetchCreateCustomer(formPayload: any, fetchPayload: any) {
+  const { data, error } = await supabase
+    .from('customers')
+    .insert([
+      {
+        user_id: fetchPayload.user_id,
+        first_name: formPayload.first_name,
+        last_name: formPayload.last_name,
+        email: formPayload.email,
+        phone: formPayload.phone,
+        cpf: formPayload.cpf,
+        stores_id: 1,
+        company_name: formPayload.company_name,
+        legal_name: formPayload.legal_name,
+        cnpj: formPayload.cnpj,
+        is_cpf: !!formPayload.cpf,
+      },
+    ])
+    .select();
+  if (error) {
+  }
+  console.log(formPayload);
+  return data;
+}
+
+async function FetchLogIn(email: string, password: string) {
   let data = await supabase.auth.signInWithPassword({
     email,
     password,
   });
   return data;
+}
+
+async function FetchGetUser() {
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  console.log(user);
+  return user;
 }
 
 async function FetchGetUserView(user_id: string) {
@@ -61,80 +114,118 @@ async function FetchGetUserView(user_id: string) {
   return data;
 }
 
-async function FetchGetUser() {
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-  return user;
+async function FetchGetSession() {
+  const { data } = await supabase.auth.getSession();
+  return data;
 }
 
-async function FetchSignUp(email: string, password: string) {
-  let { data, error } = await supabase.auth.signUp({
-    email,
-    password,
-  });
-  return { data, error };
+async function FetchLogOut() {
+  await supabase.auth.signOut();
 }
 
-async function HandleOAuthCallback() {
-  const {
-    data: { session },
-    error,
-  } = await supabase.auth.getSession();
+export const ThunkSignUp = createAsyncThunk<any, SignUpArgs>(
+  'user/SignUp',
+  async ({ email, password }) => {
+    const userData = await FetchSignUp(email, password);
+    return userData;
+  },
+);
 
-  if (error) {
-    throw error;
-  }
+export const ThunkCreateCustomer = createAsyncThunk<any, CreateCustomerArgs>(
+  'user/CreateCustomer',
+  async (payload) => {
+    const signupData = await FetchSignUp(payload.email, payload.password);
 
-  if (session?.user) {
-    const tableData = await FetchGetUserView(session.user.id);
-    if (tableData.data && tableData.data[0]) {
-      return { user: tableData.data[0], session };
-    } else {
-      return { user: null, session };
+    const createData = await FetchCreateCustomer(payload, {
+      user_id: signupData.data.user?.id,
+    });
+    return createData;
+  },
+);
+
+export const ThunkLogIn = createAsyncThunk<UserData, LoginArgs>(
+  'user/LogIn',
+  async ({ email, password }) => {
+    const loginData = await FetchLogIn(email, password);
+    if (loginData.data.user) {
+      const tableData = await FetchGetUserView(loginData.data.user.id);
+      if (tableData.data) {
+        return tableData.data[0];
+      }
     }
-  }
+  },
+);
 
-  return null;
-}
-
-export const ThunkSignUp = createAsyncThunk<
-  any,
-  { email: string; password: string }
->('user/SignUp', async ({ email, password }) => {
-  const userData = await FetchSignUp(email, password);
-  console.log(userData);
-  return userData;
-});
-
-export const ThunkLogIn = createAsyncThunk<
-  any,
-  { email: string; password: string }
->('user/LogIn', async ({ email, password }) => {
-  const loginData = await FetchDoLogIn(email, password);
-  if (loginData.data.user) {
-    const tableData = await FetchGetUserView(loginData.data.user.id);
-    if (tableData.data) {
-      return { user: tableData.data[0], session: loginData };
-    }
-  }
-});
-
-export const ThunkGetUserData = createAsyncThunk<any, {}>(
+export const ThunkGetUser = createAsyncThunk<UserData, void>(
   'user/GetUser',
   async () => {
     const userData = await FetchGetUser();
-    console.log(userData);
-    return userData;
-  }
+    if (userData) {
+      const userViewData = await FetchGetUserView(userData.id);
+      if (userViewData.data) {
+        console.log(userViewData, 'USER VIEW DATAAAAAAA');
+        console.log(userViewData.data[0], 'USER VIEW DATA 0');
+        return userViewData.data[0];
+      }
+    }
+  },
 );
 
-export const ThunkHandleOAuthCallback = createAsyncThunk<any, {}>(
-  'user/HandleOAuthCallback',
+export const ThunkGoogle = createAsyncThunk<UserData, void>(
+  'user/GoogleSignIn',
   async () => {
-    const result = await HandleOAuthCallback();
-    return result;
-  }
+    const userData = await FetchGetUser();
+    if (userData) {
+      const userViewData = await FetchGetUserView(userData.id);
+      if (userViewData.data?.length) {
+        console.log(userViewData.data, 'USER VIEW DATA 0 // 1');
+        return userViewData.data[0];
+      } else {
+        const parts = userData.user_metadata.full_name.split(' '); // split by spaces
+        const firstName = parts[0];
+        const lastName = parts[parts.length - 1];
+        const createCustomerData = await FetchCreateCustomer(
+          {
+            email: userData.user_metadata.email,
+            first_name: firstName,
+            last_name: lastName,
+            phone: userData.phone,
+          },
+          {
+            user_id: userData.id,
+          },
+        );
+        if (createCustomerData) {
+          console.log(createCustomerData, 'CreateCustomerData');
+          const userViewData = await FetchGetUserView(userData.id);
+          if (userViewData.data) {
+            console.log(userViewData.data[0], 'USER VIEW DATA 0 // 2');
+            return userViewData.data[0];
+          }
+        }
+      }
+    }
+  },
+);
+
+export const ThunkGetSession = createAsyncThunk<UserData, void>(
+  'user/GetSession',
+  async () => {
+    const session = await FetchGetSession();
+    if (session.session) {
+      const userViewData = await FetchGetUserView(session.session.user.id);
+      if (userViewData.data) {
+        return userViewData.data[0];
+      }
+    }
+  },
+);
+
+export const ThunkLogOut = createAsyncThunk<any, void>(
+  'user/LogOut',
+  async () => {
+    await FetchLogOut();
+  },
 );
 
 const userSlice = createSlice({
@@ -142,43 +233,85 @@ const userSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: (builder) => {
+    /* ----------- ThungLogOut ----------- */
     builder
-
-      // LogInSPBS
-      .addCase(ThunkLogIn.pending, (state) => {
+      .addCase(ThunkLogOut.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(
-        ThunkLogIn.fulfilled,
-        (state, action: PayloadAction<UserPayload>) => {
-          state.isLoading = false;
-          state.session = action.payload.session;
-          state.user = action.payload.user;
-        }
-      )
-      .addCase(ThunkLogIn.rejected, (state, action) => {
+      .addCase(ThunkLogOut.fulfilled, (state) => {
         state.isLoading = false;
-        state.error = action.payload;
+        state.user = initialState.user;
       })
-
-      // GetUserData
-      .addCase(ThunkGetUserData.pending, (state) => {
-        state.isLoading = true;
-      })
-      .addCase(
-        ThunkGetUserData.fulfilled,
-        (state, action: PayloadAction<UserPayload>) => {
-          state.isLoading = false;
-          state.session = action.payload.session;
-          state.user = action.payload.user;
-        }
-      )
-      .addCase(ThunkGetUserData.rejected, (state, action) => {
+      .addCase(ThunkLogOut.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload;
       });
+
+    // Generic matchers for all thunks
+    builder
+      .addMatcher(
+        isAnyOf(
+          ThunkLogIn.pending,
+          ThunkGetUser.pending,
+          ThunkGetSession.pending,
+          ThunkCreateCustomer.pending,
+          ThunkGoogle.pending,
+        ),
+        (state) => {
+          state.isLoading = true;
+          state.error = null;
+        },
+      )
+      .addMatcher(
+        isAnyOf(
+          ThunkLogIn.fulfilled,
+          ThunkGetUser.fulfilled,
+          ThunkGetSession.fulfilled,
+          ThunkCreateCustomer.fulfilled,
+          ThunkGoogle.fulfilled,
+        ),
+        (state, action) => {
+          state.isLoading = false;
+          state.user = action.payload;
+        },
+      )
+      .addMatcher(
+        isAnyOf(
+          ThunkLogIn.rejected,
+          ThunkGetUser.rejected,
+          ThunkGetSession.rejected,
+          ThunkCreateCustomer.rejected,
+          ThunkGoogle.rejected,
+        ),
+        (state, action) => {
+          state.isLoading = false;
+          state.error = action.payload ?? action.error?.message;
+        },
+      );
   },
 });
 
-// Export reducer
 export default userSlice.reducer;
+
+/* ----------- CreateAsyncThuynk definition ----------- */
+// ThunkGetUserData = createAsyncThunk<UserData, {}>
+// createAsyncThunk<Returned, ThunkArg, ThunkApiConfig>()
+// Returned → the type the thunk will return (your payload).
+// In your case: UserData.
+
+// ThunkArg → the type of the argument you pass when you call dispatch(ThunkGetUserData(arg)).
+// In your code you used {}, which means “an empty object”.
+// That tells TypeScript this thunk expects an object, but with no defined properties.
+
+// ThunkApiConfig → (optional) extra typing for dispatch, state, and rejectWithValue.
+
+/* ----------- AddMatcher definition ----------- */
+// addMatcher<ActionType extends AnyAction>(
+//   matcher: (action: AnyAction) => action is ActionType,
+//   reducer: (state: StateType, action: ActionType) => void
+// ): void;
+// ActionType → the type of action the matcher will handle.
+
+// matcher → a type guard function that receives any action and returns true if it should be handled. If the function is a TypeScript type predicate (action is ActionType), then action in the reducer is typed safely.
+
+// reducer → a function that updates the state when the action matches. Its action parameter is typed as ActionType.

@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { abrir, fechar } from './store/slices/modal';
 import { incrementar, reduzir } from './store/slices/counterSlice';
-import type { RootState } from './types';
+import type { RootState } from './store/store';
 import Button from './components/Button';
 import ThemePicker from './components/ThemePicker';
 

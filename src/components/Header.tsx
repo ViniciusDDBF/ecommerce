@@ -1,4 +1,4 @@
-import Account from './user/Account';
+import Account from './account/Account';
 import Cart from './cart/Cart';
 import Logo from './Logo';
 

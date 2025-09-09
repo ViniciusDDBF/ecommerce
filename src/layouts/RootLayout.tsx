@@ -6,10 +6,12 @@ import Button from '../components/Button';
 
 export default function RootLayout() {
   const navigation = useNavigation();
+  const isLoading =
+    navigation.state === 'loading' || navigation.state === 'submitting';
 
   return (
     <div>
-      {navigation.state === 'loading' && <LoadingOverlay />}
+      {isLoading && <LoadingOverlay />}
       <Header />
 
       <main>
@@ -19,7 +21,7 @@ export default function RootLayout() {
       </main>
 
       <footer>
-        <h1 className="w-full text-center fixed bottom-0">mrrrngau</h1>
+        <h1 className="fixed bottom-0 w-full text-center">mrrrngau</h1>
       </footer>
     </div>
   );

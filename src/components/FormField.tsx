@@ -58,9 +58,9 @@ const FormField: React.FC<FormFieldProps> = ({
                   checked={value || false}
                   onChange={(e) => onChange(e.target.checked)}
                   type="checkbox"
-                  className="peer relative h-5 w-5 cursor-pointer appearance-none rounded border border-ember-300 shadow hover:shadow-md transition-all before:absolute before:top-2/4 before:left-2/4 before:block before:h-12 before:w-12 before:-translate-y-2/4 before:-translate-x-2/4 before:rounded-full before:bg-ember-400 before:opacity-0 before:transition-opacity checked:border-ember-800 checked:bg-ember-800 checked:before:bg-ember-400 hover:before:opacity-10"
+                  className="peer border-ember-300 before:bg-ember-400 checked:border-ember-800 checked:bg-ember-800 checked:before:bg-ember-400 relative h-5 w-5 cursor-pointer appearance-none rounded border shadow transition-all before:absolute before:top-2/4 before:left-2/4 before:block before:h-12 before:w-12 before:-translate-x-2/4 before:-translate-y-2/4 before:rounded-full before:opacity-0 before:transition-opacity hover:shadow-md hover:before:opacity-10"
                 />
-                <span className="pointer-events-none absolute top-2/4 left-2/4 -translate-y-2/4 -translate-x-2/4 text-white opacity-0 transition-opacity peer-checked:opacity-100">
+                <span className="pointer-events-none absolute top-2/4 left-2/4 -translate-x-2/4 -translate-y-2/4 text-white opacity-0 transition-opacity peer-checked:opacity-100">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     className="h-3.5 w-3.5"
@@ -78,7 +78,7 @@ const FormField: React.FC<FormFieldProps> = ({
                 </span>
               </label>
               <label
-                className="cursor-pointer text-ember-50 text-sm"
+                className="text-ember-50 cursor-pointer text-sm"
                 htmlFor="ripple-on"
               >
                 {field.label}
@@ -101,16 +101,26 @@ const FormField: React.FC<FormFieldProps> = ({
   };
 
   return (
-    <div className={`space-y-2 relative ${field.className || ''}`}>
+    <div className={`relative space-y-2 ${field.className || ''}`}>
       {field.type !== 'checkbox' && (
-        <label className="text-sm font-medium text-charcoal-200 flex items-center gap-2 justify-between">
+        <label className="text-charcoal-200 flex items-center justify-between gap-2 text-sm font-medium">
           <div>
             {field.label}
-            {field.required && <span className="text-red-400 ml-1">*</span>}
+            {field.validation?.required && (
+              <span className="ml-1 text-red-400">*</span>
+            )}
           </div>
 
           {/* Render helper if field.helper exists */}
-          {field.helper && <Helper tooltip={field.helper} />}
+          {field.helper && (
+            <Helper
+              onClick={() => {
+                onChange(field.helper!.value); // ✅ update via parent
+              }}
+              value={field.helper.value}
+              tooltip={field.helper.text}
+            />
+          )}
         </label>
       )}
 
