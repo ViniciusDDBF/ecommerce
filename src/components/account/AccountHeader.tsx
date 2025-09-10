@@ -3,21 +3,22 @@ import { UserPlus, LogIn, CircleCheck, Store, Mail } from 'lucide-react';
 import { useClickOutside } from '../../hooks/useClickOutside';
 import AccountIcon from './AccountIcon';
 import Dialog from '../Dialog';
-import FormGrid from '../FormGrid';
-import type { FormField } from '../../hooks/useForm';
+import FormGrid from '../form/FormGrid';
+import type { FormFieldProps } from '../../hooks/useForm';
 import { useForm } from '../../hooks/useForm';
 import {
   ThunkCreateCustomer,
   ThunkLogIn,
-  type CreateCustomerArgs,
+  type SignUpArgs,
 } from '../../store/slices/userSlice';
-import { useDispatch, useSelector } from 'react-redux';
-import type { RootState, AppDispatch } from '../../store/store';
+import { useSelector } from 'react-redux';
+import type { RootState } from '../../store/store';
 import AccountDropdown from './AccountDropdown';
 import Button from '../Button';
 import { supabase } from '../../SupabaseConfig';
+import { useAppDispatch } from '../../store/hooks/hooks';
 
-const loginFields: FormField[] = [
+const loginFields: FormFieldProps[] = [
   {
     name: 'email',
     label: 'Email',
@@ -36,7 +37,7 @@ const loginFields: FormField[] = [
   },
 ];
 
-const signUpFieldsCpf: FormField[] = [
+const signUpFieldsCpf: FormFieldProps[] = [
   {
     name: 'first_name',
     label: 'First Name',
@@ -102,7 +103,7 @@ const signUpFieldsCpf: FormField[] = [
   },
 ];
 
-const signUpFieldsCnpj: FormField[] = [
+const signUpFieldsCnpj: FormFieldProps[] = [
   {
     name: 'legal_name',
     label: 'Legal Name',
@@ -204,7 +205,7 @@ const handleGoogleSignIn = async () => {
   }
 };
 
-const Account = () => {
+const AccountHeader = () => {
   const [choicesIsOpen, setChoicesIsOpen] = useState(false);
   const [loginIsOpen, setLoginIsOpen] = useState(false);
   const [signUpCpfIsOpen, setSignUpCpfIsOpen] = useState(false);
@@ -217,7 +218,7 @@ const Account = () => {
   const signUpCpf = useForm(signUpFieldsCpf);
   const signUpCnpj = useForm(signUpFieldsCnpj);
   const user = useSelector((state: RootState) => state.user);
-  const dispatch = useDispatch<AppDispatch>();
+  const dispatch = useAppDispatch();
 
   useClickOutside(loginRef, () => setLoginIsOpen(false));
   useClickOutside(signUpCpfRef, () => setSignUpCpfIsOpen(false));
@@ -237,7 +238,7 @@ const Account = () => {
   const handleSubmitSignUpCPF = async () => {
     if (!signUpCpf.validate()) return;
     const { confirm_password, ...newUser } = signUpCpf.values;
-    await dispatch(ThunkCreateCustomer(newUser as CreateCustomerArgs));
+    await dispatch(ThunkCreateCustomer(newUser as SignUpArgs));
     try {
       signUpCpf.setIsSubmitting(true);
       setSignUpCpfIsOpen(false);
@@ -251,7 +252,7 @@ const Account = () => {
     if (!signUpCnpj.validate()) return;
 
     const { confirm_password, ...newUser } = signUpCnpj.values;
-    await dispatch(ThunkCreateCustomer(newUser as CreateCustomerArgs));
+    await dispatch(ThunkCreateCustomer(newUser as SignUpArgs));
     try {
       signUpCnpj.setIsSubmitting(true);
       setSignUpCnpjIsOpen(false);
@@ -499,4 +500,4 @@ const Account = () => {
   );
 };
 
-export default Account;
+export default AccountHeader;

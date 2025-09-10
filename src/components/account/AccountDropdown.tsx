@@ -4,28 +4,32 @@ import {
   ShoppingBag,
   Heart,
   MapPin,
-  CreditCard,
-  Bell,
-  HelpCircle,
   LogOut,
   ChevronDown,
 } from 'lucide-react';
-import { useDispatch, useSelector } from 'react-redux';
-import type { AppDispatch, RootState } from '../../store/store';
+import { useSelector } from 'react-redux';
+import type { RootState } from '../../store/store';
 import { ThunkLogOut } from '../../store/slices/userSlice';
 import Button from '../Button';
-
+import { useNavigate } from 'react-router';
+import { useAppDispatch } from '../../store/hooks/hooks';
 const AccountDropdown = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const dispatch = useDispatch<AppDispatch>();
+  const dispatch = useAppDispatch();
   const user = useSelector((state: RootState) => state.user);
-
+  const navigate = useNavigate();
   const menuItems = [
     {
       icon: <User className="h-4 w-4" />,
       label: 'Profile Settings',
       description: 'Manage your account',
       href: '/profile',
+    },
+    {
+      icon: <MapPin className="h-4 w-4" />,
+      label: 'Addresses',
+      description: 'Shipping & billing',
+      href: '/addresses',
     },
     {
       icon: <ShoppingBag className="h-4 w-4" />,
@@ -41,30 +45,6 @@ const AccountDropdown = () => {
       href: '/wishlist',
       badge: '12',
     },
-    {
-      icon: <MapPin className="h-4 w-4" />,
-      label: 'Addresses',
-      description: 'Shipping & billing',
-      href: '/addresses',
-    },
-    {
-      icon: <CreditCard className="h-4 w-4" />,
-      label: 'Payment Methods',
-      description: 'Cards & wallets',
-      href: '/payments',
-    },
-    {
-      icon: <Bell className="h-4 w-4" />,
-      label: 'Notifications',
-      description: 'Alerts & updates',
-      href: '/notifications',
-    },
-    {
-      icon: <HelpCircle className="h-4 w-4" />,
-      label: 'Help & Support',
-      description: 'Get assistance',
-      href: '/support',
-    },
   ];
 
   return (
@@ -76,7 +56,9 @@ const AccountDropdown = () => {
         variant="outline"
         selected={isOpen}
         text="My account"
-        onClick={() => setIsOpen(!isOpen)}
+        onClick={() => {
+          setIsOpen(!isOpen);
+        }}
         startIcon={<User />}
         endIcon={
           <ChevronDown
@@ -101,74 +83,65 @@ const AccountDropdown = () => {
             {/* Header */}
             <div className="border-charcoal-600/30 border-b p-4">
               <div className="flex items-center gap-3">
-                <div className="from-ember-400 to-ember-600 flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br">
+                <div className="from-ember-400 to-ember-600 flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br font-bold">
                   {user.user?.first_name?.at(0)}
                 </div>
                 <div>
-                  <h3 className="text-charcoal-100 font-semibold">John Doe</h3>
+                  <h3 className="text-charcoal-100 font-semibold">
+                    {user.user?.first_name}
+                  </h3>
                   <p className="text-charcoal-400 text-sm">
-                    john.doe@email.com
+                    {user.user?.email}
                   </p>
                 </div>
               </div>
             </div>
 
             {/* Menu Items */}
-            <div className="p-2">
+            <div className="py-1">
               {menuItems.map((item, index) => (
-                <button
-                  key={index}
-                  className={`hover:bg-charcoal-700/50 hover:border-ember-400/20 group relative flex w-full items-center gap-3 overflow-hidden rounded-lg p-3 text-left transition-all duration-200`}
-                  onClick={() => setIsOpen(false)}
-                >
-                  {/* Icon */}
-                  <div className="text-charcoal-300 group-hover:text-ember-400 transition-colors duration-200">
-                    {item.icon}
-                  </div>
-
-                  {/* Content */}
-                  <div className="min-w-0 flex-1">
-                    <div className="flex items-center gap-2">
-                      <span className="text-charcoal-200 group-hover:text-charcoal-100 font-medium transition-colors duration-200">
-                        {item.label}
+                <Button
+                  className="flex justify-start"
+                  variant="ghost"
+                  size="full"
+                  endIcon={
+                    item.badge && (
+                      <span className="bg-ember-500 rounded-full px-1.5 py-0.5 text-xs font-medium text-white">
+                        {item.badge}
                       </span>
-                      {item.badge && (
-                        <span className="bg-ember-500 rounded-full px-1.5 py-0.5 text-xs font-medium text-white">
-                          {item.badge}
-                        </span>
-                      )}
-                    </div>
-                    <p className="text-charcoal-400 group-hover:text-charcoal-300 text-sm transition-colors duration-200">
-                      {item.description}
-                    </p>
-                  </div>
-
-                  {/* Hover effect */}
-                  <div className="from-ember-500/5 absolute inset-0 bg-gradient-to-r to-transparent opacity-0 transition-opacity duration-200 group-hover:opacity-100" />
-                </button>
+                    )
+                  }
+                  text={item.label}
+                  key={index}
+                  startIcon={item.icon}
+                  onClick={() => {
+                    navigate(`/account${item.href}`);
+                    setIsOpen(false);
+                  }}
+                />
               ))}
             </div>
 
             {/* Footer */}
-            <div className="border-charcoal-600/30 border-t p-2">
-              <button
-                onClick={() => dispatch(ThunkLogOut())}
-                className={`group flex w-full items-center gap-3 rounded-lg p-3 text-left transition-all duration-200 hover:border-red-400/20 hover:bg-red-500/10`}
-              >
-                <LogOut className="text-charcoal-400 h-4 w-4 transition-colors duration-200 group-hover:text-red-400" />
-                <span className="text-charcoal-300 font-medium transition-colors duration-200 group-hover:text-red-400">
-                  Sign Out
-                </span>
-              </button>
+            <div className="border-charcoal-600/30 border-t py-2">
+              <div className="group">
+                <Button
+                  startIcon={
+                    <LogOut className="text-charcoal-400 h-4 w-4 group-hover:text-red-400" />
+                  }
+                  variant="ghost"
+                  size="full"
+                  text="Sign Out"
+                  className="flex justify-start transition group-hover:border-red-400 hover:text-red-400"
+                  onClick={() => dispatch(ThunkLogOut())}
+                />
+              </div>
             </div>
           </div>
         </>
       )}
 
       {/* Demo Background */}
-      <div className="bg-charcoal-900 fixed inset-0 -z-10">
-        <div className="from-charcoal-800 via-charcoal-900 to-charcoal-900 absolute inset-0 bg-gradient-to-br" />
-      </div>
     </div>
   );
 };

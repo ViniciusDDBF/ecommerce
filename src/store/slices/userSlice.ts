@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { supabase } from '../../SupabaseConfig';
 import { isAnyOf } from '@reduxjs/toolkit';
+import type { RootState } from '../store';
 
 interface AddressData {
   address_id: number;
@@ -28,17 +29,15 @@ interface UserData {
   company_name: string | null;
   legal_name: string | null;
   is_cpf: boolean;
-  addresses: AddressData[]; // JSON array of addresses
   stores_id: number | null;
+  addresses: AddressData[];
 }
 
-export interface CreateCustomerArgs {
+export interface UpdateCustomerInterface {
   first_name: string;
   last_name: string;
   phone: string;
-  cpf: string;
-  email: string;
-  password: string;
+  user_id: string;
 }
 
 type UserThunk = {
@@ -49,7 +48,14 @@ type UserThunk = {
 
 type LoginArgs = { email: string; password: string };
 
-type SignUpArgs = { email: string; password: string };
+export interface SignUpArgs {
+  first_name: string;
+  last_name: string;
+  phone: string;
+  cpf: string;
+  email: string;
+  password: string;
+}
 
 const initialState: UserThunk = {
   user: null,
@@ -86,7 +92,6 @@ async function FetchCreateCustomer(formPayload: any, fetchPayload: any) {
     .select();
   if (error) {
   }
-  console.log(formPayload);
   return data;
 }
 
@@ -102,7 +107,6 @@ async function FetchGetUser() {
   const {
     data: { user },
   } = await supabase.auth.getUser();
-  console.log(user);
   return user;
 }
 
@@ -111,6 +115,19 @@ async function FetchGetUserView(user_id: string) {
     .from('customer_information')
     .select('*')
     .eq('user_id', user_id);
+  return data;
+}
+
+async function FetchUpdateCustomer(formPayload: UpdateCustomerInterface) {
+  const { data } = await supabase
+    .from('customers')
+    .update({
+      first_name: formPayload.first_name,
+      last_name: formPayload.last_name,
+      phone: formPayload.phone,
+    })
+    .eq('user_id', formPayload.user_id)
+    .select();
   return data;
 }
 
@@ -131,7 +148,7 @@ export const ThunkSignUp = createAsyncThunk<any, SignUpArgs>(
   },
 );
 
-export const ThunkCreateCustomer = createAsyncThunk<any, CreateCustomerArgs>(
+export const ThunkCreateCustomer = createAsyncThunk<any, SignUpArgs>(
   'user/CreateCustomer',
   async (payload) => {
     const signupData = await FetchSignUp(payload.email, payload.password);
@@ -163,13 +180,29 @@ export const ThunkGetUser = createAsyncThunk<UserData, void>(
     if (userData) {
       const userViewData = await FetchGetUserView(userData.id);
       if (userViewData.data) {
-        console.log(userViewData, 'USER VIEW DATAAAAAAA');
-        console.log(userViewData.data[0], 'USER VIEW DATA 0');
         return userViewData.data[0];
       }
     }
   },
 );
+
+export const ThunkUpdateUser = createAsyncThunk<
+  UserData,
+  UpdateCustomerInterface
+>('user/UpdateUser', async (payload, thunkAPI) => {
+  const state = thunkAPI.getState() as RootState;
+  const userDes = state.user.user;
+  if (!userDes?.user_id) return;
+  const completePayload = {
+    ...payload,
+    user_id: userDes.user_id,
+  };
+  if (completePayload) await FetchUpdateCustomer(completePayload);
+  if (userDes?.user_id) {
+    const userData = await FetchGetUserView(userDes?.user_id);
+    if (userData?.data) return userData.data[0];
+  }
+});
 
 export const ThunkGoogle = createAsyncThunk<UserData, void>(
   'user/GoogleSignIn',
@@ -178,7 +211,6 @@ export const ThunkGoogle = createAsyncThunk<UserData, void>(
     if (userData) {
       const userViewData = await FetchGetUserView(userData.id);
       if (userViewData.data?.length) {
-        console.log(userViewData.data, 'USER VIEW DATA 0 // 1');
         return userViewData.data[0];
       } else {
         const parts = userData.user_metadata.full_name.split(' '); // split by spaces
@@ -196,10 +228,8 @@ export const ThunkGoogle = createAsyncThunk<UserData, void>(
           },
         );
         if (createCustomerData) {
-          console.log(createCustomerData, 'CreateCustomerData');
           const userViewData = await FetchGetUserView(userData.id);
           if (userViewData.data) {
-            console.log(userViewData.data[0], 'USER VIEW DATA 0 // 2');
             return userViewData.data[0];
           }
         }
@@ -208,15 +238,28 @@ export const ThunkGoogle = createAsyncThunk<UserData, void>(
   },
 );
 
-export const ThunkGetSession = createAsyncThunk<UserData, void>(
+export const ThunkGetSession = createAsyncThunk<UserData | null, void>(
   'user/GetSession',
-  async () => {
-    const session = await FetchGetSession();
-    if (session.session) {
-      const userViewData = await FetchGetUserView(session.session.user.id);
-      if (userViewData.data) {
-        return userViewData.data[0];
+  async (_, thunkAPI) => {
+    try {
+      const state = thunkAPI.getState() as RootState;
+      const cachedUser = state.user.user;
+      const isUserPopulated = cachedUser && cachedUser.user_id;
+      const session = await FetchGetSession();
+      if (isUserPopulated) return cachedUser;
+
+      if (session.session && session.session.user?.id) {
+        const userViewData = await FetchGetUserView(session.session.user.id);
+
+        if (userViewData.data && userViewData.data[0]) {
+          return userViewData.data[0];
+        }
       }
+
+      console.log('No session or user data found');
+      return initialState;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error || 'Failed to fetch session');
     }
   },
 );
@@ -256,6 +299,7 @@ const userSlice = createSlice({
           ThunkGetSession.pending,
           ThunkCreateCustomer.pending,
           ThunkGoogle.pending,
+          ThunkUpdateUser.pending,
         ),
         (state) => {
           state.isLoading = true;
@@ -269,6 +313,7 @@ const userSlice = createSlice({
           ThunkGetSession.fulfilled,
           ThunkCreateCustomer.fulfilled,
           ThunkGoogle.fulfilled,
+          ThunkUpdateUser.fulfilled,
         ),
         (state, action) => {
           state.isLoading = false;
@@ -282,6 +327,7 @@ const userSlice = createSlice({
           ThunkGetSession.rejected,
           ThunkCreateCustomer.rejected,
           ThunkGoogle.rejected,
+          ThunkUpdateUser.rejected,
         ),
         (state, action) => {
           state.isLoading = false;

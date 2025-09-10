@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { UserPlus } from 'lucide-react';
 import Dialog from './Dialog';
-import FormGrid from './FormGrid';
+import FormGrid from './form/FormGrid';
 import { useForm } from '../hooks/useForm';
 import type { FormField } from '../hooks/useForm';
 
@@ -13,14 +13,16 @@ const FormDialogExample = () => {
       name: 'name',
       label: 'Full Name',
       type: 'text',
-      required: true,
+      validation: { required: true },
+
       placeholder: 'Enter full name',
     },
     {
       name: 'email',
       label: 'Email',
       type: 'email',
-      required: true,
+      validation: { required: true },
+
       placeholder: 'Enter email address',
     },
     {
@@ -28,13 +30,13 @@ const FormDialogExample = () => {
       label: 'Role',
       placeholder: 'Select your role',
       type: 'select',
-      required: true,
       colSpan: 2,
       options: [
         { value: 'admin', label: 'Administrator' },
         { value: 'editor', label: 'Editor' },
         { value: 'viewer', label: 'Viewer' },
       ],
+      validation: { required: true },
     },
     {
       name: 'bio',

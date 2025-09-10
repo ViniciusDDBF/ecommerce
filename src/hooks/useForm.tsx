@@ -14,7 +14,7 @@ interface Validation {
   custom?: (value: any) => string | null;
 }
 
-interface FormField {
+interface FormFieldProps {
   name: string;
   label: string;
   type: 'text' | 'email' | 'password' | 'textarea' | 'select' | 'checkbox';
@@ -26,10 +26,11 @@ interface FormField {
   applyMask?: MaskType;
   helper?: { text: string; value?: string };
   confirmField?: string;
+  disabled?: boolean;
 }
 
 export const useForm = (
-  fields: FormField[],
+  fields: FormFieldProps[],
   initialValues: Record<string, any> = {},
 ) => {
   const [values, setValues] = useState(() => {
@@ -46,6 +47,15 @@ export const useForm = (
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const setValue = (name: string, value: any) => {
+    const field = fields.find((f) => f.name === name);
+
+    // ✅ Handle checkbox separately
+    if (field?.type === 'checkbox') {
+      setValues((prev) => ({ ...prev, [name]: !!value }));
+      setErrors((prev) => ({ ...prev, [name]: '' }));
+      return;
+    }
+
     if (typeof value !== 'string') {
       setValues((prev) => ({ ...prev, [name]: '' }));
       setErrors((prev) => ({ ...prev, [name]: 'Invalid input' }));
@@ -53,7 +63,6 @@ export const useForm = (
     }
 
     let maskedValue = value;
-    const field = fields.find((f) => f.name === name);
 
     if (field?.applyMask === 'cpf') {
       maskedValue = maskCPF(value);
@@ -128,11 +137,45 @@ export const useForm = (
     setErrors(newErrors);
   };
 
+  const setValuesAll = (newValues: Record<string, any>, replace = false) => {
+    setValues((prev) => {
+      // if replace=true, wipe everything first
+      const updated = replace ? {} : { ...prev };
+
+      // ensure fields exist in definition
+      fields.forEach((field) => {
+        if (field.name in newValues) {
+          updated[field.name] =
+            field.type === 'checkbox'
+              ? !!newValues[field.name]
+              : newValues[field.name];
+        }
+      });
+
+      return updated;
+    });
+
+    // clear errors for all updated fields
+    setErrors((prev) => {
+      const cleared = { ...prev };
+      Object.keys(newValues).forEach((name) => {
+        cleared[name] = '';
+      });
+      return cleared;
+    });
+  };
+
   const validate = () => {
     const newErrors: Record<string, string> = {};
 
     fields.forEach((field) => {
       const value = values[field.name];
+
+      // ✅ Handle checkbox required validation
+      if (field.type === 'checkbox' && field.validation?.required && !value) {
+        newErrors[field.name] = `${field.label} is required`;
+        return;
+      }
 
       if (
         field.validation?.required &&
@@ -144,7 +187,7 @@ export const useForm = (
 
       if (
         field.validation?.minLength &&
-        value &&
+        typeof value === 'string' &&
         value.length < field.validation.minLength
       ) {
         newErrors[field.name] =
@@ -152,7 +195,7 @@ export const useForm = (
       }
       if (
         field.validation?.maxLength &&
-        value &&
+        typeof value === 'string' &&
         value.length > field.validation.maxLength
       ) {
         newErrors[field.name] =
@@ -225,9 +268,10 @@ export const useForm = (
     isSubmitting,
     setIsSubmitting,
     setValue,
+    setValuesAll,
     validate,
     reset,
   };
 };
 
-export type { FormField, MaskType, Validation };
+export type { FormFieldProps, MaskType, Validation };

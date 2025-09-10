@@ -1,6 +1,6 @@
 import React from 'react';
 import FormField from './FormField';
-import type { FormField as FormFieldType } from '../hooks/useForm';
+import type { FormFieldProps as FormFieldType } from '../../hooks/useForm';
 
 type FormGridProps = {
   fields: FormFieldType[];
@@ -26,7 +26,7 @@ const FormGrid: React.FC<FormGridProps> = ({
     ({
       1: 'col-span-1',
       2: 'col-span-2',
-    }[span] || 'col-span-1');
+    })[span] || 'col-span-1';
 
   return (
     <div className={`grid ${gridClass} gap-4`}>

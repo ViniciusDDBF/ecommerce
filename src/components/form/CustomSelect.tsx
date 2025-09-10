@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { ChevronDown, Check } from 'lucide-react';
-import { useClickOutside } from '../hooks/useClickOutside';
+import { useClickOutside } from '../../hooks/useClickOutside';
 
 export interface SelectOption {
   value: string;
@@ -47,18 +47,11 @@ const CustomSelect: React.FC<CustomSelectProps> = ({
       <button
         type="button"
         onClick={() => setIsOpen(!isOpen)}
-        className="
-    w-full px-4 py-3 bg-charcoal-800 border rounded-lg 
-    text-ember-50 placeholder-charcoal-400 
-    focus:outline-none focus:ring-2 focus:ring-ember-500 
-    focus:border-transparent transition-colors 
-    border-charcoal-600 hover:border-charcoal-500
-    flex items-center justify-between text-left
-  "
+        className="bg-charcoal-800 text-ember-50 placeholder-charcoal-400 focus:ring-ember-500 border-charcoal-600 hover:border-charcoal-500 flex w-full items-center justify-between rounded-lg border px-4 py-3 text-left transition-colors focus:border-transparent focus:ring-2 focus:outline-none"
       >
         {/* Selected Value or Placeholder */}
         <span
-          className={`block text-sm font-medium truncate ${
+          className={`block truncate text-sm font-medium ${
             !selectedOption ? 'text-charcoal-400' : ''
           }`}
         >
@@ -67,48 +60,32 @@ const CustomSelect: React.FC<CustomSelectProps> = ({
 
         {/* Chevron Icon */}
         <ChevronDown
-          className={`
-      w-5 h-5 ml-2
-      transition-all duration-300 ease-out
-      ${isOpen ? 'rotate-180' : 'rotate-0'}
-      text-charcoal-400
-    `}
+          className={`ml-2 h-5 w-5 transition-all duration-300 ease-out ${isOpen ? 'rotate-180' : 'rotate-0'} text-charcoal-400`}
         />
       </button>
 
       {/* Options Dropdown */}
       <div
-        className={`
-    absolute z-50 w-full mt-1 border-2 
-    rounded-xl shadow-2xl max-h-64 overflow-auto
-    bg-charcoal-800 border-charcoal-600
-    transform transition-all duration-200 ease-out
-    ${
-      isOpen
-        ? 'opacity-100 scale-100 translate-y-0'
-        : 'opacity-0 scale-95 -translate-y-2 pointer-events-none'
-    }
-  `}
+        className={`bg-charcoal-800 border-charcoal-600 absolute z-50 mt-1 max-h-64 w-full transform overflow-auto rounded-xl border-2 shadow-2xl transition-all duration-200 ease-out ${
+          isOpen
+            ? 'translate-y-0 scale-100 opacity-100'
+            : 'pointer-events-none -translate-y-2 scale-95 opacity-0'
+        } `}
       >
         {options.map((option, index) => (
           <div
             key={option.value || index}
             onClick={() => handleSelect(option)}
-            className={`
-        px-4 py-3 cursor-pointer transition-all duration-200
-        flex items-center gap-2 font-medium
-        last:rounded-b-lg 
-        ${
-          selectedValue === option.value
-            ? 'bg-charcoal-800 text-ember-300 hover:bg-charcoal-700'
-            : 'text-charcoal-200 hover:bg-charcoal-700'
-        }
-      `}
+            className={`flex cursor-pointer items-center gap-2 px-4 py-3 font-medium transition-all duration-200 last:rounded-b-lg ${
+              selectedValue === option.value
+                ? 'bg-charcoal-800 text-ember-300 hover:bg-charcoal-700'
+                : 'text-charcoal-200 hover:bg-charcoal-700'
+            } `}
           >
             {selectedValue === option.value && (
-              <Check className="w-4 h-4 opacity-80 shrink-0" />
+              <Check className="h-4 w-4 shrink-0 opacity-80" />
             )}
-            <span className="text-sm truncate">{option.label}</span>
+            <span className="truncate text-sm">{option.label}</span>
           </div>
         ))}
       </div>

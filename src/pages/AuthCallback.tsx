@@ -1,11 +1,10 @@
 import { useEffect, useRef } from 'react';
-import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router';
-import type { AppDispatch } from '../store/store';
 import { ThunkGoogle } from '../store/slices/userSlice';
+import { useAppDispatch } from '../store/hooks/hooks';
 
 const AuthCallback = () => {
-  const dispatch = useDispatch<AppDispatch>();
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const didRunRef = useRef(false);
 

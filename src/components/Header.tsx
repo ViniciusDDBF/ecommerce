@@ -1,13 +1,13 @@
-import Account from './account/Account';
+import AccountHeader from './account/AccountHeader';
 import Cart from './cart/Cart';
 import Logo from './Logo';
 
 const Header = () => {
   return (
-    <div className="flex items-center bg-charcoal-800 p-6 justify-between">
+    <div className="bg-charcoal-800 flex items-center justify-between p-6">
       <Logo />
       <div className="flex justify-between gap-4 pr-10">
-        <Account />
+        <AccountHeader />
         <Cart />
       </div>
     </div>
