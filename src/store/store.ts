@@ -1,17 +1,31 @@
-// store/configureStore.ts
-import { configureStore } from '@reduxjs/toolkit';
+import { configureStore, type Reducer } from '@reduxjs/toolkit';
 import { persistStore, persistReducer } from 'redux-persist';
-import storage from 'redux-persist/lib/storage'; // Uses localStorage
+import storage from 'redux-persist/lib/storage';
 import counter from './slices/counterSlice';
 import modal from './slices/modal';
 import user from './slices/userSlice';
 import { combineReducers } from '@reduxjs/toolkit';
+import { createTransform } from 'redux-persist';
+
+// Persist only `state.user.user`
+const userTransform = createTransform(
+  // Save only `user`
+  (inboundState: any) => ({ user: inboundState.user }),
+  // Rehydrate by merging `user` back, leaving isLoading/error reset
+  (outboundState: any) => ({
+    user: outboundState.user,
+    isLoading: false,
+    error: null,
+  }),
+  { whitelist: ['user'] },
+);
 
 // Persist configuration
 const persistConfig = {
-  key: 'root', // Storage key for localStorage
-  storage, // Use localStorage (or import sessionStorage for session-only persistence)
-  whitelist: ['user'], // Persist only the user slice
+  key: 'root',
+  storage,
+  whitelist: ['user'],
+  transforms: [userTransform],
 };
 
 const rootReducer = combineReducers({
@@ -20,7 +34,10 @@ const rootReducer = combineReducers({
   modal,
 });
 // Create persisted reducer
-const persistedReducer = persistReducer(persistConfig, rootReducer);
+const persistedReducer = persistReducer(
+  persistConfig,
+  rootReducer as Reducer<ReturnType<typeof rootReducer>>,
+);
 
 export const store = configureStore({
   reducer: persistedReducer,

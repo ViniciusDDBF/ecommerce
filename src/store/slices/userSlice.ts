@@ -1,8 +1,11 @@
+// #region /* --------------- Imports --------------- */
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { supabase } from '../../SupabaseConfig';
 import { isAnyOf } from '@reduxjs/toolkit';
 import type { RootState } from '../store';
+// #endregion
 
+// #region /* --------------- Types --------------- */
 interface AddressData {
   address_id: number;
   address_name: string | null;
@@ -40,13 +43,16 @@ export interface UpdateCustomerInterface {
   user_id: string;
 }
 
-type UserThunk = {
+interface UserThunk {
   user: UserData | null;
   isLoading: boolean;
   error: any;
-};
+}
 
-type LoginArgs = { email: string; password: string };
+interface LoginArgs {
+  email: string;
+  password: string;
+}
 
 export interface SignUpArgs {
   first_name: string;
@@ -56,7 +62,9 @@ export interface SignUpArgs {
   email: string;
   password: string;
 }
+// #endregion
 
+// #region /* --------------- Functions --------------- */
 const initialState: UserThunk = {
   user: null,
   isLoading: false,
@@ -96,11 +104,15 @@ async function FetchCreateCustomer(formPayload: any, fetchPayload: any) {
 }
 
 async function FetchLogIn(email: string, password: string) {
-  let data = await supabase.auth.signInWithPassword({
-    email,
-    password,
-  });
-  return data;
+  try {
+    let data = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    });
+    return data;
+  } catch (err) {
+    return err;
+  }
 }
 
 async function FetchGetUser() {
@@ -139,7 +151,9 @@ async function FetchGetSession() {
 async function FetchLogOut() {
   await supabase.auth.signOut();
 }
+// #endregion
 
+// #region /* --------------- Thunks --------------- */
 export const ThunkSignUp = createAsyncThunk<any, SignUpArgs>(
   'user/SignUp',
   async ({ email, password }) => {
@@ -162,13 +176,20 @@ export const ThunkCreateCustomer = createAsyncThunk<any, SignUpArgs>(
 
 export const ThunkLogIn = createAsyncThunk<UserData, LoginArgs>(
   'user/LogIn',
-  async ({ email, password }) => {
-    const loginData = await FetchLogIn(email, password);
-    if (loginData.data.user) {
-      const tableData = await FetchGetUserView(loginData.data.user.id);
-      if (tableData.data) {
-        return tableData.data[0];
+  async ({ email, password }, { rejectWithValue }) => {
+    try {
+      const loginData = (await FetchLogIn(email, password)) as {
+        data?: { user?: { id: string } };
+      };
+      if (loginData.data?.user) {
+        const tableData = await FetchGetUserView(loginData.data.user.id);
+        if (tableData.data) {
+          return tableData.data[0];
+        }
       }
+      return rejectWithValue('Invalid login credentials');
+    } catch (err) {
+      return rejectWithValue(String(err));
     }
   },
 );
@@ -270,11 +291,17 @@ export const ThunkLogOut = createAsyncThunk<any, void>(
     await FetchLogOut();
   },
 );
+// #endregion
 
+/* --------------- User Slice --------------- */
 const userSlice = createSlice({
   name: 'user',
   initialState,
-  reducers: {},
+  reducers: {
+    resetError(state) {
+      state.error = null;
+    },
+  },
   extraReducers: (builder) => {
     /* ----------- ThungLogOut ----------- */
     builder
@@ -331,15 +358,16 @@ const userSlice = createSlice({
         ),
         (state, action) => {
           state.isLoading = false;
-          state.error = action.payload ?? action.error?.message;
+          state.error = action.payload;
         },
       );
   },
 });
 
+export const { resetError } = userSlice.actions;
 export default userSlice.reducer;
 
-/* ----------- CreateAsyncThuynk definition ----------- */
+/* --------------- CreateAsyncThuynk definition --------------- */
 // ThunkGetUserData = createAsyncThunk<UserData, {}>
 // createAsyncThunk<Returned, ThunkArg, ThunkApiConfig>()
 // Returned → the type the thunk will return (your payload).
@@ -351,7 +379,7 @@ export default userSlice.reducer;
 
 // ThunkApiConfig → (optional) extra typing for dispatch, state, and rejectWithValue.
 
-/* ----------- AddMatcher definition ----------- */
+/* --------------- AddMatcher definition --------------- */
 // addMatcher<ActionType extends AnyAction>(
 //   matcher: (action: AnyAction) => action is ActionType,
 //   reducer: (state: StateType, action: ActionType) => void

@@ -1,12 +1,13 @@
-import { useRef, useState } from 'react';
+// #region /* --------------- Imports --------------- */
+import { useState } from 'react';
 import { UserPlus, LogIn, CircleCheck, Store, Mail } from 'lucide-react';
-import { useClickOutside } from '../../hooks/useClickOutside';
 import AccountIcon from './AccountIcon';
 import Dialog from '../Dialog';
 import FormGrid from '../form/FormGrid';
 import type { FormFieldProps } from '../../hooks/useForm';
 import { useForm } from '../../hooks/useForm';
 import {
+  resetError,
   ThunkCreateCustomer,
   ThunkLogIn,
   type SignUpArgs,
@@ -17,7 +18,9 @@ import AccountDropdown from './AccountDropdown';
 import Button from '../Button';
 import { supabase } from '../../SupabaseConfig';
 import { useAppDispatch } from '../../store/hooks/hooks';
+// #endregion
 
+// #region /* --------------- Form Fields --------------- */
 const loginFields: FormFieldProps[] = [
   {
     name: 'email',
@@ -165,7 +168,9 @@ const signUpFieldsCnpj: FormFieldProps[] = [
     validation: { required: true },
   },
 ];
+// #endregion
 
+// #region /* --------------- Google Icon --------------- */
 const GoogleIcon = ({ className = 'w-5 h-5' }) => (
   <svg
     className={className}
@@ -190,8 +195,9 @@ const GoogleIcon = ({ className = 'w-5 h-5' }) => (
     />
   </svg>
 );
+// #endregion
 
-// Updated handleGoogleSignIn function
+// #region /* --------------- Google Sign in Function --------------- */
 const handleGoogleSignIn = async () => {
   try {
     await supabase.auth.signInWithOAuth({
@@ -204,35 +210,29 @@ const handleGoogleSignIn = async () => {
     console.error('Error during Google Sign-In:', err);
   }
 };
+// #endregion
 
 const AccountHeader = () => {
   const [choicesIsOpen, setChoicesIsOpen] = useState(false);
   const [loginIsOpen, setLoginIsOpen] = useState(false);
   const [signUpCpfIsOpen, setSignUpCpfIsOpen] = useState(false);
   const [signUpCnpjIsOpen, setSignUpCnpjIsOpen] = useState(false);
-  const loginRef = useRef<HTMLDivElement | null>(null);
-  const signUpCpfRef = useRef<HTMLDivElement | null>(null);
-  const signUpCnpjRef = useRef<HTMLDivElement | null>(null);
-  const choicesRef = useRef<HTMLDivElement | null>(null);
   const login = useForm(loginFields);
   const signUpCpf = useForm(signUpFieldsCpf);
   const signUpCnpj = useForm(signUpFieldsCnpj);
   const user = useSelector((state: RootState) => state.user);
   const dispatch = useAppDispatch();
 
-  useClickOutside(loginRef, () => setLoginIsOpen(false));
-  useClickOutside(signUpCpfRef, () => setSignUpCpfIsOpen(false));
-  useClickOutside(signUpCnpjRef, () => setSignUpCnpjIsOpen(false));
-  useClickOutside(choicesRef, () => setChoicesIsOpen(false));
-
   const handleSubmitLogin = async () => {
     if (!login.validate()) return;
-    await dispatch(
-      ThunkLogIn({
-        email: login.values.email,
-        password: login.values.password,
-      }),
-    );
+    try {
+      await dispatch(
+        ThunkLogIn({
+          email: login.values.email,
+          password: login.values.password,
+        }),
+      );
+    } catch (err) {}
   };
 
   const handleSubmitSignUpCPF = async () => {
@@ -322,27 +322,21 @@ const AccountHeader = () => {
             }
             size="lg"
             icon={user.user ? <CircleCheck /> : <LogIn />}
-            onClose={() => setLoginIsOpen(false)}
-            buttons={
-              user.user
-                ? {
-                    cancel: {
-                      text: 'Close',
-                      onClick: () => setLoginIsOpen(false),
-                    },
-                  }
-                : {
-                    cancel: {
-                      text: 'Close',
-                      onClick: () => setLoginIsOpen(false),
-                    },
-                    confirm: {
-                      text: 'Log in',
-                      onClick: handleSubmitLogin,
-                      props: { loading: user.isLoading },
-                    },
-                  }
-            }
+            buttons={{
+              cancel: {
+                text: 'Close',
+                onClick: () => {
+                  dispatch(resetError());
+                  login.setValuesAll({ email: '', password: '' });
+                  setLoginIsOpen(false);
+                },
+              },
+              confirm: {
+                text: 'Log in',
+                onClick: handleSubmitLogin,
+                props: { loading: user.isLoading },
+              },
+            }}
           >
             {!user.user && (
               <FormGrid
@@ -369,6 +363,11 @@ const AccountHeader = () => {
                     Create Account
                   </button>
                 </span>
+              </div>
+            )}
+            {user.error && (
+              <div className="mt-4 text-center">
+                <span className="text-sm text-red-400">{user.error}</span>
               </div>
             )}
           </Dialog>
