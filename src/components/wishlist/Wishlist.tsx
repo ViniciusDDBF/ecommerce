@@ -1,4 +1,4 @@
-import WishlistIcon from './wishlistIcon';
+import WishlistIcon from './WishlistIcon';
 import { Link } from 'react-router';
 
 const Wishlist = () => {

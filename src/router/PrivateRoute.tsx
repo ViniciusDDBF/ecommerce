@@ -1,15 +1,13 @@
 import React from 'react';
 import { Navigate, Outlet } from 'react-router';
-import { useSelector } from 'react-redux';
-import { type RootState } from '../../store/store';
-import LoadingOverlay from '../LoadingOverlay';
+import LoadingOverlay from '../components/LoadingOverlay';
+import { useAppSelector } from '../store/hooks/hooks';
 
 const PrivateRoute: React.FC = () => {
-  const user = useSelector((state: RootState) => state.user.user);
-  const isLoading = useSelector((state: RootState) => state.user.isLoading); // Optional: track loading state if you have it
+  const user = useAppSelector('user');
 
   // If still loading (PersistGate + fetch), show overlay
-  if (isLoading === undefined || isLoading) {
+  if (user.isLoading === undefined || user.isLoading) {
     return (
       <>
         <Outlet />

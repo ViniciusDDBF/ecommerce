@@ -1,12 +1,12 @@
 import { useState } from 'react';
-import { User, MapPin, Package, Heart, Lock, Menu, X } from 'lucide-react';
-import Button from '../../Button';
-import AccountProfile from '../../account/AccountProfile';
-import AccountOrders from '../../account/AccountOrders';
-import AccountWishlist from '../../account/AccountWishlist';
-import AccountAddresses from '../../account/AccountAddresses';
 import { useNavigate, useParams } from 'react-router';
-import AccountDefault from '../../account/AccountDefault';
+import { User, MapPin, Package, Heart, Lock, Menu, X } from 'lucide-react';
+import Button from '../../components/Button';
+import AccountProfile from '../../components/account/AccountProfile';
+import AccountOrders from '../../components/account/AccountOrders';
+import AccountWishlist from '../../components/account/AccountWishlist';
+import AccountAddresses from '../../components/account/AccountAddresses';
+import AccountDefault from '../../components/account/AccountDefault';
 
 const ChangePassword = () => (
   <div className="glass-effect text-charcoal-200 rounded-xl p-6">
@@ -16,7 +16,6 @@ const ChangePassword = () => (
 
 export default function AccountLayout() {
   const { section } = useParams<{ section?: string }>();
-  const [activeSection, setActiveSection] = useState('profile');
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const navigate = useNavigate();
 
@@ -92,7 +91,6 @@ export default function AccountLayout() {
                       key={item.id}
                       onClick={() => {
                         navigate(`/account/${item.id}`);
-                        if (section) setActiveSection(section);
                         setIsMobileMenuOpen(false);
                       }}
                       className={`ember-transition flex w-full items-center space-x-3 rounded-lg px-4 py-3 text-left ${

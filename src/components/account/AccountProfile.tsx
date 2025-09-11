@@ -1,13 +1,11 @@
 import { Edit2 } from 'lucide-react';
 import Button from '../Button';
-import { useSelector } from 'react-redux';
-import type { RootState } from '../../store/store';
 import { useForm } from '../../hooks/useForm';
 import type { FormFieldProps as FormFieldType } from '../../hooks/useForm';
 import FormGrid from '../form/FormGrid';
 import { useState } from 'react';
 import Dialog from '../Dialog';
-import { useAppDispatch } from '../../store/hooks/hooks';
+import { useAppDispatch, useAppSelector } from '../../store/hooks/hooks';
 import {
   ThunkUpdateUser,
   type UpdateCustomerInterface,
@@ -91,7 +89,7 @@ const editUserFields: FormFieldType[] = [
 ];
 
 export default function AccountProfile() {
-  const user = useSelector((state: RootState) => state.user);
+  const user = useAppSelector('user');
   const dispatch = useAppDispatch();
   const userDisplay = useForm(editUserFieldsDisplay, {
     first_name: user.user?.first_name,
@@ -116,9 +114,7 @@ export default function AccountProfile() {
       await dispatch(ThunkUpdateUser(fullPayload as UpdateCustomerInterface));
       userDisplay.setValuesAll(editUser.values);
       setIsOpen(false);
-    } catch (err) {
-      console.log(err);
-    }
+    } catch (err) {}
   };
 
   return (

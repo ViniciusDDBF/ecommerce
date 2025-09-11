@@ -7,16 +7,14 @@ import {
   LogOut,
   ChevronDown,
 } from 'lucide-react';
-import { useSelector } from 'react-redux';
-import type { RootState } from '../../store/store';
 import { ThunkLogOut } from '../../store/slices/userSlice';
 import Button from '../Button';
 import { useNavigate } from 'react-router';
-import { useAppDispatch } from '../../store/hooks/hooks';
+import { useAppDispatch, useAppSelector } from '../../store/hooks/hooks';
 const AccountDropdown = () => {
   const [isOpen, setIsOpen] = useState(false);
   const dispatch = useAppDispatch();
-  const user = useSelector((state: RootState) => state.user);
+  const user = useAppSelector('user');
   const navigate = useNavigate();
   const menuItems = [
     {

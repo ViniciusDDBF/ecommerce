@@ -1,6 +1,6 @@
-import { store } from '../../../store/store';
-import { ThunkGetSession } from '../../../store/slices/userSlice';
-import { supabase } from '../../../SupabaseConfig';
+import { store } from '../../store/store';
+import { ThunkGetSession } from '../../store/slices/userSlice';
+import { supabase } from '../../SupabaseConfig';
 
 export const rootLoader = async () => {
   const {

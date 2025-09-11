@@ -12,12 +12,10 @@ import {
   ThunkLogIn,
   type SignUpArgs,
 } from '../../store/slices/userSlice';
-import { useSelector } from 'react-redux';
-import type { RootState } from '../../store/store';
 import AccountDropdown from './AccountDropdown';
 import Button from '../Button';
 import { supabase } from '../../SupabaseConfig';
-import { useAppDispatch } from '../../store/hooks/hooks';
+import { useAppDispatch, useAppSelector } from '../../store/hooks/hooks';
 // #endregion
 
 // #region /* --------------- Form Fields --------------- */
@@ -220,9 +218,10 @@ const AccountHeader = () => {
   const login = useForm(loginFields);
   const signUpCpf = useForm(signUpFieldsCpf);
   const signUpCnpj = useForm(signUpFieldsCnpj);
-  const user = useSelector((state: RootState) => state.user);
   const dispatch = useAppDispatch();
+  const user = useAppSelector('user');
 
+  // #region /* --------------- Functions --------------- */
   const handleSubmitLogin = async () => {
     if (!login.validate()) return;
     try {
@@ -261,6 +260,7 @@ const AccountHeader = () => {
       signUpCnpj.setIsSubmitting(false);
     }
   };
+  // #endregion
 
   return (
     <>
@@ -268,8 +268,6 @@ const AccountHeader = () => {
         <main>
           {!user.user && <AccountIcon onClick={() => setChoicesIsOpen(true)} />}
           {user.user && <AccountDropdown />}
-
-          {/* Choices dialog */}
           <Dialog
             title="Welcome"
             isOpen={choicesIsOpen}
@@ -310,7 +308,6 @@ const AccountHeader = () => {
               />
             </div>
           </Dialog>
-
           {/* login dialog */}
           <Dialog
             title={user.user ? 'Success!' : 'Log in'}
@@ -371,7 +368,6 @@ const AccountHeader = () => {
               </div>
             )}
           </Dialog>
-
           {/* signup as CPF dialog */}
           <Dialog
             title="Sign Up as a individual"
@@ -432,7 +428,6 @@ const AccountHeader = () => {
               </span>
             </div>
           </Dialog>
-
           {/* signup as CNPJ dialog */}
           <Dialog
             title="Sign Up as a company"

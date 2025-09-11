@@ -1,14 +1,14 @@
 import { createBrowserRouter } from 'react-router';
 import { Provider } from 'react-redux';
-import store, { persistor } from '../../store/store';
+import store, { persistor } from '../store/store';
 import RootLayout from './layouts/RootLayout';
-import ProductsPage, { productsLoader } from '../../pages/ProductsPage';
-import HomePage from '../../pages/HomePage';
-import ErrorPage from '../../pages/ErrorPage';
-import AuthCallback from '../../pages/AuthCallback';
+import ProductsPage, { productsLoader } from '../pages/ProductsPage';
+import HomePage from '../pages/HomePage';
+import ErrorPage from '../pages/ErrorPage';
+import AuthCallback from '../pages/AuthCallback';
 import { rootLoader } from './loaders/rootLoader';
 import { PersistGate } from 'redux-persist/integration/react';
-import LoadingOverlay from '../LoadingOverlay';
+import LoadingOverlay from '../components/LoadingOverlay';
 import AccountLayout from './layouts/AccountLayout';
 import PrivateRoute from './PrivateRoute';
 

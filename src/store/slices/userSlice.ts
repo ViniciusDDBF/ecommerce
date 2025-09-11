@@ -277,7 +277,6 @@ export const ThunkGetSession = createAsyncThunk<UserData | null, void>(
         }
       }
 
-      console.log('No session or user data found');
       return initialState;
     } catch (error) {
       return thunkAPI.rejectWithValue(error || 'Failed to fetch session');

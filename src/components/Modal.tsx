@@ -44,28 +44,28 @@ const Modal: React.FC<ModalProps> = ({ title, icon, message, buttons }) => {
         <div
           ref={Modalref}
           className={
-            'relative w-full max-w-md mx-auto bg-gradient-charcoal backdrop-blur-xl border border-ember-600/30  rounded-2xl shadow-2xl '
+            'bg-gradient-charcoal border-ember-600/30 relative mx-auto w-full max-w-md rounded-2xl border shadow-2xl backdrop-blur-xl'
           }
         >
           {/* Header */}
           <div className="flex items-center justify-between p-6 pb-4">
             <div className="flex items-center gap-3">
               {icon && (
-                <div className="p-2 rounded-lg flex items-center">
-                  <div className="w-5 h-5 text-ember-400">{icon}</div>
+                <div className="flex items-center rounded-lg p-2">
+                  <div className="text-ember-400 h-5 w-5">{icon}</div>
                 </div>
               )}
-              <h2 className="text-xl mt-1 font-semibold text-ember-50">
+              <h2 className="text-ember-50 mt-1 text-xl font-semibold">
                 {title}
               </h2>
             </div>
 
             <button
-              className="p-1.5 text-charcoal-300 hover:text-charcoal-200 hover:bg-charcoal-700 rounded-lg transition cursor-pointer"
+              className="text-charcoal-300 hover:text-charcoal-200 hover:bg-charcoal-700 cursor-pointer rounded-lg p-1.5 transition"
               aria-label="Close modal"
               onClick={handleCancelClick}
             >
-              <X className="w-5 h-5" />
+              <X className="h-5 w-5" />
             </button>
           </div>
 
@@ -75,7 +75,7 @@ const Modal: React.FC<ModalProps> = ({ title, icon, message, buttons }) => {
           </div>
 
           {/* Footer with Buttons */}
-          <div className="flex items-center justify-end gap-3 p-6 pt-4 border-t border-charcoal-700/50">
+          <div className="border-charcoal-700/50 flex items-center justify-end gap-3 border-t p-6 pt-4">
             {/* Cancel Button */}
             <Button
               text={buttons.cancel.text}
@@ -101,28 +101,3 @@ const Modal: React.FC<ModalProps> = ({ title, icon, message, buttons }) => {
 };
 
 export default Modal;
-
-/* ---------------- How to use ---------------- */
-{
-  /* <Modal
-  onCancel={() => setModal(true)}
-  title="vini..."
-  message="VINI!"
-  buttons={{
-    cancel: {
-      text: 'vini',
-      onClick: () => {
-        setModal(false);
-      },
-      props: { loading: true },
-    },
-    confirm: {
-      text: 'Confirm',
-      onClick: () => {
-        console.log('CONFIRMADO AMIGO!');
-        setModal(false);
-      },
-    },
-  }}
-/>; */
-}

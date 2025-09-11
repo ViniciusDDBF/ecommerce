@@ -3,12 +3,12 @@ import { UserPlus } from 'lucide-react';
 import Dialog from './Dialog';
 import FormGrid from './form/FormGrid';
 import { useForm } from '../hooks/useForm';
-import type { FormField } from '../hooks/useForm';
+import type { FormFieldProps } from '../hooks/useForm';
 
 const FormDialogExample = () => {
   const [showDialog, setShowDialog] = useState(false);
 
-  const fields: FormField[] = [
+  const fields: FormFieldProps[] = [
     {
       name: 'name',
       label: 'Full Name',
@@ -69,7 +69,6 @@ const FormDialogExample = () => {
     try {
       // Simulate API call
       await new Promise((resolve) => setTimeout(resolve, 2000));
-      console.log('Form submitted:', values);
       setShowDialog(false);
       reset();
     } finally {

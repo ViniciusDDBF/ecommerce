@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { RouterProvider } from 'react-router/dom';
-import { router } from './components/router/router';
+import { router } from './router/router';
 
 const rootElement = document.getElementById('root');
 if (rootElement) {
