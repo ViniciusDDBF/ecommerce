@@ -46,19 +46,10 @@ export default function AccountLayout() {
 
   return (
     <div className="bg-charcoal-900 min-h-screen">
-      <div className="mx-auto max-w-7xl px-4 py-8">
+      <div className="mx-auto max-w-7xl py-4">
         {/* Header */}
         <div className="mb-8">
           <div className="flex items-center justify-between">
-            <div>
-              <h1 className="text-gradient-ember mb-2 text-3xl font-bold">
-                My Account
-              </h1>
-              <p className="text-charcoal-300">
-                Manage your account settings and preferences
-              </p>
-            </div>
-
             {/* Mobile Menu Toggle */}
             <div className="lg:hidden">
               <Button

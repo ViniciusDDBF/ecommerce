@@ -1,7 +1,7 @@
-export async function ErrorPage() {
+export function ErrorPage() {
   return (
     <div>
-      <h1 className="text-9xl text-ember-500">
+      <h1 className="text-ember-500 text-9xl">
         DEU TUDO ERRADO!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
       </h1>
     </div>

@@ -6,34 +6,37 @@ import type { RootState } from '../store';
 // #endregion
 
 // #region /* --------------- Types --------------- */
-interface AddressData {
-  address_id: number;
-  address_name: string | null;
-  street: string | null;
-  district: string | null;
-  city: string | null;
-  state: string | null;
-  postal_code: string | null;
-  country: string | null;
-  is_default: boolean | null;
-  number: string | null;
-  complement: string | null;
-}
-
-interface UserData {
-  customer_id: number;
+export interface UserData {
+  customer_id?: number;
   user_id: string;
-  first_name: string | null;
-  last_name: string | null;
+  first_name?: string | null;
+  last_name?: string | null;
   email: string | null;
   phone: string | null;
-  cpf: string | null;
-  cnpj: string | null;
-  company_name: string | null;
-  legal_name: string | null;
+  cpf?: string | null;
+  cnpj?: string | null;
+  company_name?: string | null;
+  legal_name?: string | null;
   is_cpf: boolean;
-  stores_id: number | null;
-  addresses: AddressData[];
+  stores_id?: number | null;
+  addresses?: AddressData[];
+}
+
+export interface AddressData {
+  address_id?: number;
+  user_id: string;
+  customer_id: number;
+  address_name: string | null;
+  recipient_name: string | null;
+  postal_code: string | null;
+  number: string | null;
+  complement: string | null;
+  street: string | null;
+  neighborhood: string | null;
+  city: string | null;
+  state: string | null;
+  country: string | null;
+  is_default: boolean | null;
 }
 
 export interface UpdateCustomerInterface {
@@ -103,6 +106,35 @@ async function FetchCreateCustomer(formPayload: any, fetchPayload: any) {
   return data;
 }
 
+async function FetchCreateCustomerAddress(formPayload: AddressData) {
+  const { data, error } = await supabase
+    .from('customer_addresses')
+    .insert([
+      {
+        address_name: formPayload.address_name,
+        recipient_name: formPayload.recipient_name,
+        postal_code: formPayload.postal_code,
+        number: formPayload.number,
+        complement: formPayload.complement,
+        street: formPayload.street,
+        neighborhood: formPayload.neighborhood,
+        city: formPayload.city,
+        state: formPayload.state,
+        country: formPayload.country,
+        is_default: formPayload.is_default,
+        customer_id: formPayload.customer_id,
+      },
+    ])
+    .select();
+  if (error) {
+  }
+  return { data, error };
+}
+
+async function FetchDeleteCustomerAddress({ address_id }: AddressData) {
+  await supabase.from('customer_addresses').delete().eq('id', address_id);
+}
+
 async function FetchLogIn(email: string, password: string) {
   try {
     let data = await supabase.auth.signInWithPassword({
@@ -130,7 +162,7 @@ async function FetchGetUserView(user_id: string) {
   return data;
 }
 
-async function FetchUpdateCustomer(formPayload: UpdateCustomerInterface) {
+async function FetchUpdateCustomer(formPayload: UserData) {
   const { data } = await supabase
     .from('customers')
     .update({
@@ -154,14 +186,6 @@ async function FetchLogOut() {
 // #endregion
 
 // #region /* --------------- Thunks --------------- */
-export const ThunkSignUp = createAsyncThunk<any, SignUpArgs>(
-  'user/SignUp',
-  async ({ email, password }) => {
-    const userData = await FetchSignUp(email, password);
-    return userData;
-  },
-);
-
 export const ThunkCreateCustomer = createAsyncThunk<any, SignUpArgs>(
   'user/CreateCustomer',
   async (payload) => {
@@ -171,6 +195,24 @@ export const ThunkCreateCustomer = createAsyncThunk<any, SignUpArgs>(
       user_id: signupData.data.user?.id,
     });
     return createData;
+  },
+);
+
+export const ThunkCreateCustomerAddress = createAsyncThunk<any, AddressData>(
+  'user/CreateCustomerAddress',
+  async (payload) => {
+    await FetchCreateCustomerAddress(payload);
+    const userView = await FetchGetUserView(payload.user_id);
+    if (userView?.data) return userView?.data[0];
+  },
+);
+
+export const ThunkDeleteCustomerAddress = createAsyncThunk<any, AddressData>(
+  'user/DeleteCustomerAddress',
+  async (payload) => {
+    await FetchDeleteCustomerAddress(payload);
+    const userView = await FetchGetUserView(payload.user_id);
+    if (userView?.data) return userView?.data[0];
   },
 );
 
@@ -207,23 +249,23 @@ export const ThunkGetUser = createAsyncThunk<UserData, void>(
   },
 );
 
-export const ThunkUpdateUser = createAsyncThunk<
-  UserData,
-  UpdateCustomerInterface
->('user/UpdateUser', async (payload, thunkAPI) => {
-  const state = thunkAPI.getState() as RootState;
-  const userDes = state.user.user;
-  if (!userDes?.user_id) return;
-  const completePayload = {
-    ...payload,
-    user_id: userDes.user_id,
-  };
-  if (completePayload) await FetchUpdateCustomer(completePayload);
-  if (userDes?.user_id) {
-    const userData = await FetchGetUserView(userDes?.user_id);
-    if (userData?.data) return userData.data[0];
-  }
-});
+export const ThunkUpdateUser = createAsyncThunk<UserData, UserData>(
+  'user/UpdateUser',
+  async (payload, thunkAPI) => {
+    const state = thunkAPI.getState() as RootState;
+    const userDes = state.user.user;
+    if (!userDes?.user_id) return;
+    const completePayload = {
+      ...payload,
+      user_id: userDes.user_id,
+    };
+    if (completePayload) await FetchUpdateCustomer(completePayload);
+    if (userDes?.user_id) {
+      const userData = await FetchGetUserView(userDes?.user_id);
+      if (userData?.data) return userData.data[0];
+    }
+  },
+);
 
 export const ThunkGoogle = createAsyncThunk<UserData, void>(
   'user/GoogleSignIn',
@@ -266,8 +308,10 @@ export const ThunkGetSession = createAsyncThunk<UserData | null, void>(
       const state = thunkAPI.getState() as RootState;
       const cachedUser = state.user.user;
       const isUserPopulated = cachedUser && cachedUser.user_id;
+      const isUserEqual =
+        JSON.stringify(state.user.user) === JSON.stringify(cachedUser);
       const session = await FetchGetSession();
-      if (isUserPopulated) return cachedUser;
+      if (isUserPopulated && isUserEqual) return cachedUser;
 
       if (session.session && session.session.user?.id) {
         const userViewData = await FetchGetUserView(session.session.user.id);
@@ -326,6 +370,8 @@ const userSlice = createSlice({
           ThunkCreateCustomer.pending,
           ThunkGoogle.pending,
           ThunkUpdateUser.pending,
+          ThunkCreateCustomerAddress.pending,
+          ThunkDeleteCustomerAddress.pending,
         ),
         (state) => {
           state.isLoading = true;
@@ -340,6 +386,8 @@ const userSlice = createSlice({
           ThunkCreateCustomer.fulfilled,
           ThunkGoogle.fulfilled,
           ThunkUpdateUser.fulfilled,
+          ThunkCreateCustomerAddress.fulfilled,
+          ThunkDeleteCustomerAddress.fulfilled,
         ),
         (state, action) => {
           state.isLoading = false;
@@ -354,6 +402,8 @@ const userSlice = createSlice({
           ThunkCreateCustomer.rejected,
           ThunkGoogle.rejected,
           ThunkUpdateUser.rejected,
+          ThunkCreateCustomerAddress.rejected,
+          ThunkDeleteCustomerAddress.rejected,
         ),
         (state, action) => {
           state.isLoading = false;
