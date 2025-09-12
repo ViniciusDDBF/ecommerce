@@ -49,7 +49,7 @@ export const useForm = (
   const setValue = (name: string, value: any) => {
     const field = fields.find((f) => f.name === name);
 
-    // ✅ Handle checkbox separately
+    // Handle checkbox separately
     if (field?.type === 'checkbox') {
       setValues((prev) => ({ ...prev, [name]: !!value }));
       setErrors((prev) => ({ ...prev, [name]: '' }));
@@ -171,7 +171,7 @@ export const useForm = (
     fields.forEach((field) => {
       const value = values[field.name];
 
-      // ✅ Handle checkbox required validation
+      // Handle checkbox required validation
       if (field.type === 'checkbox' && field.validation?.required && !value) {
         newErrors[field.name] = `${field.label} is required`;
         return;
@@ -198,8 +198,8 @@ export const useForm = (
         typeof value === 'string' &&
         value.length > field.validation.maxLength
       ) {
-        newErrors[field.name] =
-          `${field.label} must have at most ${field.validation.maxLength} characters`;
+        newErrors[field.name] = `${field.label} is required`;
+        return;
       }
 
       if (field.applyMask === 'cpf' && value) {
@@ -262,6 +262,12 @@ export const useForm = (
     setIsSubmitting(false);
   };
 
+  const resetToInitial = () => {
+    setValues({ ...initialValues });
+    setErrors({});
+    setIsSubmitting(false);
+  };
+
   return {
     values,
     errors,
@@ -271,6 +277,7 @@ export const useForm = (
     setValuesAll,
     validate,
     reset,
+    resetToInitial,
   };
 };
 

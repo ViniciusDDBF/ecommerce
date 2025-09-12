@@ -79,7 +79,8 @@ const getVariantStyles = (
           hover: 'hover:from-ember-600 hover:to-ember-700',
           active:
             'active:from-ember-800 active:to-ember-900 active:scale-[0.98]',
-          focus: '',
+          focus:
+            'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ember-400 focus-visible:ring-offset-2 focus-visible:ring-offset-charcoal-900 ',
           loaderColor: '#FFF8F0', // ember-50
           rippleColor: 'rgba(255, 248, 240, 0.5)', // ember-50 with opacity
         };
@@ -90,7 +91,8 @@ const getVariantStyles = (
           'hover:from-ember-400 hover:to-ember-500 hover:shadow-lg hover:text-charcoal-700',
         active:
           'active:from-ember-600 active:to-ember-700 active:scale-[0.98] active:text-charcoal-900',
-        focus: '',
+        focus:
+          'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ember-300 focus-visible:ring-offset-2 focus-visible:ring-offset-charcoal-900 ',
         loaderColor: '#141414', // charcoal-900
         rippleColor: 'rgba(20, 20, 20, 0.3)', // charcoal-900 with opacity
       };
@@ -100,7 +102,8 @@ const getVariantStyles = (
           base: 'bg-ember-400 text-charcoal-900 border-2 border-ember-500 shadow-lg',
           hover: 'hover:bg-ember-300 hover:text-charcoal-900',
           active: 'active:bg-ember-500 active:scale-[0.98]',
-          focus: '',
+          focus:
+            'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ember-400 focus-visible:ring-offset-2 focus-visible:ring-offset-charcoal-900 ',
           loaderColor: '#141414', // charcoal-900
           rippleColor: 'rgba(20, 20, 20, 0.3)', // charcoal-900 with opacity
         };
@@ -110,7 +113,8 @@ const getVariantStyles = (
         hover:
           'hover:bg-charcoal-500 hover:border-ember-400 hover:text-ember-300',
         active: 'active:bg-charcoal-700 active:scale-[0.98]',
-        focus: '',
+        focus:
+          'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ember-300 focus-visible:ring-offset-2 focus-visible:ring-offset-charcoal-900 ',
         loaderColor: '#FF9142', // ember-400
         rippleColor: 'rgba(255, 145, 66, 0.5)', // ember-400 with opacity
       };
@@ -121,7 +125,8 @@ const getVariantStyles = (
           hover:
             'hover:bg-ember-500/20 hover:text-ember-300 hover:border-ember-400/60',
           active: 'active:bg-ember-500/30 active:scale-[0.98]',
-          focus: '',
+          focus:
+            'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ember-300 focus-visible:ring-offset-2 focus-visible:ring-offset-charcoal-900 ',
           loaderColor: '#FF9142', // ember-400
           rippleColor: 'rgba(255, 145, 66, 0.2)', // ember-400 with low opacity
         };
@@ -131,7 +136,8 @@ const getVariantStyles = (
         hover:
           'hover:bg-charcoal-700/50 hover:text-ember-400 hover:border-ember-500/20',
         active: 'active:bg-charcoal-600/50 active:scale-[0.98]',
-        focus: '',
+        focus:
+          'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ember-300 focus-visible:ring-offset-2 focus-visible:ring-offset-charcoal-900 ',
         loaderColor: '#888888', // charcoal-300
         rippleColor: 'rgba(136, 136, 136, 0.2)', // charcoal-300 with low opacity
       };
@@ -142,7 +148,8 @@ const getVariantStyles = (
           hover:
             'hover:bg-ember-500/25 hover:text-ember-300 hover:border-ember-400',
           active: 'active:bg-ember-500/35 active:scale-[0.98]',
-          focus: '',
+          focus:
+            'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ember-400 focus-visible:ring-offset-2 focus-visible:ring-offset-charcoal-900 ',
           loaderColor: '#FF9142', // ember-400
           rippleColor: 'rgba(255, 145, 66, 0.3)', // ember-400 with opacity
         };
@@ -152,7 +159,8 @@ const getVariantStyles = (
         hover:
           'hover:bg-charcoal-700/30 hover:text-ember-400 hover:border-ember-500',
         active: 'active:bg-charcoal-600/40 active:scale-[0.98]',
-        focus: '',
+        focus:
+          'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ember-300 focus-visible:ring-offset-2 focus-visible:ring-offset-charcoal-900 ',
         loaderColor: '#888888', // charcoal-300
         rippleColor: 'rgba(136, 136, 136, 0.25)', // charcoal-300 with opacity
       };
@@ -261,7 +269,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       variantStyles.base,
       !isDisabled ? variantStyles.hover : '',
       !isDisabled ? variantStyles.active : '',
-      variantStyles.focus,
+      !isDisabled ? variantStyles.focus : '',
       isDisabled ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer',
       className,
     ]

@@ -1,26 +1,30 @@
-type IconOverlay = {
+type IconOverlayProps = {
   icon?: React.ReactNode;
   onClick?: React.MouseEventHandler<HTMLDivElement>;
   count?: number;
   showBadge?: boolean;
+  // Add any additional props (e.g., for accessibility)
+  [key: string]: any; // Allows arbitrary props like tabIndex, role, etc.
 };
 
-const IconOverlay: React.FC<IconOverlay> = ({
+const IconOverlay: React.FC<IconOverlayProps> = ({
   onClick,
   icon,
   count,
   showBadge,
+  ...props // Spread remaining props
 }) => {
   return (
     <div
       onClick={onClick}
-      className="relative inline-flex items-center justify-center w-12 h-12 rounded-full bg-charcoal-700 hover:bg-charcoal-600 transition-colors cursor-pointer align-middle"
+      className="bg-charcoal-700 hover:bg-charcoal-600 relative inline-flex h-12 w-12 cursor-pointer items-center justify-center rounded-full align-middle transition-colors"
+      {...props} // Spread props to root div
     >
       {/* User Icon */}
       {icon}
 
       {showBadge && (
-        <span className="absolute -top-1.5 -right-1.5 bg-ember-500 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center shadow-md">
+        <span className="bg-ember-500 absolute -top-1.5 -right-1.5 flex h-5 w-5 items-center justify-center rounded-full text-xs font-bold text-white shadow-md">
           {count}
         </span>
       )}

@@ -7,10 +7,7 @@ import FormGrid from '../form/FormGrid';
 import { useState } from 'react';
 import Dialog from '../Dialog';
 import { useAppDispatch, useAppSelector } from '../../store/hooks/hooks';
-import {
-  ThunkUpdateUser,
-  type UpdateCustomerInterface,
-} from '../../store/slices/userSlice';
+import { ThunkUpdateUser, type UserData } from '../../store/slices/userSlice';
 // #endregion
 
 // #region /* --------------- Form fields --------------- */
@@ -73,10 +70,20 @@ export default function AccountProfile() {
 
   // #region /* --------------- Functions --------------- */
   const handleUpdateUser = async () => {
+    const userFields = {
+      first_name: user.user?.first_name,
+      last_name: user.user?.last_name,
+      email: user.user?.email,
+      phone: user.user?.phone,
+    };
     if (!user.user?.user_id) return;
+    if (JSON.stringify(userFields) === JSON.stringify(editUser.values)) {
+      setIsOpen(false);
+      return;
+    }
     const fullPayload = { ...editUser.values, user_id: user.user.user_id };
     try {
-      await dispatch(ThunkUpdateUser(fullPayload as UpdateCustomerInterface));
+      await dispatch(ThunkUpdateUser(fullPayload as UserData));
       setIsOpen(false);
     } catch (err) {}
   };
@@ -179,11 +186,14 @@ export default function AccountProfile() {
         description="Create your account"
         size="lg"
         icon={<Edit2 />}
-        onClose={() => setIsOpen(false)} // ✅ Correct
+        onClose={() => setIsOpen(false)}
         buttons={{
           cancel: {
             text: 'Close',
-            onClick: () => setIsOpen(false),
+            onClick: () => {
+              editUser.resetToInitial();
+              setIsOpen(false);
+            },
           },
           confirm: {
             text: editUser.isSubmitting ? 'Creating...' : 'Save alterations',

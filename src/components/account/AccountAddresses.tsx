@@ -1,5 +1,6 @@
+// #region /* --------------- Imports --------------- */
 import { useState } from 'react';
-import { MapPin, Edit3, Trash2, Plus, User, Shield } from 'lucide-react';
+import { MapPin, Edit3, Trash2, Plus, User, Shield, House } from 'lucide-react';
 import Button from '../Button';
 import FormGrid from '../form/FormGrid';
 import Dialog from '../Dialog';
@@ -7,10 +8,13 @@ import { useForm, type FormFieldProps } from '../../hooks/useForm';
 import { useAppDispatch, useAppSelector } from '../../store/hooks/hooks';
 import {
   ThunkCreateCustomerAddress,
+  ThunkUpdateCustomerAddress,
   ThunkDeleteCustomerAddress,
   type AddressData,
+  ThunkUpdateCustomerDefaultAddress,
 } from '../../store/slices/userSlice';
 import Modal from '../Modal';
+// #endregion
 
 const addressFields: FormFieldProps[] = [
   {
@@ -97,14 +101,19 @@ const addressFields: FormFieldProps[] = [
 ];
 
 const MyAddressesPage = () => {
-  const [addressSelected, setAddressSelected] = useState<AddressData | {}>({});
+  const [addressSelected, setAddressSelected] = useState<AddressData | null>(
+    null,
+  );
   const [createIsOpen, setCreateIsOpen] = useState(false);
+  const [updateIsOpen, setUpdateIsOpen] = useState(false);
   const [deleteAddressModal, setDeleteAddressModal] = useState(false);
   const createAddress = useForm(addressFields);
+  const updateAddress = useForm(addressFields, addressSelected ?? undefined);
   const user = useAppSelector('user');
   const dispatch = useAppDispatch();
 
   const handleCreateAddress = async () => {
+    if (!createAddress.validate()) return;
     if (user.user) {
       const fullPayload = {
         ...createAddress.values,
@@ -116,6 +125,23 @@ const MyAddressesPage = () => {
         await dispatch(ThunkCreateCustomerAddress(fullPayload as AddressData));
       } finally {
         setCreateIsOpen(false);
+      }
+    }
+  };
+
+  const handleUpdateAddress = async () => {
+    if (!updateAddress.validate()) return;
+    if (user.user && addressSelected) {
+      const fullPayload = {
+        ...updateAddress.values,
+        customer_id: user.user?.customer_id,
+        user_id: user.user?.user_id,
+        address_id: addressSelected.address_id,
+      };
+      try {
+        await dispatch(ThunkUpdateCustomerAddress(fullPayload as AddressData));
+      } finally {
+        setUpdateIsOpen(false);
       }
     }
   };
@@ -149,8 +175,10 @@ const MyAddressesPage = () => {
 
         {/* Address Cards */}
         <div className="space-y-8">
-          {user.user?.addresses &&
-            user.user?.addresses.map((address, idx) => {
+          {user.user?.addresses
+            ?.slice() // make a shallow copy so we don't mutate state
+            .sort((a, b) => Number(b.is_default) - Number(a.is_default)) // true → 1, false → 0
+            .map((address, idx) => {
               return (
                 <div key={idx} className="group relative">
                   <div className="bg-charcoal-800/80 border-charcoal-600 hover:border-ember-400/50 rounded-2xl border p-8 backdrop-blur-sm transition-all duration-300 hover:shadow-2xl">
@@ -158,12 +186,13 @@ const MyAddressesPage = () => {
                     <div className="mb-6 flex items-start justify-between">
                       <div className="flex items-center gap-4">
                         <div className="flex items-center gap-3">
+                          <House className="text-ember-400" />
                           <h3 className="text-ember-400 text-2xl font-semibold">
-                            {address.recipient_name}
+                            {address.address_name}
                           </h3>
                         </div>
                         {address.is_default && (
-                          <div className="bg-ember-500 shadow-ember-500/40 flex items-center gap-2 rounded-full px-3 py-1.5 shadow-lg">
+                          <div className="bg-ember-400 shadow-ember-500/40 flex items-center gap-2 rounded-full px-3 py-1.5 shadow-lg">
                             <Shield className="h-4 w-4 text-white" />
                             <span className="text-sm font-semibold text-white">
                               Default
@@ -179,7 +208,22 @@ const MyAddressesPage = () => {
                           variant="secondary"
                           size="sm"
                           startIcon={<Edit3 className="h-4 w-4" />}
-                          onClick={() => {}}
+                          onClick={() => {
+                            setAddressSelected(address);
+                            updateAddress.setValuesAll({
+                              address_name: address?.address_name,
+                              recipient_name: address.recipient_name,
+                              postal_code: address.postal_code,
+                              number: address.number,
+                              complement: address.complement,
+                              street: address.street,
+                              neighborhood: address.neighborhood,
+                              city: address.city,
+                              state: address.state,
+                              country: address.country,
+                            });
+                            setUpdateIsOpen(true);
+                          }}
                         />
                         {!address.is_default && (
                           <>
@@ -188,7 +232,18 @@ const MyAddressesPage = () => {
                               variant="primary"
                               size="sm"
                               startIcon={<Shield className="h-4 w-4" />}
-                              onClick={() => {}}
+                              onClick={async () => {
+                                const payload = {
+                                  address_id: address.address_id,
+                                  customer_id: user.user?.customer_id,
+                                  user_id: user.user?.user_id,
+                                };
+                                await dispatch(
+                                  ThunkUpdateCustomerDefaultAddress(
+                                    payload as AddressData,
+                                  ),
+                                );
+                              }}
                             />
                             <Button
                               text="Delete"
@@ -302,13 +357,18 @@ const MyAddressesPage = () => {
           </div>
         )}
       </div>
+
+      {/* Create Address Form */}
       <Dialog
         title="Edit your informations"
         isOpen={createIsOpen}
         description="Create your account"
         size="xl"
         icon={<Edit3 />}
-        onClose={() => setCreateIsOpen(false)}
+        onClose={() => {
+          createAddress.reset();
+          setCreateIsOpen(false);
+        }}
         buttons={{
           cancel: {
             text: 'Close',
@@ -329,6 +389,40 @@ const MyAddressesPage = () => {
           columns={2}
         />
       </Dialog>
+
+      {/* Update Address Form */}
+      <Dialog
+        title="Edit your address"
+        isOpen={updateIsOpen}
+        description="Edit your address information"
+        size="xl"
+        icon={<Edit3 />}
+        onClose={() => {
+          updateAddress.reset();
+          setUpdateIsOpen(false);
+        }}
+        buttons={{
+          cancel: {
+            text: 'Close',
+            onClick: () => setUpdateIsOpen(false),
+          },
+          confirm: {
+            text: 'Create Address',
+            onClick: () => handleUpdateAddress(),
+            props: { loading: user.isLoading },
+          },
+        }}
+      >
+        <FormGrid
+          fields={addressFields}
+          values={updateAddress.values}
+          errors={updateAddress.errors}
+          onChange={updateAddress.setValue}
+          columns={2}
+        />
+      </Dialog>
+
+      {/* Delete Address Modal */}
       {deleteAddressModal && (
         <Modal
           title="Delete Address"

@@ -13,7 +13,7 @@ You are a UI/UX expert creating **edgy yet professional** designs. Target feelin
   ```typescript
   interface ButtonProps {
     text: string;
-    variant?: 'primary' | 'secondary';
+    variant?: 'primary' | 'secondary' | 'ghost' | 'outline';
     size?: 'sm' | 'md' | 'lg' | 'full';
     loading?: boolean;
     selected?: boolean;

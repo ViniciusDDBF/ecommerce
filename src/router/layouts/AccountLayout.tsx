@@ -81,6 +81,7 @@ export default function AccountLayout() {
                     <button
                       key={item.id}
                       onClick={() => {
+                        if (section === item.id) return;
                         navigate(`/account/${item.id}`);
                         setIsMobileMenuOpen(false);
                       }}

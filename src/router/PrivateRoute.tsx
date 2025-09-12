@@ -17,7 +17,7 @@ const PrivateRoute: React.FC = () => {
   }
 
   // If user is not logged in, redirect to home or login
-  if (!user) {
+  if (!user.user) {
     return <Navigate to="/" replace />;
   }
 

@@ -19,7 +19,7 @@ const Helper: React.FC<HelperProps> = ({ tooltip, value, onClick }) => {
   return (
     <div
       onClick={() => {
-        if (onClick) onClick(value); // ✅ call parent handler
+        if (onClick) onClick(value);
       }}
       className={classes}
     >
@@ -30,7 +30,7 @@ const Helper: React.FC<HelperProps> = ({ tooltip, value, onClick }) => {
       />
 
       {isHovered && (
-        <div className="bg-charcoal-600 text-charcoal-50 absolute bottom-9 z-50 w-max max-w-xs rounded-md px-3 py-2 text-sm shadow-lg transition-all duration-200">
+        <div className="bg-charcoal-600 text-charcoal-50 fixed top-44 left-101 z-50 w-max max-w-xs rounded-md px-3 py-2 text-sm shadow-lg transition-all duration-200">
           {tooltip}
         </div>
       )}

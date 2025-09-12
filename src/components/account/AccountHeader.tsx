@@ -231,6 +231,7 @@ const AccountHeader = () => {
           password: login.values.password,
         }),
       );
+      login.reset();
     } catch (err) {}
   };
 
@@ -268,6 +269,8 @@ const AccountHeader = () => {
         <main>
           {!user.user && <AccountIcon onClick={() => setChoicesIsOpen(true)} />}
           {user.user && <AccountDropdown />}
+
+          {/* login with: dialog */}
           <Dialog
             title="Welcome"
             isOpen={choicesIsOpen}
@@ -308,6 +311,7 @@ const AccountHeader = () => {
               />
             </div>
           </Dialog>
+
           {/* login dialog */}
           <Dialog
             title={user.user ? 'Success!' : 'Log in'}
@@ -324,7 +328,7 @@ const AccountHeader = () => {
                 text: 'Close',
                 onClick: () => {
                   dispatch(resetError());
-                  login.setValuesAll({ email: '', password: '' });
+                  login.reset();
                   setLoginIsOpen(false);
                 },
               },
