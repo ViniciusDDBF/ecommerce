@@ -1,13 +1,14 @@
 import { createBrowserRouter } from 'react-router-dom';
 import RootLayout from './layouts/RootLayout';
-import ProductsPage, { productsLoader } from '../pages/ProductsPage';
+import AccountLayout from './layouts/AccountLayout';
+import ProductPage from '../pages/ProductPage';
 import HomePage from '../pages/HomePage';
 import ErrorPage from '../pages/ErrorPage';
 import AuthCallback from '../pages/AuthCallback';
 import { rootLoader } from './loaders/rootLoader';
-import AccountLayout from './layouts/AccountLayout';
-import PrivateRoute from './PrivateRoute';
+import { productLoader } from './loaders/productLoader';
 import LoadingOverlay from '../components/LoadingOverlay';
+import PrivateRoute from './PrivateRoute';
 
 export const router = createBrowserRouter([
   {
@@ -19,9 +20,9 @@ export const router = createBrowserRouter([
     children: [
       { index: true, element: <HomePage /> },
       {
-        path: 'products',
-        element: <ProductsPage />,
-        loader: productsLoader,
+        path: '/products/:slug',
+        element: <ProductPage />,
+        loader: productLoader,
       },
       {
         path: 'auth/callback',

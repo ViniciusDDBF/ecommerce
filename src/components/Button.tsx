@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 
 type ButtonVariant = 'primary' | 'secondary' | 'ghost' | 'outline';
 type ButtonSize = 'sm' | 'md' | 'lg' | 'full';
@@ -16,12 +16,11 @@ export interface ButtonProps
   style?: React.CSSProperties;
 }
 
-/* ---------------- Enhanced Spinner Loader ---------------- */
+/* ---------------- Spinner Loader ---------------- */
 const SpinnerLoader: React.FC<{
   size: ButtonSize;
   color: string;
 }> = ({ size, color }) => {
-  // Size mappings for spinners to match button proportions
   const spinnerConfig = {
     sm: { diameter: 16, strokeWidth: 2, className: 'w-4 h-4' },
     md: { diameter: 20, strokeWidth: 2, className: 'w-5 h-5' },
@@ -66,7 +65,7 @@ const buttonSizes = {
   full: 'px-6 py-3 text-base font-semibold min-h-[44px] gap-2 w-full',
 };
 
-/* ---------------- Variant Styles with Selected States ---------------- */
+/* ---------------- Variant Styles ---------------- */
 const getVariantStyles = (
   variant: ButtonVariant,
   selected: boolean = false,
@@ -81,8 +80,7 @@ const getVariantStyles = (
             'active:from-ember-800 active:to-ember-900 active:scale-[0.98]',
           focus:
             'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ember-400 focus-visible:ring-offset-2 focus-visible:ring-offset-charcoal-900 ',
-          loaderColor: '#FFF8F0', // ember-50
-          rippleColor: 'rgba(255, 248, 240, 0.5)', // ember-50 with opacity
+          loaderColor: '#FFF8F0',
         };
       }
       return {
@@ -93,8 +91,7 @@ const getVariantStyles = (
           'active:from-ember-600 active:to-ember-700 active:scale-[0.98] active:text-charcoal-900',
         focus:
           'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ember-300 focus-visible:ring-offset-2 focus-visible:ring-offset-charcoal-900 ',
-        loaderColor: '#141414', // charcoal-900
-        rippleColor: 'rgba(20, 20, 20, 0.3)', // charcoal-900 with opacity
+        loaderColor: '#141414',
       };
     case 'secondary':
       if (selected) {
@@ -104,8 +101,7 @@ const getVariantStyles = (
           active: 'active:bg-ember-500 active:scale-[0.98]',
           focus:
             'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ember-400 focus-visible:ring-offset-2 focus-visible:ring-offset-charcoal-900 ',
-          loaderColor: '#141414', // charcoal-900
-          rippleColor: 'rgba(20, 20, 20, 0.3)', // charcoal-900 with opacity
+          loaderColor: '#141414',
         };
       }
       return {
@@ -115,8 +111,7 @@ const getVariantStyles = (
         active: 'active:bg-charcoal-700 active:scale-[0.98]',
         focus:
           'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ember-300 focus-visible:ring-offset-2 focus-visible:ring-offset-charcoal-900 ',
-        loaderColor: '#FF9142', // ember-400
-        rippleColor: 'rgba(255, 145, 66, 0.5)', // ember-400 with opacity
+        loaderColor: '#FF9142',
       };
     case 'ghost':
       if (selected) {
@@ -127,8 +122,7 @@ const getVariantStyles = (
           active: 'active:bg-ember-500/30 active:scale-[0.98]',
           focus:
             'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ember-300 focus-visible:ring-offset-2 focus-visible:ring-offset-charcoal-900 ',
-          loaderColor: '#FF9142', // ember-400
-          rippleColor: 'rgba(255, 145, 66, 0.2)', // ember-400 with low opacity
+          loaderColor: '#FF9142',
         };
       }
       return {
@@ -138,8 +132,7 @@ const getVariantStyles = (
         active: 'active:bg-charcoal-600/50 active:scale-[0.98]',
         focus:
           'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ember-300 focus-visible:ring-offset-2 focus-visible:ring-offset-charcoal-900 ',
-        loaderColor: '#888888', // charcoal-300
-        rippleColor: 'rgba(136, 136, 136, 0.2)', // charcoal-300 with low opacity
+        loaderColor: '#888888',
       };
     case 'outline':
       if (selected) {
@@ -150,8 +143,7 @@ const getVariantStyles = (
           active: 'active:bg-ember-500/35 active:scale-[0.98]',
           focus:
             'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ember-400 focus-visible:ring-offset-2 focus-visible:ring-offset-charcoal-900 ',
-          loaderColor: '#FF9142', // ember-400
-          rippleColor: 'rgba(255, 145, 66, 0.3)', // ember-400 with opacity
+          loaderColor: '#FF9142',
         };
       }
       return {
@@ -161,42 +153,12 @@ const getVariantStyles = (
         active: 'active:bg-charcoal-600/40 active:scale-[0.98]',
         focus:
           'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ember-300 focus-visible:ring-offset-2 focus-visible:ring-offset-charcoal-900 ',
-        loaderColor: '#888888', // charcoal-300
-        rippleColor: 'rgba(136, 136, 136, 0.25)', // charcoal-300 with opacity
+        loaderColor: '#888888',
       };
     default:
       return getVariantStyles('primary', selected);
   }
 };
-
-/* ---------------- Ripple Effect ---------------- */
-interface Ripple {
-  key: number;
-  x: number;
-  y: number;
-  size: number;
-}
-
-const RippleEffect: React.FC<{
-  ripples: Ripple[];
-  rippleColor: string;
-}> = ({ ripples, rippleColor }) => (
-  <div className="ripple-container">
-    {ripples.map((ripple) => (
-      <span
-        key={ripple.key}
-        className="ripple"
-        style={{
-          left: ripple.x,
-          top: ripple.y,
-          width: ripple.size,
-          height: ripple.size,
-          backgroundColor: rippleColor,
-        }}
-      />
-    ))}
-  </div>
-);
 
 /* ---------------- Main Component ---------------- */
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
@@ -218,53 +180,12 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     },
     ref,
   ) => {
-    const [ripples, setRipples] = useState<Ripple[]>([]);
     const variantStyles = getVariantStyles(variant, selected);
     const isDisabled = disabled || loading;
-
     const sizeClasses = buttonSizes[size];
-
-    const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-      if (isDisabled) return;
-
-      // Get button dimensions and click position
-      const button = e.currentTarget;
-      const rect = button.getBoundingClientRect();
-      const diameter = Math.max(rect.width, rect.height);
-      const radius = diameter / 2;
-
-      // Calculate click position relative to button
-      const x = e.clientX - rect.left - radius;
-      const y = e.clientY - rect.top - radius;
-
-      // Create new ripple
-      const newRipple: Ripple = {
-        key: Date.now(),
-        x,
-        y,
-        size: diameter,
-      };
-
-      setRipples((prev) => [...prev, newRipple]);
-
-      // Call original onClick handler if provided
-      onClick?.(e);
-    };
-
-    // Clean up ripples after animation
-    useEffect(() => {
-      if (ripples.length > 0) {
-        const timeout = setTimeout(() => {
-          setRipples((prev) => prev.slice(1));
-        }, 1500); // Matches animation duration
-        return () => clearTimeout(timeout);
-      }
-    }, [ripples]);
 
     const classes = [
       'inline-flex items-center justify-center rounded-lg transition ease-out select-none outline-none',
-      // Required for ripple effect
-      'relative overflow-hidden',
       sizeClasses,
       variantStyles.base,
       !isDisabled ? variantStyles.hover : '',
@@ -283,16 +204,9 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         disabled={isDisabled}
         className={classes}
         style={style}
-        onClick={handleClick}
+        onClick={onClick}
         {...props}
       >
-        {/* Ripple Effect */}
-        <RippleEffect
-          ripples={ripples}
-          rippleColor={variantStyles.rippleColor}
-        />
-
-        {/* Start Icon or Loader */}
         {loading ? (
           <SpinnerLoader size={size} color={variantStyles.loaderColor} />
         ) : (
@@ -303,18 +217,10 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
           )
         )}
 
-        {/* Button Text */}
-        <span
-          className={`relative z-10 flex items-center justify-center ${
-            loading ? 'opacity-70' : ''
-          }`}
-        >
-          {text}
-        </span>
+        <span className={loading ? 'opacity-70' : ''}>{text}</span>
 
-        {/* End Icon (hidden during loading) */}
         {!loading && endIcon && (
-          <span className="relative z-10 flex flex-shrink-0 items-center justify-center">
+          <span className="flex flex-shrink-0 items-center justify-center">
             {endIcon}
           </span>
         )}
