@@ -1,20 +1,24 @@
-import React from 'react';
 import { Heart } from 'lucide-react';
 import IconOverlay from '../IconOverlay';
+import useKeyPress from '../../hooks/useKeyPress';
 
-type CartIconProps = {
+type WishlistIconProps = {
   onClick?: React.MouseEventHandler<HTMLDivElement>;
 };
 
-const wishlistIcon: React.FC<CartIconProps> = ({ onClick }) => {
+const WishlistIcon: React.FC<WishlistIconProps> = ({ onClick }) => {
+  const handleKeyDown = useKeyPress(onClick);
+
   return (
-    <div>
-      <IconOverlay
-        onClick={onClick}
-        icon={<Heart className="w-6 h-6 text-gray-200" />}
-      />
-    </div>
+    <IconOverlay
+      onClick={onClick}
+      icon={<Heart className="text-charcoal-200 h-5 w-5 sm:h-6 sm:w-6" />}
+      tabIndex={onClick ? 0 : -1}
+      onKeyDown={handleKeyDown}
+      role="button"
+      aria-label="Wishlist"
+    />
   );
 };
 
-export default wishlistIcon;
+export default WishlistIcon;

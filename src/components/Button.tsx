@@ -2,11 +2,11 @@ import React from 'react';
 import { type ReactNode } from 'react';
 
 type ButtonVariant = 'primary' | 'secondary' | 'ghost' | 'outline';
-type ButtonSize = 'sm' | 'md' | 'lg' | 'full';
+type ButtonSize = 'xs' | 'sm' | 'md' | 'lg' | 'full';
 
 export interface ButtonProps
   extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'children'> {
-  text: string | ReactNode;
+  text?: string | ReactNode;
   variant?: ButtonVariant;
   size?: ButtonSize;
   loading?: boolean;
@@ -23,10 +23,11 @@ const SpinnerLoader: React.FC<{
   color: string;
 }> = ({ size, color }) => {
   const spinnerConfig = {
+    xs: { diameter: 14, strokeWidth: 2, className: 'w-3.5 h-3.5' },
     sm: { diameter: 16, strokeWidth: 2, className: 'w-4 h-4' },
-    md: { diameter: 20, strokeWidth: 2, className: 'w-5 h-5' },
-    lg: { diameter: 24, strokeWidth: 2.5, className: 'w-6 h-6' },
-    full: { diameter: 20, strokeWidth: 2, className: 'w-5 h-5' },
+    md: { diameter: 18, strokeWidth: 2, className: 'w-4.5 h-4.5' },
+    lg: { diameter: 20, strokeWidth: 2.5, className: 'w-5 h-5' },
+    full: { diameter: 18, strokeWidth: 2, className: 'w-4.5 h-4.5' },
   };
 
   const config = spinnerConfig[size];
@@ -60,10 +61,11 @@ const SpinnerLoader: React.FC<{
 
 /* ----------- Button Sizes ----------- */
 const buttonSizes = {
-  sm: 'px-4 py-2 text-sm font-medium min-h-[36px] gap-2',
-  md: 'px-6 py-3 text-base font-semibold min-h-[44px] gap-2',
-  lg: 'px-8 py-4 text-lg font-semibold min-h-[52px] gap-3',
-  full: 'px-6 py-3 text-base font-semibold min-h-[44px] gap-2 w-full',
+  xs: 'px-2 py-1 text-xs font-medium min-h-[32px] gap-1.5',
+  sm: 'px-3 py-1.5 text-sm font-medium min-h-[36px] gap-1.5 sm:px-4 sm:py-2',
+  md: 'px-4 py-2 text-sm font-semibold min-h-[40px] gap-2 sm:px-5 sm:py-2.5 sm:text-base sm:min-h-[44px]',
+  lg: 'px-5 py-2.5 text-base font-semibold min-h-[44px] gap-2 sm:px-6 sm:py-3 sm:min-h-[48px]',
+  full: 'px-4 py-2 text-sm font-semibold min-h-[40px] gap-2 sm:px-6 sm:py-3 sm:text-base sm:min-h-[44px] w-full',
 };
 
 /* ----------- Variant Styles ----------- */
@@ -80,7 +82,7 @@ const getVariantStyles = (
           active:
             'active:from-ember-800 active:to-ember-900 active:scale-[0.98]',
           focus:
-            'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ember-400 focus-visible:ring-offset-2 focus-visible:ring-offset-charcoal-900 ',
+            'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ember-400 focus-visible:ring-offset-2 focus-visible:ring-offset-charcoal-900',
           loaderColor: '#FFF8F0',
         };
       }
@@ -91,7 +93,7 @@ const getVariantStyles = (
         active:
           'active:from-ember-600 active:to-ember-700 active:scale-[0.98] active:text-charcoal-900',
         focus:
-          'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ember-300 focus-visible:ring-offset-2 focus-visible:ring-offset-charcoal-900 ',
+          'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ember-300 focus-visible:ring-offset-2 focus-visible:ring-offset-charcoal-900',
         loaderColor: '#141414',
       };
     case 'secondary':
@@ -101,7 +103,7 @@ const getVariantStyles = (
           hover: 'hover:bg-ember-300 hover:text-charcoal-900',
           active: 'active:bg-ember-500 active:scale-[0.98]',
           focus:
-            'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ember-400 focus-visible:ring-offset-2 focus-visible:ring-offset-charcoal-900 ',
+            'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ember-400 focus-visible:ring-offset-2 focus-visible:ring-offset-charcoal-900',
           loaderColor: '#141414',
         };
       }
@@ -111,7 +113,7 @@ const getVariantStyles = (
           'hover:bg-charcoal-500 hover:border-ember-400 hover:text-ember-300',
         active: 'active:bg-charcoal-700 active:scale-[0.98]',
         focus:
-          'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ember-300 focus-visible:ring-offset-2 focus-visible:ring-offset-charcoal-900 ',
+          'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ember-300 focus-visible:ring-offset-2 focus-visible:ring-offset-charcoal-900',
         loaderColor: '#FF9142',
       };
     case 'ghost':
@@ -122,7 +124,7 @@ const getVariantStyles = (
             'hover:bg-ember-500/20 hover:text-ember-300 hover:border-ember-400/60',
           active: 'active:bg-ember-500/30 active:scale-[0.98]',
           focus:
-            'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ember-300 focus-visible:ring-offset-2 focus-visible:ring-offset-charcoal-900 ',
+            'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ember-300 focus-visible:ring-offset-2 focus-visible:ring-offset-charcoal-900',
           loaderColor: '#FF9142',
         };
       }
@@ -132,7 +134,7 @@ const getVariantStyles = (
           'hover:bg-charcoal-700/50 hover:text-ember-400 hover:border-ember-500/20',
         active: 'active:bg-charcoal-600/50 active:scale-[0.98]',
         focus:
-          'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ember-300 focus-visible:ring-offset-2 focus-visible:ring-offset-charcoal-900 ',
+          'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ember-300 focus-visible:ring-offset-2 focus-visible:ring-offset-charcoal-900',
         loaderColor: '#888888',
       };
     case 'outline':
@@ -143,7 +145,7 @@ const getVariantStyles = (
             'hover:bg-ember-500/25 hover:text-ember-300 hover:border-ember-400',
           active: 'active:bg-ember-500/35 active:scale-[0.98]',
           focus:
-            'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ember-400 focus-visible:ring-offset-2 focus-visible:ring-offset-charcoal-900 ',
+            'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ember-400 focus-visible:ring-offset-2 focus-visible:ring-offset-charcoal-900',
           loaderColor: '#FF9142',
         };
       }
@@ -153,7 +155,7 @@ const getVariantStyles = (
           'hover:bg-charcoal-700/30 hover:text-ember-400 hover:border-ember-500',
         active: 'active:bg-charcoal-600/40 active:scale-[0.98]',
         focus:
-          'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ember-300 focus-visible:ring-offset-2 focus-visible:ring-offset-charcoal-900 ',
+          'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ember-300 focus-visible:ring-offset-2 focus-visible:ring-offset-charcoal-900',
         loaderColor: '#888888',
       };
     default:
@@ -218,7 +220,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
           )
         )}
 
-        <span className={loading ? 'opacity-70' : ''}>{text}</span>
+        {text && <span className={loading ? 'opacity-70' : ''}>{text}</span>}
 
         {!loading && endIcon && (
           <span className="flex flex-shrink-0 items-center justify-center">

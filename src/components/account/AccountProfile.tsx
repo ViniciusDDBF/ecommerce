@@ -1,4 +1,3 @@
-// #region /* ---------- Imports ---------- */
 import { Edit2 } from 'lucide-react';
 import Button from '../Button';
 import { useForm } from '../../hooks/useForm';
@@ -8,9 +7,7 @@ import { useState } from 'react';
 import Dialog from '../Dialog';
 import { useAppDispatch, useAppSelector } from '../../store/hooks/hooks';
 import { ThunkUpdateUser, type UserData } from '../../store/slices/userSlice';
-// #endregion
 
-// #region /* ---------- Form fields ---------- */
 const editUserFields: FormFieldProps[] = [
   {
     name: 'first_name',
@@ -24,7 +21,7 @@ const editUserFields: FormFieldProps[] = [
     name: 'last_name',
     label: 'Last Name',
     type: 'text',
-    placeholder: 'Enter your Last name',
+    placeholder: 'Enter your last name',
     colSpan: 2,
     validation: { required: true },
   },
@@ -47,10 +44,8 @@ const editUserFields: FormFieldProps[] = [
     disabled: true,
   },
 ];
-// #endregion
 
 export default function AccountProfile() {
-  // #region /* ---------- Use Hooks ---------- */
   const user = useAppSelector('user');
   const dispatch = useAppDispatch();
 
@@ -61,15 +56,12 @@ export default function AccountProfile() {
     email: user.user?.email,
     phone: user.user?.phone,
   });
-  // #endregion
 
-  // #region /* ---------- Variables ---------- */
   const userInitials =
     (user.user?.first_name?.[0] ?? '') + (user.user?.last_name?.[0] ?? '');
-  // #endregion
 
-  // #region /* ---------- Functions ---------- */
   const handleUpdateUser = async () => {
+    if (!editUser.validate()) return;
     const userFields = {
       first_name: user.user?.first_name,
       last_name: user.user?.last_name,
@@ -87,106 +79,105 @@ export default function AccountProfile() {
       setIsOpen(false);
     } catch (err) {}
   };
-  // #endregion
 
   return (
-    <main className="p-6">
+    <main className="mx-auto max-w-4xl px-4 py-6 sm:px-6 sm:py-8 md:px-8">
       {/* Header Section */}
-      <div className="mb-12 flex items-start justify-between">
+      <div className="mb-8 flex flex-col items-start justify-between gap-4 sm:mb-12 sm:flex-row sm:items-center">
         <div className="flex-1">
-          <h1 className="text-charcoal-50 mb-3 text-4xl font-light">
+          <h1 className="text-charcoal-50 mb-2 text-2xl font-light sm:mb-3 sm:text-3xl md:text-4xl">
             My Profile
           </h1>
-          <div className="bg-ember-500 mb-2 h-1 w-20 rounded-full"></div>
-          <p className="text-charcoal-400 text-lg">
+          <div className="bg-ember-500 mb-2 h-1 w-16 rounded-full sm:w-20"></div>
+          <p className="text-charcoal-400 text-sm sm:text-base">
             Manage your personal information
           </p>
         </div>
+        <Button
+          text="Edit Profile"
+          variant="secondary"
+          size="xs"
+          startIcon={<Edit2 className="h-3 w-3 sm:h-4 sm:w-4" />}
+          onClick={() => setIsOpen(true)}
+          className="w-full sm:w-auto"
+        />
       </div>
 
       {/* Profile Card */}
-      <div className="space-y-8">
+      <div className="space-y-6 sm:space-y-8">
         <div className="group relative">
-          <div className="glass-effect rounded-2xl p-8">
-            {/* Address Content */}
-            <div className="space-y-6">
-              {/* Recipient Information */}
-              <div className="rounded-xl pb-6">
-                <div className="flex space-x-6">
-                  <div className="relative">
-                    <div className="from-ember-400 to-ember-600 flex h-24 w-24 items-center justify-center rounded-full bg-gradient-to-br text-2xl font-bold text-amber-50">
-                      {userInitials}
-                    </div>
-                  </div>
-                  <div className="flex-1">
-                    <h2 className="text-ember-400 mb-1 text-2xl font-bold">
-                      {user.user?.first_name} {user.user?.last_name}
-                    </h2>
-                    <p className="text-charcoal-300 mb-3">{user.user?.email}</p>
-                    <div className="flex space-x-3"></div>
+          <div className="glass-effect rounded-2xl p-4 sm:p-6 md:p-8">
+            {/* Profile Content */}
+            <div className="space-y-4 sm:space-y-6">
+              {/* User Information */}
+              <div className="flex flex-col space-y-4 sm:flex-row sm:space-y-0 sm:space-x-4 md:space-x-6">
+                <div className="relative flex-shrink-0">
+                  <div className="from-ember-400 to-ember-600 flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-br text-lg font-bold text-amber-50 sm:h-20 sm:w-20 sm:text-xl md:h-24 md:w-24 md:text-2xl">
+                    {userInitials}
                   </div>
                 </div>
+                <div className="flex-1">
+                  <h2 className="text-ember-400 mb-1 text-lg font-bold sm:mb-2 sm:text-xl md:text-2xl">
+                    {user.user?.first_name} {user.user?.last_name}
+                  </h2>
+                  <p className="text-charcoal-300 text-sm sm:text-base md:text-lg">
+                    {user.user?.email}
+                  </p>
+                </div>
               </div>
-              {/* Address Information */}
-              <div className="bg-charcoal-800/60 rounded-xl">
-                <div className="space-y-4">
-                  <div className="flex items-start gap-3">
-                    <span className="text-charcoal-400 min-w-[100px] text-lg font-medium">
+              {/* User Details */}
+              <div className="bg-charcoal-800/60 rounded-xl p-4 sm:p-6">
+                <div className="space-y-3 sm:space-y-4">
+                  <div className="flex items-start gap-2 sm:gap-3">
+                    <span className="text-charcoal-400 min-w-[80px] text-sm font-medium sm:min-w-[100px] sm:text-base">
                       First name:
                     </span>
-                    <p className="text-charcoal-200 text-xl">
+                    <p className="text-charcoal-200 text-base sm:text-lg">
                       {user.user?.first_name}
                     </p>
                   </div>
-                  <div className="flex items-start gap-3">
-                    <span className="text-charcoal-400 min-w-[100px] text-lg font-medium">
+                  <div className="flex items-start gap-2 sm:gap-3">
+                    <span className="text-charcoal-400 min-w-[80px] text-sm font-medium sm:min-w-[100px] sm:text-base">
                       Last name:
                     </span>
-                    <p className="text-charcoal-200 text-xl">
+                    <p className="text-charcoal-200 text-base sm:text-lg">
                       {user.user?.last_name}
                     </p>
                   </div>
-                  <div className="flex items-start gap-3">
-                    <span className="text-charcoal-400 min-w-[100px] text-lg font-medium">
+                  <div className="flex items-start gap-2 sm:gap-3">
+                    <span className="text-charcoal-400 min-w-[80px] text-sm font-medium sm:min-w-[100px] sm:text-base">
                       Phone:
                     </span>
-                    <p className="text-charcoal-200 text-xl">
+                    <p className="text-charcoal-200 text-base sm:text-lg">
                       {user.user?.phone}
                     </p>
                   </div>
-
-                  <div className="flex items-start gap-3">
-                    <span className="text-charcoal-400 min-w-[100px] text-lg font-medium">
+                  <div className="flex items-start gap-2 sm:gap-3">
+                    <span className="text-charcoal-400 min-w-[80px] text-sm font-medium sm:min-w-[100px] sm:text-base">
                       Email:
                     </span>
-                    <p className="text-charcoal-200 text-xl">
+                    <p className="text-charcoal-200 text-base sm:text-lg">
                       {user.user?.email}
                     </p>
                   </div>
                 </div>
-              </div>
-              <div className="flex items-center justify-end gap-3">
-                <Button
-                  text="Edit Profile"
-                  variant="secondary"
-                  size="md"
-                  startIcon={<Edit2 className="h-4 w-4" />}
-                  onClick={() => setIsOpen(true)}
-                />
               </div>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Update info dialog */}
+      {/* Update Info Dialog */}
       <Dialog
-        title="Edit your informations"
+        title="Edit Profile"
         isOpen={isOpen}
-        description="Create your account"
-        size="lg"
-        icon={<Edit2 />}
-        onClose={() => setIsOpen(false)}
+        description="Update your personal information"
+        size="md"
+        icon={<Edit2 className="h-4 w-4 sm:h-5 sm:w-5" />}
+        onClose={() => {
+          editUser.resetToInitial();
+          setIsOpen(false);
+        }}
         buttons={{
           cancel: {
             text: 'Close',
@@ -196,7 +187,7 @@ export default function AccountProfile() {
             },
           },
           confirm: {
-            text: editUser.isSubmitting ? 'Creating...' : 'Save alterations',
+            text: editUser.isSubmitting ? 'Saving...' : 'Save Changes',
             onClick: handleUpdateUser,
             props: { loading: user.isLoading },
           },
@@ -207,7 +198,7 @@ export default function AccountProfile() {
           values={editUser.values}
           errors={editUser.errors}
           onChange={editUser.setValue}
-          columns={2}
+          columns={1}
         />
       </Dialog>
     </main>

@@ -9,18 +9,18 @@ export default function RootLayout() {
     navigation.state === 'loading' || navigation.state === 'submitting';
 
   return (
-    <div className="bg-charcoal-800">
+    <div className="bg-charcoal-800 min-h-screen">
       {isLoading && <LoadingOverlay />}
       <Header />
 
-      <div className="bg-charcoal-800 sm:px-10">
+      <main className="bg-charcoal-800">
         <Outlet />
-      </div>
+      </main>
 
       {/* Trust Badges */}
-      <section className="bg-charcoal-800 py-16">
-        <div className="mx-auto max-w-7xl px-6">
-          <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
+      <section className="bg-charcoal-800 py-8 sm:py-12 md:py-16">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 md:px-8">
+          <div className="grid grid-cols-1 gap-4 sm:gap-6 md:grid-cols-3 md:gap-8">
             {[
               {
                 icon: Shield,
@@ -40,20 +40,24 @@ export default function RootLayout() {
             ].map(({ icon: Icon, title, desc }) => (
               <div
                 key={title}
-                className="from-charcoal-700/80 to-charcoal-800/80 border-charcoal-600/30 hover:border-ember-400/30 ember-transition rounded-xl border bg-gradient-to-br p-6 text-center backdrop-blur-xl"
+                className="from-charcoal-700/80 to-charcoal-800/80 border-charcoal-600/30 hover:border-ember-400/30 rounded-xl border bg-gradient-to-br p-4 text-center backdrop-blur-xl transition-colors sm:p-6"
               >
-                <Icon className="text-ember-400 mx-auto mb-4" size={32} />
-                <h3 className="text-charcoal-200 mb-2 text-lg font-semibold">
+                <Icon
+                  className="text-ember-400 mx-auto mb-3 sm:mb-4"
+                  size={24}
+                />
+                <h3 className="text-charcoal-200 mb-2 text-base font-semibold sm:text-lg">
                   {title}
                 </h3>
-                <p className="text-charcoal-400">{desc}</p>
+                <p className="text-charcoal-400 text-sm sm:text-base">{desc}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
+
       {/* Footer */}
-      <footer className="bg-charcoal-800 text-charcoal-400 px-6 py-6 text-center">
+      <footer className="bg-charcoal-800 text-charcoal-400 px-4 py-4 text-center text-sm sm:px-6 sm:py-6 sm:text-base">
         © 2025 EmberTech. All rights reserved.
       </footer>
     </div>

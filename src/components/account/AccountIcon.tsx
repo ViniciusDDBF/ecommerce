@@ -17,7 +17,7 @@ const AccountIcon: React.FC<AccountIconProps> = ({ onClick }) => {
   return (
     <IconOverlay
       onClick={onClick}
-      icon={<User className="h-6 w-6 text-gray-200" />}
+      icon={<User className="text-charcoal-200 h-5 w-5 sm:h-6 sm:w-6" />}
       tabIndex={onClick ? 0 : -1} // Focusable only if clickable
       onKeyDown={handleKeyDown} // Handle keyboard interaction
       role="button" // Indicate the element is interactive

@@ -1,6 +1,6 @@
 import { ShoppingCart } from 'lucide-react';
 import IconOverlay from '../IconOverlay';
-import useKeyPress from '../../hooks/useKeyPress'; // Adjust path as needed
+import useKeyPress from '../../hooks/useKeyPress';
 
 type CartIconProps = {
   count?: number;
@@ -12,7 +12,9 @@ const CartIcon: React.FC<CartIconProps> = ({ count = 1, onClick }) => {
 
   return (
     <IconOverlay
-      icon={<ShoppingCart className="h-6 w-6 text-gray-200" />}
+      icon={
+        <ShoppingCart className="text-charcoal-200 h-5 w-5 sm:h-6 sm:w-6" />
+      }
       showBadge={count > 0}
       count={count}
       onClick={onClick}

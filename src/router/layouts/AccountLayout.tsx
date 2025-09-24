@@ -9,7 +9,7 @@ import AccountAddresses from '../../components/account/AccountAddresses';
 import AccountDefault from '../../components/account/AccountDefault';
 
 const ChangePassword = () => (
-  <div className="glass-effect text-charcoal-200 rounded-xl p-6">
+  <div className="glass-effect text-charcoal-200 rounded-xl p-4 sm:p-6">
     Change Password Component
   </div>
 );
@@ -27,54 +27,40 @@ export default function AccountLayout() {
     { id: 'password', label: 'Security', icon: Lock },
   ];
 
-  const renderContent = () => {
-    switch (section) {
-      case 'profile':
-        return <AccountProfile />;
-      case 'addresses':
-        return <AccountAddresses />;
-      case 'orders':
-        return <AccountOrders />;
-      case 'wishlist':
-        return <AccountWishlist />;
-      case 'password':
-        return <ChangePassword />;
-      default:
-        return <AccountDefault />;
-    }
-  };
-
   return (
     <div className="bg-charcoal-900 min-h-screen">
-      <div className="mx-auto max-w-7xl py-4">
+      <div className="mx-auto max-w-7xl px-4 py-4 sm:px-6 sm:py-6 md:px-8">
         {/* Header */}
-        <div className="mb-8">
-          <div className="flex items-center justify-between">
-            {/* Mobile Menu Toggle */}
-            <div className="lg:hidden">
-              <Button
-                text=""
-                variant="secondary"
-                size="sm"
-                startIcon={
-                  isMobileMenuOpen ? <X size={20} /> : <Menu size={20} />
-                }
-                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              />
-            </div>
+        <div className="mb-6 flex items-center justify-between sm:mb-8">
+          {/* Mobile Menu Toggle */}
+          <div className="lg:hidden">
+            <Button
+              text=""
+              variant="secondary"
+              size="xs"
+              startIcon={
+                isMobileMenuOpen ? (
+                  <X className="h-4 w-4 sm:h-5 sm:w-5" />
+                ) : (
+                  <Menu className="h-4 w-4 sm:h-5 sm:w-5" />
+                )
+              }
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              className="p-2 sm:p-3"
+            />
           </div>
         </div>
 
-        <div className="flex flex-col gap-8 lg:flex-row">
+        <div className="flex flex-col gap-4 sm:gap-6 lg:flex-row lg:gap-8">
           {/* Sidebar Navigation */}
           <div
-            className={`lg:w-80 ${isMobileMenuOpen ? 'block' : 'hidden lg:block'}`}
+            className={`lg:w-64 xl:w-80 ${isMobileMenuOpen ? 'block' : 'hidden lg:block'}`}
           >
-            <div className="glass-effect sticky top-8 rounded-xl p-6">
-              <h2 className="text-ember-400 mb-4 text-lg font-semibold">
+            <div className="glass-effect sticky top-4 rounded-xl p-4 sm:top-6 sm:p-6">
+              <h2 className="text-ember-400 mb-3 text-base font-semibold sm:mb-4 sm:text-lg md:text-xl">
                 Account Menu
               </h2>
-              <nav className="space-y-2">
+              <nav className="space-y-1 sm:space-y-2">
                 {menuItems.map((item) => {
                   const Icon = item.icon;
                   return (
@@ -85,13 +71,13 @@ export default function AccountLayout() {
                         navigate(`/account/${item.id}`);
                         setIsMobileMenuOpen(false);
                       }}
-                      className={`ember-transition flex w-full items-center space-x-3 rounded-lg px-4 py-3 text-left ${
+                      className={`ember-transition flex w-full items-center space-x-2 rounded-lg px-3 py-2 text-left text-sm sm:space-x-3 sm:px-4 sm:py-3 sm:text-base ${
                         section === item.id
                           ? 'bg-ember-500 text-white shadow-md'
-                          : 'text-charcoal-200 hover:bg-charcoal-600 ember-hover-border'
+                          : 'text-charcoal-200 hover:bg-charcoal-600 hover:ember-hover-border'
                       }`}
                     >
-                      <Icon size={20} className="flex-shrink-0" />
+                      <Icon className="h-4 w-4 flex-shrink-0 sm:h-5 sm:w-5" />
                       <span className="font-medium">{item.label}</span>
                     </button>
                   );
@@ -108,4 +94,21 @@ export default function AccountLayout() {
       </div>
     </div>
   );
+
+  function renderContent() {
+    switch (section) {
+    case 'profile':
+        return <AccountProfile />;
+      case 'addresses':
+        return <AccountAddresses />;
+      case 'orders':
+        return <AccountOrders />;
+      case 'wishlist':
+        return <AccountWishlist />;
+      case 'password':
+        return <ChangePassword />;
+      default:
+        return <AccountDefault />;
+    }
+  }
 }

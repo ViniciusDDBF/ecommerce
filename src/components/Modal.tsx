@@ -1,11 +1,14 @@
-import React, { useRef } from 'react';
+import React, { useRef, useEffect } from 'react';
 import { X } from 'lucide-react';
 import Button from './Button';
 import type { ButtonProps } from './Button';
 import Overlay from './Overlay';
 import { useClickOutside } from '../hooks/useClickOutside';
+import useScrollLock from '../hooks/useScrollLock';
+import useFocusTrap from '../hooks/useFocusTrap';
 
 type ModalProps = {
+  isOpen: boolean;
   title: string;
   message: string;
   icon?: React.ReactNode;
@@ -22,10 +25,25 @@ type ModalProps = {
       props?: Partial<Omit<ButtonProps, 'text' | 'onClick'>>;
     };
   };
+  openedByClick?: boolean;
 };
 
-const Modal: React.FC<ModalProps> = ({ title, icon, message, buttons }) => {
-  const Modalref = useRef<HTMLDivElement | null>(null);
+const Modal: React.FC<ModalProps> = ({
+  isOpen,
+  title,
+  message,
+  icon,
+  size = 'md',
+  buttons,
+  openedByClick = false,
+}) => {
+  const modalRef = useRef<HTMLDivElement | null>(null);
+  const titleId = `modal-title-${React.useId()}`;
+  const descriptionId = `modal-description-${React.useId()}`;
+
+  // Lock browser scroll and trap focus when modal is open
+  useScrollLock(isOpen);
+  useFocusTrap(isOpen, modalRef, openedByClick);
 
   const handleCancelClick = () => {
     if (buttons.cancel.onClick) {
@@ -33,62 +51,93 @@ const Modal: React.FC<ModalProps> = ({ title, icon, message, buttons }) => {
     }
   };
 
-  useClickOutside(Modalref, () => {
-    handleCancelClick();
-  });
+  // Handle Escape key to close modal
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        handleCancelClick();
+      }
+    };
+
+    if (isOpen) {
+      document.addEventListener('keydown', handleKeyDown);
+      return () => document.removeEventListener('keydown', handleKeyDown);
+    }
+  }, [isOpen]);
+
+  useClickOutside(modalRef, handleCancelClick);
+
+  if (!isOpen) return null;
+
+  const sizeClasses = {
+    sm: 'max-w-[90vw] sm:max-w-sm',
+    md: 'max-w-[90vw] sm:max-w-md',
+    lg: 'max-w-[90vw] sm:max-w-lg',
+    xl: 'max-w-[90vw] sm:max-w-xl',
+  };
 
   return (
-    <Overlay isOpen={true}>
-      <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-        {/* Modal Container */}
+    <Overlay isOpen={isOpen}>
+      <div className="fixed inset-0 z-50 flex items-center justify-center px-4 py-6 sm:px-6">
         <div
-          ref={Modalref}
-          className={
-            'bg-gradient-charcoal border-ember-600/30 relative mx-auto w-full max-w-md rounded-2xl border shadow-2xl backdrop-blur-xl'
-          }
+          ref={modalRef}
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby={titleId}
+          aria-describedby={descriptionId}
+          className={`relative w-full ${sizeClasses[size]} bg-gradient-charcoal border-ember-600/30 mx-auto flex max-h-[90vh] flex-col rounded-xl border shadow-2xl backdrop-blur-xl`}
         >
           {/* Header */}
-          <div className="flex items-center justify-between p-6 pb-4">
-            <div className="flex items-center gap-3">
+          <div className="border-charcoal-700/50 flex items-center justify-between border-b p-4 sm:p-6">
+            <div className="flex items-center gap-2 sm:gap-3">
               {icon && (
-                <div className="flex items-center rounded-lg p-2">
-                  <div className="text-ember-400 h-5 w-5">{icon}</div>
+                <div className="flex items-center rounded-lg p-1.5 sm:p-2">
+                  <div className="text-ember-400 h-4 w-4 sm:h-5 sm:w-5">
+                    {icon}
+                  </div>
                 </div>
               )}
-              <h2 className="text-ember-50 mt-1 text-xl font-semibold">
+              <h2
+                id={titleId}
+                className="text-ember-50 text-base font-semibold sm:text-lg md:text-xl"
+              >
                 {title}
               </h2>
             </div>
-
             <button
-              className="text-charcoal-300 hover:text-charcoal-200 hover:bg-charcoal-700 cursor-pointer rounded-lg p-1.5 transition"
+              type="button"
+              className="text-charcoal-300 hover:text-charcoal-200 hover:bg-charcoal-700 focus:ring-ember-300 ember-transition cursor-pointer rounded-lg p-1.5 focus-visible:ring-2 sm:p-2"
               aria-label="Close modal"
               onClick={handleCancelClick}
             >
-              <X className="h-5 w-5" />
+              <X className="h-4 w-4 sm:h-5 sm:w-5" />
             </button>
           </div>
 
           {/* Body */}
-          <div className="px-6 py-2">
-            <p className="text-charcoal-200 leading-relaxed">{message}</p>
+          <div className="scrollbar-hide [&::-webkit-scrollbar-track]:bg-charcoal-700 [&::-webkit-scrollbar-thumb]:bg-ember-400 [&::-webkit-scrollbar-thumb]:hover:bg-ember-300 flex-1 overflow-x-hidden overflow-y-auto p-4 sm:p-6 [&::-webkit-scrollbar]:w-1.5 sm:[&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:rounded-full">
+            <p
+              id={descriptionId}
+              className="text-charcoal-200 text-xs leading-relaxed sm:text-sm"
+            >
+              {message}
+            </p>
           </div>
 
           {/* Footer with Buttons */}
-          <div className="border-charcoal-700/50 flex items-center justify-end gap-3 border-t p-6 pt-4">
-            {/* Cancel Button */}
+          <div className="border-charcoal-700/50 flex items-center justify-end gap-2 border-t p-4 sm:gap-3 sm:p-6">
             <Button
               text={buttons.cancel.text}
               variant="secondary"
+              size="sm"
               onClick={handleCancelClick}
               {...buttons.cancel.props}
             />
-
-            {/* Confirm Button (optional) */}
             {buttons.confirm && (
               <Button
                 text={buttons.confirm.text}
                 variant="primary"
+                size="sm"
                 onClick={buttons.confirm.onClick}
                 {...buttons.confirm.props}
               />

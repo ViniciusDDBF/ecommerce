@@ -3,6 +3,8 @@ import AccountHeader from './account/AccountHeader';
 import Cart from './cart/Cart';
 import Logo from './Logo';
 import Button from './Button';
+import Link from './Link';
+import CategoryNav from './CategoryNav';
 
 const Header = () => {
   const [activeCategory, setActiveCategory] = useState('All');
@@ -20,37 +22,18 @@ const Header = () => {
 
   return (
     <>
-      <header className="bg-charcoal-800">
-        <div className="flex items-center justify-between px-10 py-6">
+      {/* ---------- Main Header ---------- */}
+      <header className="bg-charcoal-800 top-0 z-50">
+        <div className="flex items-center justify-between px-4 py-3 sm:px-6 sm:py-4 md:px-10 md:py-6">
           <Logo />
-          <div className="flex gap-4">
+          <div className="flex items-center gap-2 sm:gap-4">
             <AccountHeader />
             <Cart />
           </div>
         </div>
       </header>
 
-      {/* Categories */}
-      <section className="bg-charcoal-800 border-charcoal-600/50 mb-5 border-y">
-        <div className="mx-auto max-w-7xl">
-          <div
-            className="flex justify-center gap-2 overflow-x-auto p-2"
-            style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
-          >
-            {categories.map((category) => (
-              <Button
-                size="sm"
-                key={category}
-                text={category}
-                variant={activeCategory === category ? 'primary' : 'ghost'}
-                selected={activeCategory === category}
-                onClick={() => setActiveCategory(category)}
-                className="flex-shrink-0"
-              />
-            ))}
-          </div>
-        </div>
-      </section>
+      <CategoryNav />
     </>
   );
 };

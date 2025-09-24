@@ -1,5 +1,5 @@
 // #region /* ---------- Imports ---------- */
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { UserPlus, LogIn, CircleCheck, Store, Mail } from 'lucide-react';
 import AccountIcon from './AccountIcon';
 import Dialog from '../Dialog';
@@ -16,6 +16,7 @@ import AccountDropdown from './AccountDropdown';
 import Button from '../Button';
 import { supabase } from '../../SupabaseConfig';
 import { useAppDispatch, useAppSelector } from '../../store/hooks/hooks';
+import useScrollLock from '../../hooks/useScrollLock';
 // #endregion
 
 // #region /* ---------- Form Fields ---------- */
@@ -220,6 +221,17 @@ const AccountHeader = () => {
   const signUpCnpj = useForm(signUpFieldsCnpj);
   const dispatch = useAppDispatch();
   const user = useAppSelector('user');
+  const [isLocked, setIsLocked] = useState(false);
+
+  /* ---------- Lock the scroll ---------- */
+  useEffect(() => {
+    if (choicesIsOpen || loginIsOpen || signUpCpfIsOpen || signUpCnpjIsOpen) {
+      setIsLocked(true);
+    } else {
+      setIsLocked(false);
+    }
+  }, [choicesIsOpen, loginIsOpen, signUpCpfIsOpen, signUpCnpjIsOpen]);
+  useScrollLock(isLocked);
 
   // #region /* ---------- Functions ---------- */
   const handleSubmitLogin = async () => {
@@ -272,6 +284,7 @@ const AccountHeader = () => {
 
           {/* login with: dialog */}
           <Dialog
+            ScrollLock={false}
             title="Welcome"
             isOpen={choicesIsOpen}
             size="lg"
@@ -314,6 +327,7 @@ const AccountHeader = () => {
 
           {/* login dialog */}
           <Dialog
+            ScrollLock={false}
             title={user.user ? 'Success!' : 'Log in'}
             isOpen={loginIsOpen}
             description={
@@ -374,17 +388,18 @@ const AccountHeader = () => {
           </Dialog>
           {/* signup as CPF dialog */}
           <Dialog
+            ScrollLock={false}
             title="Sign Up as a individual"
             isOpen={signUpCpfIsOpen}
             description="Create your account"
             size="lg"
             icon={<UserPlus />}
-            onClose={() => setSignUpCpfIsOpen(false)} // ✅ Correct
+            onClose={() => setSignUpCpfIsOpen(false)}
             buttons={{
               cancel: {
                 text: 'Close',
                 onClick: () => setSignUpCpfIsOpen(false),
-              }, // ✅ Correct
+              },
               confirm: {
                 text: signUpCpf.isSubmitting ? 'Creating...' : 'Create User',
                 onClick: handleSubmitSignUpCPF,
@@ -407,8 +422,8 @@ const AccountHeader = () => {
                   type="button"
                   className="text-ember-400 cursor-pointer font-semibold hover:underline"
                   onClick={() => {
-                    setLoginIsOpen(true);
                     setSignUpCnpjIsOpen(false);
+                    setLoginIsOpen(true);
                     setSignUpCpfIsOpen(false);
                   }}
                 >
@@ -434,6 +449,7 @@ const AccountHeader = () => {
           </Dialog>
           {/* signup as CNPJ dialog */}
           <Dialog
+            ScrollLock={false}
             title="Sign Up as a company"
             isOpen={signUpCnpjIsOpen}
             description="Create your account"

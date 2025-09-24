@@ -18,6 +18,7 @@ const CinematicTitle: React.FC<CinematicTitleProps> = ({
     });
   }, []);
 
+  
   return (
     <h1
       ref={titleRef}
