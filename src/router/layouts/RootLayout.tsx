@@ -9,13 +9,13 @@ export default function RootLayout() {
     navigation.state === 'loading' || navigation.state === 'submitting';
 
   return (
-    <div className="bg-charcoal-900">
+    <div className="bg-charcoal-800">
       {isLoading && <LoadingOverlay />}
       <Header />
 
-      <>
+      <div className="bg-charcoal-800 px-10">
         <Outlet />
-      </>
+      </div>
 
       {/* Trust Badges */}
       <section className="bg-charcoal-800 py-16">

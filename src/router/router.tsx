@@ -7,6 +7,7 @@ import ErrorPage from '../pages/ErrorPage';
 import AuthCallback from '../pages/AuthCallback';
 import { rootLoader } from './loaders/rootLoader';
 import { productLoader } from './loaders/productLoader';
+import { homeLoader } from './loaders/homeLoader';
 import LoadingOverlay from '../components/LoadingOverlay';
 import PrivateRoute from './PrivateRoute';
 
@@ -18,7 +19,7 @@ export const router = createBrowserRouter([
     HydrateFallback: LoadingOverlay,
     errorElement: <ErrorPage />,
     children: [
-      { index: true, element: <HomePage /> },
+      { index: true, element: <HomePage />, loader: homeLoader },
       {
         path: '/products/:slug',
         element: <ProductPage />,

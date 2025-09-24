@@ -4,7 +4,7 @@ import Button from '../components/Button';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import LoadingOverlay from '../components/LoadingOverlay';
 import { useLoaderData } from 'react-router-dom';
-import { ChevronRight } from 'lucide-react';
+import { ChevronRight, CirclePlay } from 'lucide-react';
 // #endregion
 
 // #region /* --------------- Types --------------- */
@@ -18,7 +18,7 @@ interface Product {
   current_price: number;
   original_price: number;
   stock: number;
-  all_images: string[];
+  all_images: { url: string; media_type: string }[];
   all_variants: {
     variant_id: number;
     sku: string;
@@ -52,14 +52,11 @@ interface Product {
     }[];
   };
   linked_variations: {
-    product_id: number;
     product_name: string;
     product_slug: string;
     variant_id: number;
-    sku: string;
-    current_price: number;
-    stock: number;
     primary_image_url: string;
+    primary_image_media_type: string;
     attributes: {
       [key: string]: string;
     };
@@ -85,16 +82,22 @@ interface AttributeOption {
     needs_redirect?: boolean;
     variant_slug?: string;
   }[];
+  hasRedirect?: boolean;
 }
 
 interface SelectedAttributes {
   [key: string]: string;
 }
+
+interface MediaItem {
+  url: string;
+  media_type: string;
+}
 // #endregion
 
 export default function ProductPage() {
   // #region /* --------------- Hooks --------------- */
-  const [selectedImage, setSelectedImage] = useState<string>('');
+  const [selectedMedia, setSelectedMedia] = useState<MediaItem | null>(null);
   const [loader, setLoader] = useState<boolean>(false);
   const [selectedVariant, setSelectedVariant] = useState<number>(0);
   const [isInitialized, setIsInitialized] = useState<boolean>(false);
@@ -226,7 +229,9 @@ export default function ProductPage() {
   // Transform variant_attributes to match attribute_options structure
   const attributeOptions: AttributeOption[] = (() => {
     if (!product?.variant_attributes) return [];
-    return Object.entries(product.variant_attributes).map(
+
+    // Convert variant_attributes into an array of AttributeOption objects
+    const options = Object.entries(product.variant_attributes).map(
       ([name, origValues]) => {
         let values = [...origValues];
 
@@ -262,12 +267,19 @@ export default function ProductPage() {
         return {
           name,
           values: processedValues,
+          // Flag to indicate if this attribute has any values with needs_redirect: true
+          hasRedirect: processedValues.some((value) => value.needs_redirect),
         };
       },
     );
+
+    // Sort options so attributes with needs_redirect: true come first
+    return options.sort((a, b) => {
+      if (a.hasRedirect && !b.hasRedirect) return -1;
+      if (!a.hasRedirect && b.hasRedirect) return 1;
+      return 0;
+    });
   })();
-  console.log(product);
-  console.log(attributeOptions);
 
   // Map linked variation slugs to their data for image/price lookup
   const linkedVariationDataMap = new Map(
@@ -277,7 +289,6 @@ export default function ProductPage() {
     ]) || [],
   );
 
-  console.log(linkedVariationDataMap);
   // Find current variant based on selected attributes
   const findCurrentVariant = ():
     | NonNullable<Product['all_variants'][0]>
@@ -374,10 +385,14 @@ export default function ProductPage() {
 
   // Default to first image if available
   useEffect(() => {
-    if (product?.all_images?.length && product.all_images.length > 0) {
-      setSelectedImage(product.all_images[0]);
+    if (
+      product?.all_images?.length &&
+      product.all_images.length > 0 &&
+      !selectedMedia
+    ) {
+      setSelectedMedia(product.all_images[0]);
     }
-  }, [product?.all_images]);
+  }, [product?.all_images, selectedMedia]);
 
   // Update selected attributes when variant changes (only after initialization)
   useEffect(() => {
@@ -415,44 +430,14 @@ export default function ProductPage() {
     return <LoadingOverlay />;
   }
 
+  console.log(product);
+
   return (
     <>
       {loader && <LoadingOverlay />}
-      <div className="bg-charcoal-900 text-charcoal-300 min-h-screen px-20 font-sans">
+      <div className="bg-charcoal-800 text-charcoal-300 min-h-screen font-sans">
         {/* --------------- Main Content Container --------------- */}
         <main className="w-full px-4 py-6 sm:px-6 lg:px-12 lg:py-10">
-          {/*  --------------- Breadcrumbs --------------- */}
-          {product.category_breadcrumbs &&
-            product.category_breadcrumbs.length > 0 && (
-              <nav className="mb-6">
-                <ol className="text-charcoal-400 flex items-center space-x-2 text-sm">
-                  {product.category_breadcrumbs.map((crumb, index) => (
-                    <>
-                      {index !== 0 && (
-                        <li>
-                          <ChevronRight className="size-5" />
-                        </li>
-                      )}
-                      <li key={crumb.id} className="flex items-center">
-                        {index === product.category_breadcrumbs.length - 1 ? (
-                          <span className="text-charcoal-300 font-medium">
-                            {crumb.name}
-                          </span>
-                        ) : (
-                          <button
-                            onClick={() => navigate(crumb.path)}
-                            className="hover:text-ember-400 cursor-pointer transition-colors"
-                          >
-                            {crumb.name}
-                          </button>
-                        )}
-                      </li>
-                    </>
-                  ))}
-                </ol>
-              </nav>
-            )}
-
           {/* --------------- Product Layout (Image + Details) --------------- */}
           <div className="flex flex-col gap-8 lg:flex-row lg:gap-12">
             {/* --------------- Product Images Section --------------- */}
@@ -461,17 +446,36 @@ export default function ProductPage() {
                 {/* --------------- Thumbnail Navigation --------------- */}
                 <div className="order-2 flex gap-3 overflow-x-auto sm:order-1 sm:w-20 sm:flex-col sm:gap-4 sm:overflow-visible md:w-24 lg:w-32">
                   {product.all_images.map((item, idx) => {
-                    return (
+                    const isSelected = selectedMedia?.url === item.url;
+                    const isVideo = item.media_type === 'video';
+                    const commonClasses = `ember-hover-border ember-transition hover:animate-glow hover:border-ember-500 h-16 w-16 flex-shrink-0 cursor-pointer rounded-lg border-2 object-contain sm:h-20 sm:w-full sm:flex-shrink md:h-24 lg:h-39 ${
+                      isSelected ? 'border-ember-500' : 'border-transparent'
+                    }`;
+
+                    return isVideo ? (
+                      <div className="relative">
+                        <div className="absolute inset-0 flex items-center justify-center bg-black/30">
+                          <CirclePlay className="text-ember-300 h-12 w-12 opacity-80" />
+                        </div>
+                        <video
+                          key={idx}
+                          src={item.url}
+                          className={commonClasses}
+                          onClick={() => {
+                            setSelectedMedia(item);
+                          }}
+                          muted
+                          controls={false}
+                          preload="metadata"
+                        />
+                      </div>
+                    ) : (
                       <img
                         key={idx}
-                        src={item}
-                        className={`ember-hover-border ember-transition hover:animate-glow hover:border-ember-500 h-16 w-16 flex-shrink-0 cursor-pointer rounded-lg border-2 object-contain sm:h-20 sm:w-full sm:flex-shrink md:h-24 lg:h-39 ${
-                          selectedImage === item
-                            ? 'border-ember-500'
-                            : 'border-transparent'
-                        }`}
+                        src={item.url}
+                        className={commonClasses}
                         onClick={() => {
-                          setSelectedImage(item);
+                          setSelectedMedia(item);
                         }}
                       />
                     );
@@ -481,12 +485,26 @@ export default function ProductPage() {
                 {/* --------------- Main Product Image --------------- */}
                 <div className="order-1 flex-shrink-0 sm:order-2">
                   <div className="drop-shadow-ember relative rounded-2xl">
-                    {selectedImage && (
-                      <img
-                        src={selectedImage}
-                        className="h-full w-full max-w-full rounded-lg object-contain sm:h-80 sm:w-64 md:h-96 md:w-80 lg:h-[500px] lg:w-96 xl:h-[580px] xl:w-[480px]"
-                        alt={product.product_name}
-                      />
+                    {selectedMedia && (
+                      <>
+                        {selectedMedia.media_type === 'video' ? (
+                          <video
+                            src={selectedMedia.url}
+                            className="h-full max-h-[500px] w-full max-w-[480px] rounded-lg"
+                            controls
+                            autoPlay
+                            loop
+                            muted
+                            playsInline
+                          />
+                        ) : (
+                          <img
+                            src={selectedMedia.url}
+                            className="h-full w-full max-w-full rounded-lg object-contain sm:h-80 sm:w-64 md:h-96 md:w-80 lg:h-[500px] lg:w-96 xl:h-[580px] xl:w-[480px]"
+                            alt={product.product_name}
+                          />
+                        )}
+                      </>
                     )}
                   </div>
                 </div>
@@ -497,6 +515,38 @@ export default function ProductPage() {
             <div className="max-w-xl min-w-0 flex-1 space-y-6 lg:space-y-8">
               {/* --------------- Product Header --------------- */}
               <div className="space-y-4 lg:space-y-6">
+                {/* --------------- Breadcrumbs --------------- */}
+                {product.category_breadcrumbs &&
+                  product.category_breadcrumbs.length > 0 && (
+                    <nav className="mb-6">
+                      <ol className="text-charcoal-400 flex items-center space-x-2 text-sm">
+                        {product.category_breadcrumbs.map((crumb, index) => (
+                          <>
+                            {index !== 0 && (
+                              <li key={`separator-${index}`}>
+                                <ChevronRight className="size-5" />
+                              </li>
+                            )}
+                            <li key={crumb.id} className="flex items-center">
+                              {index ===
+                              product.category_breadcrumbs.length - 1 ? (
+                                <span className="text-charcoal-300 font-medium">
+                                  {crumb.name}
+                                </span>
+                              ) : (
+                                <button
+                                  onClick={() => navigate(crumb.path)}
+                                  className="hover:text-ember-400 cursor-pointer transition-colors"
+                                >
+                                  {crumb.name}
+                                </button>
+                              )}
+                            </li>
+                          </>
+                        ))}
+                      </ol>
+                    </nav>
+                  )}
                 <h1 className="text-charcoal-50 text-2xl leading-tight font-bold sm:text-3xl lg:text-4xl xl:text-5xl">
                   {product.product_name}
                 </h1>
@@ -558,11 +608,9 @@ export default function ProductPage() {
                             const variationData = isCurrentProduct
                               ? {
                                   primary_image_url:
-                                    product.all_images[0] || '',
-                                  current_price:
-                                    currentVariant?.current_price ||
-                                    product.current_price,
-                                  stock: currentVariant?.stock || product.stock,
+                                    product.all_images[0]?.url || '',
+                                  primary_image_media_type:
+                                    product.all_images[0]?.media_type || '',
                                 }
                               : value.variant_slug &&
                                 linkedVariationDataMap.get(value.variant_slug);
@@ -601,11 +649,23 @@ export default function ProductPage() {
                                     </div>
                                   </div>
                                   {variationData?.primary_image_url ? (
-                                    <img
-                                      src={variationData.primary_image_url}
-                                      alt={value.value}
-                                      className={`mb-2 size-30 rounded-lg object-cover`}
-                                    />
+                                    variationData.primary_image_media_type.startsWith(
+                                      'video/',
+                                    ) ? (
+                                      <video
+                                        src={variationData.primary_image_url}
+                                        className={`mb-2 h-28 w-24 rounded-lg object-cover`}
+                                        muted
+                                        controls={false}
+                                        preload="metadata"
+                                      />
+                                    ) : (
+                                      <img
+                                        src={variationData.primary_image_url}
+                                        alt={value.value}
+                                        className={`mb-2 h-28 w-24 rounded-lg object-cover`}
+                                      />
+                                    )
                                   ) : (
                                     <div className="bg-charcoal-600 flex h-28 w-24 items-center justify-center rounded-lg">
                                       <span className="text-charcoal-400 text-xs">
@@ -632,25 +692,12 @@ export default function ProductPage() {
 
                             return (
                               <Button
-                                key={value.value}
+                                key={value.variant_slug || value.value}
                                 text={value.value}
-                                variant={isSelected ? 'primary' : 'outline'}
+                                variant={'outline'}
                                 size="md"
                                 selected={isSelected}
                                 disabled={!hasStock}
-                                startIcon={
-                                  attributeOption.name === 'Color' ? (
-                                    <div className="flex items-center gap-3">
-                                      <div
-                                        className="flex h-5 w-5 items-center justify-center rounded-full font-bold"
-                                        style={{
-                                          backgroundColor:
-                                            value.value.toLowerCase(),
-                                        }}
-                                      />
-                                    </div>
-                                  ) : null
-                                }
                                 onClick={() => {
                                   handleAttributeSelect(
                                     attributeOption.name,
@@ -670,37 +717,37 @@ export default function ProductPage() {
               </div>
 
               {/* --------------- Stock Status --------------- */}
-              <div className="text-sm">
-                {stockStatus === 'in_stock' ? (
-                  <span className="text-emerald-400">
-                    {currentStock} in stock
-                  </span>
-                ) : stockStatus === 'low_stock' ? (
-                  <span className="text-yellow-400">
-                    Low stock ({currentStock} remaining)
-                  </span>
-                ) : (
-                  <span className="text-red-400">Out of stock</span>
-                )}
-              </div>
+              {stockStatus !== 'in_stock' && (
+                <div className="text-sm">
+                  {stockStatus === 'low_stock' ? (
+                    <span className="text-yellow-400">
+                      Low stock ({currentStock} remaining)
+                    </span>
+                  ) : (
+                    <span className="text-red-400">Out of stock</span>
+                  )}
+                </div>
+              )}
 
               {/* --------------- Add to Cart Button --------------- */}
-              <Button
-                text="Add to Cart"
-                variant="primary"
-                size="full"
-                endIcon={<span>🛒</span>}
-                className="ember-transition hover:animate-glow py-4 text-lg font-semibold lg:py-5 lg:text-xl"
-                disabled={stockStatus !== 'in_stock'}
-                onClick={() => {
-                  // You can now pass the selectedVariant ID to your cart API
-                  console.log('Adding to cart:', {
-                    product_id: product.product_id,
-                    variant_id: selectedVariant,
-                    quantity: 1,
-                  });
-                }}
-              />
+              {
+                <Button
+                  text="Add to Cart"
+                  variant="primary"
+                  size="full"
+                  endIcon={<span>🛒</span>}
+                  className="ember-transition hover:animate-glow py-4 text-lg font-semibold lg:py-5 lg:text-xl"
+                  disabled={stockStatus === 'out_of_stock'}
+                  onClick={() => {
+                    // You can now pass the selectedVariant ID to your cart API
+                    console.log('Adding to cart:', {
+                      product_id: product.product_id,
+                      variant_id: selectedVariant,
+                      quantity: 1,
+                    });
+                  }}
+                />
+              }
 
               {/* Product Information Panel */}
               <div className="bg-charcoal-600 glass-effect rounded-xl p-4 lg:p-6">

@@ -21,7 +21,7 @@ const Header = () => {
   return (
     <>
       <header className="bg-charcoal-800">
-        <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-6">
+        <div className="flex items-center justify-between px-10 py-6">
           <Logo />
           <div className="flex gap-4">
             <AccountHeader />
@@ -31,8 +31,8 @@ const Header = () => {
       </header>
 
       {/* Categories */}
-      <section className="bg-charcoal-800 border-charcoal-700/50 border-y">
-        <div className="mx-auto max-w-7xl px-6">
+      <section className="bg-charcoal-800 border-charcoal-600/50 mb-5 border-y">
+        <div className="mx-auto max-w-7xl">
           <div
             className="flex justify-center gap-2 overflow-x-auto p-2"
             style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
