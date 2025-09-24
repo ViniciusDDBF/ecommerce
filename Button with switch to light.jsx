@@ -16,7 +16,7 @@ export interface ButtonProps
   style?: React.CSSProperties;
 }
 
-/* ---------------- Enhanced Spinner Loader ---------------- */
+/* ----------- Enhanced Spinner Loader ----------- */
 const SpinnerLoader: React.FC<{
   size: ButtonSize;
   color: string;
@@ -58,7 +58,7 @@ const SpinnerLoader: React.FC<{
   );
 };
 
-/* ---------------- Button Sizes ---------------- */
+/* ----------- Button Sizes ----------- */
 const buttonSizes = {
   sm: 'px-4 py-2 text-sm font-medium min-h-[36px] gap-2',
   md: 'px-6 py-3 text-base font-semibold min-h-[44px] gap-2',
@@ -66,7 +66,7 @@ const buttonSizes = {
   full: 'px-6 py-3 text-base font-semibold min-h-[44px] gap-2 w-full',
 };
 
-/* ---------------- Variant Styles with Selected States ---------------- */
+/* ----------- Variant Styles with Selected States ----------- */
 const getVariantStyles = (
   variant: ButtonVariant,
   selected: boolean = false,
@@ -177,7 +177,7 @@ const getVariantStyles = (
   }
 };
 
-/* ---------------- Main Component ---------------- */
+/* ----------- Main Component ----------- */
 const Button = forwardRef<HTMLButtonElement, ButtonProps>(
   (
     {

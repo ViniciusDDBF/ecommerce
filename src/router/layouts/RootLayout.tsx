@@ -13,7 +13,7 @@ export default function RootLayout() {
       {isLoading && <LoadingOverlay />}
       <Header />
 
-      <div className="bg-charcoal-800 px-10">
+      <div className="bg-charcoal-800 sm:px-10">
         <Outlet />
       </div>
 

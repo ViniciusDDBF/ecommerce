@@ -9,7 +9,7 @@ const Logo = () => {
         className="h-25 w-25 rounded-full bg-cover bg-center transition duration-300 group-hover:shadow-lg group-hover:shadow-amber-800/25"
         style={{ backgroundImage: `url(${LogoImg})` }}
       ></div>
-      <div className="flex flex-col items-center">
+      <div className="hidden flex-col items-center md:flex">
         <CinematicTitle text="DUNDICH'S" />
         <CinematicTitle text="TAIGH" />
       </div>

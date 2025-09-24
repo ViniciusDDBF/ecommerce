@@ -11,6 +11,7 @@ import { ThunkLogOut } from '../../store/slices/userSlice';
 import Button from '../Button';
 import { useNavigate } from 'react-router';
 import { useAppDispatch, useAppSelector } from '../../store/hooks/hooks';
+import AccountIcon from './AccountIcon';
 const AccountDropdown = () => {
   const [isOpen, setIsOpen] = useState(false);
   const dispatch = useAppDispatch();
@@ -48,23 +49,32 @@ const AccountDropdown = () => {
   return (
     <div className="relative inline-block">
       {/* Trigger Button */}
-      <Button
-        loading={user.isLoading}
-        size="full"
-        variant="outline"
-        selected={isOpen}
-        text="My account"
-        onClick={() => {
-          setIsOpen(!isOpen);
-        }}
-        startIcon={<User />}
-        endIcon={
-          <ChevronDown
-            className={`h-4 w-4 transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`}
-          />
-        }
-      />
-
+      <div className="sm:hidden">
+        <AccountIcon
+          onClick={() => {
+            setIsOpen(!isOpen);
+          }}
+        />
+      </div>
+      <div className="hidden sm:block">
+        <Button
+          className="hidden"
+          loading={user.isLoading}
+          size="full"
+          variant="outline"
+          selected={isOpen}
+          text={<span className="hidden sm:inline">My account</span>}
+          onClick={() => {
+            setIsOpen(!isOpen);
+          }}
+          startIcon={<User />}
+          endIcon={
+            <ChevronDown
+              className={`hidden h-4 w-4 transition-transform duration-200 sm:inline ${isOpen ? 'rotate-180' : ''}`}
+            />
+          }
+        />
+      </div>
       {/* Dropdown Menu */}
       {isOpen && (
         <>
@@ -76,7 +86,7 @@ const AccountDropdown = () => {
 
           {/* Menu Panel */}
           <div
-            className={`bg-charcoal-800/95 border-charcoal-600/50 animate-in slide-in-from-top-2 absolute right-0 z-20 mt-2 w-80 rounded-xl border shadow-2xl backdrop-blur-xl duration-200`}
+            className={`bg-charcoal-800/95 border-charcoal-600/50 animate-in slide-in-from-top-2 absolute right-[-5rem] z-20 mt-2 w-80 rounded-xl border shadow-2xl backdrop-blur-xl duration-200 sm:right-0`}
           >
             {/* Header */}
             <div className="border-charcoal-600/30 border-b p-4">

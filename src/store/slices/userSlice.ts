@@ -1,11 +1,11 @@
-// #region /* --------------- Imports --------------- */
+// #region /* ---------- Imports ---------- */
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { supabase } from '../../SupabaseConfig';
 import { isAnyOf } from '@reduxjs/toolkit';
 import type { RootState } from '../store';
 // #endregion
 
-// #region /* --------------- Types --------------- */
+// #region /* ---------- Types ---------- */
 export interface UserData {
   customer_id?: number;
   user_id: string;
@@ -60,7 +60,7 @@ export interface SignUpArgs {
 }
 // #endregion
 
-// #region /* --------------- Functions --------------- */
+// #region /* ---------- Functions ---------- */
 const initialState: UserThunk = {
   user: null,
   isLoading: false,
@@ -209,7 +209,7 @@ async function FetchLogOut() {
 }
 // #endregion
 
-// #region /* --------------- Thunks --------------- */
+// #region /* ---------- Thunks ---------- */
 export const ThunkCreateCustomer = createAsyncThunk<any, SignUpArgs>(
   'user/CreateCustomer',
   async (payload) => {
@@ -378,7 +378,7 @@ export const ThunkLogOut = createAsyncThunk<any, void>(
 );
 // #endregion
 
-/* --------------- User Slice --------------- */
+/* ---------- User Slice ---------- */
 const userSlice = createSlice({
   name: 'user',
   initialState,
@@ -464,7 +464,7 @@ const userSlice = createSlice({
 export const { resetError } = userSlice.actions;
 export default userSlice.reducer;
 
-/* --------------- CreateAsyncThuynk definition --------------- */
+/* ---------- CreateAsyncThuynk definition ---------- */
 // ThunkGetUserData = createAsyncThunk<UserData, {}>
 // createAsyncThunk<Returned, ThunkArg, ThunkApiConfig>()
 // Returned → the type the thunk will return (your payload).
@@ -476,7 +476,7 @@ export default userSlice.reducer;
 
 // ThunkApiConfig → (optional) extra typing for dispatch, state, and rejectWithValue.
 
-/* --------------- AddMatcher definition --------------- */
+/* ---------- AddMatcher definition ---------- */
 // addMatcher<ActionType extends AnyAction>(
 //   matcher: (action: AnyAction) => action is ActionType,
 //   reducer: (state: StateType, action: ActionType) => void

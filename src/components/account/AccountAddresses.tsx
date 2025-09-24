@@ -1,4 +1,4 @@
-// #region /* --------------- Imports --------------- */
+// #region /* ---------- Imports ---------- */
 import { useState } from 'react';
 import { MapPin, Edit3, Trash2, Plus, User, Shield, House } from 'lucide-react';
 import Button from '../Button';

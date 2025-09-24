@@ -1,4 +1,4 @@
-// #region /* --------------- Imports --------------- */
+// #region /* ---------- Imports ---------- */
 import { Edit2 } from 'lucide-react';
 import Button from '../Button';
 import { useForm } from '../../hooks/useForm';
@@ -10,7 +10,7 @@ import { useAppDispatch, useAppSelector } from '../../store/hooks/hooks';
 import { ThunkUpdateUser, type UserData } from '../../store/slices/userSlice';
 // #endregion
 
-// #region /* --------------- Form fields --------------- */
+// #region /* ---------- Form fields ---------- */
 const editUserFields: FormFieldProps[] = [
   {
     name: 'first_name',
@@ -50,7 +50,7 @@ const editUserFields: FormFieldProps[] = [
 // #endregion
 
 export default function AccountProfile() {
-  // #region /* --------------- Use Hooks --------------- */
+  // #region /* ---------- Use Hooks ---------- */
   const user = useAppSelector('user');
   const dispatch = useAppDispatch();
 
@@ -63,12 +63,12 @@ export default function AccountProfile() {
   });
   // #endregion
 
-  // #region /* --------------- Variables --------------- */
+  // #region /* ---------- Variables ---------- */
   const userInitials =
     (user.user?.first_name?.[0] ?? '') + (user.user?.last_name?.[0] ?? '');
   // #endregion
 
-  // #region /* --------------- Functions --------------- */
+  // #region /* ---------- Functions ---------- */
   const handleUpdateUser = async () => {
     const userFields = {
       first_name: user.user?.first_name,

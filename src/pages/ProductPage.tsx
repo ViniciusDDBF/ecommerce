@@ -1,4 +1,4 @@
-// #region /* --------------- Imports --------------- */
+// #region /* ---------- Imports ---------- */
 import { useEffect, useState } from 'react';
 import Button from '../components/Button';
 import { useNavigate, useSearchParams } from 'react-router-dom';
@@ -7,7 +7,7 @@ import { useLoaderData } from 'react-router-dom';
 import { ChevronRight, CirclePlay } from 'lucide-react';
 // #endregion
 
-// #region /* --------------- Types --------------- */
+// #region /* ---------- Types ---------- */
 interface Product {
   product_id: number;
   product_name: string;
@@ -80,7 +80,7 @@ interface AttributeOption {
       stock: number;
     }[];
     needs_redirect?: boolean;
-    variant_slug?: string;
+    variant_slug: string;
   }[];
   hasRedirect?: boolean;
 }
@@ -96,7 +96,7 @@ interface MediaItem {
 // #endregion
 
 export default function ProductPage() {
-  // #region /* --------------- Hooks --------------- */
+  // #region /* ---------- Hooks ---------- */
   const [selectedMedia, setSelectedMedia] = useState<MediaItem | null>(null);
   const [loader, setLoader] = useState<boolean>(false);
   const [selectedVariant, setSelectedVariant] = useState<number>(0);
@@ -110,7 +110,7 @@ export default function ProductPage() {
   const navigate = useNavigate();
   // #endregion
 
-  // #region /* --------------- URL State Management --------------- */
+  // #region /* ---------- URL State Management ---------- */
   // Helper function to create variant hash from attributes
   const createVariantHash = (attributes: SelectedAttributes): string => {
     const sortedAttributes = Object.entries(attributes)
@@ -136,10 +136,7 @@ export default function ProductPage() {
   };
 
   // Update URL when variant changes
-  const updateUrlWithVariant = (
-    variantId: number,
-    attributes: SelectedAttributes,
-  ) => {
+  const updateUrlWithVariant = (attributes: SelectedAttributes) => {
     const variantHash = createVariantHash(attributes);
     const newSearchParams = new URLSearchParams(searchParams);
 
@@ -188,7 +185,7 @@ export default function ProductPage() {
 
         setSelectedAttributes(newAttributes);
         setSelectedVariant(matchingVariant.variant_id);
-        updateUrlWithVariant(matchingVariant.variant_id, newAttributes);
+        updateUrlWithVariant(newAttributes);
       } else {
         // Invalid URL variant, fallback to default
         initializeDefaultVariant();
@@ -219,13 +216,13 @@ export default function ProductPage() {
 
       // Don't update URL for default variant unless there are attributes to show
       if (Object.keys(newAttributes).length > 0) {
-        updateUrlWithVariant(defaultVariant.variant_id, newAttributes);
+        updateUrlWithVariant(newAttributes);
       }
     }
   };
   // #endregion
 
-  // #region /* --------------- Data Transformations --------------- */
+  // #region /* ---------- Data Transformations ---------- */
   // Transform variant_attributes to match attribute_options structure
   const attributeOptions: AttributeOption[] = (() => {
     if (!product?.variant_attributes) return [];
@@ -366,7 +363,7 @@ export default function ProductPage() {
 
     if (newVariant) {
       setSelectedVariant(newVariant.variant_id);
-      updateUrlWithVariant(newVariant.variant_id, newAttributes);
+      updateUrlWithVariant(newAttributes);
     }
   };
 
@@ -410,7 +407,7 @@ export default function ProductPage() {
     });
     setSelectedAttributes(newAttributes);
     setSelectedVariant(currentVariant.variant_id);
-    updateUrlWithVariant(currentVariant.variant_id, newAttributes);
+    updateUrlWithVariant(newAttributes);
   }, [currentVariant, isInitialized]);
 
   // Helper function to get stock status
@@ -431,19 +428,18 @@ export default function ProductPage() {
   }
 
   console.log(product);
-
   return (
     <>
       {loader && <LoadingOverlay />}
       <div className="bg-charcoal-800 text-charcoal-300 min-h-screen font-sans">
-        {/* --------------- Main Content Container --------------- */}
+        {/* ---------- Main Content Container ---------- */}
         <main className="w-full px-4 py-6 sm:px-6 lg:px-12 lg:py-10">
-          {/* --------------- Product Layout (Image + Details) --------------- */}
+          {/* ---------- Product Layout (Image + Details) ---------- */}
           <div className="flex flex-col gap-8 lg:flex-row lg:gap-12">
-            {/* --------------- Product Images Section --------------- */}
+            {/* ---------- Product Images Section ---------- */}
             <div className="w-full flex-shrink-0 lg:w-auto">
               <div className="flex flex-col gap-4 sm:flex-row lg:flex-row lg:gap-6">
-                {/* --------------- Thumbnail Navigation --------------- */}
+                {/* ---------- Thumbnail Navigation ---------- */}
                 <div className="order-2 flex gap-3 overflow-x-auto sm:order-1 sm:w-20 sm:flex-col sm:gap-4 sm:overflow-visible md:w-24 lg:w-32">
                   {product.all_images.map((item, idx) => {
                     const isSelected = selectedMedia?.url === item.url;
@@ -482,7 +478,7 @@ export default function ProductPage() {
                   })}
                 </div>
 
-                {/* --------------- Main Product Image --------------- */}
+                {/* ---------- Main Product Image ---------- */}
                 <div className="order-1 flex-shrink-0 sm:order-2">
                   <div className="drop-shadow-ember relative rounded-2xl">
                     {selectedMedia && (
@@ -511,11 +507,11 @@ export default function ProductPage() {
               </div>
             </div>
 
-            {/* --------------- Product Details Section --------------- */}
+            {/* ---------- Product Details Section ---------- */}
             <div className="max-w-xl min-w-0 flex-1 space-y-6 lg:space-y-8">
-              {/* --------------- Product Header --------------- */}
+              {/* ---------- Product Header ---------- */}
               <div className="space-y-4 lg:space-y-6">
-                {/* --------------- Breadcrumbs --------------- */}
+                {/* ---------- Breadcrumbs ---------- */}
                 {product.category_breadcrumbs &&
                   product.category_breadcrumbs.length > 0 && (
                     <nav className="mb-6">
@@ -585,7 +581,7 @@ export default function ProductPage() {
                 </div>
               </div>
 
-              {/* --------------- Product Variants/Attributes --------------- */}
+              {/* ---------- Product Variants/Attributes ---------- */}
               <div className="space-y-4 lg:space-y-6">
                 {attributeOptions.map((attributeOption, idx) => {
                   const isLinkedVariationAttribute =
@@ -597,7 +593,7 @@ export default function ProductPage() {
                         {attributeOption.name}
                       </span>
 
-                      {/* --------------- Linked Variation Attribute --------------- */}
+                      {/* ---------- Linked Variation Attribute ---------- */}
                       {isLinkedVariationAttribute ? (
                         <div className="flex flex-wrap gap-3 overflow-x-auto pb-2">
                           {attributeOption.values.map((value, idx) => {
@@ -612,8 +608,7 @@ export default function ProductPage() {
                                   primary_image_media_type:
                                     product.all_images[0]?.media_type || '',
                                 }
-                              : value.variant_slug &&
-                                linkedVariationDataMap.get(value.variant_slug);
+                              : linkedVariationDataMap.get(value.variant_slug);
 
                             return (
                               <div
@@ -648,13 +643,15 @@ export default function ProductPage() {
                                       {value.value}
                                     </div>
                                   </div>
-                                  {variationData?.primary_image_url ? (
+                                  {variationData &&
+                                  'primary_image_url' in variationData &&
+                                  variationData.primary_image_url ? (
                                     variationData.primary_image_media_type.startsWith(
                                       'video/',
                                     ) ? (
                                       <video
                                         src={variationData.primary_image_url}
-                                        className={`mb-2 h-28 w-24 rounded-lg object-cover`}
+                                        className="mb-2 h-28 w-24 rounded-lg object-cover"
                                         muted
                                         controls={false}
                                         preload="metadata"
@@ -663,7 +660,7 @@ export default function ProductPage() {
                                       <img
                                         src={variationData.primary_image_url}
                                         alt={value.value}
-                                        className={`mb-2 h-28 w-24 rounded-lg object-cover`}
+                                        className="mb-2 h-28 w-24 rounded-lg object-cover"
                                       />
                                     )
                                   ) : (
@@ -679,7 +676,7 @@ export default function ProductPage() {
                           })}
                         </div>
                       ) : (
-                        /* --------------- Regular Attribute Rendering --------------- */
+                        /* ---------- Regular Attribute Rendering ---------- */
                         <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-2 xl:grid-cols-3">
                           {attributeOption.values.map((value) => {
                             const isSelected =
@@ -716,7 +713,7 @@ export default function ProductPage() {
                 })}
               </div>
 
-              {/* --------------- Stock Status --------------- */}
+              {/* ---------- Stock Status ---------- */}
               {stockStatus !== 'in_stock' && (
                 <div className="text-sm">
                   {stockStatus === 'low_stock' ? (
@@ -729,7 +726,7 @@ export default function ProductPage() {
                 </div>
               )}
 
-              {/* --------------- Add to Cart Button --------------- */}
+              {/* ---------- Add to Cart Button ---------- */}
               {
                 <Button
                   text="Add to Cart"

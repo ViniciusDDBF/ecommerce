@@ -1,4 +1,4 @@
-// #region /* --------------- Imports --------------- */
+// #region /* ---------- Imports ---------- */
 import { useState } from 'react';
 import { UserPlus, LogIn, CircleCheck, Store, Mail } from 'lucide-react';
 import AccountIcon from './AccountIcon';
@@ -18,7 +18,7 @@ import { supabase } from '../../SupabaseConfig';
 import { useAppDispatch, useAppSelector } from '../../store/hooks/hooks';
 // #endregion
 
-// #region /* --------------- Form Fields --------------- */
+// #region /* ---------- Form Fields ---------- */
 const loginFields: FormFieldProps[] = [
   {
     name: 'email',
@@ -168,7 +168,7 @@ const signUpFieldsCnpj: FormFieldProps[] = [
 ];
 // #endregion
 
-// #region /* --------------- Google Icon --------------- */
+// #region /* ---------- Google Icon ---------- */
 const GoogleIcon = ({ className = 'w-5 h-5' }) => (
   <svg
     className={className}
@@ -195,7 +195,7 @@ const GoogleIcon = ({ className = 'w-5 h-5' }) => (
 );
 // #endregion
 
-// #region /* --------------- Google Sign in Function --------------- */
+// #region /* ---------- Google Sign in Function ---------- */
 const handleGoogleSignIn = async () => {
   try {
     await supabase.auth.signInWithOAuth({
@@ -221,7 +221,7 @@ const AccountHeader = () => {
   const dispatch = useAppDispatch();
   const user = useAppSelector('user');
 
-  // #region /* --------------- Functions --------------- */
+  // #region /* ---------- Functions ---------- */
   const handleSubmitLogin = async () => {
     if (!login.validate()) return;
     try {
