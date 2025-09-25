@@ -2,14 +2,15 @@ import React from 'react';
 
 type OverlayProps = {
   isOpen: boolean;
-  children: React.ReactNode;
+  onClick?: () => void;
+  children?: React.ReactNode;
 };
 
 const Overlay: React.FC<OverlayProps> = ({ isOpen, children }) => {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-20 bg-charcoal-900/80 glass-effect backdrop-blur-sm ember-transition">
+    <div className="bg-charcoal-700/70 fixed inset-0 z-20 backdrop-blur-sm">
       {children}
     </div>
   );

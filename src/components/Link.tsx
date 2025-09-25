@@ -33,7 +33,7 @@ const Link: React.FC<LinkProps> = ({
     lg: 'text-lg px-4 py-2',
   }[size];
 
-  const baseClasses = `inline-flex items-center font-medium ${sizeClasses} ember-transition`;
+  const baseClasses = `inline-flex items-center font-medium ${sizeClasses} transition`;
 
   const variantClasses = `text-ember-400 hover:text-ember-300   ${selected ? 'text-ember-500 font-semibold underline decoration-2 underline-offset-5' : ''}`;
 

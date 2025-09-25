@@ -1,25 +1,9 @@
-import { useState } from 'react';
-import AccountHeader from './account/AccountHeader';
-import Cart from './cart/Cart';
-import Logo from './Logo';
-import Button from './Button';
-import Link from './Link';
+import AccountHeader from '../account/AccountHeader';
+import Cart from '../cart/Cart';
+import Logo from '../header/Logo';
 import CategoryNav from './CategoryNav';
 
 const Header = () => {
-  const [activeCategory, setActiveCategory] = useState('All');
-
-  const categories = [
-    'All',
-    'Electronics',
-    'Fashion',
-    'Home',
-    'Sports',
-    'Beauty',
-    'Jewelry',
-    'Watches',
-  ];
-
   return (
     <>
       {/* ---------- Main Header ---------- */}

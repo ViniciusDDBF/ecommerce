@@ -12,7 +12,7 @@ const Drawer = React.forwardRef<HTMLDivElement, DrawerProps>(
     return (
       <div
         ref={ref}
-        className={`glass-effect fixed top-0 z-30 h-full w-11/12 transform transition-transform duration-300 ease-in-out sm:w-96 md:w-[28rem] ${
+        className={`fixed top-0 z-30 h-full w-11/12 transform transition-transform duration-300 ease-in-out sm:w-96 md:w-[28rem] ${
           position === 'right'
             ? isOpen
               ? 'right-0 translate-x-0'
@@ -21,16 +21,11 @@ const Drawer = React.forwardRef<HTMLDivElement, DrawerProps>(
               ? 'left-0 translate-x-0'
               : '-translate-x-full'
         } ${className}`}
-        role="dialog"
-        aria-hidden={!isOpen}
-        aria-label="Drawer"
       >
         {children}
       </div>
     );
   },
 );
-
-Drawer.displayName = 'Drawer';
 
 export default Drawer;

@@ -6,10 +6,12 @@ import Overlay from '../Overlay';
 import Drawer from '../Drawer';
 import Button from '../Button';
 import useScrollLock from '../../hooks/useScrollLock';
+import { useNavigate } from 'react-router';
 
 const Cart = () => {
   const [isOpen, setIsOpen] = useState(false);
   const cartRef = useRef<HTMLDivElement | null>(null);
+  const navigate = useNavigate();
 
   useClickOutside(cartRef, () => setIsOpen(false));
   useScrollLock(isOpen);

@@ -266,9 +266,9 @@ export default function ProductPage() {
 
   const handleLinkedVariationSelect = async (variantSlug: string) => {
     if (!product || !product.linked_variations?.length) {
-      // If no linked variations, reset to current product
-      setSelectedLinkedVariation(product.product_slug);
-      if (product.all_images?.length) setSelectedMedia(product.all_images[0]);
+      if (product) setSelectedLinkedVariation(product.product_slug);
+      if (product && product.all_images?.length)
+        setSelectedMedia(product.all_images[0]);
       return;
     }
 

@@ -158,7 +158,7 @@ const MyAddressesPage = () => {
           </div>
           <Button
             text="Add New Address"
-            variant="primary" 
+            variant="primary"
             size="sm"
             startIcon={<Plus className="h-4 w-4 sm:h-5 sm:w-5" />}
             onClick={() => setCreateIsOpen(true)}
@@ -413,6 +413,7 @@ const MyAddressesPage = () => {
         {/* Delete Address Modal */}
         {deleteAddressModal && (
           <Modal
+            isOpen={deleteAddressModal}
             title="Delete Address"
             message="This action is permanent"
             buttons={{
