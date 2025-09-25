@@ -1,4 +1,4 @@
-import ProductReviews from './ProductReviews';
+import ProductReviews from './ProductReviewsHeader';
 
 interface ProductHeaderProps {
   productName: string;

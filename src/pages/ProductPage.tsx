@@ -11,6 +11,7 @@ import StockStatus from '../components/product/StockStatus';
 import ProductInfoPanel from '../components/product/ProductInfoPanel';
 import Button from '../components/Button';
 import { ShoppingCart } from 'lucide-react';
+import ProductReviewCards from '../components/ProductReviewCards';
 // #endregion
 
 // #region /* ---------- Types ---------- */
@@ -374,6 +375,7 @@ export default function ProductPage() {
 
   if (!isInitialized || !product) return null;
 
+  console.log(product);
   return (
     <div className="bg-charcoal-800 text-charcoal-300 min-h-screen font-sans">
       <main className="mx-auto max-w-7xl px-4 py-6 sm:px-6 sm:py-8 md:px-8 lg:px-12 lg:py-10">
@@ -446,8 +448,15 @@ export default function ProductPage() {
               sku={currentVariant?.sku || product.sku}
               dimensions={currentVariant?.dimensions}
             />
+
+            {/* ---------- Review Card ---------- */}
           </div>
         </div>
+        <ProductReviewCards
+          customerId={6}
+          isLoggedIn={true}
+          reviews={product.reviews}
+        />
       </main>
     </div>
   );

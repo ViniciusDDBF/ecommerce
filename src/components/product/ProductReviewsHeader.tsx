@@ -7,7 +7,7 @@ interface ProductReviewsProps {
   onClick?: () => void;
 }
 
-const ProductReviews = ({
+const ProductReviewsHeader = ({
   averageRating,
   reviewCount,
   onClick,
@@ -60,4 +60,4 @@ const ProductReviews = ({
   );
 };
 
-export default ProductReviews;
+export default ProductReviewsHeader;
