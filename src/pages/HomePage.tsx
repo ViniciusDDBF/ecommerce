@@ -1,6 +1,6 @@
 import { ArrowRight } from 'lucide-react';
 import Button from '../components/Button';
-import Carousel from '../components/Carousel';
+import Carousel from '../components/carousel/Carousel';
 import CinematicTitle from '../components/CinematicTitle';
 import { useLoaderData } from 'react-router-dom';
 

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Star, Heart, Plus } from 'lucide-react';
-import Button from '../components/Button';
+import Button from '../Button';
 
 interface Variation {
   name: string;

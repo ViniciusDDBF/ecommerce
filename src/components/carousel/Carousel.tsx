@@ -1,7 +1,7 @@
 import { useRef, useState } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import Button from './Button';
+import Button from '../Button';
 
 interface ProductItem {
   group_id: number;
