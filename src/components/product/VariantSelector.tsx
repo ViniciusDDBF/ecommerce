@@ -56,9 +56,11 @@ export default function VariantSelector({
 
         return (
           <div key={idx} className="space-y-2 sm:space-y-3">
-            <span className="text-charcoal-200 block text-sm font-medium sm:text-base md:text-lg">
-              {attributeOption.name}
-            </span>
+            {
+              <span className="text-charcoal-200 block text-sm font-medium sm:text-base md:text-lg">
+                {attributeOption.values.length > 0 && attributeOption.name}
+              </span>
+            }
 
             {isLinkedVariationAttribute && product.linked_variations?.length ? (
               <div className="flex flex-wrap gap-2 overflow-x-auto pb-2 sm:gap-3">

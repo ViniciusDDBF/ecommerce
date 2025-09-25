@@ -1,3 +1,4 @@
+// #region /* ---------- Imports ---------- */
 import { useEffect, useState } from 'react';
 import { useNavigate, useSearchParams, useLoaderData } from 'react-router-dom';
 import parseVariantHash from '../utils/variants/parseVariantHash';
@@ -10,8 +11,9 @@ import StockStatus from '../components/product/StockStatus';
 import ProductInfoPanel from '../components/product/ProductInfoPanel';
 import Button from '../components/Button';
 import { ShoppingCart } from 'lucide-react';
+// #endregion
 
-// Consolidated interfaces (unchanged)
+// #region /* ---------- Types ---------- */
 export interface Product {
   product_id: number;
   product_name: string;
@@ -30,6 +32,7 @@ export interface Product {
     current_price: number;
     original_price: number;
     stock: number;
+    in_stock: boolean;
     attributes: {
       attribute_name: string;
       attribute_value: string;
@@ -47,12 +50,25 @@ export interface Product {
     [key: string]: {
       value: string;
       stock?: number;
-      available_variants?: { variant_id: number; stock: number }[];
+      available_variants?: {
+        variant_id: number;
+        stock: number;
+        sku: string;
+        name: string;
+        current_price: number;
+        original_price: number;
+        dimensions: {
+          weight: number;
+          height: number;
+          width: number;
+          length: number;
+        };
+      }[];
       needs_redirect?: boolean;
       variant_slug?: string;
     }[];
   };
-  linked_variations?: {
+  linked_variations: {
     product_name: string;
     product_slug: string;
     variant_id: number;
@@ -63,13 +79,45 @@ export interface Product {
   category_breadcrumbs: {
     id: number;
     name: string;
-    path: string;
     slug: string;
     level: number;
+    path: string;
+  }[];
+  rating_summary: {
+    average_rating: number;
+    review_count: number;
+  };
+  reviews: {
+    id: number;
+    created_at: string;
+    rating: number;
+    title: string;
+    content: string;
+    is_anonymous: boolean;
+    customer: {
+      id: number;
+      name?: string;
+      first_name?: string;
+      last_name?: string;
+      email?: string | null;
+      phone?: string | null;
+      cpf?: string | null;
+      company_name?: string | null;
+      legal_name?: string | null;
+      cnpj?: string | null;
+      is_cpf?: boolean;
+    };
+    media: {
+      id: number;
+      url: string;
+      created_at: string;
+    }[];
   }[];
 }
+// #endregion
 
 export default function ProductPage() {
+  // #region /* ---------- Hooks ---------- */
   const product = useLoaderData() as Product | undefined;
   const [selectedMedia, setSelectedMedia] = useState<{
     url: string;
@@ -84,7 +132,9 @@ export default function ProductPage() {
   }>({});
   const [searchParams, setSearchParams] = useSearchParams();
   const navigate = useNavigate();
+  // #endregion
 
+  // #region /* ---------- Functions/Effects ---------- */
   const updateUrlWithVariant = (attributes: { [key: string]: string }) => {
     const newSearchParams = getUpdatedVariantParams(attributes, searchParams);
 
@@ -320,6 +370,7 @@ export default function ProductPage() {
     stock > 5 ? 'in_stock' : stock > 0 ? 'low_stock' : 'out_of_stock';
   const currentStock = currentVariant?.stock || product?.stock || 0;
   const stockStatus = getStockStatus(currentStock);
+  // #endregion
 
   if (!isInitialized || !product) return null;
 
@@ -327,6 +378,7 @@ export default function ProductPage() {
     <div className="bg-charcoal-800 text-charcoal-300 min-h-screen font-sans">
       <main className="mx-auto max-w-7xl px-4 py-6 sm:px-6 sm:py-8 md:px-8 lg:px-12 lg:py-10">
         <div className="flex flex-col gap-6 sm:gap-8 lg:flex-row lg:gap-10 xl:gap-12">
+          {/* ---------- Images ---------- */}
           <ProductMediaViewer
             images={product.all_images}
             selectedMedia={selectedMedia}
@@ -334,20 +386,29 @@ export default function ProductPage() {
             productName={product.product_name}
           />
           <div className="w-full space-y-4 sm:space-y-6 lg:w-1/2 lg:space-y-8">
+            {/* ---------- Breadcrumbs ---------- */}
             <Breadcrumbs
               breadcrumbs={product.category_breadcrumbs}
               navigate={navigate}
             />
+
+            {/* ---------- Product Main info ---------- */}
             <ProductHeader
+              averageRating={product?.rating_summary?.average_rating}
+              reviewCount={product?.rating_summary?.review_count}
               productName={product.product_name}
-              description={product.description}
               currentPrice={
                 currentVariant?.current_price || product.current_price
               }
               originalPrice={
                 currentVariant?.original_price || product.original_price
               }
+              onClick={() => {
+                console.log('vini');
+              }}
             />
+
+            {/* ---------- Product Attribute ---------- */}
             <VariantSelector
               attributeOptions={attributeOptions}
               selectedAttributes={selectedAttributes}
@@ -357,10 +418,14 @@ export default function ProductPage() {
               product={product}
               selectedLinkedVariation={selectedLinkedVariation}
             />
+
+            {/* ---------- Stock Status ---------- */}
             <StockStatus
               stockStatus={stockStatus}
               currentStock={currentStock}
             />
+
+            {/* ---------- Add to cart ---------- */}
             <Button
               text="Add to Cart"
               variant="primary"
@@ -375,7 +440,9 @@ export default function ProductPage() {
               }}
             />
 
+            {/* ---------- Product Details information ---------- */}
             <ProductInfoPanel
+              description={product.description}
               sku={currentVariant?.sku || product.sku}
               dimensions={currentVariant?.dimensions}
             />

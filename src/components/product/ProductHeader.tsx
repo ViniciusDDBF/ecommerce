@@ -1,24 +1,37 @@
+import ProductReviews from './ProductReviews';
+
 interface ProductHeaderProps {
   productName: string;
-  description: string;
   currentPrice: number;
   originalPrice: number;
+  averageRating: number;
+  reviewCount: number;
+  onClick?: () => void;
 }
 
 export default function ProductHeader({
   productName,
-  description,
   currentPrice,
   originalPrice,
+  averageRating,
+  reviewCount,
+  onClick,
 }: ProductHeaderProps) {
   return (
     <div className="space-y-3 sm:space-y-4 lg:space-y-6">
+      {/* ---------- Product Title ---------- */}
       <h1 className="text-charcoal-50 text-xl leading-tight font-bold sm:text-2xl md:text-3xl lg:text-4xl">
         {productName}
       </h1>
-      <p className="text-charcoal-400 text-sm leading-relaxed sm:text-base lg:text-lg">
-        {description}
-      </p>
+
+      {/* ---------- Reviews ---------- */}
+      <ProductReviews
+        averageRating={averageRating}
+        reviewCount={reviewCount}
+        onClick={onClick}
+      />
+
+      {/* ---------- Price ---------- */}
       <div className="text-ember-500 text-xl font-bold sm:text-2xl md:text-3xl">
         ${currentPrice.toFixed(2)}
         {originalPrice && originalPrice > currentPrice && (
