@@ -54,7 +54,6 @@ interface Review {
 interface EnhancedReviewCardProps {
   reviews: Review[];
   isLoggedIn: boolean;
-  customerId: string | null;
 }
 
 // #endregion
@@ -62,7 +61,6 @@ interface EnhancedReviewCardProps {
 const EnhancedReviewCard = ({
   reviews,
   isLoggedIn,
-  customerId,
 }: EnhancedReviewCardProps) => {
   // #region /* ---------- Hooks/State ---------- */
   const [reviewStates, setReviewStates] = useState<{
@@ -141,7 +139,7 @@ const EnhancedReviewCard = ({
 
   // Handle like button click
   const handleLikeClick = async (reviewId: number) => {
-    if (!isLoggedIn || !customerId) {
+    if (!isLoggedIn) {
       setError('Please log in to like this review');
       return;
     }
@@ -179,7 +177,7 @@ const EnhancedReviewCard = ({
 
   // Handle dislike button click
   const handleDislikeClick = async (reviewId: number) => {
-    if (!isLoggedIn || !customerId) {
+    if (!isLoggedIn) {
       setError('Please log in to dislike this review');
       return;
     }

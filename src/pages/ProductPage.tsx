@@ -95,8 +95,10 @@ export interface Product {
     title: string;
     content: string;
     is_anonymous: boolean;
+    positive_votes: number;
+    negative_votes: number;
     customer: {
-      id: number;
+      id: string;
       name?: string;
       first_name?: string;
       last_name?: string;
@@ -106,10 +108,11 @@ export interface Product {
       company_name?: string | null;
       legal_name?: string | null;
       cnpj?: string | null;
-      is_cpf?: boolean;
+      is_cpf?: boolean | null;
     };
     media: {
       id: number;
+      media_type: string;
       url: string;
       created_at: string;
     }[];
@@ -303,7 +306,7 @@ export default function ProductPage() {
           media_type: variationData.primary_image_media_type,
         });
       }
-      await navigate(`/products/${variantSlug}`);
+      window.location.href = `/products/${variantSlug}`;
     }
   };
 
