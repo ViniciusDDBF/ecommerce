@@ -36,7 +36,7 @@ export default function ProductMediaViewer({
               (selectedMedia.media_type === 'video' ? (
                 <video
                   src={selectedMedia.url}
-                  className="h-auto max-h-[400px] w-full rounded-lg object-contain sm:max-h-[500px]"
+                  className="h-auto max-h-[400px] max-w-[400px] w-full rounded-lg object-contain sm:max-h-[500px]"
                   controls
                   autoPlay
                   loop
@@ -46,7 +46,7 @@ export default function ProductMediaViewer({
               ) : (
                 <img
                   src={selectedMedia.url}
-                  className="h-auto max-h-[400px] w-full rounded-lg object-contain sm:max-h-[500px]"
+                  className="h-auto max-h-[400px] max-w-[400px] w-full rounded-lg object-contain sm:max-h-[500px]"
                   alt={productName}
                 />
               ))}

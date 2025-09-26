@@ -14,10 +14,11 @@ import {
 import { supabase } from '../SupabaseConfig';
 import Button from './Button';
 import Overlay from './Overlay';
+import useScrollLock from '../hooks/useScrollLock';
 // #endregion
 
 // #region /* ---------- Types ---------- */
-interface Customer {
+export interface Customer {
   id: string;
   name?: string;
   first_name?: string;
@@ -38,7 +39,7 @@ interface Media {
   created_at: string;
 }
 
-interface Review {
+export interface Review {
   id: number;
   created_at: string;
   rating: number;
@@ -58,11 +59,9 @@ interface EnhancedReviewCardProps {
 
 // #endregion
 
-const EnhancedReviewCard = ({
-  reviews,
-  isLoggedIn,
-}: EnhancedReviewCardProps) => {
+const ReviewSection = ({ reviews }: EnhancedReviewCardProps) => {
   // #region /* ---------- Hooks/State ---------- */
+
   const [reviewStates, setReviewStates] = useState<{
     [key: number]: {
       positiveVotes: number;
@@ -73,14 +72,15 @@ const EnhancedReviewCard = ({
     };
   }>({});
 
-  // Modal state for the overlay
   const [selectedReview, setSelectedReview] = useState<Review | null>(null);
   const [currentMediaIndex, setCurrentMediaIndex] = useState(0);
   const [error, setError] = useState('');
+  useScrollLock(selectedReview !== null);
+
   // #endregion
 
   // #region /* ---------- Function/Effects ---------- */
-  // Initialize state for each review if not already present
+
   const getReviewState = (reviewId: number) => {
     if (!reviewStates[reviewId]) {
       return {
@@ -94,7 +94,6 @@ const EnhancedReviewCard = ({
     return reviewStates[reviewId];
   };
 
-  // Update state for a specific review
   const updateReviewState = (
     reviewId: number,
     updates: Partial<{
@@ -114,7 +113,6 @@ const EnhancedReviewCard = ({
     }));
   };
 
-  // Initialize vote counts from reviews prop
   useEffect(() => {
     const initialStates: {
       [key: number]: {
@@ -129,29 +127,18 @@ const EnhancedReviewCard = ({
       initialStates[review.id] = {
         positiveVotes: review.positive_votes || 0,
         negativeVotes: review.negative_votes || 0,
-        hasLiked: false, // Frontend-only, reset on mount
-        hasDisliked: false, // Frontend-only, reset on mount
+        hasLiked: false,
+        hasDisliked: false,
         isExpanded: false,
       };
     });
     setReviewStates(initialStates);
   }, [reviews]);
 
-  // Handle like button click
   const handleLikeClick = async (reviewId: number) => {
-    if (!isLoggedIn) {
-      setError('Please log in to like this review');
-      return;
-    }
-
     const currentState = getReviewState(reviewId);
-    if (currentState.hasLiked || currentState.hasDisliked) {
-      setError('You have already voted on this review');
-      return;
-    }
 
     try {
-      // Increment positive_votes in product_reviews
       const { data, error } = await supabase
         .from('product_reviews')
         .update({ positive_votes: currentState.positiveVotes + 1 })
@@ -163,11 +150,10 @@ const EnhancedReviewCard = ({
         throw new Error(error.message);
       }
 
-      // Update local state to disable both buttons
       updateReviewState(reviewId, {
         positiveVotes: data.positive_votes,
         hasLiked: true,
-        hasDisliked: false, // Ensure dislike is not set
+        hasDisliked: false,
       });
       setError('');
     } catch (err) {
@@ -175,21 +161,10 @@ const EnhancedReviewCard = ({
     }
   };
 
-  // Handle dislike button click
   const handleDislikeClick = async (reviewId: number) => {
-    if (!isLoggedIn) {
-      setError('Please log in to dislike this review');
-      return;
-    }
-
     const currentState = getReviewState(reviewId);
-    if (currentState.hasLiked || currentState.hasDisliked) {
-      setError('You have already voted on this review');
-      return;
-    }
 
     try {
-      // Increment negative_votes in product_reviews
       const { data, error } = await supabase
         .from('product_reviews')
         .update({ negative_votes: currentState.negativeVotes + 1 })
@@ -201,10 +176,9 @@ const EnhancedReviewCard = ({
         throw new Error(error.message);
       }
 
-      // Update local state to disable both buttons
       updateReviewState(reviewId, {
         negativeVotes: data.negative_votes,
-        hasLiked: false, // Ensure like is not set
+        hasLiked: false,
         hasDisliked: true,
       });
       setError('');
@@ -216,16 +190,12 @@ const EnhancedReviewCard = ({
   const openReviewModal = (review: Review, mediaIndex: number = 0) => {
     setSelectedReview(review);
     setCurrentMediaIndex(mediaIndex);
-    // Prevent body scroll when modal is open
-    document.body.style.overflow = 'hidden';
   };
 
   const closeReviewModal = () => {
     setSelectedReview(null);
     setCurrentMediaIndex(0);
     setError('');
-    // Restore body scroll
-    document.body.style.overflow = 'unset';
   };
 
   const navigateMedia = (direction: 'prev' | 'next') => {
@@ -282,10 +252,6 @@ const EnhancedReviewCard = ({
     );
   }
 
-  useEffect(() => {
-    console.log(selectedReview);
-  }, [selectedReview]);
-
   return (
     <>
       <div className="bg-charcoal-900 p-4 md:p-8">
@@ -308,10 +274,10 @@ const EnhancedReviewCard = ({
             return (
               <div
                 key={review.id}
-                className="bg-charcoal-600/80 border-charcoal-400/10 rounded-xl border p-6 backdrop-blur-md md:p-8"
+                className="glass-effect hover:ember-hover-border rounded-xl transition md:p-8"
               >
                 {/* Top Section: User Profile */}
-                <div className="border-charcoal-700/50 mb-6 flex items-start justify-between border-b pb-4">
+                <div className="border-charcoal-600 mb-6 flex items-center justify-between border-b pb-4">
                   <div className="flex items-center gap-4">
                     <div className="relative">
                       <div className="bg-charcoal-700 flex h-16 w-16 items-center justify-center rounded-full">
@@ -416,10 +382,10 @@ const EnhancedReviewCard = ({
                             <div className="bg-charcoal-700 aspect-square overflow-hidden rounded-lg">
                               {media.media_type === 'video' ? (
                                 <div className="relative size-full">
-                                  <div className="absolute inset-0 flex items-center justify-center"></div>
+                                  <div className="absolute inset-0 flex"></div>
                                   <video
                                     src={media.url}
-                                    className="h-full w-full transition-transform duration-300 group-hover:scale-110"
+                                    className="h-full w-full object-cover object-center transition-transform duration-300 group-hover:scale-110"
                                     muted
                                     controls={false}
                                     preload="metadata"
@@ -430,22 +396,26 @@ const EnhancedReviewCard = ({
                                   src={media.url}
                                   alt={`Review media ${index + 1}`}
                                   className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-110"
-                                  onError={(e) =>
-                                    (e.currentTarget.src =
-                                      '/fallback-image.jpg')
-                                  }
                                 />
                               )}
                               <div
                                 className={`absolute inset-0 flex items-center justify-center`}
                               >
                                 <div
-                                  className={`bg-charcoal-800/80 } flex h-8 w-8 items-center justify-center rounded-full opacity-0 transition-all duration-300 group-hover:opacity-100`}
+                                  className={`flex opacity-0 transition-all duration-300 group-hover:opacity-100`}
                                 >
                                   {media.media_type === 'video' ? (
-                                    <CirclePlay className="text-ember-400 h-10 w-10 opacity-80" />
+                                    <CirclePlay
+                                      fill="black"
+                                      fillOpacity={0.1}
+                                      className="text-ember-400 absolute top-0 right-0 h-10 w-10 rounded-full"
+                                    />
                                   ) : (
-                                    <ZoomIn className="text-charcoal-200 h-4 w-4" />
+                                    <ZoomIn
+                                      fill="black"
+                                      fillOpacity={0.2}
+                                      className="text-ember-400 absolute top-0 right-0 h-10 w-10 rounded-full"
+                                    />
                                   )}
                                 </div>
                               </div>
@@ -458,38 +428,22 @@ const EnhancedReviewCard = ({
 
                   {/* Vote Buttons */}
                   <div className="border-charcoal-700/50 flex items-center justify-center gap-4 border-t pt-4">
-                    <button
+                    <Button
+                      startIcon={<ThumbsUp className="h-4 w-4" />}
+                      text={`Helpful (${positiveVotes})`}
+                      variant={hasLiked ? 'secondary' : 'outline'}
+                      disabled={hasLiked || hasDisliked}
                       onClick={() => handleLikeClick(review.id)}
-                      className={`flex items-center gap-2 rounded-full px-4 py-2 text-sm font-medium transition-all duration-200 ${
-                        hasLiked || hasDisliked
-                          ? 'text-charcoal-500 cursor-not-allowed'
-                          : 'text-charcoal-300 hover:text-ember-400 hover:bg-ember-500/10'
-                      } ${hasLiked ? 'bg-ember-500/10 text-ember-400' : ''}`}
+                    />
+
+                    <Button
+                      startIcon={<ThumbsDown className="h-4 w-4" />}
+                      text={`Helpful (${negativeVotes})`}
+                      variant={hasDisliked ? 'secondary' : 'outline'}
                       disabled={hasLiked || hasDisliked}
-                      aria-label={`Mark as helpful (${positiveVotes} likes)`}
-                    >
-                      <ThumbsUp className="h-4 w-4" />
-                      Helpful ({positiveVotes})
-                    </button>
-                    <button
                       onClick={() => handleDislikeClick(review.id)}
-                      className={`flex items-center gap-2 rounded-full px-4 py-2 text-sm font-medium transition-all duration-200 ${
-                        hasLiked || hasDisliked
-                          ? 'text-charcoal-500 cursor-not-allowed'
-                          : 'text-charcoal-300 hover:text-ember-400 hover:bg-ember-500/10'
-                      } ${hasDisliked ? 'bg-ember-500/10 text-ember-400' : ''}`}
-                      disabled={hasLiked || hasDisliked}
-                      aria-label={`Mark as unhelpful (${negativeVotes} dislikes)`}
-                    >
-                      <ThumbsDown className="h-4 w-4" />
-                      Unhelpful ({negativeVotes})
-                    </button>
+                    />
                   </div>
-                  {error && (
-                    <p className="text-ember-500 text-center text-sm">
-                      {error}
-                    </p>
-                  )}
                 </div>
               </div>
             );
@@ -622,12 +576,12 @@ const EnhancedReviewCard = ({
             {/* Review content - scrollable */}
             <div className="flex-1 space-y-4 overflow-y-auto p-4">
               {/* Title */}
-              <h3 className="text-xl leading-tight font-bold text-white">
+              <h3 className="text-xl break-words line-clamp-1 leading-tight font-bold text-white">
                 {selectedReview.title}
               </h3>
 
               {/* Content */}
-              <p className="text-charcoal-300 leading-relaxed">
+              <p className="text-charcoal-300 break-words leading-relaxed">
                 {selectedReview.content}
               </p>
 
@@ -636,7 +590,6 @@ const EnhancedReviewCard = ({
                 <div>
                   <div className="grid grid-cols-4 gap-2">
                     {selectedReview.media.map((media, index) => {
-                      console.log(media);
                       return (
                         <button
                           key={media.id}
@@ -679,39 +632,35 @@ const EnhancedReviewCard = ({
 
             {/* Footer - Vote buttons */}
             <div className="border-charcoal-600 border-t p-4">
-              <div className="flex gap-2">
-                <button
+              <div className="flex justify-between gap-2 px-4">
+                <Button
+                  startIcon={<ThumbsDown className="h-4 w-4" />}
+                  text={getReviewState(selectedReview.id).positiveVotes}
+                  variant={
+                    getReviewState(selectedReview.id).hasLiked
+                      ? 'secondary'
+                      : 'outline'
+                  }
+                  disabled={
+                    getReviewState(selectedReview.id).hasLiked ||
+                    getReviewState(selectedReview.id).hasDisliked
+                  }
                   onClick={() => handleLikeClick(selectedReview.id)}
-                  className={`flex flex-1 items-center justify-center gap-2 rounded-full px-4 py-2 text-sm font-medium transition-all duration-200 ${
-                    getReviewState(selectedReview.id).hasLiked ||
+                />
+                <Button
+                  startIcon={<ThumbsDown className="h-4 w-4" />}
+                  text={getReviewState(selectedReview.id).negativeVotes}
+                  variant={
                     getReviewState(selectedReview.id).hasDisliked
-                      ? 'text-charcoal-500 cursor-not-allowed'
-                      : 'text-charcoal-300 hover:text-ember-400 hover:bg-ember-500/10'
-                  } ${getReviewState(selectedReview.id).hasLiked ? 'bg-ember-500/10 text-ember-400' : ''}`}
+                      ? 'secondary'
+                      : 'outline'
+                  }
                   disabled={
                     getReviewState(selectedReview.id).hasLiked ||
                     getReviewState(selectedReview.id).hasDisliked
                   }
-                >
-                  <ThumbsUp className="h-4 w-4" />
-                  {getReviewState(selectedReview.id).positiveVotes}
-                </button>
-                <button
                   onClick={() => handleDislikeClick(selectedReview.id)}
-                  className={`flex flex-1 items-center justify-center gap-2 rounded-full px-4 py-2 text-sm font-medium transition-all duration-200 ${
-                    getReviewState(selectedReview.id).hasLiked ||
-                    getReviewState(selectedReview.id).hasDisliked
-                      ? 'text-charcoal-500 cursor-not-allowed'
-                      : 'text-charcoal-300 hover:text-ember-400 hover:bg-ember-500/10'
-                  } ${getReviewState(selectedReview.id).hasDisliked ? 'bg-ember-500/10 text-ember-400' : ''}`}
-                  disabled={
-                    getReviewState(selectedReview.id).hasLiked ||
-                    getReviewState(selectedReview.id).hasDisliked
-                  }
-                >
-                  <ThumbsDown className="h-4 w-4" />
-                  {getReviewState(selectedReview.id).negativeVotes}
-                </button>
+                />
               </div>
               {error && (
                 <p className="text-ember-500 mt-2 text-center text-sm">
@@ -726,4 +675,4 @@ const EnhancedReviewCard = ({
   );
 };
 
-export default EnhancedReviewCard;
+export default ReviewSection;

@@ -89,7 +89,6 @@ ember-900: #8A2A0D    → Deepest (rare)
 
 ### Interactive Utilities (Interactions)
 
-- ember-transition
 - ember-hover-border
 
 ### Animations
