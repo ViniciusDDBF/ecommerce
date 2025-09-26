@@ -1,10 +1,11 @@
-import { CirclePlay } from 'lucide-react';
+import ThumbnailNavigation from '../ThumbnailNavigation';
 
 interface ProductMediaViewerProps {
   images: { url: string; media_type: string }[];
   selectedMedia: { url: string; media_type: string } | null;
   setSelectedMedia: (media: { url: string; media_type: string } | null) => void;
   productName: string;
+  thumbnailOrientation?: 'horizontal' | 'vertical';
 }
 
 export default function ProductMediaViewer({
@@ -12,43 +13,20 @@ export default function ProductMediaViewer({
   selectedMedia,
   setSelectedMedia,
   productName,
+  thumbnailOrientation = 'vertical',
 }: ProductMediaViewerProps) {
   return (
     <div className="w-full lg:w-1/2">
       <div className="flex flex-col gap-3 sm:flex-row sm:gap-4 md:gap-6">
         {/* Thumbnail Navigation */}
-        <div className="order-2 flex gap-2 overflow-x-auto sm:order-1 sm:w-16 sm:flex-col sm:gap-3 sm:overflow-visible md:w-20 lg:w-24">
-          {images.map((item, idx) => {
-            const isSelected = selectedMedia?.url === item.url;
-            const isVideo = item.media_type === 'video';
-            const commonClasses = `ember-hover-border ember-transition hover:animate-glow hover:border-ember-500 h-12 w-12 sm:h-16 sm:w-16 md:h-20 md:w-20 lg:h-24 lg:w-24 flex-shrink-0 cursor-pointer rounded-lg border-2 object-contain ${
-              isSelected ? 'border-ember-500' : 'border-transparent'
-            }`;
-
-            return isVideo ? (
-              <div key={idx} className="relative flex-shrink-0">
-                <div className="absolute inset-0 flex items-center justify-center bg-black/30">
-                  <CirclePlay className="text-ember-300 h-6 w-6 opacity-80 sm:h-8 sm:w-8" />
-                </div>
-                <video
-                  src={item.url}
-                  className={commonClasses}
-                  onClick={() => setSelectedMedia(item)}
-                  muted
-                  controls={false}
-                  preload="metadata"
-                />
-              </div>
-            ) : (
-              <img
-                key={idx}
-                src={item.url}
-                className={commonClasses}
-                onClick={() => setSelectedMedia(item)}
-                alt={`${productName} thumbnail ${idx + 1}`}
-              />
-            );
-          })}
+        <div className="order-2 sm:order-1">
+          <ThumbnailNavigation
+            images={images}
+            selectedMedia={selectedMedia}
+            setSelectedMedia={setSelectedMedia}
+            productName={productName}
+            orientation={thumbnailOrientation}
+          />
         </div>
 
         {/* Main Product Image */}

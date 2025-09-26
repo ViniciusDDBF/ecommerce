@@ -1,314 +1,279 @@
+// #region /* ---------- Imports ---------- */
 import { useState, useEffect } from 'react';
-import { Star, Play, Shield, X, ZoomIn, ThumbsUp } from 'lucide-react';
+import {
+  Star,
+  Shield,
+  X,
+  ZoomIn,
+  ThumbsUp,
+  ThumbsDown,
+  ChevronLeft,
+  ChevronRight,
+  CirclePlay,
+} from 'lucide-react';
+import { supabase } from '../SupabaseConfig';
+import Button from './Button';
+import Overlay from './Overlay';
+// #endregion
 
-// Star Rating Component
-const StarRating = ({ rating, size = 'sm', showNumber = false }) => {
-  const sizeClasses = size === 'sm' ? 'w-4 h-4' : 'w-5 h-5';
+// #region /* ---------- Types ---------- */
+interface Customer {
+  id: string;
+  name?: string;
+  first_name?: string;
+  last_name?: string;
+  email?: string | null;
+  phone?: string | null;
+  cpf?: string | null;
+  company_name?: string | null;
+  legal_name?: string | null;
+  cnpj?: string | null;
+  is_cpf?: boolean | null;
+}
 
-  return (
-    <div
-      className="flex items-center gap-1"
-      role="img"
-      aria-label={`Rating: ${rating} out of 5 stars`}
-    >
-      {[1, 2, 3, 4, 5].map((star) => (
-        <Star
-          key={star}
-          className={`${sizeClasses} ${
-            star <= rating
-              ? 'fill-ember-400 text-ember-400'
-              : 'text-charcoal-400'
-          }`}
-          aria-hidden="true"
-        />
-      ))}
-      {showNumber && (
-        <span className="text-charcoal-300 ml-1 text-sm font-medium">
-          {rating.toFixed(1)}
-        </span>
-      )}
-    </div>
-  );
-};
+interface Media {
+  id: number;
+  media_type: string;
+  url: string;
+  created_at: string;
+}
 
-// Badge Component
-const Badge = ({ children, variant = 'default' }) => {
-  const variants = {
-    verified: 'bg-ember-500/10 text-ember-400 border border-ember-500/20',
+interface Review {
+  id: number;
+  created_at: string;
+  rating: number;
+  title: string;
+  content: string;
+  is_anonymous: boolean;
+  positive_votes: number;
+  negative_votes: number;
+  customer: Customer;
+  media: Media[];
+}
+
+interface EnhancedReviewCardProps {
+  reviews: Review[];
+  isLoggedIn: boolean;
+  customerId: string | null;
+}
+
+// #endregion
+
+const EnhancedReviewCard = ({
+  reviews,
+  isLoggedIn,
+  customerId,
+}: EnhancedReviewCardProps) => {
+  // #region /* ---------- Hooks/State ---------- */
+  const [reviewStates, setReviewStates] = useState<{
+    [key: number]: {
+      positiveVotes: number;
+      negativeVotes: number;
+      hasLiked: boolean;
+      hasDisliked: boolean;
+      isExpanded: boolean;
+    };
+  }>({});
+
+  // Modal state for the overlay
+  const [selectedReview, setSelectedReview] = useState<Review | null>(null);
+  const [currentMediaIndex, setCurrentMediaIndex] = useState(0);
+  const [error, setError] = useState('');
+  // #endregion
+
+  // #region /* ---------- Function/Effects ---------- */
+  // Initialize state for each review if not already present
+  const getReviewState = (reviewId: number) => {
+    if (!reviewStates[reviewId]) {
+      return {
+        positiveVotes: 0,
+        negativeVotes: 0,
+        hasLiked: false,
+        hasDisliked: false,
+        isExpanded: false,
+      };
+    }
+    return reviewStates[reviewId];
   };
 
-  return (
-    <span
-      className={`inline-flex items-center rounded-full px-2 py-1 text-xs font-medium ${variants[variant]}`}
-    >
-      {children}
-    </span>
-  );
-};
+  // Update state for a specific review
+  const updateReviewState = (
+    reviewId: number,
+    updates: Partial<{
+      positiveVotes: number;
+      negativeVotes: number;
+      hasLiked: boolean;
+      hasDisliked: boolean;
+      isExpanded: boolean;
+    }>,
+  ) => {
+    setReviewStates((prev) => ({
+      ...prev,
+      [reviewId]: {
+        ...getReviewState(reviewId),
+        ...updates,
+      },
+    }));
+  };
 
-// Image Modal Component
-const ImageModal = ({ isOpen, onClose, src, alt }) => {
-  if (!isOpen) return null;
-
-  return (
-    <div
-      className="bg-charcoal-900/95 fixed inset-0 z-50 flex items-center justify-center p-4 backdrop-blur-sm"
-      role="dialog"
-      aria-labelledby="media-modal-title"
-      aria-modal="true"
-    >
-      <div className="relative max-h-[90vh] w-full max-w-4xl">
-        <button
-          onClick={onClose}
-          className="text-charcoal-300 hover:text-ember-400 absolute -top-12 right-0 transition-colors duration-200"
-          aria-label="Close media modal"
-        >
-          <X className="h-8 w-8" />
-        </button>
-        <img
-          src={src}
-          alt={alt}
-          className="h-auto max-h-[85vh] w-full rounded-xl object-contain shadow-2xl"
-          onError={(e) => (e.currentTarget.src = '/fallback-image.jpg')}
-        />
-      </div>
-    </div>
-  );
-};
-
-// Media Thumbnail Component
-const MediaThumbnail = ({ type, src, alt, className = '', onClick }) => {
-  return (
-    <div
-      className={`group relative cursor-pointer ${className}`}
-      onClick={onClick}
-      role="button"
-      tabIndex={0}
-      onKeyDown={(e) => e.key === 'Enter' && onClick()}
-      aria-label={`View ${type === 'video' ? 'video' : 'image'}: ${alt}`}
-    >
-      <div className="bg-charcoal-700 aspect-square overflow-hidden rounded-lg">
-        <img
-          src={src}
-          alt={alt}
-          className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-110"
-          onError={(e) => (e.currentTarget.src = '/fallback-image.jpg')}
-        />
-        <div
-          className={`absolute inset-0 flex items-center justify-center ${
-            type === 'video'
-              ? 'bg-charcoal-900/40'
-              : 'bg-charcoal-900/0 group-hover:bg-charcoal-900/20'
-          }`}
-        >
-          <div
-            className={`flex h-8 w-8 items-center justify-center rounded-full transition-all duration-300 ${
-              type === 'video'
-                ? 'bg-ember-500/90 group-hover:bg-ember-400 shadow-ember-500/40'
-                : 'bg-charcoal-800/80 opacity-0 group-hover:opacity-100'
-            }`}
-          >
-            {type === 'video' ? (
-              <Play
-                className="text-charcoal-50 ml-0.5 h-4 w-4"
-                fill="currentColor"
-              />
-            ) : (
-              <ZoomIn className="text-charcoal-200 h-4 w-4" />
-            )}
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-};
-
-// Single Review Card Component
-const ReviewCard = ({ review, isLoggedIn, customerId }) => {
-  const [selectedImage, setSelectedImage] = useState(null);
-  const [likeCount, setLikeCount] = useState(review.like_count || 0);
-  const [hasLiked, setHasLiked] = useState(false);
-  const [error, setError] = useState('');
-  const [isExpanded, setIsExpanded] = useState(false);
-
-  // Check if user has liked the review
+  // Initialize vote counts from reviews prop
   useEffect(() => {
-    const checkHasLiked = async () => {
-      if (!isLoggedIn || !customerId) return;
-      try {
-        const response = await fetch(`/api/reviews/${review.id}/has-liked`, {
-          headers: {
-            'Content-Type': 'application/json',
-            'X-Customer-Id': customerId,
-          },
-        });
-        if (!response.ok) throw new Error('Failed to check like status');
-        const { has_liked } = await response.json();
-        setHasLiked(has_liked);
-      } catch (err) {
-        console.error('Error checking like status:', err);
-      }
-    };
-    checkHasLiked();
-  }, [review.id, isLoggedIn, customerId]);
+    const initialStates: {
+      [key: number]: {
+        positiveVotes: number;
+        negativeVotes: number;
+        hasLiked: boolean;
+        hasDisliked: boolean;
+        isExpanded: boolean;
+      };
+    } = {};
+    reviews.forEach((review) => {
+      initialStates[review.id] = {
+        positiveVotes: review.positive_votes || 0,
+        negativeVotes: review.negative_votes || 0,
+        hasLiked: false, // Frontend-only, reset on mount
+        hasDisliked: false, // Frontend-only, reset on mount
+        isExpanded: false,
+      };
+    });
+    setReviewStates(initialStates);
+  }, [reviews]);
 
-  const handleLikeClick = async () => {
+  // Handle like button click
+  const handleLikeClick = async (reviewId: number) => {
     if (!isLoggedIn || !customerId) {
       setError('Please log in to like this review');
       return;
     }
-    if (hasLiked) {
-      setError('You have already liked this review');
+
+    const currentState = getReviewState(reviewId);
+    if (currentState.hasLiked || currentState.hasDisliked) {
+      setError('You have already voted on this review');
       return;
     }
 
     try {
-      const response = await fetch(`/api/reviews/${review.id}/like`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ customer_id: customerId }),
+      // Increment positive_votes in product_reviews
+      const { data, error } = await supabase
+        .from('product_reviews')
+        .update({ positive_votes: currentState.positiveVotes + 1 })
+        .eq('id', reviewId)
+        .select('positive_votes')
+        .single();
+
+      if (error) {
+        throw new Error(error.message);
+      }
+
+      // Update local state to disable both buttons
+      updateReviewState(reviewId, {
+        positiveVotes: data.positive_votes,
+        hasLiked: true,
+        hasDisliked: false, // Ensure dislike is not set
       });
-      if (!response.ok) throw new Error((await response.json()).error);
-      const { like_count } = await response.json();
-      setLikeCount(parseInt(like_count, 10));
-      setHasLiked(true);
       setError('');
     } catch (err) {
-      setError(err.message || 'Failed to like review');
+      setError('Failed to like review. Please try again.');
     }
   };
 
-  const openImageModal = (src, alt) => {
-    setSelectedImage({ src, alt });
+  // Handle dislike button click
+  const handleDislikeClick = async (reviewId: number) => {
+    if (!isLoggedIn || !customerId) {
+      setError('Please log in to dislike this review');
+      return;
+    }
+
+    const currentState = getReviewState(reviewId);
+    if (currentState.hasLiked || currentState.hasDisliked) {
+      setError('You have already voted on this review');
+      return;
+    }
+
+    try {
+      // Increment negative_votes in product_reviews
+      const { data, error } = await supabase
+        .from('product_reviews')
+        .update({ negative_votes: currentState.negativeVotes + 1 })
+        .eq('id', reviewId)
+        .select('negative_votes')
+        .single();
+
+      if (error) {
+        throw new Error(error.message);
+      }
+
+      // Update local state to disable both buttons
+      updateReviewState(reviewId, {
+        negativeVotes: data.negative_votes,
+        hasLiked: false, // Ensure like is not set
+        hasDisliked: true,
+      });
+      setError('');
+    } catch (err) {
+      setError('Failed to dislike review. Please try again.');
+    }
   };
 
-  const closeImageModal = () => {
-    setSelectedImage(null);
+  const openReviewModal = (review: Review, mediaIndex: number = 0) => {
+    setSelectedReview(review);
+    setCurrentMediaIndex(mediaIndex);
+    // Prevent body scroll when modal is open
+    document.body.style.overflow = 'hidden';
   };
 
-  const avatar = review.is_anonymous
-    ? 'AN'
-    : `${review.customer.first_name?.[0] || ''}${review.customer.last_name?.[0] || ''}`;
-  const displayName = review.is_anonymous
-    ? 'Anonymous'
-    : review.customer.first_name;
+  const closeReviewModal = () => {
+    setSelectedReview(null);
+    setCurrentMediaIndex(0);
+    setError('');
+    // Restore body scroll
+    document.body.style.overflow = 'unset';
+  };
 
-  return (
-    <div className="bg-charcoal-600/80 border-charcoal-400/10 rounded-xl border p-6 backdrop-blur-md md:p-8">
-      {/* Top Section: User Profile */}
-      <div className="border-charcoal-700/50 mb-6 flex items-start justify-between border-b pb-4">
-        <div className="flex items-center gap-4">
-          <div className="relative">
-            <div className="bg-charcoal-700 flex h-16 w-16 items-center justify-center rounded-full">
-              <span className="text-ember-400 text-xl font-bold">{avatar}</span>
-            </div>
-          </div>
-          <div className="space-y-1">
-            <div className="flex gap-4">
-              <h3 className="text-charcoal-100 text-lg font-semibold">
-                {displayName}
-              </h3>
-              <div className="flex justify-end gap-2">
-                <Badge variant="verified">
-                  <Shield className="mr-1 h-3 w-3" />
-                  Verified
-                </Badge>
-              </div>
-            </div>
-            <p className="text-charcoal-300 text-sm">
-              {new Date(review.created_at).toLocaleDateString('en-US', {
-                month: 'long',
-                day: 'numeric',
-                year: 'numeric',
-              })}
-            </p>
-          </div>
-        </div>
-        <div className="space-y-2 text-right">
-          <StarRating rating={review.rating} size="md" showNumber={true} />
-        </div>
-      </div>
+  const navigateMedia = (direction: 'prev' | 'next') => {
+    if (!selectedReview || selectedReview.media.length === 0) return;
 
-      {/* Main Content Section */}
-      <div className="space-y-6">
-        {/* Content */}
-        <div>
-          <h3 className="text-charcoal-100 mb-4 text-2xl leading-tight font-bold">
-            {review.title}
-          </h3>
-          <p
-            className={`text-charcoal-300 mb-4 text-lg leading-relaxed ${
-              !isExpanded ? 'line-clamp-3' : ''
-            }`}
-          >
-            {review.content}
-          </p>
-          {review.content.length > 200 && (
-            <button
-              className="text-ember-400 hover:text-ember-500 text-sm"
-              onClick={() => setIsExpanded(!isExpanded)}
-            >
-              {isExpanded ? 'Read Less' : 'Read More'}
-            </button>
-          )}
-        </div>
+    if (direction === 'prev') {
+      setCurrentMediaIndex((prev) =>
+        prev === 0 ? selectedReview.media.length - 1 : prev - 1,
+      );
+    } else {
+      setCurrentMediaIndex((prev) =>
+        prev === selectedReview.media.length - 1 ? 0 : prev + 1,
+      );
+    }
+  };
 
-        {/* Media Thumbnails */}
-        {review.media.length > 0 && (
-          <div className="flex justify-center">
-            <div className="grid max-w-sm grid-cols-3 gap-3">
-              {review.media.map((media, index) => (
-                <MediaThumbnail
-                  key={media.id}
-                  type={media.media_type || 'image'} // Fallback to image
-                  src={media.url}
-                  alt={`Review media ${index + 1}`}
-                  onClick={() =>
-                    openImageModal(media.url, `Review media ${index + 1}`)
-                  }
-                />
-              ))}
-            </div>
-          </div>
-        )}
+  // Handle keyboard navigation
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (!selectedReview) return;
 
-        {/* Helpful Button */}
-        <div className="border-charcoal-700/50 flex items-center justify-center border-t pt-4">
-          <button
-            onClick={handleLikeClick}
-            disabled={hasLiked}
-            className={`flex items-center gap-2 rounded-full px-4 py-2 text-sm font-medium transition-all duration-200 ${
-              hasLiked
-                ? 'text-charcoal-500 cursor-not-allowed'
-                : 'text-charcoal-300 hover:text-ember-400 hover:bg-ember-500/10'
-            }`}
-            aria-label={`Mark as helpful (${likeCount} likes)`}
-            role="button"
-            tabIndex={0}
-            onKeyDown={(e) => e.key === 'Enter' && handleLikeClick()}
-          >
-            <ThumbsUp
-              className={`h-4 w-4 ${hasLiked ? 'fill-ember-400' : ''}`}
-            />
-            Helpful? ({likeCount})
-          </button>
-          {error && <p className="text-ember-500 ml-4 text-sm">{error}</p>}
-        </div>
-      </div>
+      switch (e.key) {
+        case 'Escape':
+          closeReviewModal();
+          break;
+        case 'ArrowLeft':
+          e.preventDefault();
+          navigateMedia('prev');
+          break;
+        case 'ArrowRight':
+          e.preventDefault();
+          navigateMedia('next');
+          break;
+      }
+    };
 
-      {/* Image Modal */}
-      <ImageModal
-        isOpen={selectedImage !== null}
-        onClose={closeImageModal}
-        src={selectedImage?.src}
-        alt={selectedImage?.alt}
-      />
-    </div>
-  );
-};
+    if (selectedReview) {
+      window.addEventListener('keydown', handleKeyDown);
+    }
 
-// Main Component
-const EnhancedReviewCard = ({ reviews, isLoggedIn, customerId }) => {
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [selectedReview]);
+  // #endregion
+
   if (!reviews || reviews.length === 0) {
     return (
       <div className="bg-charcoal-900 p-4 md:p-8">
@@ -319,19 +284,447 @@ const EnhancedReviewCard = ({ reviews, isLoggedIn, customerId }) => {
     );
   }
 
+  useEffect(() => {
+    console.log(selectedReview);
+  }, [selectedReview]);
+
   return (
-    <div className="bg-charcoal-900 p-4 md:p-8">
-      <div className="mx-auto max-w-3xl space-y-8">
-        {reviews.map((review) => (
-          <ReviewCard
-            key={review.id}
-            review={review}
-            isLoggedIn={isLoggedIn}
-            customerId={customerId}
-          />
-        ))}
+    <>
+      <div className="bg-charcoal-900 p-4 md:p-8">
+        <div className="mx-auto max-w-3xl space-y-8">
+          {reviews.map((review) => {
+            const avatar = review.is_anonymous
+              ? 'AN'
+              : `${review.customer.first_name?.[0] || ''}${review.customer.last_name?.[0] || ''}`;
+            const displayName = review.is_anonymous
+              ? 'Anonymous'
+              : review.customer.first_name;
+            const {
+              positiveVotes,
+              negativeVotes,
+              hasLiked,
+              hasDisliked,
+              isExpanded,
+            } = getReviewState(review.id);
+
+            return (
+              <div
+                key={review.id}
+                className="bg-charcoal-600/80 border-charcoal-400/10 rounded-xl border p-6 backdrop-blur-md md:p-8"
+              >
+                {/* Top Section: User Profile */}
+                <div className="border-charcoal-700/50 mb-6 flex items-start justify-between border-b pb-4">
+                  <div className="flex items-center gap-4">
+                    <div className="relative">
+                      <div className="bg-charcoal-700 flex h-16 w-16 items-center justify-center rounded-full">
+                        <span className="text-ember-400 text-xl font-bold">
+                          {avatar}
+                        </span>
+                      </div>
+                    </div>
+                    <div className="space-y-1">
+                      <div className="flex gap-4">
+                        <h3 className="text-charcoal-100 text-lg font-semibold">
+                          {displayName}
+                        </h3>
+                        <div className="flex justify-end gap-2">
+                          <span className="bg-ember-500/10 text-ember-400 border-ember-500/20 inline-flex items-center rounded-full border px-2 py-1 text-xs font-medium">
+                            <Shield className="mr-1 h-3 w-3" />
+                            Verified
+                          </span>
+                        </div>
+                      </div>
+                      <p className="text-charcoal-300 text-sm">
+                        {new Date(review.created_at).toLocaleDateString(
+                          'en-US',
+                          {
+                            month: 'long',
+                            day: 'numeric',
+                            year: 'numeric',
+                          },
+                        )}
+                      </p>
+                    </div>
+                  </div>
+                  <div className="space-y-2 text-right">
+                    <div
+                      className="flex items-center gap-1"
+                      role="img"
+                      aria-label={`Rating: ${review.rating} out of 5 stars`}
+                    >
+                      {[1, 2, 3, 4, 5].map((star) => (
+                        <Star
+                          key={star}
+                          className={`h-5 w-5 ${
+                            star <= review.rating
+                              ? 'fill-ember-400 text-ember-400'
+                              : 'text-charcoal-400'
+                          }`}
+                          aria-hidden="true"
+                        />
+                      ))}
+                      <span className="text-charcoal-300 ml-1 text-sm font-medium">
+                        {review.rating.toFixed(1)}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Main Content Section */}
+                <div className="space-y-6">
+                  {/* Content */}
+                  <div>
+                    <h3 className="text-charcoal-100 mb-4 text-2xl leading-tight font-bold">
+                      {review.title}
+                    </h3>
+                    <p
+                      className={`text-charcoal-300 mb-4 text-lg leading-relaxed ${
+                        !isExpanded ? 'line-clamp-3' : ''
+                      }`}
+                    >
+                      {review.content}
+                    </p>
+                    {review.content.length > 200 && (
+                      <button
+                        className="text-ember-400 hover:text-ember-500 text-sm"
+                        onClick={() =>
+                          updateReviewState(review.id, {
+                            isExpanded: !isExpanded,
+                          })
+                        }
+                      >
+                        {isExpanded ? 'Read Less' : 'Read More'}
+                      </button>
+                    )}
+                  </div>
+
+                  {/* ---------- Media thumbnail ---------- */}
+                  {review.media.length > 0 && (
+                    <div className="flex justify-center">
+                      <div className="grid max-w-sm grid-cols-3 gap-3">
+                        {review.media.map((media, index) => (
+                          <div
+                            key={media.id}
+                            className="group relative cursor-pointer"
+                            onClick={() => openReviewModal(review, index)}
+                            role="button"
+                            tabIndex={0}
+                            onKeyDown={(e) =>
+                              e.key === 'Enter' &&
+                              openReviewModal(review, index)
+                            }
+                            aria-label={`View ${media.media_type || 'image'}: Review media ${index + 1}`}
+                          >
+                            <div className="bg-charcoal-700 aspect-square overflow-hidden rounded-lg">
+                              {media.media_type === 'video' ? (
+                                <div className="relative size-full">
+                                  <div className="absolute inset-0 flex items-center justify-center"></div>
+                                  <video
+                                    src={media.url}
+                                    className="h-full w-full transition-transform duration-300 group-hover:scale-110"
+                                    muted
+                                    controls={false}
+                                    preload="metadata"
+                                  />
+                                </div>
+                              ) : (
+                                <img
+                                  src={media.url}
+                                  alt={`Review media ${index + 1}`}
+                                  className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-110"
+                                  onError={(e) =>
+                                    (e.currentTarget.src =
+                                      '/fallback-image.jpg')
+                                  }
+                                />
+                              )}
+                              <div
+                                className={`absolute inset-0 flex items-center justify-center`}
+                              >
+                                <div
+                                  className={`bg-charcoal-800/80 } flex h-8 w-8 items-center justify-center rounded-full opacity-0 transition-all duration-300 group-hover:opacity-100`}
+                                >
+                                  {media.media_type === 'video' ? (
+                                    <CirclePlay className="text-ember-400 h-10 w-10 opacity-80" />
+                                  ) : (
+                                    <ZoomIn className="text-charcoal-200 h-4 w-4" />
+                                  )}
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Vote Buttons */}
+                  <div className="border-charcoal-700/50 flex items-center justify-center gap-4 border-t pt-4">
+                    <button
+                      onClick={() => handleLikeClick(review.id)}
+                      className={`flex items-center gap-2 rounded-full px-4 py-2 text-sm font-medium transition-all duration-200 ${
+                        hasLiked || hasDisliked
+                          ? 'text-charcoal-500 cursor-not-allowed'
+                          : 'text-charcoal-300 hover:text-ember-400 hover:bg-ember-500/10'
+                      } ${hasLiked ? 'bg-ember-500/10 text-ember-400' : ''}`}
+                      disabled={hasLiked || hasDisliked}
+                      aria-label={`Mark as helpful (${positiveVotes} likes)`}
+                    >
+                      <ThumbsUp className="h-4 w-4" />
+                      Helpful ({positiveVotes})
+                    </button>
+                    <button
+                      onClick={() => handleDislikeClick(review.id)}
+                      className={`flex items-center gap-2 rounded-full px-4 py-2 text-sm font-medium transition-all duration-200 ${
+                        hasLiked || hasDisliked
+                          ? 'text-charcoal-500 cursor-not-allowed'
+                          : 'text-charcoal-300 hover:text-ember-400 hover:bg-ember-500/10'
+                      } ${hasDisliked ? 'bg-ember-500/10 text-ember-400' : ''}`}
+                      disabled={hasLiked || hasDisliked}
+                      aria-label={`Mark as unhelpful (${negativeVotes} dislikes)`}
+                    >
+                      <ThumbsDown className="h-4 w-4" />
+                      Unhelpful ({negativeVotes})
+                    </button>
+                  </div>
+                  {error && (
+                    <p className="text-ember-500 text-center text-sm">
+                      {error}
+                    </p>
+                  )}
+                </div>
+              </div>
+            );
+          })}
+        </div>
       </div>
-    </div>
+
+      {/* Facebook-style Overlay Modal */}
+      {selectedReview && (
+        <Overlay onClick={closeReviewModal} isOpen={selectedReview !== null}>
+          {/* Left side - Media */}
+          <div className="pointer-events-none fixed inset-0 z-30 flex items-center justify-center p-4 pr-96">
+            {selectedReview.media.length > 0 && (
+              <div className="pointer-events-auto relative max-h-full max-w-4xl">
+                {selectedReview.media[currentMediaIndex].media_type ===
+                'video' ? (
+                  <video
+                    src={selectedReview.media[currentMediaIndex].url}
+                    controls
+                    className="h-[90vh] w-[90vh] rounded-lg shadow-2xl"
+                    autoPlay
+                  />
+                ) : (
+                  <img
+                    src={selectedReview.media[currentMediaIndex].url}
+                    alt={`Review media ${currentMediaIndex + 1}`}
+                    className="h-[90vh] w-[90vh] rounded-lg object-contain shadow-2xl"
+                    onError={(e) =>
+                      (e.currentTarget.src = '/fallback-image.jpg')
+                    }
+                  />
+                )}
+
+                {/* Media navigation buttons */}
+                {selectedReview.media.length > 1 && (
+                  <>
+                    <button
+                      className="absolute top-1/2 left-4 -translate-y-1/2 rounded-full bg-black/50 p-2 text-white transition-all duration-200 hover:bg-black/70"
+                      aria-label="Previous media"
+                    >
+                      <ChevronLeft className="h-6 w-6" />
+                    </button>
+                    <button
+                      onClick={() => {
+                        navigateMedia('next');
+                      }}
+                      className="absolute top-1/2 right-4 -translate-y-1/2 cursor-pointer rounded-full bg-black/50 p-2 text-white transition-all duration-200 hover:bg-black/70"
+                      aria-label="Next media"
+                    >
+                      <ChevronRight className="h-6 w-6" />
+                    </button>
+                  </>
+                )}
+              </div>
+            )}
+          </div>
+
+          {/* Right side - Review details */}
+          <div className="bg-charcoal-800 border-charcoal-600 fixed top-0 right-0 z-30 flex h-full w-96 flex-col overflow-hidden border-l">
+            {/* Header */}
+            <div className="border-charcoal-600 flex items-center justify-between border-b p-4">
+              {/* User info */}
+              <div className="flex flex-col gap-5">
+                <div className="flex items-center gap-3">
+                  <div className="bg-charcoal-700 flex h-12 w-12 items-center justify-center rounded-full">
+                    <span className="text-ember-400 text-lg font-bold">
+                      {selectedReview.is_anonymous
+                        ? 'AN'
+                        : `${selectedReview.customer.first_name?.[0] || ''}${selectedReview.customer.last_name?.[0] || ''}`}
+                    </span>
+                  </div>
+                  <div>
+                    <div className="flex items-center gap-2">
+                      <span className="font-medium text-white">
+                        {selectedReview.is_anonymous
+                          ? 'Anonymous'
+                          : selectedReview.customer.first_name}
+                      </span>
+                      <span className="bg-ember-500/10 text-ember-400 border-ember-500/20 inline-flex items-center rounded-full border px-2 py-0.5 text-xs font-medium">
+                        <Shield className="mr-1 h-2.5 w-2.5" />
+                        Verified
+                      </span>
+                    </div>
+                    <p className="text-charcoal-300 text-sm">
+                      {new Date(selectedReview.created_at).toLocaleDateString(
+                        'en-US',
+                        {
+                          month: 'long',
+                          day: 'numeric',
+                          year: 'numeric',
+                        },
+                      )}
+                    </p>
+                  </div>
+                </div>
+                {/* Rating */}
+                <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-1">
+                    {[1, 2, 3, 4, 5].map((star) => (
+                      <Star
+                        key={star}
+                        className={`h-5 w-5 ${
+                          star <= selectedReview.rating
+                            ? 'fill-ember-400 text-ember-400'
+                            : 'text-charcoal-400'
+                        }`}
+                      />
+                    ))}
+                  </div>
+                  <span className="text-charcoal-300 text-sm font-medium">
+                    {selectedReview.rating.toFixed(1)}
+                  </span>
+                </div>
+              </div>
+
+              <Button
+                variant="ghost"
+                size="xs"
+                startIcon={
+                  <X className="text-charcoal-200 h-4 w-4 sm:h-5 sm:w-5" />
+                }
+                onClick={() => {
+                  closeReviewModal();
+                }}
+                aria-label="Close cart"
+                className="p-2"
+              />
+            </div>
+
+            {/* Review content - scrollable */}
+            <div className="flex-1 space-y-4 overflow-y-auto p-4">
+              {/* Title */}
+              <h3 className="text-xl leading-tight font-bold text-white">
+                {selectedReview.title}
+              </h3>
+
+              {/* Content */}
+              <p className="text-charcoal-300 leading-relaxed">
+                {selectedReview.content}
+              </p>
+
+              {/* Media thumbnails */}
+              {selectedReview.media.length > 1 && (
+                <div>
+                  <div className="grid grid-cols-4 gap-2">
+                    {selectedReview.media.map((media, index) => {
+                      console.log(media);
+                      return (
+                        <button
+                          key={media.id}
+                          onClick={() => setCurrentMediaIndex(index)}
+                          className={`relative aspect-square overflow-hidden rounded-lg border-2 transition-all duration-200 ${
+                            index === currentMediaIndex
+                              ? 'border-ember-400'
+                              : 'hover:border-charcoal-500 border-transparent'
+                          }`}
+                        >
+                          {media.media_type === 'image' && (
+                            <img
+                              src={media.url}
+                              alt={`Media ${index + 1}`}
+                              className="h-full w-full object-cover"
+                              onError={(e) =>
+                                (e.currentTarget.src = '/fallback-image.jpg')
+                              }
+                            />
+                          )}
+                          {media.media_type === 'video' && (
+                            <div className="relative size-full">
+                              <div className="absolute inset-0 flex items-center justify-center"></div>
+                              <video
+                                src={media.url}
+                                className="h-full w-full transition-transform duration-300 group-hover:scale-110"
+                                muted
+                                controls={false}
+                                preload="metadata"
+                              />
+                            </div>
+                          )}
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* Footer - Vote buttons */}
+            <div className="border-charcoal-600 border-t p-4">
+              <div className="flex gap-2">
+                <button
+                  onClick={() => handleLikeClick(selectedReview.id)}
+                  className={`flex flex-1 items-center justify-center gap-2 rounded-full px-4 py-2 text-sm font-medium transition-all duration-200 ${
+                    getReviewState(selectedReview.id).hasLiked ||
+                    getReviewState(selectedReview.id).hasDisliked
+                      ? 'text-charcoal-500 cursor-not-allowed'
+                      : 'text-charcoal-300 hover:text-ember-400 hover:bg-ember-500/10'
+                  } ${getReviewState(selectedReview.id).hasLiked ? 'bg-ember-500/10 text-ember-400' : ''}`}
+                  disabled={
+                    getReviewState(selectedReview.id).hasLiked ||
+                    getReviewState(selectedReview.id).hasDisliked
+                  }
+                >
+                  <ThumbsUp className="h-4 w-4" />
+                  {getReviewState(selectedReview.id).positiveVotes}
+                </button>
+                <button
+                  onClick={() => handleDislikeClick(selectedReview.id)}
+                  className={`flex flex-1 items-center justify-center gap-2 rounded-full px-4 py-2 text-sm font-medium transition-all duration-200 ${
+                    getReviewState(selectedReview.id).hasLiked ||
+                    getReviewState(selectedReview.id).hasDisliked
+                      ? 'text-charcoal-500 cursor-not-allowed'
+                      : 'text-charcoal-300 hover:text-ember-400 hover:bg-ember-500/10'
+                  } ${getReviewState(selectedReview.id).hasDisliked ? 'bg-ember-500/10 text-ember-400' : ''}`}
+                  disabled={
+                    getReviewState(selectedReview.id).hasLiked ||
+                    getReviewState(selectedReview.id).hasDisliked
+                  }
+                >
+                  <ThumbsDown className="h-4 w-4" />
+                  {getReviewState(selectedReview.id).negativeVotes}
+                </button>
+              </div>
+              {error && (
+                <p className="text-ember-500 mt-2 text-center text-sm">
+                  {error}
+                </p>
+              )}
+            </div>
+          </div>
+        </Overlay>
+      )}
+    </>
   );
 };
 
