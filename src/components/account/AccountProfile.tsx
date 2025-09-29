@@ -82,7 +82,7 @@ export default function AccountProfile() {
 
   return (
     <main className="mx-auto max-w-4xl px-4 py-6 sm:px-6 sm:py-8 md:px-8">
-      {/* Header Section */}
+      {/* ---------- Header Section ---------- */}
       <div className="mb-8 flex flex-col items-start justify-between gap-4 sm:mb-12 sm:flex-row sm:items-center">
         <div className="flex-1">
           <h1 className="text-charcoal-50 mb-2 text-2xl font-light sm:mb-3 sm:text-3xl md:text-4xl">
@@ -103,13 +103,13 @@ export default function AccountProfile() {
         />
       </div>
 
-      {/* Profile Card */}
+      {/* ---------- Profile Card ---------- */}
       <div className="space-y-6 sm:space-y-8">
         <div className="group relative">
           <div className="glass-effect rounded-2xl p-4 sm:p-6 md:p-8">
-            {/* Profile Content */}
+            {/* ---------- Profile Content ---------- */}
             <div className="space-y-4 sm:space-y-6">
-              {/* User Information */}
+              {/* ---------- User Information ---------- */}
               <div className="flex flex-col space-y-4 sm:flex-row sm:space-y-0 sm:space-x-4 md:space-x-6">
                 <div className="relative flex-shrink-0">
                   <div className="from-ember-400 to-ember-600 flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-br text-lg font-bold text-amber-50 sm:h-20 sm:w-20 sm:text-xl md:h-24 md:w-24 md:text-2xl">
@@ -125,7 +125,7 @@ export default function AccountProfile() {
                   </p>
                 </div>
               </div>
-              {/* User Details */}
+              {/* ---------- User Details ---------- */}
               <div className="bg-charcoal-800/60 rounded-xl p-4 sm:p-6">
                 <div className="space-y-3 sm:space-y-4">
                   <div className="flex items-start gap-2 sm:gap-3">
@@ -167,7 +167,7 @@ export default function AccountProfile() {
         </div>
       </div>
 
-      {/* Update Info Dialog */}
+      {/* ---------- Update Info Dialog ---------- */}
       <Dialog
         title="Edit Profile"
         isOpen={isOpen}

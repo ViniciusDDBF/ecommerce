@@ -25,7 +25,7 @@ const Cart = () => {
         className="w-11/12 sm:w-96 md:w-[28rem]"
       >
         <div className="bg-charcoal-900 flex h-full flex-col p-4 sm:p-6">
-          {/* Drawer Header */}
+          {/* ---------- Drawer Header ---------- */}
           <div className="mb-4 flex items-center justify-between sm:mb-6">
             <h2 className="text-ember-400 text-lg font-semibold sm:text-xl md:text-2xl">
               Your Cart
@@ -42,15 +42,15 @@ const Cart = () => {
             />
           </div>
 
-          {/* Cart Content (Placeholder) */}
+          {/* ---------- Cart Content (Placeholder) ---------- */}
           <div className="flex-1 overflow-y-auto">
             <p className="text-charcoal-300 text-sm sm:text-base">
               Your cart is empty.
             </p>
-            {/* Add cart items here in a real implementation */}
+            {/* ---------- Add cart items here in a real implementation ---------- */}
           </div>
 
-          {/* Drawer Footer */}
+          {/* ---------- Drawer Footer ---------- */}
           <div className="border-charcoal-600/30 border-t pt-3 sm:pt-4">
             <Button
               text="Proceed to Checkout"

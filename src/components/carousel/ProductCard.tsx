@@ -70,10 +70,10 @@ const MinimalGlassCard = ({
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      {/* Subtle glow effect */}
+      {/* ---------- Subtle glow effect ---------- */}
       <div className="from-ember-500/5 absolute inset-0 z-0 rounded-2xl bg-gradient-to-br to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
 
-      {/* Image Header */}
+      {/* ---------- Image Header ---------- */}
       <div className="relative z-10 overflow-hidden rounded-t-2xl rounded-b-none">
         <img
           src={selectedVariation.image}
@@ -81,7 +81,7 @@ const MinimalGlassCard = ({
           className="h-64 w-full object-cover transition-transform duration-700 group-hover:scale-105"
         />
 
-        {/* Floating Action */}
+        {/* ---------- Floating Action ---------- */}
         <div
           className={`absolute top-3 right-3 transition-all duration-300 ${
             isHovered ? 'translate-y-0 opacity-100' : 'translate-y-2 opacity-0'
@@ -99,7 +99,7 @@ const MinimalGlassCard = ({
           </button>
         </div>
 
-        {/* Sale Badge */}
+        {/* ---------- Sale Badge ---------- */}
         {product.sale && (
           <div className="bg-ember-500 text-charcoal-50 animate-glow absolute top-3 left-3 z-20 rounded-full px-3 py-1 text-xs font-semibold shadow-lg">
             -{product.sale}%
@@ -107,7 +107,7 @@ const MinimalGlassCard = ({
         )}
       </div>
 
-      {/* Footer Section */}
+      {/* ---------- Footer Section ---------- */}
       <div className="z-10 flex min-h-[180px] flex-shrink-0 flex-col p-6">
         <div className="h-12">
           <h3 className="text-charcoal-50 group-hover:text-ember-300 ember-transition line-clamp-2 text-lg font-semibold break-words">
@@ -150,7 +150,7 @@ const MinimalGlassCard = ({
           />
         </div>
 
-        {/* Variation Selector */}
+        {/* ---------- Variation Selector ---------- */}
         <div className="z-20 mt-4 flex h-8 justify-center gap-2">
           {variations.length > 0 ? (
             variations.map((variation, index) => (

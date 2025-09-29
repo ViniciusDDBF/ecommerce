@@ -25,7 +25,7 @@ const IconOverlay: React.FC<IconOverlayProps> = ({
       }
       {...props}
     >
-      {/* Icon */}
+      {/* ---------- Icon ---------- */}
       {icon}
 
       {showBadge && count !== undefined && (

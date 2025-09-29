@@ -288,7 +288,7 @@ export default function AccountWishlist() {
 
   return (
     <div className="space-y-6">
-      {/* Header */}
+      {/* ---------- Header ---------- */}
       <div className="glass-effect rounded-xl p-6">
         <div className="flex flex-col justify-between gap-4 lg:flex-row lg:items-center">
           <div>
@@ -301,7 +301,7 @@ export default function AccountWishlist() {
           </div>
 
           <div className="flex items-center space-x-4">
-            {/* Sort Dropdown */}
+            {/* ---------- Sort Dropdown ---------- */}
             <div className="relative">
               <select
                 value={sortBy}
@@ -320,7 +320,7 @@ export default function AccountWishlist() {
               />
             </div>
 
-            {/* View Toggle */}
+            {/* ---------- View Toggle ---------- */}
             <div className="bg-charcoal-700 flex rounded-lg p-1">
               <button
                 onClick={() => setViewMode('grid')}
@@ -347,7 +347,7 @@ export default function AccountWishlist() {
         </div>
       </div>
 
-      {/* Wishlist Items */}
+      {/* ---------- Wishlist Items ---------- */}
       {wishlistItems.length > 0 ? (
         <div
           className={
@@ -377,7 +377,7 @@ export default function AccountWishlist() {
         </div>
       )}
 
-      {/* Wishlist Actions */}
+      {/* ---------- Wishlist Actions ---------- */}
       {wishlistItems.length > 0 && (
         <div className="glass-effect rounded-xl p-6">
           <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-center">

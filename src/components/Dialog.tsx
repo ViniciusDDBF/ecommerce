@@ -49,8 +49,7 @@ const Dialog: React.FC<DialogProps> = ({
     ? `dialog-description-${React.useId()}`
     : undefined;
 
-if (ScrollLock)
-  useScrollLock(isOpen);
+  if (ScrollLock) useScrollLock(isOpen);
   useFocusTrap(isOpen, dialogRef, openedByClick);
 
   const sizeClasses = {
@@ -98,7 +97,7 @@ if (ScrollLock)
           aria-describedby={descriptionId}
           className={`relative w-full ${sizeClasses[size]} bg-gradient-charcoal border-ember-600/30 mx-auto flex max-h-[90vh] flex-col rounded-xl border shadow-2xl backdrop-blur-xl`}
         >
-          {/* Header */}
+          {/* ---------- Header ---------- */}
           <div className="border-charcoal-700/50 flex items-center justify-between border-b p-4 sm:p-6">
             <div className="flex items-center gap-2 sm:gap-3">
               {icon && (
@@ -136,12 +135,10 @@ if (ScrollLock)
             </button>
           </div>
 
-          {/* Body with Custom Scrollbar */}
-          <div className="scrollbar-hide [&::-webkit-scrollbar-track]:bg-charcoal-700 [&::-webkit-scrollbar-thumb]:bg-ember-400 [&::-webkit-scrollbar-thumb]:hover:bg-ember-300 flex-1 overflow-x-hidden overflow-y-auto p-4 sm:p-6 [&::-webkit-scrollbar]:w-1.5 sm:[&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:rounded-full">
-            {children}
-          </div>
+          {/* ---------- Body with Custom Scrollbar ---------- */}
+          <div className="custom-scroll-y flex-1 p-4 sm:p-6">{children}</div>
 
-          {/* Footer with Buttons */}
+          {/* ---------- Footer with Buttons ---------- */}
           {buttons && (
             <div className="border-charcoal-700/50 flex items-center justify-end gap-2 border-t p-4 sm:gap-3 sm:p-6">
               {buttons.cancel && (

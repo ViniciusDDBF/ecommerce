@@ -43,13 +43,13 @@ const CustomSelect: React.FC<CustomSelectProps> = ({
 
   return (
     <div className={`relative w-full ${className}`} ref={selectRef}>
-      {/* Select Button */}
+      {/* ---------- Select Button ---------- */}
       <button
         type="button"
         onClick={() => setIsOpen(!isOpen)}
         className="bg-charcoal-800 text-ember-50 placeholder-charcoal-400 focus:ring-ember-500 border-charcoal-600 hover:border-charcoal-500 flex w-full items-center justify-between rounded-lg border px-4 py-3 text-left transition-colors focus:border-transparent focus:ring-2 focus:outline-none"
       >
-        {/* Selected Value or Placeholder */}
+        {/* ---------- Selected Value or Placeholder ---------- */}
         <span
           className={`block truncate text-sm font-medium ${
             !selectedOption ? 'text-charcoal-400' : ''
@@ -58,13 +58,13 @@ const CustomSelect: React.FC<CustomSelectProps> = ({
           {selectedOption ? selectedOption.label : placeholder}
         </span>
 
-        {/* Chevron Icon */}
+        {/* ---------- Chevron Icon ---------- */}
         <ChevronDown
           className={`ml-2 h-5 w-5 transition-all duration-300 ease-out ${isOpen ? 'rotate-180' : 'rotate-0'} text-charcoal-400`}
         />
       </button>
 
-      {/* Options Dropdown */}
+      {/* ---------- Options Dropdown ---------- */}
       <div
         className={`bg-charcoal-800 border-charcoal-600 absolute z-50 mt-1 max-h-64 w-full transform overflow-auto rounded-xl border-2 shadow-2xl transition-all duration-200 ease-out ${
           isOpen

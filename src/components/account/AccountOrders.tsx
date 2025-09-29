@@ -169,7 +169,7 @@ export default function AccountOrders() {
 
   return (
     <div className="space-y-6">
-      {/* Header */}
+      {/* ---------- Header ---------- */}
       <div className="glass-effect rounded-xl p-6">
         <div className="flex flex-col justify-between gap-4 lg:flex-row lg:items-center">
           <div>
@@ -179,7 +179,7 @@ export default function AccountOrders() {
             <p className="text-charcoal-300">Track and manage your orders</p>
           </div>
 
-          {/* Filter Tabs */}
+          {/* ---------- Filter Tabs ---------- */}
           <div className="flex flex-wrap gap-2">
             {filterOptions.map((option) => (
               <button
@@ -207,14 +207,14 @@ export default function AccountOrders() {
         </div>
       </div>
 
-      {/* Orders List */}
+      {/* ---------- Orders List ---------- */}
       <div className="space-y-4">
         {filteredOrders.map((order) => (
           <div
             key={order.id}
             className="glass-effect overflow-hidden rounded-xl"
           >
-            {/* Order Header */}
+            {/* ---------- Order Header ---------- */}
             <div className="p-6">
               <div className="flex flex-col justify-between gap-4 lg:flex-row lg:items-center">
                 <div className="flex items-center space-x-4">
@@ -267,7 +267,7 @@ export default function AccountOrders() {
                 </div>
               </div>
 
-              {/* Quick Actions */}
+              {/* ---------- Quick Actions ---------- */}
               <div className="mt-4 flex flex-wrap gap-2">
                 <Button
                   text="View Details"
@@ -294,11 +294,11 @@ export default function AccountOrders() {
               </div>
             </div>
 
-            {/* Expanded Order Details */}
+            {/* ---------- Expanded Order Details ---------- */}
             {expandedOrder === order.id && (
               <div className="border-charcoal-600 bg-charcoal-800/50 border-t p-6">
                 <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
-                  {/* Order Items */}
+                  {/* ---------- Order Items ---------- */}
                   <div>
                     <h4 className="text-ember-400 mb-4 text-sm font-semibold">
                       Order Items ({order.items.length})
@@ -336,7 +336,7 @@ export default function AccountOrders() {
                     </div>
                   </div>
 
-                  {/* Order Info */}
+                  {/* ---------- Order Info ---------- */}
                   <div>
                     <h4 className="text-ember-400 mb-4 text-sm font-semibold">
                       Order Information

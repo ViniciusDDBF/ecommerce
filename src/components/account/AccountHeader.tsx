@@ -282,7 +282,7 @@ const AccountHeader = () => {
           {!user.user && <AccountIcon onClick={() => setChoicesIsOpen(true)} />}
           {user.user && <AccountDropdown />}
 
-          {/* login with: dialog */}
+          {/* ---------- login with: dialog ---------- */}
           <Dialog
             ScrollLock={false}
             title="Welcome"
@@ -298,7 +298,7 @@ const AccountHeader = () => {
             }}
           >
             <div className="flex flex-col gap-6">
-              {/*  ----- Google button ----- */}
+              {/* ----------  ----- Google button ----- ---------- */}
               <Button
                 text="Continue with Google"
                 variant="secondary"
@@ -309,7 +309,7 @@ const AccountHeader = () => {
                 className="bg-charcoal-800 hover:bg-charcoal-700 border-charcoal-600 hover:border-charcoal-500 glass-effect border"
               />
 
-              {/*  ----- Email button ----- */}
+              {/* ----------  ----- Email button ----- ---------- */}
               <Button
                 text="Continue with Email"
                 variant="secondary"
@@ -325,7 +325,7 @@ const AccountHeader = () => {
             </div>
           </Dialog>
 
-          {/* login dialog */}
+          {/* ---------- login dialog ---------- */}
           <Dialog
             ScrollLock={false}
             title={user.user ? 'Success!' : 'Log in'}
@@ -362,7 +362,7 @@ const AccountHeader = () => {
                 columns={2}
               />
             )}
-            {/* Already have an account link */}
+            {/* ---------- Already have an account link ---------- */}
             {!user.user && (
               <div className="mt-4 text-center">
                 <span className="text-charcoal-300 text-sm">
@@ -386,7 +386,7 @@ const AccountHeader = () => {
               </div>
             )}
           </Dialog>
-          {/* signup as CPF dialog */}
+          {/* ---------- signup as CPF dialog ---------- */}
           <Dialog
             ScrollLock={false}
             title="Sign Up as a individual"
@@ -414,7 +414,7 @@ const AccountHeader = () => {
               onChange={signUpCpf.setValue}
               columns={2}
             />
-            {/* Already have an account link */}
+            {/* ---------- Already have an account link ---------- */}
             <div className="mt-4 flex flex-col gap-4 text-center">
               <span className="text-charcoal-300 text-sm">
                 Already have a account?{' '}
@@ -447,7 +447,7 @@ const AccountHeader = () => {
               </span>
             </div>
           </Dialog>
-          {/* signup as CNPJ dialog */}
+          {/* ---------- signup as CNPJ dialog ---------- */}
           <Dialog
             ScrollLock={false}
             title="Sign Up as a company"
@@ -475,7 +475,7 @@ const AccountHeader = () => {
               onChange={signUpCnpj.setValue}
               columns={2}
             />
-            {/* Already have an account link */}
+            {/* ---------- Already have an account link ---------- */}
             <div className="mt-4 flex flex-col gap-4 text-center">
               <span className="text-charcoal-300 text-sm">
                 Already have a account?{' '}

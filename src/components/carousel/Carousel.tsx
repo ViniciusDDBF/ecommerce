@@ -24,19 +24,19 @@ interface CarouselItem {
   products: ProductItem[][];
 }
 
-interface CompactCarouselProps {
+interface CarouselProps {
   data: CarouselItem[] | CarouselItem;
   className?: string;
   headerClassName?: string;
   containerClassName?: string;
 }
 
-const CompactCarousel = ({
+const Carousel = ({
   data,
   className = '',
   headerClassName = '',
   containerClassName = '',
-}: CompactCarouselProps) => {
+}: CarouselProps) => {
   const scrollRef = useRef<HTMLDivElement>(null);
   const [selectedProducts, setSelectedProducts] = useState<{
     [carouselId: string]: { [groupIndex: number]: number };
@@ -238,5 +238,5 @@ const CompactCarousel = ({
   );
 };
 
-export default CompactCarousel;
-export type { CompactCarouselProps };
+export default Carousel;
+export type { CarouselProps };

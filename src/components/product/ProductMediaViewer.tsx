@@ -18,7 +18,7 @@ export default function ProductMediaViewer({
   return (
     <div className="w-full lg:w-1/2">
       <div className="flex flex-col gap-3 sm:flex-row sm:gap-4 md:gap-6">
-        {/* Thumbnail Navigation */}
+        {/* ---------- Thumbnail Navigation ---------- */}
         <div className="order-2 sm:order-1">
           <ThumbnailNavigation
             images={images}
@@ -29,14 +29,14 @@ export default function ProductMediaViewer({
           />
         </div>
 
-        {/* Main Product Image */}
+        {/* ---------- Main Product Image ---------- */}
         <div className="order-1 flex-shrink-0 sm:order-2">
           <div className="drop-shadow-ember relative rounded-2xl">
             {selectedMedia &&
               (selectedMedia.media_type === 'video' ? (
                 <video
                   src={selectedMedia.url}
-                  className="h-auto max-h-[400px] max-w-[400px] w-full rounded-lg object-contain sm:max-h-[500px]"
+                  className="h-auto max-h-[400px] w-full max-w-[400px] rounded-lg object-contain sm:max-h-[500px]"
                   controls
                   autoPlay
                   loop
@@ -46,7 +46,7 @@ export default function ProductMediaViewer({
               ) : (
                 <img
                   src={selectedMedia.url}
-                  className="h-auto max-h-[400px] max-w-[400px] w-full rounded-lg object-contain sm:max-h-[500px]"
+                  className="h-auto max-h-[400px] w-full max-w-[400px] rounded-lg object-contain sm:max-h-[500px]"
                   alt={productName}
                 />
               ))}

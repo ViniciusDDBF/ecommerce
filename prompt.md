@@ -70,7 +70,6 @@ ember-900: #8A2A0D    → Deepest (rare)
 ### Glass Effects (for premium content)
 
 - glass-effect
-- glass-ember
 
 ### Background Gradients
 
@@ -91,10 +90,6 @@ ember-900: #8A2A0D    → Deepest (rare)
 
 - ember-hover-border
 
-### Animations
-
-- animate-glow
-
 ## Usage Rules
 
 ### Color Psychology (60-30-10 Rule)
@@ -113,7 +108,6 @@ ember-900: #8A2A0D    → Deepest (rare)
 ### Effects Usage
 
 **Glass:** Forms, modals, feature highlights, premium content containers
-**Glow:** Primary CTAs, form focus, active states (MAX 1-2 per viewport)
 **Gradients:** Important Backgrounds, and texts
 
 ## Forbidden Practices
@@ -133,7 +127,7 @@ ember-900: #8A2A0D    → Deepest (rare)
 - [ ] 60-30-10 color ratio maintained
 - [ ] Orange usage is restrained and intentional
 - [ ] All interactive elements have transitions
-- [ ] Glass/glow effects serve purpose
+- [ ] Glass effects serve purpose
 - [ ] Typography hierarchy is clear
 
 **Success metric:** User thinks "sophisticated professional with great taste" - everything serves a purpose, nothing is decoration.

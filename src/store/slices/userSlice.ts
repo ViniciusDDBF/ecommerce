@@ -18,7 +18,6 @@ export interface UserData {
   company_name?: string | null;
   legal_name?: string | null;
   is_cpf: boolean;
-  stores_id?: number | null;
   addresses?: AddressData[];
 }
 
@@ -110,7 +109,6 @@ async function FetchCreateCustomer(formPayload: any, fetchPayload: any) {
         email: formPayload.email,
         phone: formPayload.phone,
         cpf: formPayload.cpf,
-        stores_id: 1,
         company_name: formPayload.company_name,
         legal_name: formPayload.legal_name,
         cnpj: formPayload.cnpj,
@@ -215,10 +213,13 @@ export const ThunkCreateCustomer = createAsyncThunk<any, SignUpArgs>(
   async (payload) => {
     const signupData = await FetchSignUp(payload.email, payload.password);
 
-    const createData = await FetchCreateCustomer(payload, {
+    await FetchCreateCustomer(payload, {
       user_id: signupData.data.user?.id,
     });
-    return createData;
+    if (signupData.data.user?.id) {
+      const userView = await FetchGetUserView(signupData.data.user?.id);
+      if (userView.data) return userView.data[0];
+    }
   },
 );
 

@@ -17,7 +17,7 @@ export default function RootLayout() {
         <Outlet />
       </main>
 
-      {/* Trust Badges */}
+      {/* ---------- Trust Badges ---------- */}
       <section className="bg-charcoal-800 py-8 sm:py-12 md:py-16">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 md:px-8">
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-3 sm:gap-6 md:gap-8">
@@ -56,7 +56,7 @@ export default function RootLayout() {
         </div>
       </section>
 
-      {/* Footer */}
+      {/* ---------- Footer ---------- */}
       <footer className="bg-charcoal-800 text-charcoal-400 px-4 py-4 text-center text-sm sm:px-6 sm:py-6 sm:text-base">
         © 2025 EmberTech. All rights reserved.
       </footer>

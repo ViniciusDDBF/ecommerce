@@ -145,7 +145,7 @@ const MyAddressesPage = () => {
   return (
     <div className="bg-charcoal-900 min-h-screen">
       <div className="mx-auto max-w-4xl px-4 py-6 sm:px-6 sm:py-8 md:px-8">
-        {/* Header Section */}
+        {/* ---------- Header Section ---------- */}
         <div className="mb-8 flex flex-col items-start justify-between gap-4 sm:mb-12 sm:flex-row sm:items-center">
           <div className="flex-1">
             <h1 className="text-charcoal-50 mb-2 text-2xl font-light sm:mb-3 sm:text-3xl md:text-4xl">
@@ -166,7 +166,7 @@ const MyAddressesPage = () => {
           />
         </div>
 
-        {/* Address Cards */}
+        {/* ---------- Address Cards ---------- */}
         <div className="space-y-6 sm:space-y-8">
           {user.user?.addresses
             ?.slice()
@@ -174,7 +174,7 @@ const MyAddressesPage = () => {
             .map((address, idx) => (
               <div key={idx} className="group relative">
                 <div className="bg-charcoal-800/80 border-charcoal-600 hover:border-ember-400/50 rounded-2xl border p-4 backdrop-blur-sm transition-all duration-300 hover:shadow-2xl sm:p-6 md:p-8">
-                  {/* Header Row - Address Name, Default Badge, and Actions */}
+                  {/* ---------- Header Row - Address Name, Default Badge, and Actions ---------- */}
                   <div className="mb-4 flex flex-col items-start justify-between gap-4 sm:mb-6 sm:flex-row sm:items-center">
                     <div className="flex items-center gap-3 sm:gap-4">
                       <House className="text-ember-400 h-5 w-5 sm:h-6 sm:w-6" />
@@ -191,7 +191,7 @@ const MyAddressesPage = () => {
                       )}
                     </div>
 
-                    {/* Action Buttons */}
+                    {/* ---------- Action Buttons ---------- */}
                     <div className="flex w-full flex-wrap items-center gap-2 sm:w-auto sm:gap-3">
                       <Button
                         text="Edit"
@@ -257,9 +257,9 @@ const MyAddressesPage = () => {
                     </div>
                   </div>
 
-                  {/* Address Content */}
+                  {/* ---------- Address Content ---------- */}
                   <div className="space-y-4 sm:space-y-6">
-                    {/* Recipient Information */}
+                    {/* ---------- Recipient Information ---------- */}
                     <div className="bg-charcoal-800/60 rounded-xl p-4 sm:p-6">
                       <div className="mb-3 flex items-center gap-2 sm:mb-4 sm:gap-3">
                         <User className="text-ember-400 h-4 w-4 sm:h-5 sm:w-5" />
@@ -272,7 +272,7 @@ const MyAddressesPage = () => {
                       </p>
                     </div>
 
-                    {/* Address Information */}
+                    {/* ---------- Address Information ---------- */}
                     <div className="bg-charcoal-800/60 rounded-xl p-4 sm:p-6">
                       <div className="mb-3 flex items-center gap-2 sm:mb-4 sm:gap-3">
                         <MapPin className="text-ember-400 h-4 w-4 sm:h-5 sm:w-5" />
@@ -324,7 +324,7 @@ const MyAddressesPage = () => {
             ))}
         </div>
 
-        {/* Empty State */}
+        {/* ---------- Empty State ---------- */}
         {user.user?.addresses && user.user?.addresses.length === 0 && (
           <div className="py-6 text-center sm:py-8">
             <div
@@ -346,7 +346,7 @@ const MyAddressesPage = () => {
           </div>
         )}
 
-        {/* Create Address Form */}
+        {/* ---------- Create Address Form ---------- */}
         <Dialog
           title="Create Address"
           isOpen={createIsOpen}
@@ -378,7 +378,7 @@ const MyAddressesPage = () => {
           />
         </Dialog>
 
-        {/* Update Address Form */}
+        {/* ---------- Update Address Form ---------- */}
         <Dialog
           title="Edit Address"
           isOpen={updateIsOpen}
@@ -410,7 +410,7 @@ const MyAddressesPage = () => {
           />
         </Dialog>
 
-        {/* Delete Address Modal */}
+        {/* ---------- Delete Address Modal ---------- */}
         {deleteAddressModal && (
           <Modal
             isOpen={deleteAddressModal}

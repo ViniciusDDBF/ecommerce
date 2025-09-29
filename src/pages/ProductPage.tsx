@@ -1,5 +1,5 @@
 // #region /* ---------- Imports ---------- */
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useNavigate, useSearchParams, useLoaderData } from 'react-router-dom';
 import parseVariantHash from '../utils/variants/parseVariantHash';
 import getUpdatedVariantParams from '../utils/variants/getUpdatedVariantParams';
@@ -11,7 +11,8 @@ import StockStatus from '../components/product/StockStatus';
 import ProductInfoPanel from '../components/product/ProductInfoPanel';
 import Button from '../components/Button';
 import { ShoppingCart } from 'lucide-react';
-import ReviewSection from '../components/ReviewSection';
+import ReviewSection from '../components/review/ReviewSection';
+import { useSmoothScroll } from '../hooks/useSmoothScroll';
 // #endregion
 
 // #region /* ---------- Types ---------- */
@@ -87,6 +88,11 @@ export interface Product {
   rating_summary: {
     average_rating: number;
     review_count: number;
+    rate1: number;
+    rate2: number;
+    rate3: number;
+    rate4: number;
+    rate5: number;
   };
   reviews: {
     id: number;
@@ -119,7 +125,6 @@ export interface Product {
   }[];
 }
 // #endregion
-
 export default function ProductPage() {
   // #region /* ---------- Hooks ---------- */
   const product = useLoaderData() as Product | undefined;
@@ -136,6 +141,8 @@ export default function ProductPage() {
   }>({});
   const [searchParams, setSearchParams] = useSearchParams();
   const navigate = useNavigate();
+  const { scrollTo } = useSmoothScroll();
+  const sectionRef = useRef<HTMLDivElement>(null);
   // #endregion
 
   // #region /* ---------- Functions/Effects ---------- */
@@ -370,6 +377,8 @@ export default function ProductPage() {
     }) || [],
   );
 
+  console.log(product);
+
   const getStockStatus = (stock: number) =>
     stock > 5 ? 'in_stock' : stock > 0 ? 'low_stock' : 'out_of_stock';
   const currentStock = currentVariant?.stock || product?.stock || 0;
@@ -407,7 +416,9 @@ export default function ProductPage() {
               originalPrice={
                 currentVariant?.original_price || product.original_price
               }
-              onClick={() => {}}
+              onClick={() => {
+                scrollTo(sectionRef.current);
+              }}
             />
 
             {/* ---------- Product Attribute ---------- */}
@@ -452,8 +463,14 @@ export default function ProductPage() {
             {/* ---------- Review Card ---------- */}
           </div>
         </div>
-        <ReviewSection isLoggedIn={true} reviews={product.reviews} />
       </main>
+      <div ref={sectionRef}>
+        <ReviewSection
+          ratingSummary={product.rating_summary}
+          isLoggedIn={true}
+          reviews={product.reviews}
+        />
+      </div>
     </div>
   );
 }

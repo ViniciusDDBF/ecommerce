@@ -50,7 +50,7 @@ const AccountDropdown = () => {
 
   return (
     <div className="relative inline-block">
-      {/* Trigger Button */}
+      {/* ---------- Trigger Button ---------- */}
       <div className="sm:hidden">
         <AccountIcon onClick={() => setIsOpen(!isOpen)} />
       </div>
@@ -72,20 +72,20 @@ const AccountDropdown = () => {
         />
       </div>
 
-      {/* Dropdown Menu */}
+      {/* ---------- Dropdown Menu ---------- */}
       {isOpen && (
         <>
-          {/* Backdrop */}
+          {/* ---------- Backdrop ---------- */}
           <div
             className="fixed inset-0 z-10"
             onClick={() => setIsOpen(false)}
           />
 
-          {/* Menu Panel */}
+          {/* ---------- Menu Panel ---------- */}
           <div
             className={`bg-charcoal-800/95 border-charcoal-600/50 animate-in slide-in-from-top-2 absolute right-0 z-20 mt-1 w-64 rounded-xl border shadow-2xl backdrop-blur-xl duration-200 sm:mt-2 sm:w-72 md:w-80`}
           >
-            {/* Header */}
+            {/* ---------- Header ---------- */}
             <div className="border-charcoal-600/30 border-b p-3 sm:p-4">
               <div className="flex items-center gap-2 sm:gap-3">
                 <div className="from-ember-400 to-ember-600 flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-br text-sm font-bold sm:h-10 sm:w-10 sm:text-base">
@@ -102,7 +102,7 @@ const AccountDropdown = () => {
               </div>
             </div>
 
-            {/* Menu Items */}
+            {/* ---------- Menu Items ---------- */}
             <div className="py-1 sm:py-2">
               {menuItems.map((item, index) => (
                 <Button
@@ -127,7 +127,7 @@ const AccountDropdown = () => {
               ))}
             </div>
 
-            {/* Footer */}
+            {/* ---------- Footer ---------- */}
             <div className="border-charcoal-600/30 border-t py-1 sm:py-2">
               <div className="group">
                 <Button

@@ -60,12 +60,34 @@ ember-50: Your "white" - clean but warm
 
   /* Custom Animations */
   --animate-glow: glow 2s ease-in-out infinite alternate;
+  --animate-slide-up: slide-up 0.2s ease-out forwards;
+  --animate-fade-out: fade-out 2s ease-out forwards;
 
   /* Custom Effects */
   --drop-shadow-ember: 0 4px 20px rgb(255 107 53 / 0.3);
 }
 
 /* Custom Keyframes */
+@keyframes slide-up {
+  from {
+    opacity: 0;
+    transform: translateY(-30);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fade-out {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
 @keyframes glow {
   from {
     box-shadow: 0 0 20px rgb(255 107 53 / 0.3);
@@ -181,4 +203,55 @@ input:-webkit-autofill:focus {
   outline: none; /* focus:outline-none */
   box-shadow: 0 0 0 2px #ff6f3c; /* focus:ring-2 + focus:ring-ember-500 (replace with your actual ember-500 color) */
   border-color: transparent; /* focus:border-transparent */
+}
+/* ----------  Y-axis  ---------- */
+@utility custom-scroll-y {
+  overflow-y: scroll; /* ← force classic scrollbar */
+  overflow-x: hidden;
+
+  /* --- WebKit --- */
+  &::-webkit-scrollbar {
+    width: 0.375rem; /* w-1.5 */
+  }
+  &::-webkit-scrollbar-track {
+    background-color: var(--color-charcoal-700);
+    border-radius: 9999px; /* rounded-full */
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: var(--color-ember-400);
+    border-radius: 9999px;
+  }
+  &::-webkit-scrollbar-thumb:hover {
+    background-color: var(--color-ember-300);
+  }
+
+  /* --- Firefox --- */
+  scrollbar-width: thin; /* “thin” keeps it always visible */
+  scrollbar-color: var(--color-ember-400) var(--color-charcoal-700);
+}
+
+/* ----------  X-axis  ---------- */
+@utility custom-scroll-x {
+  overflow-x: scroll; /* ← force classic scrollbar */
+  overflow-y: hidden;
+
+  /* --- WebKit --- */
+  &::-webkit-scrollbar {
+    height: 0.375rem;
+  }
+  &::-webkit-scrollbar-track {
+    background-color: var(--color-charcoal-700);
+    border-radius: 9999px;
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: var(--color-ember-400);
+    border-radius: 9999px;
+  }
+  &::-webkit-scrollbar-thumb:hover {
+    background-color: var(--color-ember-300);
+  }
+
+  /* --- Firefox --- */
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-ember-400) var(--color-charcoal-700);
 }

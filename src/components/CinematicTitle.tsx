@@ -18,7 +18,6 @@ const CinematicTitle: React.FC<CinematicTitleProps> = ({
     });
   }, []);
 
-  
   return (
     <h1
       ref={titleRef}
@@ -26,7 +25,7 @@ const CinematicTitle: React.FC<CinematicTitleProps> = ({
     >
       {text.split('').map((char, i) => (
         <span key={i} className="relative inline-block">
-          {/* Shadow behind letter */}
+          {/* ---------- Shadow behind letter ---------- */}
           <span
             className="absolute"
             style={{
@@ -38,7 +37,7 @@ const CinematicTitle: React.FC<CinematicTitleProps> = ({
             {char === ' ' ? '\u00A0' : char}
           </span>
 
-          {/* Actual letter with ember gradient */}
+          {/* ---------- Actual letter with ember gradient ---------- */}
           <span className="text-gradient-ember">
             {char === ' ' ? '\u00A0' : char}
           </span>

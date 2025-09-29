@@ -30,9 +30,9 @@ export default function AccountLayout() {
   return (
     <div className="bg-charcoal-900 min-h-screen">
       <div className="mx-auto max-w-7xl px-4 py-4 sm:px-6 sm:py-6 md:px-8">
-        {/* Header */}
+        {/* ---------- Header ---------- */}
         <div className="mb-6 flex items-center justify-between sm:mb-8">
-          {/* Mobile Menu Toggle */}
+          {/* ---------- Mobile Menu Toggle ---------- */}
           <div className="lg:hidden">
             <Button
               text=""
@@ -52,7 +52,7 @@ export default function AccountLayout() {
         </div>
 
         <div className="flex flex-col gap-4 sm:gap-6 lg:flex-row lg:gap-8">
-          {/* Sidebar Navigation */}
+          {/* ---------- Sidebar Navigation ---------- */}
           <div
             className={`lg:w-64 xl:w-80 ${isMobileMenuOpen ? 'block' : 'hidden lg:block'}`}
           >
@@ -86,7 +86,7 @@ export default function AccountLayout() {
             </div>
           </div>
 
-          {/* Main Content Area */}
+          {/* ---------- Main Content Area ---------- */}
           <div className="flex-1">
             <div className="ember-transition">{renderContent()}</div>
           </div>
@@ -97,7 +97,7 @@ export default function AccountLayout() {
 
   function renderContent() {
     switch (section) {
-    case 'profile':
+      case 'profile':
         return <AccountProfile />;
       case 'addresses':
         return <AccountAddresses />;
