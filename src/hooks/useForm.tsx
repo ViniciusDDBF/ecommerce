@@ -4,30 +4,7 @@ import { maskPhone } from '../utils/masks/phone';
 import { maskCPF } from '../utils/masks/cpf';
 import { validateCPF } from '../utils/validation/validateCpf';
 import { validateCNPJ } from '../utils/validation/validateCnpj';
-
-type MaskType = 'phone' | 'cpf' | 'cnpj';
-
-interface Validation {
-  minLength?: number;
-  maxLength?: number;
-  required?: boolean;
-  custom?: (value: any) => string | null;
-}
-
-interface FormFieldProps {
-  name: string;
-  label: string;
-  type: 'text' | 'email' | 'password' | 'textarea' | 'select' | 'checkbox';
-  placeholder?: string;
-  options?: { value: string; label: string }[];
-  validation?: Validation;
-  colSpan?: 1 | 2;
-  className?: string;
-  applyMask?: MaskType;
-  helper?: { text: string; value?: string };
-  confirmField?: string;
-  disabled?: boolean;
-}
+import type { FormFieldProps } from '../types/hooks';
 
 export const useForm = (
   fields: FormFieldProps[],
@@ -280,5 +257,3 @@ export const useForm = (
     resetToInitial,
   };
 };
-
-export type { FormFieldProps, MaskType, Validation };

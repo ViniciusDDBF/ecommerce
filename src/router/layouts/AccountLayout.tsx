@@ -1,18 +1,12 @@
 import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router';
-import { User, MapPin, Package, Heart, Lock, Menu, X } from 'lucide-react';
-import Button from '../../components/Button';
-import AccountProfile from '../../components/account/AccountProfile';
-import AccountOrders from '../../components/account/AccountOrders';
-import AccountWishlist from '../../components/account/AccountWishlist';
-import AccountAddresses from '../../components/account/AccountAddresses';
-import AccountDefault from '../../components/account/AccountDefault';
-
-const ChangePassword = () => (
-  <div className="glass-effect text-charcoal-200 rounded-xl p-4 sm:p-6">
-    Change Password Component
-  </div>
-);
+import { User, MapPin, Package, Heart, Menu, X } from 'lucide-react';
+import Button from '../../components/atoms/Button';
+import AccountProfile from '../../features/account/AccountProfile';
+import AccountOrders from '../../features/account/AccountOrders';
+import AccountWishlist from '../../features/account/AccountWishlist';
+import AccountAddresses from '../../features/account/AccountAddresses';
+import AccountDefault from '../../features/account/AccountDefault';
 
 export default function AccountLayout() {
   const { section } = useParams<{ section?: string }>();
@@ -24,7 +18,6 @@ export default function AccountLayout() {
     { id: 'addresses', label: 'Addresses', icon: MapPin },
     { id: 'orders', label: 'Orders', icon: Package },
     { id: 'wishlist', label: 'Wishlist', icon: Heart },
-    { id: 'password', label: 'Security', icon: Lock },
   ];
 
   return (
@@ -105,8 +98,7 @@ export default function AccountLayout() {
         return <AccountOrders />;
       case 'wishlist':
         return <AccountWishlist />;
-      case 'password':
-        return <ChangePassword />;
+
       default:
         return <AccountDefault />;
     }

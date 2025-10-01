@@ -1,6 +1,6 @@
 import { Outlet, useNavigation } from 'react-router';
-import Header from '../../components/header/Header';
-import LoadingOverlay from '../../components/LoadingOverlay';
+import Header from './header/Header';
+import LoadingOverlay from '../../components/atoms/LoadingOverlay';
 import { Truck, Shield, RotateCcw } from 'lucide-react';
 
 export default function RootLayout() {
@@ -40,7 +40,7 @@ export default function RootLayout() {
             ].map(({ icon: Icon, title, desc }) => (
               <div
                 key={title}
-                className="from-charcoal-700/80 to-charcoal-800/80 border-charcoal-600/30 hover:border-ember-400/30 rounded-xl border bg-gradient-to-br p-4 text-center backdrop-blur-xl transition-colors sm:p-6"
+                className="from-charcoal-700/80 to-charcoal-800/80 border-charcoal-600/30 rounded-xl border bg-gradient-to-br p-4 text-center backdrop-blur-xl transition-colors sm:p-6"
               >
                 <Icon
                   className="text-ember-400 mx-auto mb-3 sm:mb-4"
@@ -58,7 +58,7 @@ export default function RootLayout() {
 
       {/* ---------- Footer ---------- */}
       <footer className="bg-charcoal-800 text-charcoal-400 px-4 py-4 text-center text-sm sm:px-6 sm:py-6 sm:text-base">
-        © 2025 EmberTech. All rights reserved.
+        © Vinicius Dundich
       </footer>
     </div>
   );

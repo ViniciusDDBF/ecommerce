@@ -1,7 +1,7 @@
 import { useCallback } from 'react';
 
 type ScrollOptions = {
-  offset?: number; // optional pixel offset
+  offset?: number; // optional pixel offset (e.g., to account for fixed headers)
   behavior?: ScrollBehavior; // "smooth" | "auto"
 };
 
@@ -20,8 +20,9 @@ export function useSmoothScroll() {
 
       if (!element) return;
 
-      // Calculate the element’s absolute top position in the document
-      const elementTop = element.offsetTop - offset;
+      // Calculate absolute top position relative to document
+      const rect = element.getBoundingClientRect();
+      const elementTop = rect.top + window.scrollY - offset;
 
       window.scrollTo({
         top: elementTop,

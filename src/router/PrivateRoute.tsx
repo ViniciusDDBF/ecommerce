@@ -1,6 +1,6 @@
 import React from 'react';
 import { Navigate, Outlet } from 'react-router';
-import LoadingOverlay from '../components/LoadingOverlay';
+import LoadingOverlay from '../components/atoms/LoadingOverlay';
 import { useAppSelector } from '../store/hooks/hooks';
 
 const PrivateRoute: React.FC = () => {

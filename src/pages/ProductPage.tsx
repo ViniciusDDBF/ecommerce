@@ -3,16 +3,17 @@ import { useEffect, useRef, useState } from 'react';
 import { useNavigate, useSearchParams, useLoaderData } from 'react-router-dom';
 import parseVariantHash from '../utils/variants/parseVariantHash';
 import getUpdatedVariantParams from '../utils/variants/getUpdatedVariantParams';
-import ProductMediaViewer from '../components/product/ProductMediaViewer';
-import Breadcrumbs from '../components/product/Breadcrumbs';
-import ProductHeader from '../components/product/ProductHeader';
-import VariantSelector from '../components/product/VariantSelector';
-import StockStatus from '../components/product/StockStatus';
-import ProductInfoPanel from '../components/product/ProductInfoPanel';
-import Button from '../components/Button';
+import ProductMediaViewer from '../features/product/ProductMediaViewer';
+import Breadcrumbs from '../components/atoms/Breadcrumbs';
+import ProductHeader from '../features/product/ProductHeader';
+import VariantSelector from '../features/product/VariantSelector';
+import StockStatus from '../features/product/StockStatus';
+import ProductInfoPanel from '../features/product/ProductInfoPanel';
+import Button from '../components/atoms/Button';
 import { ShoppingCart } from 'lucide-react';
-import ReviewSection from '../components/review/ReviewSection';
+import ReviewSection from '../features/review/ReviewSection';
 import { useSmoothScroll } from '../hooks/useSmoothScroll';
+import Modal from '../components/atoms/Modal';
 // #endregion
 
 // #region /* ---------- Types ---------- */
@@ -143,6 +144,8 @@ export default function ProductPage() {
   const navigate = useNavigate();
   const { scrollTo } = useSmoothScroll();
   const sectionRef = useRef<HTMLDivElement>(null);
+  const [wipIsOpen, setWipIsOpen] = useState<boolean>(false);
+
   // #endregion
 
   // #region /* ---------- Functions/Effects ---------- */
@@ -377,8 +380,6 @@ export default function ProductPage() {
     }) || [],
   );
 
-  console.log(product);
-
   const getStockStatus = (stock: number) =>
     stock > 5 ? 'in_stock' : stock > 0 ? 'low_stock' : 'out_of_stock';
   const currentStock = currentVariant?.stock || product?.stock || 0;
@@ -388,89 +389,109 @@ export default function ProductPage() {
   if (!isInitialized || !product) return null;
 
   return (
-    <div className="bg-charcoal-800 text-charcoal-300 min-h-screen font-sans">
-      <main className="mx-auto max-w-7xl px-4 py-6 sm:px-6 sm:py-8 md:px-8 lg:px-12 lg:py-10">
-        <div className="flex flex-col gap-6 sm:gap-8 lg:flex-row lg:gap-10 xl:gap-12">
-          {/* ---------- Images ---------- */}
-          <ProductMediaViewer
-            images={product.all_images}
-            selectedMedia={selectedMedia}
-            setSelectedMedia={setSelectedMedia}
-            productName={product.product_name}
-          />
-          <div className="w-full space-y-4 sm:space-y-6 lg:w-1/2 lg:space-y-8">
-            {/* ---------- Breadcrumbs ---------- */}
-            <Breadcrumbs
-              breadcrumbs={product.category_breadcrumbs}
-              navigate={navigate}
-            />
-
-            {/* ---------- Product Main info ---------- */}
-            <ProductHeader
-              averageRating={product?.rating_summary?.average_rating}
-              reviewCount={product?.rating_summary?.review_count}
+    <>
+      <div className="bg-charcoal-800 text-charcoal-300 min-h-screen font-sans">
+        <main className="mx-auto max-w-7xl px-4 py-6 sm:px-6 sm:py-8 md:px-8 lg:px-12 lg:py-10">
+          <div className="flex flex-col gap-6 sm:gap-8 lg:flex-row lg:gap-10 xl:gap-12">
+            {/* ---------- Images ---------- */}
+            <ProductMediaViewer
+              images={product.all_images}
+              selectedMedia={selectedMedia}
+              setSelectedMedia={setSelectedMedia}
               productName={product.product_name}
-              currentPrice={
-                currentVariant?.current_price || product.current_price
+              thumbnailOrientation={
+                window.innerWidth < 640 ? 'horizontal' : 'vertical'
               }
-              originalPrice={
-                currentVariant?.original_price || product.original_price
-              }
-              onClick={() => {
-                scrollTo(sectionRef.current);
-              }}
             />
+            <div className="w-full space-y-4 sm:space-y-6 lg:w-1/2 lg:space-y-8">
+              {/* ---------- Breadcrumbs ---------- */}
+              <Breadcrumbs
+                breadcrumbs={product.category_breadcrumbs}
+                navigate={navigate}
+              />
 
-            {/* ---------- Product Attribute ---------- */}
-            <VariantSelector
-              attributeOptions={attributeOptions}
-              selectedAttributes={selectedAttributes}
-              handleAttributeSelect={handleAttributeSelect}
-              handleLinkedVariationSelect={handleLinkedVariationSelect}
-              linkedVariationDataMap={linkedVariationDataMap}
-              product={product}
-              selectedLinkedVariation={selectedLinkedVariation}
-            />
+              {/* ---------- Product Main info ---------- */}
+              <ProductHeader
+                averageRating={product?.rating_summary?.average_rating}
+                reviewCount={product?.rating_summary?.review_count}
+                productName={product.product_name}
+                currentPrice={
+                  currentVariant?.current_price || product.current_price
+                }
+                originalPrice={
+                  currentVariant?.original_price || product.original_price
+                }
+                onClick={() => {
+                  scrollTo(sectionRef.current);
+                }}
+              />
 
-            {/* ---------- Stock Status ---------- */}
-            <StockStatus
-              stockStatus={stockStatus}
-              currentStock={currentStock}
-            />
+              {/* ---------- Product Attribute ---------- */}
+              <VariantSelector
+                attributeOptions={attributeOptions}
+                selectedAttributes={selectedAttributes}
+                handleAttributeSelect={handleAttributeSelect}
+                handleLinkedVariationSelect={handleLinkedVariationSelect}
+                linkedVariationDataMap={linkedVariationDataMap}
+                product={product}
+                selectedLinkedVariation={selectedLinkedVariation}
+              />
 
-            {/* ---------- Add to cart ---------- */}
-            <Button
-              text="Add to Cart"
-              variant="primary"
-              size="full"
-              endIcon={<ShoppingCart />}
-              disabled={stockStatus === 'out_of_stock'}
-              onClick={() => {
-                console.log('Adding to cart:', {
-                  variant_id: selectedVariant,
-                  quantity: 1,
-                });
-              }}
-            />
+              {/* ---------- Stock Status ---------- */}
+              <StockStatus
+                stockStatus={stockStatus}
+                currentStock={currentStock}
+              />
 
-            {/* ---------- Product Details information ---------- */}
-            <ProductInfoPanel
-              description={product.description}
-              sku={currentVariant?.sku || product.sku}
-              dimensions={currentVariant?.dimensions}
-            />
+              {/* ---------- Add to cart ---------- */}
+              <Button
+                text="Add to Cart"
+                variant="primary"
+                size="full"
+                endIcon={<ShoppingCart />}
+                disabled={stockStatus === 'out_of_stock'}
+                onClick={() => {
+                  setWipIsOpen(true);
+                  console.log('Adding to cart:', {
+                    variant_id: selectedVariant,
+                    quantity: 1,
+                  });
+                }}
+              />
 
-            {/* ---------- Review Card ---------- */}
+              {/* ---------- Product Details information ---------- */}
+              <ProductInfoPanel
+                description={product.description}
+                sku={currentVariant?.sku || product.sku}
+                dimensions={currentVariant?.dimensions}
+              />
+
+              {/* ---------- Review Card ---------- */}
+            </div>
           </div>
+        </main>
+        <div ref={sectionRef}>
+          <ReviewSection
+            ratingSummary={product.rating_summary}
+            isLoggedIn={true}
+            reviews={product.reviews}
+            productId={product.product_id}
+          />
         </div>
-      </main>
-      <div ref={sectionRef}>
-        <ReviewSection
-          ratingSummary={product.rating_summary}
-          isLoggedIn={true}
-          reviews={product.reviews}
-        />
       </div>
-    </div>
+      <Modal
+        title="WIP"
+        message="I'm still developing this feature!"
+        buttons={{
+          cancel: {
+            text: 'OK',
+            onClick() {
+              setWipIsOpen(false);
+            },
+          },
+        }}
+        isOpen={wipIsOpen}
+      />
+    </>
   );
 }

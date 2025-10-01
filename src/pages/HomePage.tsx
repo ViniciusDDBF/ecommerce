@@ -1,11 +1,14 @@
 import { ArrowRight } from 'lucide-react';
-import Button from '../components/Button';
-import Carousel from '../components/carousel/Carousel';
-import CinematicTitle from '../components/CinematicTitle';
+import Button from '../components/atoms/Button';
+import Carousel from '../components/molecules/carousel/Carousel';
+import CinematicTitle from '../components/atoms/CinematicTitle';
 import { useLoaderData } from 'react-router-dom';
+import Modal from '../components/atoms/Modal';
+import { useState } from 'react';
 
 const Homepage = () => {
   const data = useLoaderData();
+  const [wipIsOpen, setWipIsOpen] = useState<boolean>(false);
 
   return (
     <>
@@ -22,15 +25,19 @@ const Homepage = () => {
           {/* ---------- Overlay for Mobile ---------- */}
           <div className="absolute inset-0 flex items-center justify-center bg-black/60 sm:hidden">
             <div className="flex flex-col items-center justify-center gap-3 px-4">
-              <CinematicTitle
-                text="Luxury Redefined"
-                className="text-4xl sm:text-6xl"
-              />
+              <CinematicTitle text="Luxury Redefined" className="" />
               <p className="text-charcoal-100 max-w-xs text-center text-sm leading-relaxed sm:text-base">
                 Discover premium products crafted for the discerning individual.
                 Where sophistication meets innovation.
               </p>
-              <Button size="sm" text="Explore Collection" className="mt-2" />
+              <Button
+                size="sm"
+                text="Explore Collection"
+                className="mt-2"
+                onClick={() => {
+                  setWipIsOpen(true);
+                }}
+              />
             </div>
           </div>
         </div>
@@ -48,6 +55,9 @@ const Homepage = () => {
             </p>
             <Button
               text="Explore Collection"
+              onClick={() => {
+                setWipIsOpen(true);
+              }}
               variant="primary"
               size="md"
               endIcon={<ArrowRight size={18} />}
@@ -59,6 +69,20 @@ const Homepage = () => {
 
       {/* ---------- Carousel ---------- */}
       {data && <Carousel data={data} />}
+
+      <Modal
+        title="WIP"
+        message="I'm still developing this feature!"
+        buttons={{
+          cancel: {
+            text: 'OK',
+            onClick() {
+              setWipIsOpen(false);
+            },
+          },
+        }}
+        isOpen={wipIsOpen}
+      />
     </>
   );
 };
