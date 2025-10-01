@@ -11,7 +11,9 @@ import RatingCircle from './RatingCircle';
 import Button from '../../components/atoms/Button';
 import { useSmoothScroll } from '../../hooks/useSmoothScroll';
 import CreateReviewModal from './CreateReviewModal';
-
+import { useAppSelector } from '../../store/hooks/hooks';
+import Dialog from '../../components/atoms/Dialog';
+import Modal from '../../components/atoms/Modal';
 // #endregion
 
 // #region /* ---------- Types ---------- */
@@ -76,6 +78,8 @@ const ReviewSection = ({
 }: EnhancedReviewCardProps) => {
   // #region /* ---------- Hooks/State ---------- */
 
+  const user = useAppSelector('user');
+  const [needsToLogIn, setNeedsToLogIn] = useState(false);
   const [reviewStates, setReviewStates] = useState<{
     [key: number]: {
       positiveVotes: number;
@@ -414,6 +418,10 @@ const ReviewSection = ({
           <div className="flex items-center justify-center p-4">
             <Button
               onClick={() => {
+                if (user.user === null) {
+                  setNeedsToLogIn(true);
+                  return;
+                }
                 setCreateReview(true);
               }}
               text="Write a review"
@@ -459,6 +467,18 @@ const ReviewSection = ({
         onClose={() => setCreateReview(!createReview)}
         isOpen={createReview}
         productId={productId}
+      />
+
+      <Modal
+        isOpen={needsToLogIn}
+        title="Need to log in"
+        message="You need to be logged in to create a review"
+        buttons={{
+          cancel: {
+            text: 'Close',
+            onClick: () => setNeedsToLogIn(false),
+          },
+        }}
       />
     </>
   );

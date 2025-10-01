@@ -3,6 +3,7 @@ import type { FormFieldProps as FormFieldType } from '../../../types/hooks';
 import CustomSelect from '../../atoms/CustomSelect';
 import Helper from '../../atoms/Helper';
 import { CustomCheckbox } from '../../atoms/CustomCheckbox';
+import Input from '../../atoms/Input';
 
 type FormFieldProps = {
   field: FormFieldType;
@@ -17,21 +18,18 @@ const FormField: React.FC<FormFieldProps> = ({
   error,
   onChange,
 }) => {
-  const baseClasses = `w-full px-4 py-3 bg-charcoal-800 border rounded-lg text-ember-50 placeholder-charcoal-400 focus:outline-none focus:ring-2 focus:ring-ember-500 focus:border-transparent transition-colors disabled:bg-charcoal-700 disabled:text-charcoal-400 disabled:border-charcoal-600 disabled:cursor-not-allowed ${
-    error ? 'border-red-500' : 'border-charcoal-600 hover:border-charcoal-500'
-  }`;
-
   const renderInput = () => {
     switch (field.type) {
       case 'textarea':
         return (
-          <textarea
+          <Input
+            type="textarea"
             value={value || ''}
-            onChange={(e) => onChange(e.target.value)}
+            onChange={onChange}
             placeholder={field.placeholder}
-            className={`${baseClasses} resize-none`}
-            rows={4}
             disabled={field.disabled}
+            error={!!error}
+            rows={4}
           />
         );
 
@@ -56,13 +54,13 @@ const FormField: React.FC<FormFieldProps> = ({
 
       default:
         return (
-          <input
-            disabled={field.disabled}
-            type={field.type}
+          <Input
+            type={field.type as any}
             value={value || ''}
-            onChange={(e) => onChange(e.target.value)}
+            onChange={onChange}
             placeholder={field.placeholder}
-            className={baseClasses}
+            disabled={field.disabled}
+            error={!!error}
           />
         );
     }
