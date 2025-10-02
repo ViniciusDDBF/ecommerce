@@ -79,7 +79,7 @@ export const Homepage = () => {
         isOpen={wipIsOpen}
       />
 
-      <Button text={'VINIIIIII'} />
+      <Button text={'Teste numero 2'} />
     </>
   );
 };
