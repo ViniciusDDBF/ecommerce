@@ -15,10 +15,10 @@ interface CrudMethods<T> {
 
 type UseFetchReturn<T> = FetchState<T> & CrudMethods<T>;
 
-function useFetch<T>(
+export const useFetch = <T,>(
   baseUrl: string,
-  defaultOptions?: RequestInit
-): UseFetchReturn<T> {
+  defaultOptions?: RequestInit,
+): UseFetchReturn<T> => {
   const [data, setData] = React.useState<T | null>(null);
   const [loading, setLoading] = React.useState(false);
   const [error, setError] = React.useState<string | null>(null);
@@ -37,7 +37,7 @@ function useFetch<T>(
     method: string,
     path?: string,
     body?: any,
-    customOptions?: RequestInit
+    customOptions?: RequestInit,
   ): Promise<T> => {
     const controller = new AbortController();
     const { signal } = controller;
@@ -107,22 +107,22 @@ function useFetch<T>(
 
   const get = React.useCallback(
     (path?: string): Promise<T> => makeRequest('GET', path),
-    [baseUrl]
+    [baseUrl],
   );
 
   const post = React.useCallback(
     (data: any, path?: string): Promise<T> => makeRequest('POST', path, data),
-    [baseUrl]
+    [baseUrl],
   );
 
   const patch = React.useCallback(
     (path: string, data: any): Promise<T> => makeRequest('PATCH', path, data),
-    [baseUrl]
+    [baseUrl],
   );
 
   const del = React.useCallback(
     (path: string): Promise<T> => makeRequest('DELETE', path),
-    [baseUrl]
+    [baseUrl],
   );
 
   return {
@@ -134,9 +134,7 @@ function useFetch<T>(
     patch,
     delete: del,
   };
-}
-
-export default useFetch;
+};
 
 // // Setup (no fetch happens yet)
 // const { get, post, patch, delete: del, data, loading, error } = useFetch('https://api.example.com/users', {

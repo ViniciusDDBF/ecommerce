@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
 
-const useFocusTrap = (
+export const useFocusTrap = (
   isActive: boolean,
   ref: React.RefObject<HTMLDivElement | null>,
   openedByClick: boolean = false, // New parameter to check if opened by click
@@ -51,5 +51,3 @@ const useFocusTrap = (
     };
   }, [isActive, ref, openedByClick]);
 };
-
-export default useFocusTrap;

@@ -1,10 +1,13 @@
-import AccountSectionHeader from './AccountSectionHeader';
+import AccountSectionHeader from "../AccountSectionHeader";
 
-const AccountOrders = () => {
+const AccountWishlist = () => {
   return (
     <div className="bg-charcoal-900 min-h-screen">
       <div className="mx-auto max-w-4xl px-4 py-6 sm:px-6 sm:py-8 md:px-8">
-        <AccountSectionHeader title="My Orders" subtitle="Manage your orders" />
+        <AccountSectionHeader
+          title="My wishlist"
+          subtitle="Manage your wishlist"
+        />
 
         <div className="space-y-6 sm:space-y-8">
           <div className="group relative">
@@ -14,7 +17,9 @@ const AccountOrders = () => {
                 <h2 className="text-ember-400 mb-1 text-lg font-bold sm:mb-2 sm:text-xl md:text-2xl">
                   WIP
                 </h2>
-                <p className="text-charcoal-50">I'm developing this feature!</p>
+                <p className="text-charcoal-50">
+                  I'm developing this feature!
+                </p>
               </div>
             </div>
           </div>
@@ -24,4 +29,4 @@ const AccountOrders = () => {
   );
 };
 
-export default AccountOrders;
+export default AccountWishlist;

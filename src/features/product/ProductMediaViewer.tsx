@@ -1,4 +1,4 @@
-import ThumbnailNavigation from '../../components/atoms/ThumbnailNavigation';
+import { ThumbnailNavigation } from '../../components/atoms';
 
 interface ProductMediaViewerProps {
   images: { url: string; media_type: string }[];

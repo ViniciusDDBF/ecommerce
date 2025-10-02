@@ -1,22 +1,19 @@
 // #region /* ---------- Imports ---------- */
 import { useEffect, useState } from 'react';
 import { UserPlus, LogIn, CircleCheck, Store, Mail } from 'lucide-react';
-import AccountIcon from './AccountIcon';
-import Dialog from '../../components/atoms/Dialog';
-import FormGrid from '../../components/molecules/form/FormGrid';
-import type { FormFieldProps } from '../../types/hooks';
-import { useForm } from '../../hooks/useForm';
+import { AccountIcon, FormGrid, AccountDropdown } from '../';
+import { Dialog, Button, Modal } from '../../atoms/';
+import type { FormFieldProps } from '../../../types/hooks';
+import { useForm } from '../../../hooks/useForm';
 import {
   resetError,
   ThunkCreateCustomer,
   ThunkLogIn,
   type SignUpArgs,
-} from '../../store/slices/userSlice';
-import AccountDropdown from './AccountDropdown';
-import Button from '../../components/atoms/Button';
-import { supabase } from '../../SupabaseConfig';
-import { useAppDispatch, useAppSelector } from '../../store/hooks/hooks';
-import useScrollLock from '../../hooks/useScrollLock';
+} from '../../../store/slices/userSlice';
+import { supabase } from '../../../SupabaseConfig';
+import { useAppDispatch, useAppSelector } from '../../../store/hooks/hooks';
+import { useScrollLock } from '../../../hooks';
 // #endregion
 
 // #region /* ---------- Form Fields ---------- */
@@ -209,7 +206,7 @@ const handleGoogleSignIn = async () => {
 };
 // #endregion
 
-const AccountHeader = () => {
+export const AccountHeader = () => {
   const [choicesIsOpen, setChoicesIsOpen] = useState(false);
   const [loginIsOpen, setLoginIsOpen] = useState(false);
   const [signUpCpfIsOpen, setSignUpCpfIsOpen] = useState(false);
@@ -220,6 +217,7 @@ const AccountHeader = () => {
   const dispatch = useAppDispatch();
   const user = useAppSelector('user');
   const [isLocked, setIsLocked] = useState(false);
+  const [loginSuccess, setLoginSuccess] = useState(false);
 
   /* ---------- Lock the scroll ---------- */
   useEffect(() => {
@@ -241,6 +239,8 @@ const AccountHeader = () => {
           password: login.values.password,
         }),
       );
+      setLoginIsOpen(false);
+      setLoginSuccess(true);
       login.reset();
     } catch (err) {}
   };
@@ -326,15 +326,11 @@ const AccountHeader = () => {
           {/* ---------- login dialog ---------- */}
           <Dialog
             ScrollLock={false}
-            title={user.user ? 'Success!' : 'Log in'}
+            title="Log in"
             isOpen={loginIsOpen}
-            description={
-              user.user
-                ? `Welcome back ${user.user.first_name}`
-                : 'Log in with your existing account'
-            }
+            description="Log in with your existing account"
             size="lg"
-            icon={user.user ? <CircleCheck /> : <LogIn />}
+            icon={<LogIn />}
             buttons={{
               cancel: {
                 text: 'Close',
@@ -351,39 +347,45 @@ const AccountHeader = () => {
               },
             }}
           >
-            {!user.user && (
-              <FormGrid
-                fields={loginFields}
-                values={login.values}
-                errors={login.errors}
-                onChange={login.setValue}
-                columns={2}
-              />
-            )}
+            <FormGrid
+              fields={loginFields}
+              values={login.values}
+              errors={login.errors}
+              onChange={login.setValue}
+              columns={2}
+            />
             {/* ---------- Already have an account link ---------- */}
-            {!user.user && (
-              <div className="mt-4 text-center">
-                <span className="text-charcoal-300 text-sm">
-                  Don't have a account?{' '}
-                  <button
-                    type="button"
-                    className="text-ember-400 cursor-pointer font-semibold hover:underline"
-                    onClick={() => {
-                      setSignUpCpfIsOpen(true);
-                      setLoginIsOpen(false);
-                    }}
-                  >
-                    Create Account
-                  </button>
-                </span>
-              </div>
-            )}
-            {user.error && (
-              <div className="mt-4 text-center">
-                <span className="text-sm text-red-400">{user.error}</span>
-              </div>
-            )}
+            <div className="mt-4 text-center">
+              <span className="text-charcoal-300 text-sm">
+                Don't have a account?{' '}
+                <button
+                  type="button"
+                  className="text-ember-400 cursor-pointer font-semibold hover:underline"
+                  onClick={() => {
+                    setSignUpCpfIsOpen(true);
+                    setLoginIsOpen(false);
+                  }}
+                >
+                  Create Account
+                </button>
+              </span>
+            </div>
           </Dialog>
+
+          <Modal
+            title="Success!"
+            message={`Welcome back ${user.user?.first_name}`}
+            icon={<CircleCheck />}
+            buttons={{
+              cancel: {
+                text: 'Close',
+                onClick() {
+                  setLoginSuccess(false);
+                },
+              },
+            }}
+            isOpen={loginSuccess}
+          />
           {/* ---------- signup as CPF dialog ---------- */}
           <Dialog
             ScrollLock={false}
@@ -511,5 +513,3 @@ const AccountHeader = () => {
     </>
   );
 };
-
-export default AccountHeader;

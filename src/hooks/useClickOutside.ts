@@ -1,9 +1,9 @@
 import { useEffect } from 'react';
 
-export function useClickOutside(
+export const useClickOutside = (
   ref: React.RefObject<HTMLElement | null>,
-  callback: () => void
-) {
+  callback: () => void,
+) => {
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (ref.current && !ref.current.contains(event.target as Node)) {
@@ -17,10 +17,7 @@ export function useClickOutside(
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, [ref, callback]);
-}
-
-
-
+};
 
 // export function Dropdown() {
 //   const [open, setOpen] = useState(false);
@@ -33,10 +30,6 @@ export function useClickOutside(
 //       <button onClick={() => setOpen(!open)}>Toggle Dropdown</button>
 //       {open && (
 //         <div ref={dropdownRef} className="absolute bg-white shadow-md p-4">
-
-
-
-
 
 ////////////////////////////////////////////////
 

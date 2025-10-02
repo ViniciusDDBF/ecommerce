@@ -9,8 +9,7 @@ import {
   ChevronRight,
   X,
 } from 'lucide-react';
-import Button from '../../components/atoms/Button';
-import Overlay from '../../components/atoms/Overlay';
+import { Button, Overlay } from '../../components/atoms';
 import { type Review } from './ReviewSection';
 import { type ReviewState } from './ReviewCard';
 // #endregion

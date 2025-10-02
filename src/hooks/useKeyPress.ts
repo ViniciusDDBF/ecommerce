@@ -1,7 +1,7 @@
 import { useCallback } from 'react';
 
 // Hook to handle Enter and Space key presses for accessibility
-const useKeyPress = (onClick?: React.MouseEventHandler<HTMLElement>) => {
+export const useKeyPress = (onClick?: React.MouseEventHandler<HTMLElement>) => {
   const handleKeyDown = useCallback(
     (event: React.KeyboardEvent<HTMLElement>) => {
       if (event.key === 'Enter' || event.key === ' ') {
@@ -14,5 +14,3 @@ const useKeyPress = (onClick?: React.MouseEventHandler<HTMLElement>) => {
 
   return handleKeyDown;
 };
-
-export default useKeyPress;

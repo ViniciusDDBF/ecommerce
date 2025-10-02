@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import type { CinematicTitleProps } from '../../types/components';
 
-const CinematicTitle: React.FC<CinematicTitleProps> = ({
+export const CinematicTitle: React.FC<CinematicTitleProps> = ({
   text,
   className = '',
 }) => {
@@ -42,5 +42,3 @@ const CinematicTitle: React.FC<CinematicTitleProps> = ({
     </h1>
   );
 };
-
-export default CinematicTitle;

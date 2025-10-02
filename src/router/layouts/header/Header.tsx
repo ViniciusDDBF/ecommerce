@@ -1,4 +1,4 @@
-import AccountHeader from '../../../features/account/AccountHeader';
+import { AccountHeader } from '../../../components/molecules';
 import Cart from '../../../features/cart/Cart';
 import Logo from '../header/Logo';
 import CategoryNav from './CategoryNav';

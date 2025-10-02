@@ -1,12 +1,15 @@
 import { Edit2 } from 'lucide-react';
-import { useForm } from '../../hooks/useForm';
-import type { FormFieldProps } from '../../types/hooks';
-import FormGrid from '../../components/molecules/form/FormGrid';
+import { Dialog } from '../../../components/atoms';
+import { FormGrid } from '../../../components/molecules';
+import { useForm } from '../../../hooks/useForm';
+import type { FormFieldProps } from '../../../types/hooks';
 import { useState } from 'react';
-import Dialog from '../../components/atoms/Dialog';
-import { useAppDispatch, useAppSelector } from '../../store/hooks/hooks';
-import { ThunkUpdateUser, type UserData } from '../../store/slices/userSlice';
-import AccountSectionHeader from './AccountSectionHeader';
+import { useAppDispatch, useAppSelector } from '../../../store/hooks/hooks';
+import {
+  ThunkUpdateUser,
+  type UserData,
+} from '../../../store/slices/userSlice';
+import AccountSectionHeader from '../AccountSectionHeader';
 
 const editUserFields: FormFieldProps[] = [
   {

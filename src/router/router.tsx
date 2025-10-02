@@ -8,7 +8,7 @@ import AuthCallback from '../pages/AuthCallback';
 import { rootLoader } from './loaders/rootLoader';
 import { productLoader } from './loaders/productLoader';
 import { homeLoader } from './loaders/homeLoader';
-import LoadingOverlay from '../components/atoms/LoadingOverlay';
+import { LoadingOverlay } from '../components/atoms';
 import PrivateRoute from './PrivateRoute';
 
 export const router = createBrowserRouter([

@@ -1,5 +1,5 @@
 import React, { type ReactNode } from 'react';
-import Button from '../../components/atoms/Button';
+import { Button } from '../../components/atoms';
 
 interface AccountSectionHeaderProps {
   title: string;

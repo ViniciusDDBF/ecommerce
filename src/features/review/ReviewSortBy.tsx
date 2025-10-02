@@ -1,5 +1,5 @@
 import React from 'react';
-import CustomSelect from '../../components/atoms/CustomSelect';
+import { CustomSelect } from '../../components/atoms';
 
 interface onSortByProps {
   onSortBy: (sort: string) => void;

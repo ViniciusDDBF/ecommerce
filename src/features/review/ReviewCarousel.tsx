@@ -1,6 +1,6 @@
 import { useState, useRef } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
-import Button from '../../components/atoms/Button';
+import { Button } from '../../components/atoms';
 
 // Define interfaces for the data structure (aligned with ReviewSection)
 interface Customer {

@@ -7,7 +7,7 @@ type HelperProps = {
   onClick?: (value: any) => void;
 };
 
-const Helper: React.FC<HelperProps> = ({ tooltip, value, onClick }) => {
+export const Helper: React.FC<HelperProps> = ({ tooltip, value, onClick }) => {
   const [isHovered, setIsHovered] = useState(false);
 
   const classes = [
@@ -37,5 +37,3 @@ const Helper: React.FC<HelperProps> = ({ tooltip, value, onClick }) => {
     </div>
   );
 };
-
-export default Helper;

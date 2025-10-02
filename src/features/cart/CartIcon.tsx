@@ -1,6 +1,6 @@
 import { ShoppingCart } from 'lucide-react';
-import IconOverlay from '../../components/atoms/IconOverlay';
-import useKeyPress from '../../hooks/useKeyPress';
+import { IconOverlay } from '../../components/atoms';
+import { useKeyPress } from '../../hooks';
 
 type CartIconProps = {
   count?: number;

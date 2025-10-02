@@ -1,7 +1,7 @@
 import { useRef, useState } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import Button from '../../atoms/Button';
+import { Button } from '../../atoms';
 
 interface ProductItem {
   group_id: number;
@@ -31,7 +31,7 @@ interface CarouselProps {
   containerClassName?: string;
 }
 
-const Carousel = ({
+export const Carousel = ({
   data,
   className = '',
   headerClassName = '',
@@ -238,5 +238,4 @@ const Carousel = ({
   );
 };
 
-export default Carousel;
 export type { CarouselProps };

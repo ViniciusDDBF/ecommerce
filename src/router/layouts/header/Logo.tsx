@@ -1,6 +1,6 @@
 import { Link } from 'react-router';
 import LogoImg from '../../../img/DundichTaighDigitalLogo.png';
-import CinematicTitle from '../../../components/atoms/CinematicTitle';
+import { CinematicTitle } from '../../../components/atoms';
 
 const Logo = () => {
   return (

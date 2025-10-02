@@ -5,7 +5,7 @@ type ScrollOptions = {
   behavior?: ScrollBehavior; // "smooth" | "auto"
 };
 
-export function useSmoothScroll() {
+export const useSmoothScroll = () => {
   const scrollTo = useCallback(
     (target: string | HTMLElement | null, options: ScrollOptions = {}) => {
       const { offset = 0, behavior = 'smooth' } = options;
@@ -33,4 +33,4 @@ export function useSmoothScroll() {
   );
 
   return { scrollTo };
-}
+};

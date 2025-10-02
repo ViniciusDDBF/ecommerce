@@ -8,7 +8,7 @@ type IconOverlayProps = {
   [key: string]: any; // Allows arbitrary props like tabIndex, role, etc.
 };
 
-const IconOverlay: React.FC<IconOverlayProps> = ({
+export const IconOverlay: React.FC<IconOverlayProps> = ({
   onClick,
   icon,
   count,
@@ -36,5 +36,3 @@ const IconOverlay: React.FC<IconOverlayProps> = ({
     </div>
   );
 };
-
-export default IconOverlay;

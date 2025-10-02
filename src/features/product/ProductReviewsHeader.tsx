@@ -1,5 +1,5 @@
 import { Star, StarHalf } from 'lucide-react';
-import Link from '../../components/atoms/Link';
+import { Link } from '../../components/atoms';
 
 interface ProductReviewsProps {
   averageRating: number;

@@ -1,9 +1,8 @@
 import React, { useState, useRef } from 'react';
-import Overlay from '../../components/atoms/Overlay';
+import { Overlay, Button } from '../../components/atoms';
+import { FormField } from '../../components/molecules';
 import { X, Upload, FileVideo, FileImage } from 'lucide-react';
-import Button from '../../components/atoms/Button';
-import FormField from '../../components/molecules/form/FormField';
-import useScrollLock from '../../hooks/useScrollLock';
+import { useScrollLock } from '../../hooks';
 import StarRating from './StarRating';
 import { supabase } from '../../SupabaseConfig';
 import { useAppSelector } from '../../store/hooks/hooks';

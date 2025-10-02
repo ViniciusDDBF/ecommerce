@@ -1,4 +1,6 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router';
+import { AccountIcon } from '../';
 import {
   User,
   ShoppingBag,
@@ -7,13 +9,11 @@ import {
   LogOut,
   ChevronDown,
 } from 'lucide-react';
-import { ThunkLogOut } from '../../store/slices/userSlice';
-import Button from '../../components/atoms/Button';
-import { useNavigate } from 'react-router';
-import { useAppDispatch, useAppSelector } from '../../store/hooks/hooks';
-import AccountIcon from './AccountIcon';
+import { Button } from '../../atoms';
+import { useAppDispatch, useAppSelector } from '../../../store/hooks/hooks';
+import { ThunkLogOut } from '../../../store/slices/userSlice';
 
-const AccountDropdown = () => {
+export const AccountDropdown = () => {
   const [isOpen, setIsOpen] = useState(false);
   const dispatch = useAppDispatch();
   const user = useAppSelector('user');
@@ -23,26 +23,22 @@ const AccountDropdown = () => {
     {
       icon: <User className="h-3 w-3 sm:h-4 sm:w-4" />,
       label: 'Profile Settings',
-      description: 'Manage your account',
       href: '/profile',
     },
     {
       icon: <MapPin className="h-3 w-3 sm:h-4 sm:w-4" />,
       label: 'Addresses',
-      description: 'Shipping & billing',
       href: '/addresses',
     },
     {
       icon: <ShoppingBag className="h-3 w-3 sm:h-4 sm:w-4" />,
       label: 'My Orders',
-      description: 'Track your purchases',
       href: '/orders',
       badge: '3',
     },
     {
       icon: <Heart className="h-3 w-3 sm:h-4 sm:w-4" />,
       label: 'Wishlist',
-      description: 'Saved items',
       href: '/wishlist',
       badge: '12',
     },
@@ -151,5 +147,3 @@ const AccountDropdown = () => {
     </div>
   );
 };
-
-export default AccountDropdown;

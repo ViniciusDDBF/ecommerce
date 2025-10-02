@@ -1,5 +1,5 @@
 import React from 'react';
-import FormField from './FormField';
+import { FormField } from '../';
 import type { FormFieldProps as FormFieldType } from '../../../types/hooks';
 
 type FormGridProps = {
@@ -10,7 +10,7 @@ type FormGridProps = {
   columns?: 1 | 2;
 };
 
-const FormGrid: React.FC<FormGridProps> = ({
+export const FormGrid: React.FC<FormGridProps> = ({
   fields,
   values,
   errors,
@@ -43,5 +43,3 @@ const FormGrid: React.FC<FormGridProps> = ({
     </div>
   );
 };
-
-export default FormGrid;

@@ -15,7 +15,7 @@ interface LinkProps
   style?: React.CSSProperties;
 }
 
-const Link: React.FC<LinkProps> = ({
+export const Link: React.FC<LinkProps> = ({
   text,
   variant = 'text',
   size = 'md',
@@ -57,5 +57,3 @@ const Link: React.FC<LinkProps> = ({
     </a>
   );
 };
-
-export default Link;

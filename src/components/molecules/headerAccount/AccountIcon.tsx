@@ -1,11 +1,11 @@
 import { User } from 'lucide-react';
-import IconOverlay from '../../components/atoms/IconOverlay';
+import { IconOverlay } from '../../atoms';
 
 type AccountIconProps = {
   onClick?: React.MouseEventHandler<HTMLDivElement>;
 };
 
-const AccountIcon: React.FC<AccountIconProps> = ({ onClick }) => {
+export const AccountIcon: React.FC<AccountIconProps> = ({ onClick }) => {
   // Handle keyboard events for accessibility
   const handleKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
     if (event.key === 'Enter' || event.key === ' ') {
@@ -25,5 +25,3 @@ const AccountIcon: React.FC<AccountIconProps> = ({ onClick }) => {
     />
   );
 };
-
-export default AccountIcon;

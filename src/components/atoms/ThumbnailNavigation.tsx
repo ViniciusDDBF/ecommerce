@@ -1,4 +1,5 @@
 import { CirclePlay } from 'lucide-react';
+import React from 'react';
 
 interface ThumbnailNavigationProps {
   images: { url: string; media_type: string }[];
@@ -8,13 +9,13 @@ interface ThumbnailNavigationProps {
   orientation?: 'horizontal' | 'vertical';
 }
 
-export default function ThumbnailNavigation({
+export const ThumbnailNavigation: React.FC<ThumbnailNavigationProps> = ({
   images,
   selectedMedia,
   setSelectedMedia,
   productName,
   orientation = 'vertical',
-}: ThumbnailNavigationProps) {
+}) => {
   const containerClasses = `flex gap-2 sm:gap-3 md:gap-4 ${
     orientation === 'horizontal'
       ? 'overflow-x-auto sm:overflow-visible'
@@ -26,6 +27,7 @@ export default function ThumbnailNavigation({
       {images.map((item, idx) => {
         const isSelected = selectedMedia?.url === item.url;
         const isVideo = item.media_type === 'video';
+
         const commonClasses = `ember-hover-border ember-transition hover:animate-glow hover:border-ember-500 h-12 w-12 sm:h-16 sm:w-16 md:h-20 md:w-20 lg:h-24 lg:w-24 flex-shrink-0 cursor-pointer rounded-lg border-2 object-contain ${
           isSelected ? 'border-ember-500' : 'border-transparent'
         }`;
@@ -56,4 +58,4 @@ export default function ThumbnailNavigation({
       })}
     </div>
   );
-}
+};

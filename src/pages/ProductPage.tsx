@@ -1,19 +1,17 @@
 // #region /* ---------- Imports ---------- */
 import { useEffect, useRef, useState } from 'react';
+import { Breadcrumbs, Button, Modal } from '../components/atoms';
 import { useNavigate, useSearchParams, useLoaderData } from 'react-router-dom';
 import parseVariantHash from '../utils/variants/parseVariantHash';
 import getUpdatedVariantParams from '../utils/variants/getUpdatedVariantParams';
 import ProductMediaViewer from '../features/product/ProductMediaViewer';
-import Breadcrumbs from '../components/atoms/Breadcrumbs';
 import ProductHeader from '../features/product/ProductHeader';
 import VariantSelector from '../features/product/VariantSelector';
 import StockStatus from '../features/product/StockStatus';
 import ProductInfoPanel from '../features/product/ProductInfoPanel';
-import Button from '../components/atoms/Button';
 import { ShoppingCart } from 'lucide-react';
 import ReviewSection from '../features/review/ReviewSection';
 import { useSmoothScroll } from '../hooks/useSmoothScroll';
-import Modal from '../components/atoms/Modal';
 // #endregion
 
 // #region /* ---------- Types ---------- */

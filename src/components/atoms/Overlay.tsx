@@ -7,7 +7,11 @@ type OverlayProps = {
   children?: React.ReactNode;
 };
 
-const Overlay: React.FC<OverlayProps> = ({ isOpen, onClick, children }) => {
+export const Overlay: React.FC<OverlayProps> = ({
+  isOpen,
+  onClick,
+  children,
+}) => {
   if (!isOpen) return null;
 
   const handleClick: React.MouseEventHandler<HTMLDivElement> = (e) => {
@@ -26,5 +30,3 @@ const Overlay: React.FC<OverlayProps> = ({ isOpen, onClick, children }) => {
     </div>
   );
 };
-
-export default Overlay;

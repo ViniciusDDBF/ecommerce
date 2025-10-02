@@ -6,7 +6,7 @@ interface LoadingDivProps {
   [key: string]: any;
 }
 
-const LoadingDiv = ({
+export const LoadingDiv = ({
   loader = false,
   children,
   ...divProps
@@ -22,5 +22,3 @@ const LoadingDiv = ({
     </div>
   );
 };
-
-export default LoadingDiv;

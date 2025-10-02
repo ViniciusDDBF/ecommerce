@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Star, Heart, Plus } from 'lucide-react';
-import Button from '../../atoms/Button';
+import { Button } from '../../atoms';
 
 interface Variation {
   name: string;
@@ -21,17 +21,17 @@ interface Product {
   variations?: Variation[];
 }
 
-interface MinimalGlassCardProps {
+interface CarouselProductCardProps {
   product: Product;
   onAddToCart?: (product: Product, selectedVariation?: Variation) => void;
   onToggleFavorite?: (product: Product, isLiked: boolean) => void;
 }
 
-const MinimalGlassCard = ({
+export const CarouselProductCard = ({
   product,
   onAddToCart,
   onToggleFavorite,
-}: MinimalGlassCardProps) => {
+}: CarouselProductCardProps) => {
   const [isHovered, setIsHovered] = useState(false);
   const [isLiked, setIsLiked] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState(0);
@@ -179,5 +179,4 @@ const MinimalGlassCard = ({
   );
 };
 
-export default MinimalGlassCard;
-export type { Product, Variation, MinimalGlassCardProps };
+export type { Product, Variation, CarouselProductCardProps };

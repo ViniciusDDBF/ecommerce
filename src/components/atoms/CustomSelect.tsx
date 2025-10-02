@@ -15,7 +15,7 @@ export interface CustomSelectProps {
   className?: string;
 }
 
-const CustomSelect: React.FC<CustomSelectProps> = ({
+export const CustomSelect: React.FC<CustomSelectProps> = ({
   options = [],
   placeholder = 'Select...',
   value = '',
@@ -91,5 +91,3 @@ const CustomSelect: React.FC<CustomSelectProps> = ({
     </div>
   );
 };
-
-export default CustomSelect;

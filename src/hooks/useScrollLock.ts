@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 
-const useScrollLock = (isActive: boolean) => {
+export const useScrollLock = (isActive: boolean) => {
   useEffect(() => {
     if (isActive) {
       document.body.classList.add('overflow-hidden');
@@ -13,5 +13,3 @@ const useScrollLock = (isActive: boolean) => {
     };
   }, [isActive]);
 };
-
-export default useScrollLock;

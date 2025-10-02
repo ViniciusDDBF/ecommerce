@@ -1,9 +1,6 @@
 import React from 'react';
+import { CustomCheckbox, Input, Helper, CustomSelect } from '../../atoms/';
 import type { FormFieldProps as FormFieldType } from '../../../types/hooks';
-import CustomSelect from '../../atoms/CustomSelect';
-import Helper from '../../atoms/Helper';
-import { CustomCheckbox } from '../../atoms/CustomCheckbox';
-import Input from '../../atoms/Input';
 
 type FormFieldProps = {
   field: FormFieldType;
@@ -12,7 +9,7 @@ type FormFieldProps = {
   onChange: (value: any) => void;
 };
 
-const FormField: React.FC<FormFieldProps> = ({
+export const FormField: React.FC<FormFieldProps> = ({
   field,
   value,
   error,
@@ -95,5 +92,3 @@ const FormField: React.FC<FormFieldProps> = ({
     </div>
   );
 };
-
-export default FormField;

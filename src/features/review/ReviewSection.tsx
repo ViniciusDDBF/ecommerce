@@ -2,18 +2,16 @@
 
 import { useState, useEffect, useMemo, useRef } from 'react';
 import { supabase } from '../../SupabaseConfig';
-import useScrollLock from '../../hooks/useScrollLock';
+import { useScrollLock } from '../../hooks';
 import ReviewCarousel from './ReviewCarousel';
 import ReviewCard from './ReviewCard';
-import ReviewModal from './ReviewModal';
+import ReviewModal from './SelectedReviewModal';
 import RatingFilter from './RatingFilter';
 import RatingCircle from './RatingCircle';
-import Button from '../../components/atoms/Button';
+import { Button, Modal } from '../../components/atoms';
 import { useSmoothScroll } from '../../hooks/useSmoothScroll';
 import CreateReviewModal from './CreateReviewModal';
 import { useAppSelector } from '../../store/hooks/hooks';
-import Dialog from '../../components/atoms/Dialog';
-import Modal from '../../components/atoms/Modal';
 // #endregion
 
 // #region /* ---------- Types ---------- */

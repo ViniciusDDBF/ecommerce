@@ -11,7 +11,7 @@ type InputProps = {
   rows?: number;
 };
 
-const Input: React.FC<InputProps> = ({
+export const Input: React.FC<InputProps> = ({
   type = 'text',
   value,
   onChange,
@@ -49,5 +49,3 @@ const Input: React.FC<InputProps> = ({
     />
   );
 };
-
-export default Input;

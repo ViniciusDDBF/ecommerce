@@ -1,10 +1,8 @@
-import { ArrowRight } from 'lucide-react';
-import Button from '../components/atoms/Button';
-import Carousel from '../components/molecules/carousel/Carousel';
-import CinematicTitle from '../components/atoms/CinematicTitle';
-import { useLoaderData } from 'react-router-dom';
-import Modal from '../components/atoms/Modal';
 import { useState } from 'react';
+import { useLoaderData } from 'react-router-dom';
+import { Button, CinematicTitle, Modal } from '../components/atoms';
+import { Carousel } from '../components/molecules';
+import { ArrowRight } from 'lucide-react';
 
 const Homepage = () => {
   const data = useLoaderData();

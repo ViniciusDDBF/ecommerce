@@ -7,7 +7,7 @@ interface DrawerProps {
   className?: string;
 }
 
-const Drawer = React.forwardRef<HTMLDivElement, DrawerProps>(
+export const Drawer = React.forwardRef<HTMLDivElement, DrawerProps>(
   ({ isOpen, children, position = 'right', className = '' }, ref) => {
     return (
       <div
@@ -27,5 +27,3 @@ const Drawer = React.forwardRef<HTMLDivElement, DrawerProps>(
     );
   },
 );
-
-export default Drawer;

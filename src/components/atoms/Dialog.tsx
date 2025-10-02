@@ -1,13 +1,11 @@
 import React, { useRef, useEffect } from 'react';
 import { X } from 'lucide-react';
-import Button from './Button';
-import Overlay from './Overlay';
+import { Button, Overlay } from '.';
 import { useClickOutside } from '../../hooks/useClickOutside';
-import useScrollLock from '../../hooks/useScrollLock';
-import useFocusTrap from '../../hooks/useFocusTrap';
+import { useScrollLock, useFocusTrap } from '../../hooks';
 import type { DialogProps } from '../../types/components';
 
-const Dialog: React.FC<DialogProps> = ({
+export const Dialog: React.FC<DialogProps> = ({
   ScrollLock = true,
   isOpen,
   title,
@@ -144,5 +142,3 @@ const Dialog: React.FC<DialogProps> = ({
     </Overlay>
   );
 };
-
-export default Dialog;

@@ -5,7 +5,7 @@ import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 import { router } from './router/router';
 import store, { persistor } from './store/store';
-import LoadingOverlay from './components/atoms/LoadingOverlay';
+import { LoadingOverlay } from './components/atoms';
 
 const rootElement = document.getElementById('root');
 if (rootElement) {

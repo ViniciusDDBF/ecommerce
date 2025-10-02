@@ -1,13 +1,11 @@
 import React, { useRef, useEffect } from 'react';
 import { X } from 'lucide-react';
-import Button from './Button';
-import Overlay from './Overlay';
+import { Button, Overlay } from '.';
 import { useClickOutside } from '../../hooks/useClickOutside';
-import useScrollLock from '../../hooks/useScrollLock';
-import useFocusTrap from '../../hooks/useFocusTrap';
+import { useScrollLock, useFocusTrap } from '../../hooks';
 import type { ModalProps } from '../../types/components/Modal';
 
-const Modal: React.FC<ModalProps> = ({
+export const Modal: React.FC<ModalProps> = ({
   isOpen,
   title,
   message,
@@ -127,5 +125,3 @@ const Modal: React.FC<ModalProps> = ({
     </Overlay>
   );
 };
-
-export default Modal;

@@ -1,6 +1,6 @@
 import { ChevronRight } from 'lucide-react';
 import React, { useState } from 'react';
-import Modal from './Modal';
+import { Modal } from '.';
 
 interface Breadcrumb {
   id: number;
@@ -15,8 +15,9 @@ interface BreadcrumbsProps {
   navigate: (path: string) => void;
 }
 
-export default function Breadcrumbs({ breadcrumbs }: BreadcrumbsProps) {
+export const Breadcrumbs: React.FC<BreadcrumbsProps> = ({ breadcrumbs }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
+
   if (!breadcrumbs?.length) return null;
 
   return (
@@ -63,4 +64,4 @@ export default function Breadcrumbs({ breadcrumbs }: BreadcrumbsProps) {
       />
     </>
   );
-}
+};

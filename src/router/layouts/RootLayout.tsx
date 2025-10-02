@@ -1,6 +1,6 @@
 import { Outlet, useNavigation } from 'react-router';
 import Header from './header/Header';
-import LoadingOverlay from '../../components/atoms/LoadingOverlay';
+import { LoadingOverlay } from '../../components/atoms';
 import { Truck, Shield, RotateCcw } from 'lucide-react';
 
 export default function RootLayout() {

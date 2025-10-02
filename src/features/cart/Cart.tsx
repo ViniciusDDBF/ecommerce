@@ -1,12 +1,10 @@
 import { useRef, useState } from 'react';
+import { useNavigate } from 'react-router';
+import { Overlay, Drawer, Button } from '../../components/atoms';
 import { useClickOutside } from '../../hooks/useClickOutside';
 import { X } from 'lucide-react';
 import CartIcon from './CartIcon';
-import Overlay from '../../components/atoms/Overlay';
-import Drawer from '../../components/atoms/Drawer';
-import Button from '../../components/atoms/Button';
-import useScrollLock from '../../hooks/useScrollLock';
-import { useNavigate } from 'react-router';
+import { useScrollLock } from '../../hooks';
 
 const Cart = () => {
   const [isOpen, setIsOpen] = useState(false);

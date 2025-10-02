@@ -6,7 +6,7 @@ import {
   ThumbsUp,
   ThumbsDown,
 } from 'lucide-react';
-import Button from '../../components/atoms/Button';
+import { Button } from '../../components/atoms';
 import { type Review } from './ReviewSection';
 import ReviewSortBy from './ReviewSortBy';
 import { useSmoothScroll } from '../../hooks/useSmoothScroll';

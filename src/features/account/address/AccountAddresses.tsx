@@ -2,21 +2,19 @@
 
 import { useState } from 'react';
 import { MapPin, Edit3, Trash2, Plus, User, Shield, House } from 'lucide-react';
-import Button from '../../components/atoms/Button';
-import FormGrid from '../../components/molecules/form/FormGrid';
-import Dialog from '../../components/atoms/Dialog';
-import { useForm } from '../../hooks/useForm';
-import { useAppDispatch, useAppSelector } from '../../store/hooks/hooks';
+import { FormGrid } from '../../../components/molecules/';
+import { Dialog, Modal, Button } from '../../../components/atoms/';
+import { useForm } from '../../../hooks';
+import { useAppDispatch, useAppSelector } from '../../../store/hooks/hooks';
 import {
   ThunkCreateCustomerAddress,
   ThunkUpdateCustomerAddress,
   ThunkDeleteCustomerAddress,
   type AddressData,
   ThunkUpdateCustomerDefaultAddress,
-} from '../../store/slices/userSlice';
-import Modal from '../../components/atoms/Modal';
-import AccountSectionHeader from './AccountSectionHeader';
-import type { FormFieldProps } from '../../types/hooks';
+} from '../../../store/slices/userSlice';
+import AccountSectionHeader from '../AccountSectionHeader';
+import type { FormFieldProps } from '../../../types/hooks';
 
 // #endregion
 

@@ -1,12 +1,12 @@
 import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router';
 import { User, MapPin, Package, Heart, Menu, X } from 'lucide-react';
-import Button from '../../components/atoms/Button';
-import AccountProfile from '../../features/account/AccountProfile';
-import AccountOrders from '../../features/account/AccountOrders';
-import AccountWishlist from '../../features/account/AccountWishlist';
-import AccountAddresses from '../../features/account/AccountAddresses';
-import AccountDefault from '../../features/account/AccountDefault';
+import { Button } from '../../components/atoms';
+import AccountProfile from '../../features/account/profile/AccountProfile';
+import AccountOrders from '../../features/account/orders/AccountOrders';
+import AccountWishlist from '../../features/account/wishlist/AccountWishlist';
+import AccountAddresses from '../../features/account/address/AccountAddresses';
+import AccountDefault from '../../features/account/default/AccountDefault';
 
 export default function AccountLayout() {
   const { section } = useParams<{ section?: string }>();
@@ -98,7 +98,6 @@ export default function AccountLayout() {
         return <AccountOrders />;
       case 'wishlist':
         return <AccountWishlist />;
-
       default:
         return <AccountDefault />;
     }

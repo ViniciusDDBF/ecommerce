@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import Link from '../../../components/atoms/Link';
-import Modal from '../../../components/atoms/Modal';
+import { Link, Modal } from '../../../components/atoms';
 
 const CategoryNav: React.FC = () => {
   const [activeCategory, setActiveCategory] = useState('All');
