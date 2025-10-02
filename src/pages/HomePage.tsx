@@ -78,8 +78,6 @@ export const Homepage = () => {
         }}
         isOpen={wipIsOpen}
       />
-
-      <Button text={'Teste numero 2'} />
     </>
   );
 };
