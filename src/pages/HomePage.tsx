@@ -78,6 +78,8 @@ export const Homepage = () => {
         }}
         isOpen={wipIsOpen}
       />
+
+      <Button text={'VINIIIIII'} />
     </>
   );
 };

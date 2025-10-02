@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 interface ProductItem {
   group_id: number;
@@ -12,6 +13,7 @@ interface ProductItem {
   image_url: string[] | null;
   promotion_id: number | null;
   color: string | null;
+  variant_query: string;
 }
 
 interface ProductCardProps {
@@ -50,11 +52,18 @@ export const CarouselProductCard = ({
 
   return (
     <div className="relative w-[80vw] flex-shrink-0 snap-center sm:w-[320px]">
-      <a href={`/products/${slug}`}>
+      <Link
+        to={{
+          pathname: `/products/${slug}`,
+          search: `${selectedVariant.variant_query}`,
+        }}
+      >
         <div className="bg-charcoal-800 relative overflow-hidden rounded-lg">
           <div
             className="relative aspect-[3/4] sm:aspect-[4/5]"
-            onMouseEnter={() => setHoveredCard(cardId)}
+            onMouseEnter={() => {
+              setHoveredCard(cardId);
+            }}
             onMouseLeave={() => setHoveredCard(null)}
           >
             <img
@@ -96,8 +105,7 @@ export const CarouselProductCard = ({
             </div>
           </div>
         </div>
-      </a>
-
+      </Link>
       <div className="mt-2 flex justify-center gap-2 sm:gap-3">
         {variants.map((variant) => (
           <button
