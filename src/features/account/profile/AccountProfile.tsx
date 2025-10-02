@@ -1,15 +1,15 @@
-import { Edit2 } from 'lucide-react';
-import { Dialog } from '../../../components/atoms';
-import { FormGrid } from '../../../components/molecules';
-import { useForm } from '../../../hooks/useForm';
 import type { FormFieldProps } from '../../../types/hooks';
 import { useState } from 'react';
+import { Edit2 } from 'lucide-react';
+import { Dialog, CustomerInitials } from '../../../components/atoms';
+import { FormGrid } from '../../../components/molecules';
+import { AccountSectionHeader } from '../../../features';
+import { useForm } from '../../../hooks';
 import { useAppDispatch, useAppSelector } from '../../../store/hooks/hooks';
 import {
   ThunkUpdateUser,
   type UserData,
 } from '../../../store/slices/userSlice';
-import AccountSectionHeader from '../AccountSectionHeader';
 
 const editUserFields: FormFieldProps[] = [
   {
@@ -48,7 +48,7 @@ const editUserFields: FormFieldProps[] = [
   },
 ];
 
-export default function AccountProfile() {
+export const AccountProfile = () => {
   const user = useAppSelector('user');
   const dispatch = useAppDispatch();
 
@@ -59,9 +59,6 @@ export default function AccountProfile() {
     email: user.user?.email,
     phone: user.user?.phone,
   });
-
-  const userInitials =
-    (user.user?.first_name?.[0] ?? '') + (user.user?.last_name?.[0] ?? '');
 
   const handleUpdateUser = async () => {
     if (!editUser.validate()) return;
@@ -104,19 +101,16 @@ export default function AccountProfile() {
             <div className="space-y-4 sm:space-y-6">
               {/* ---------- User Information ---------- */}
               <div className="flex flex-col space-y-4 sm:flex-row sm:space-y-0 sm:space-x-4 md:space-x-6">
-                <div className="relative flex-shrink-0">
-                  <div className="from-ember-400 to-ember-600 flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-br text-lg font-bold text-amber-50 sm:h-20 sm:w-20 sm:text-xl md:h-24 md:w-24 md:text-2xl">
-                    {userInitials}
-                  </div>
-                </div>
-                <div className="flex-1">
-                  <h2 className="text-ember-400 mb-1 text-lg font-bold sm:mb-2 sm:text-xl md:text-2xl">
-                    {user.user?.first_name} {user.user?.last_name}
-                  </h2>
-                  <p className="text-charcoal-300 text-sm sm:text-base md:text-lg">
-                    {user.user?.email}
-                  </p>
-                </div>
+                {user.user?.first_name &&
+                  user.user?.email &&
+                  user.user?.last_name && (
+                    <CustomerInitials
+                      size="xl"
+                      lastName={user.user?.last_name}
+                      firstName={user.user?.first_name}
+                      email={user.user?.email}
+                    />
+                  )}
               </div>
               {/* ---------- User Details ---------- */}
               <div className="bg-charcoal-800/60 rounded-xl p-4 sm:p-6">
@@ -196,4 +190,4 @@ export default function AccountProfile() {
       </Dialog>
     </main>
   );
-}
+};

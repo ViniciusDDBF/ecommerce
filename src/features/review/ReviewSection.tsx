@@ -1,18 +1,17 @@
-// #region /* ---------- Imports ---------- */
-
 import { useState, useEffect, useMemo, useRef } from 'react';
-import { supabase } from '../../SupabaseConfig';
-import { useScrollLock } from '../../hooks';
-import ReviewCarousel from './ReviewCarousel';
-import ReviewCard from './ReviewCard';
-import ReviewModal from './SelectedReviewModal';
-import RatingFilter from './RatingFilter';
-import RatingCircle from './RatingCircle';
 import { Button, Modal } from '../../components/atoms';
-import { useSmoothScroll } from '../../hooks/useSmoothScroll';
-import CreateReviewModal from './CreateReviewModal';
+import {
+  EmptyReviewCard,
+  ReviewCarousel,
+  ReviewCard,
+  ReviewModal,
+  RatingFilter,
+  RatingCircle,
+  CreateReviewModal,
+} from '../../features';
+import { useScrollLock, useSmoothScroll } from '../../hooks';
 import { useAppSelector } from '../../store/hooks/hooks';
-// #endregion
+import { supabase } from '../../SupabaseConfig';
 
 // #region /* ---------- Types ---------- */
 export interface Customer {
@@ -69,7 +68,7 @@ interface EnhancedReviewCardProps {
 // #endregion
 
 /* ---------- MAIN COMPONENT ---------- */
-const ReviewSection = ({
+export const ReviewSection = ({
   reviews,
   ratingSummary,
   productId,
@@ -359,18 +358,14 @@ const ReviewSection = ({
   if (!reviews || reviews.length === 0) {
     return (
       <>
-        <div className="bg-charcoal-900 p-4 md:p-8">
-          <div className="flex items-center justify-center p-4">
-            <Button
-              onClick={() => {
-                console.log('vini');
-                setCreateReview(true);
-                console.log(createReview);
-              }}
-              text="Write a review"
-            />
-            <div className="flex items-center justify-center p-4"></div>
-          </div>
+        <div className="bg-charcoal-900 p-10">
+          <EmptyReviewCard
+            onClick={() => {
+              console.log('vini');
+              setCreateReview(true);
+              console.log(createReview);
+            }}
+          />
         </div>
         <CreateReviewModal
           onClose={() => setCreateReview(!createReview)}
@@ -409,6 +404,7 @@ const ReviewSection = ({
             average={ratingSummary.average_rating}
             onRatingSelect={(e) => {
               setRatingFilter(e);
+              setCurrentPage(1);
               scrollTo(sectionRef.current);
             }}
             className="md:border-charcoal-700 md:border-x-1"
@@ -481,5 +477,3 @@ const ReviewSection = ({
     </>
   );
 };
-
-export default ReviewSection;

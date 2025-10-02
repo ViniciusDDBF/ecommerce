@@ -1,9 +1,8 @@
+import type { ModalProps } from '../../types/components/Modal';
 import React, { useRef, useEffect } from 'react';
 import { X } from 'lucide-react';
-import { Button, Overlay } from '.';
-import { useClickOutside } from '../../hooks/useClickOutside';
-import { useScrollLock, useFocusTrap } from '../../hooks';
-import type { ModalProps } from '../../types/components/Modal';
+import { Button, Overlay } from '../atoms';
+import { useClickOutside, useScrollLock, useFocusTrap } from '../../hooks';
 
 export const Modal: React.FC<ModalProps> = ({
   isOpen,

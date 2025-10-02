@@ -1,6 +1,6 @@
-import { ChevronRight } from 'lucide-react';
 import React, { useState } from 'react';
-import { Modal } from '.';
+import { ChevronRight } from 'lucide-react';
+import { Modal } from '../atoms';
 
 interface Breadcrumb {
   id: number;

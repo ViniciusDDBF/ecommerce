@@ -1,10 +1,10 @@
-import React from 'react';
 import type {
   ButtonProps,
   SpinnerLoaderProps,
   GetVariantStylesParams,
   VariantStyles,
 } from '../../types/components';
+import React from 'react';
 
 /* ----------- Spinner Loader ----------- */
 const SpinnerLoader: React.FC<SpinnerLoaderProps> = ({ size, color }) => {
@@ -126,22 +126,21 @@ const getVariantStyles = ({
     case 'outline':
       if (selected) {
         return {
-          base: 'bg-ember-500/15 text-ember-400 border-2 border-ember-500 shadow-lg',
-          hover:
-            'hover:bg-ember-500/25 hover:text-ember-300 hover:border-ember-400',
-          active: 'active:bg-ember-500/35 active:scale-[0.98]',
+          base: 'bg-charcoal-600/15 text-charcoal-200 border-2 border-charcoal-200 shadow-lg',
+          hover: 'cursor-auto',
+          active: 'active:bg-charcoal-500/35 active:scale-[0.98]',
           focus:
-            'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ember-400 focus-visible:ring-offset-2 focus-visible:ring-offset-charcoal-900',
+            'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-charcoal-400 focus-visible:ring-offset-2 focus-visible:ring-offset-charcoal-900',
           loaderColor: '#FF9142',
         };
       }
       return {
         base: 'bg-transparent text-charcoal-300 border-2 border-charcoal-500',
         hover:
-          'hover:bg-charcoal-700/30 hover:text-ember-400 hover:border-ember-500',
+          'hover:bg-charcoal-500/30 hover:text-charcoal-200 hover:border-charcoal-500',
         active: 'active:bg-charcoal-600/40 active:scale-[0.98]',
         focus:
-          'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ember-300 focus-visible:ring-offset-2 focus-visible:ring-offset-charcoal-900',
+          'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-charcoal-300 focus-visible:ring-offset-2 focus-visible:ring-offset-charcoal-900',
         loaderColor: '#888888',
       };
     default:

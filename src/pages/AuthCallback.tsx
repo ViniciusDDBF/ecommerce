@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router';
 import { ThunkGoogle } from '../store/slices/userSlice';
 import { useAppDispatch } from '../store/hooks/hooks';
 
-const AuthCallback = () => {
+export const AuthCallback = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const didRunRef = useRef(false);
@@ -20,5 +20,3 @@ const AuthCallback = () => {
 
   return null;
 };
-
-export default AuthCallback;

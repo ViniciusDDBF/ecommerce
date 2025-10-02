@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { Link, Modal } from '../../../components/atoms';
+import { Link, Modal } from '../../components/atoms';
 
-const CategoryNav: React.FC = () => {
+export const CategoryNav: React.FC = () => {
   const [activeCategory, setActiveCategory] = useState('All');
   const [wipIsOpen, setWipIsOpen] = useState<boolean>(false);
 
@@ -55,5 +55,3 @@ const CategoryNav: React.FC = () => {
     </>
   );
 };
-
-export default CategoryNav;

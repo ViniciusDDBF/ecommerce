@@ -7,7 +7,7 @@ interface RatingCircleProps extends React.HTMLAttributes<HTMLDivElement> {
   className: string;
 }
 
-const RatingCircle: React.FC<RatingCircleProps> = ({
+export const RatingCircle: React.FC<RatingCircleProps> = ({
   average,
   review_count,
   className,
@@ -61,10 +61,8 @@ const RatingCircle: React.FC<RatingCircleProps> = ({
         </div>
       </div>
       <div className="text-charcoal-400 mt-2 text-sm">
-       Based on {review_count} {review_count === 1 ? 'review' : 'reviews'}
+        Based on {review_count} {review_count === 1 ? 'review' : 'reviews'}
       </div>
     </div>
   );
 };
-
-export default RatingCircle;

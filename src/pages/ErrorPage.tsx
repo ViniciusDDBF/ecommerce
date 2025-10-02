@@ -1,4 +1,4 @@
-export function ErrorPage() {
+export const ErrorPage = () => {
   return (
     <div>
       <h1 className="text-ember-500 text-9xl">
@@ -6,6 +6,4 @@ export function ErrorPage() {
       </h1>
     </div>
   );
-}
-
-export default ErrorPage;
+};

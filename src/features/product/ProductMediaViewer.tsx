@@ -8,13 +8,13 @@ interface ProductMediaViewerProps {
   thumbnailOrientation?: 'horizontal' | 'vertical';
 }
 
-export default function ProductMediaViewer({
+export const ProductMediaViewer = ({
   images,
   selectedMedia,
   setSelectedMedia,
   productName,
   thumbnailOrientation = 'vertical',
-}: ProductMediaViewerProps) {
+}: ProductMediaViewerProps) => {
   return (
     <div className="w-full lg:w-1/2">
       <div className="flex flex-col gap-3 sm:flex-row sm:gap-4 md:gap-6">
@@ -31,7 +31,7 @@ export default function ProductMediaViewer({
 
         {/* ---------- Main Product Image ---------- */}
         <div className="order-1 flex-shrink-0 sm:order-2">
-          <div className="drop-shadow-ember relative rounded-2xl">
+          <div className="relative rounded-2xl">
             {selectedMedia &&
               (selectedMedia.media_type === 'video' ? (
                 <video
@@ -55,4 +55,4 @@ export default function ProductMediaViewer({
       </div>
     </div>
   );
-}
+};

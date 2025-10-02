@@ -1,11 +1,9 @@
-// middleware/logger.ts
 import type { Middleware, UnknownAction } from '@reduxjs/toolkit';
 // export type {
 //   Middleware,
 //   PayloadAction,
 //   UnknownAction,
 // } from '@reduxjs/toolkit';
-
 
 const sliceBadgeStyles = {
   modal:
@@ -42,13 +40,13 @@ const logger: Middleware = (store) => (next) => (action) => {
   console.groupCollapsed(
     `%c ${slice} %c ${actionName}`,
     badgeStyle,
-    'color: #4CAF50; font-weight: bold;'
+    'color: #4CAF50; font-weight: bold;',
   );
 
   console.log(
     '%cPayload:',
     'color: #9C27B0; font-weight: bold;',
-    (typedAction as UnknownAction).payload
+    (typedAction as UnknownAction).payload,
   );
   console.log('%cPrev State:', 'color: #FF5722; font-weight: bold;', prevState);
   console.log('%cNext State:', 'color: #2196F3; font-weight: bold;', nextState);

@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
-import { AccountIcon } from '../';
 import {
   User,
   ShoppingBag,
@@ -9,7 +8,8 @@ import {
   LogOut,
   ChevronDown,
 } from 'lucide-react';
-import { Button } from '../../atoms';
+import { Button, CustomerInitials } from '../../atoms';
+import { AccountIcon } from '../../molecules';
 import { useAppDispatch, useAppSelector } from '../../../store/hooks/hooks';
 import { ThunkLogOut } from '../../../store/slices/userSlice';
 
@@ -83,19 +83,15 @@ export const AccountDropdown = () => {
           >
             {/* ---------- Header ---------- */}
             <div className="border-charcoal-600/30 border-b p-3 sm:p-4">
-              <div className="flex items-center gap-2 sm:gap-3">
-                <div className="from-ember-400 to-ember-600 flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-br text-sm font-bold sm:h-10 sm:w-10 sm:text-base">
-                  {user.user?.first_name?.at(0)}
-                </div>
-                <div>
-                  <h3 className="text-charcoal-100 text-sm font-semibold sm:text-base">
-                    {user.user?.first_name}
-                  </h3>
-                  <p className="text-charcoal-400 text-xs sm:text-sm">
-                    {user.user?.email}
-                  </p>
-                </div>
-              </div>
+              {user.user?.first_name &&
+                user.user?.email &&
+                user.user?.last_name && (
+                  <CustomerInitials
+                    lastName={user.user.last_name}
+                    email={user.user?.email}
+                    firstName={user.user.first_name}
+                  />
+                )}
             </div>
 
             {/* ---------- Menu Items ---------- */}

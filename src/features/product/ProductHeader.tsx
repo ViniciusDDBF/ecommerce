@@ -1,4 +1,4 @@
-import ProductReviews from './ProductReviewsHeader';
+import { ProductReviewsHeader } from '../../features';
 
 interface ProductHeaderProps {
   productName: string;
@@ -9,14 +9,14 @@ interface ProductHeaderProps {
   onClick?: () => void;
 }
 
-export default function ProductHeader({
+export const ProductHeader = ({
   productName,
   currentPrice,
   originalPrice,
   averageRating,
   reviewCount,
   onClick,
-}: ProductHeaderProps) {
+}: ProductHeaderProps) => {
   return (
     <div className="space-y-3 sm:space-y-4 lg:space-y-6">
       {/* ---------- Product Title ---------- */}
@@ -25,7 +25,7 @@ export default function ProductHeader({
       </h1>
 
       {/* ---------- Reviews ---------- */}
-      <ProductReviews
+      <ProductReviewsHeader
         averageRating={averageRating}
         reviewCount={reviewCount}
         onClick={onClick}
@@ -50,4 +50,4 @@ export default function ProductHeader({
       </div>
     </div>
   );
-}
+};

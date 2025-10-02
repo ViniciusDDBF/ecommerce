@@ -3,10 +3,10 @@ interface StockStatusProps {
   currentStock: number;
 }
 
-export default function StockStatus({
+export const StockStatus = ({
   stockStatus,
   currentStock,
-}: StockStatusProps) {
+}: StockStatusProps) => {
   if (stockStatus === 'in_stock') return null;
 
   return (
@@ -20,4 +20,4 @@ export default function StockStatus({
       )}
     </div>
   );
-}
+};

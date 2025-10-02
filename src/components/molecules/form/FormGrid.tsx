@@ -1,6 +1,6 @@
-import React from 'react';
-import { FormField } from '../';
 import type { FormFieldProps as FormFieldType } from '../../../types/hooks';
+import React from 'react';
+import { FormField } from '../../molecules';
 
 type FormGridProps = {
   fields: FormFieldType[];

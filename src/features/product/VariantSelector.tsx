@@ -1,5 +1,5 @@
+import type { Product } from '../../pages/ProductPage';
 import { Button } from '../../components/atoms';
-import { type Product } from '../../pages/ProductPage';
 
 interface AttributeOption {
   name: string;
@@ -38,7 +38,7 @@ interface VariantSelectorProps {
   selectedLinkedVariation: string;
 }
 
-export default function VariantSelector({
+export const VariantSelector = ({
   attributeOptions,
   selectedAttributes,
   handleAttributeSelect,
@@ -46,7 +46,7 @@ export default function VariantSelector({
   linkedVariationDataMap,
   product,
   selectedLinkedVariation,
-}: VariantSelectorProps) {
+}: VariantSelectorProps) => {
   return (
     <div className="space-y-3 sm:space-y-4 lg:space-y-6">
       {attributeOptions.map((attributeOption, idx) => {
@@ -89,7 +89,7 @@ export default function VariantSelector({
                       <div
                         className={`bg-charcoal-800 rounded-lg p-2 transition-all duration-200 sm:p-3 ${
                           isSelected
-                            ? 'bg-ember-500/20 border-ember-500 border-2'
+                            ? 'bg-charcoal-700 border-charcoal-500 cursor-auto border-2'
                             : 'hover:bg-charcoal-700'
                         }`}
                       >
@@ -147,4 +147,4 @@ export default function VariantSelector({
       })}
     </div>
   );
-}
+};

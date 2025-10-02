@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router';
 import { User, MapPin, Package, Heart } from 'lucide-react';
 
-export default function AccountDefault() {
+export const AccountDefault = () => {
   const navigate = useNavigate();
 
   const sections = [
@@ -48,11 +48,11 @@ export default function AccountDefault() {
             <div
               key={item.id}
               onClick={() => navigate(`/account/${item.id}`)}
-              className="glass-effect ember-transition hover:ember-hover-border hover:animate-glow cursor-pointer rounded-lg p-4 sm:p-6"
+              className="glass-effect ember-transition hover:ember-hover-border cursor-pointer rounded-lg p-4 sm:p-6"
             >
               <Icon
                 size={24}
-                className="text-ember-500 drop-shadow-ember mb-3 sm:mb-4 sm:size-28 md:size-32"
+                className="text-ember-500 mb-3 sm:mb-4 sm:size-28 md:size-32"
               />
               <h3 className="text-ember-400 mb-2 text-base font-semibold sm:text-lg md:text-xl">
                 {item.label}
@@ -66,4 +66,4 @@ export default function AccountDefault() {
       </div>
     </div>
   );
-}
+};

@@ -1,9 +1,8 @@
+import type { DialogProps } from '../../types/components';
 import React, { useRef, useEffect } from 'react';
 import { X } from 'lucide-react';
-import { Button, Overlay } from '.';
-import { useClickOutside } from '../../hooks/useClickOutside';
-import { useScrollLock, useFocusTrap } from '../../hooks';
-import type { DialogProps } from '../../types/components';
+import { Button, Overlay } from '../atoms';
+import { useScrollLock, useFocusTrap, useClickOutside } from '../../hooks';
 
 export const Dialog: React.FC<DialogProps> = ({
   ScrollLock = true,

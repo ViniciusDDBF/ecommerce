@@ -5,7 +5,7 @@ interface onSortByProps {
   onSortBy: (sort: string) => void;
 }
 
-const ReviewSortBy: React.FC<onSortByProps> = ({ onSortBy }) => {
+export const ReviewSortBy: React.FC<onSortByProps> = ({ onSortBy }) => {
   return (
     <div className="flex justify-end">
       <div className="w-40">
@@ -25,5 +25,3 @@ const ReviewSortBy: React.FC<onSortByProps> = ({ onSortBy }) => {
     </div>
   );
 };
-
-export default ReviewSortBy;

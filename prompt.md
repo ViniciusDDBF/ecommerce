@@ -118,7 +118,7 @@ ember-900: #8A2A0D    → Deepest (rare)
 - ❌ Creating custom buttons
 - ❌ Flat designs (always add depth)
 - ❌ Missing hover/focus states
-- ❌ Multiple glow effects simultaneously
+- ❌ Multiple effects simultaneously
 
 ## Implementation Checklist
 

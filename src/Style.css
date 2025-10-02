@@ -206,7 +206,7 @@ input:-webkit-autofill:focus {
 }
 /* ----------  Y-axis  ---------- */
 @utility custom-scroll-y {
-  overflow-y: hidden; /* ← force classic scrollbar */
+  overflow-y: auto; /* ← force classic scrollbar */
   overflow-x: hidden;
 
   /* --- WebKit --- */
@@ -232,7 +232,7 @@ input:-webkit-autofill:focus {
 
 /* ----------  X-axis  ---------- */
 @utility custom-scroll-x {
-  overflow-x: hidden; /* ← force classic scrollbar */
+  overflow-x: auto; /* ← force classic scrollbar */
   overflow-y: hidden;
 
   /* --- WebKit --- */

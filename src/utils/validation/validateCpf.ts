@@ -1,4 +1,3 @@
-// utils/validateCPF.ts
 export const validateCPF = (cpf: string): boolean => {
   // Remove non-numeric characters
   const cleanedCpf = cpf.replace(/\D/g, '');

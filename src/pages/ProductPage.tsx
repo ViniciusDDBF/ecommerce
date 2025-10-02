@@ -1,18 +1,18 @@
-// #region /* ---------- Imports ---------- */
 import { useEffect, useRef, useState } from 'react';
-import { Breadcrumbs, Button, Modal } from '../components/atoms';
 import { useNavigate, useSearchParams, useLoaderData } from 'react-router-dom';
+import { ShoppingCart } from 'lucide-react';
+import { Breadcrumbs, Button, Modal } from '../components/atoms';
+import {
+  ProductMediaViewer,
+  ProductHeader,
+  VariantSelector,
+  StockStatus,
+  ReviewSection,
+  ProductInfoPanel,
+} from '../features/';
+import { useSmoothScroll } from '../hooks/';
 import parseVariantHash from '../utils/variants/parseVariantHash';
 import getUpdatedVariantParams from '../utils/variants/getUpdatedVariantParams';
-import ProductMediaViewer from '../features/product/ProductMediaViewer';
-import ProductHeader from '../features/product/ProductHeader';
-import VariantSelector from '../features/product/VariantSelector';
-import StockStatus from '../features/product/StockStatus';
-import ProductInfoPanel from '../features/product/ProductInfoPanel';
-import { ShoppingCart } from 'lucide-react';
-import ReviewSection from '../features/review/ReviewSection';
-import { useSmoothScroll } from '../hooks/useSmoothScroll';
-// #endregion
 
 // #region /* ---------- Types ---------- */
 export interface Product {
@@ -124,7 +124,9 @@ export interface Product {
   }[];
 }
 // #endregion
-export default function ProductPage() {
+
+/* ---------- Main component ---------- */
+export const ProductPage = () => {
   // #region /* ---------- Hooks ---------- */
   const product = useLoaderData() as Product | undefined;
   const [selectedMedia, setSelectedMedia] = useState<{
@@ -492,4 +494,4 @@ export default function ProductPage() {
       />
     </>
   );
-}
+};

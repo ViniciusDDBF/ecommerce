@@ -47,7 +47,7 @@ interface ReviewCarouselProps {
   ) => void;
 }
 
-const ReviewCarousel: React.FC<ReviewCarouselProps> = ({
+export const ReviewCarousel: React.FC<ReviewCarouselProps> = ({
   reviews,
   openReviewModal,
   className,
@@ -170,5 +170,3 @@ const ReviewCarousel: React.FC<ReviewCarouselProps> = ({
     </div>
   );
 };
-
-export default ReviewCarousel;

@@ -1,5 +1,5 @@
-import { CirclePlay } from 'lucide-react';
 import React from 'react';
+import { CirclePlay } from 'lucide-react';
 
 interface ThumbnailNavigationProps {
   images: { url: string; media_type: string }[];
@@ -28,7 +28,7 @@ export const ThumbnailNavigation: React.FC<ThumbnailNavigationProps> = ({
         const isSelected = selectedMedia?.url === item.url;
         const isVideo = item.media_type === 'video';
 
-        const commonClasses = `ember-hover-border ember-transition hover:animate-glow hover:border-ember-500 h-12 w-12 sm:h-16 sm:w-16 md:h-20 md:w-20 lg:h-24 lg:w-24 flex-shrink-0 cursor-pointer rounded-lg border-2 object-contain ${
+        const commonClasses = `hover:border-ember-500 h-12 w-12 sm:h-16 sm:w-16 md:h-20 md:w-20 lg:h-24 lg:w-24 flex-shrink-0 cursor-pointer rounded-lg border-2 object-contain ${
           isSelected ? 'border-ember-500' : 'border-transparent'
         }`;
 

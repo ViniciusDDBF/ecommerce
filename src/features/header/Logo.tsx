@@ -1,8 +1,8 @@
 import { Link } from 'react-router';
-import LogoImg from '../../../img/DundichTaighDigitalLogo.png';
-import { CinematicTitle } from '../../../components/atoms';
+import LogoImg from '../../img/DundichTaighDigitalLogo.png';
+import { CinematicTitle } from '../../components/atoms';
 
-const Logo = () => {
+export const Logo = () => {
   return (
     <Link className="group flex items-center gap-2 sm:gap-3" to="/">
       <div
@@ -16,5 +16,3 @@ const Logo = () => {
     </Link>
   );
 };
-
-export default Logo;

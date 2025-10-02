@@ -1,4 +1,5 @@
-// #region /* ---------- Imports ---------- */
+import { type Review } from './ReviewSection';
+import { type ReviewState } from './ReviewCard';
 import {
   Shield,
   Star,
@@ -10,9 +11,6 @@ import {
   X,
 } from 'lucide-react';
 import { Button, Overlay } from '../../components/atoms';
-import { type Review } from './ReviewSection';
-import { type ReviewState } from './ReviewCard';
-// #endregion
 
 interface ReviewModalProps {
   selectedReview: Review | null;
@@ -27,7 +25,7 @@ interface ReviewModalProps {
   error?: string;
 }
 
-const ReviewModal: React.FC<ReviewModalProps> = ({
+export const ReviewModal: React.FC<ReviewModalProps> = ({
   selectedReview,
   currentMediaIndex,
   getReviewState,
@@ -254,5 +252,3 @@ const ReviewModal: React.FC<ReviewModalProps> = ({
     </Overlay>
   );
 };
-
-export default ReviewModal;

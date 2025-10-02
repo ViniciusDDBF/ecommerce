@@ -15,7 +15,7 @@ interface CrudMethods<T> {
 
 type UseFetchReturn<T> = FetchState<T> & CrudMethods<T>;
 
-export const useFetch = <T,>(
+export const useFetch = <T>(
   baseUrl: string,
   defaultOptions?: RequestInit,
 ): UseFetchReturn<T> => {

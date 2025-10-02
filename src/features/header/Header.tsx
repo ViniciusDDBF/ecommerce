@@ -1,9 +1,7 @@
-import { AccountHeader } from '../../../components/molecules';
-import Cart from '../../../features/cart/Cart';
-import Logo from '../header/Logo';
-import CategoryNav from './CategoryNav';
+import { AccountHeader } from '../../components/molecules';
+import { Cart, Logo, CategoryNav } from '..';
 
-const Header = () => {
+export const Header = () => {
   return (
     <>
       {/* ---------- Main Header ---------- */}
@@ -21,5 +19,3 @@ const Header = () => {
     </>
   );
 };
-
-export default Header;

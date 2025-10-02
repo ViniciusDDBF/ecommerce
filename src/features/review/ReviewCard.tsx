@@ -1,16 +1,9 @@
-import {
-  Shield,
-  Star,
-  CirclePlay,
-  ZoomIn,
-  ThumbsUp,
-  ThumbsDown,
-} from 'lucide-react';
+import type { Review } from './ReviewSection';
+import { useRef } from 'react';
+import { Star, CirclePlay, ZoomIn, ThumbsUp, ThumbsDown } from 'lucide-react';
 import { Button } from '../../components/atoms';
-import { type Review } from './ReviewSection';
-import ReviewSortBy from './ReviewSortBy';
-import { useSmoothScroll } from '../../hooks/useSmoothScroll';
-import { useRef } from 'react'; // Removed useEffect
+import { CustomerInitialsReviewCard, ReviewSortBy } from '../../features';
+import { useSmoothScroll } from '../../hooks';
 
 export interface ReviewState {
   positiveVotes: number;
@@ -33,7 +26,7 @@ interface ReviewCardProps {
   onSortBy: (sort: string) => void;
 }
 
-const ReviewCard: React.FC<ReviewCardProps> = ({
+export const ReviewCard: React.FC<ReviewCardProps> = ({
   currentPage,
   totalPages,
   reviews,
@@ -53,14 +46,6 @@ const ReviewCard: React.FC<ReviewCardProps> = ({
       <div className="mx-auto max-w-4xl space-y-6">
         <ReviewSortBy onSortBy={onSortBy} />
         {reviews.map((review) => {
-          const avatar = review.is_anonymous
-            ? 'AN'
-            : `${review.customer.first_name?.[0] || ''}${
-                review.customer.last_name?.[0] || ''
-              }`;
-          const displayName = review.is_anonymous
-            ? 'Anonymous'
-            : review.customer.first_name;
           const {
             positiveVotes,
             negativeVotes,
@@ -76,33 +61,13 @@ const ReviewCard: React.FC<ReviewCardProps> = ({
             >
               {/* ---------- Top Section: User Profile ---------- */}
               <div className="border-charcoal-600 mb-4 flex flex-col justify-between gap-4 border-b pb-4 sm:flex-row sm:items-center">
-                <div className="flex items-center gap-3">
-                  <div className="relative">
-                    <div className="bg-charcoal-700 flex h-12 w-12 items-center justify-center rounded-full">
-                      <span className="text-ember-400 text-lg font-bold">
-                        {avatar}
-                      </span>
-                    </div>
-                  </div>
-                  <div className="space-y-1">
-                    <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
-                      <h3 className="text-charcoal-100 text-base font-semibold">
-                        {displayName}
-                      </h3>
-                      <span className="bg-ember-500/10 text-ember-400 border-ember-500/20 inline-flex items-center rounded-full border px-2 py-0.5 text-xs font-medium">
-                        <Shield className="mr-1 h-3 w-3" />
-                        Verified
-                      </span>
-                    </div>
-                    <p className="text-charcoal-300 text-xs">
-                      {new Date(review.created_at).toLocaleDateString('en-US', {
-                        month: 'short',
-                        day: 'numeric',
-                        year: 'numeric',
-                      })}
-                    </p>
-                  </div>
-                </div>
+                {review.customer.first_name && review.customer.last_name && (
+                  <CustomerInitialsReviewCard
+                    firstName={review.customer.first_name}
+                    lastName={review.customer.last_name}
+                    createdAt={review.created_at}
+                  />
+                )}
                 <div className="space-y-1 text-left sm:text-right">
                   <div className="flex items-center gap-1">
                     {[1, 2, 3, 4, 5].map((star) => (
@@ -270,5 +235,3 @@ const ReviewCard: React.FC<ReviewCardProps> = ({
     </div>
   );
 };
-
-export default ReviewCard;

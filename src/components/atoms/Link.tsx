@@ -35,7 +35,7 @@ export const Link: React.FC<LinkProps> = ({
 
   const baseClasses = `inline-flex items-center font-medium ${sizeClasses} transition`;
 
-  const variantClasses = `text-ember-400 hover:text-ember-300   ${selected ? 'text-ember-500 font-semibold underline decoration-2 underline-offset-5' : ''}`;
+  const variantClasses = `text-charcoal-200 hover:text-ember-300   ${selected ? 'text-ember-500 font-semibold underline decoration-2 underline-offset-5' : ''}`;
 
   const disabledClasses = disabled
     ? 'opacity-50 cursor-not-allowed pointer-events-none'

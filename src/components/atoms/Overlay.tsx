@@ -1,4 +1,3 @@
-// Overlay.tsx
 import React from 'react';
 
 type OverlayProps = {
@@ -15,7 +14,6 @@ export const Overlay: React.FC<OverlayProps> = ({
   if (!isOpen) return null;
 
   const handleClick: React.MouseEventHandler<HTMLDivElement> = (e) => {
-    // Close only if background (not child) is clicked
     if (e.target === e.currentTarget) {
       onClick?.();
     }

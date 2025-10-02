@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import { useLoaderData } from 'react-router-dom';
-import { Button, CinematicTitle, Modal } from '../components/atoms';
-import { Carousel } from '../components/molecules';
 import { ArrowRight } from 'lucide-react';
+import { Button, Modal } from '../components/atoms';
+import { Carousel } from '../components/molecules';
 
-const Homepage = () => {
+export const Homepage = () => {
   const data = useLoaderData();
   const [wipIsOpen, setWipIsOpen] = useState<boolean>(false);
 
@@ -23,7 +23,7 @@ const Homepage = () => {
           {/* ---------- Overlay for Mobile ---------- */}
           <div className="absolute inset-0 flex items-center justify-center bg-black/60 sm:hidden">
             <div className="flex flex-col items-center justify-center gap-3 px-4">
-              <CinematicTitle text="Luxury Redefined" className="" />
+              <h2>Luxury Redefined</h2>
               <p className="text-charcoal-100 max-w-xs text-center text-sm leading-relaxed sm:text-base">
                 Discover premium products crafted for the discerning individual.
                 Where sophistication meets innovation.
@@ -43,11 +43,8 @@ const Homepage = () => {
         {/* ---------- Content for Larger Screens ---------- */}
         <div className="relative hidden items-center justify-center sm:flex sm:flex-[1]">
           <div className="max-w-md px-4 text-left sm:px-6">
-            <CinematicTitle
-              text="Luxury Redefined"
-              className="text-2xl md:text-3xl"
-            />
-            <p className="text-charcoal-100 mb-6 text-base leading-relaxed md:text-lg">
+            <h2 className="text-charcoal-50 text-3xl">Luxury Redefined</h2>
+            <p className="text-charcoal-200 mb-6 text-base leading-relaxed md:text-lg">
               Discover premium products crafted for the discerning individual.
               Where sophistication meets innovation.
             </p>
@@ -84,5 +81,3 @@ const Homepage = () => {
     </>
   );
 };
-
-export default Homepage;

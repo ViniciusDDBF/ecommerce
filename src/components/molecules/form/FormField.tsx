@@ -1,6 +1,6 @@
+import type { FormFieldProps as FormFieldType } from '../../../types/hooks';
 import React from 'react';
 import { CustomCheckbox, Input, Helper, CustomSelect } from '../../atoms/';
-import type { FormFieldProps as FormFieldType } from '../../../types/hooks';
 
 type FormFieldProps = {
   field: FormFieldType;

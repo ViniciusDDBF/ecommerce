@@ -13,7 +13,7 @@ export interface RatingFilterProps {
   onRatingSelect?: (rating: number | null) => void;
 }
 
-const RatingFilter: React.FC<RatingFilterProps> = ({
+export const RatingFilter: React.FC<RatingFilterProps> = ({
   rate1,
   rate2,
   rate3,
@@ -100,5 +100,3 @@ const RatingFilter: React.FC<RatingFilterProps> = ({
     </div>
   );
 };
-
-export default RatingFilter;

@@ -1,9 +1,9 @@
 import { Outlet, useNavigation } from 'react-router';
-import Header from './header/Header';
-import { LoadingOverlay } from '../../components/atoms';
 import { Truck, Shield, RotateCcw } from 'lucide-react';
+import { LoadingOverlay } from '../../components/atoms';
+import { Header } from '../../features';
 
-export default function RootLayout() {
+export const RootLayout = () => {
   const navigation = useNavigation();
   const isLoading =
     navigation.state === 'loading' || navigation.state === 'submitting';
@@ -43,7 +43,7 @@ export default function RootLayout() {
                 className="from-charcoal-700/80 to-charcoal-800/80 border-charcoal-600/30 rounded-xl border bg-gradient-to-br p-4 text-center backdrop-blur-xl transition-colors sm:p-6"
               >
                 <Icon
-                  className="text-ember-400 mx-auto mb-3 sm:mb-4"
+                  className="text-charcoal-100 mx-auto mb-3 sm:mb-4"
                   size={24}
                 />
                 <h3 className="text-charcoal-200 mb-2 text-base font-semibold sm:text-lg">
@@ -62,4 +62,4 @@ export default function RootLayout() {
       </footer>
     </div>
   );
-}
+};

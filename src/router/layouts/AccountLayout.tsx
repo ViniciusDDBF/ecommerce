@@ -2,13 +2,15 @@ import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router';
 import { User, MapPin, Package, Heart, Menu, X } from 'lucide-react';
 import { Button } from '../../components/atoms';
-import AccountProfile from '../../features/account/profile/AccountProfile';
-import AccountOrders from '../../features/account/orders/AccountOrders';
-import AccountWishlist from '../../features/account/wishlist/AccountWishlist';
-import AccountAddresses from '../../features/account/address/AccountAddresses';
-import AccountDefault from '../../features/account/default/AccountDefault';
+import {
+  AccountProfile,
+  AccountOrders,
+  AccountWishlist,
+  AccountDefault,
+  Addresses,
+} from '../../features/';
 
-export default function AccountLayout() {
+export const AccountLayout = () => {
   const { section } = useParams<{ section?: string }>();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const navigate = useNavigate();
@@ -81,7 +83,7 @@ export default function AccountLayout() {
 
           {/* ---------- Main Content Area ---------- */}
           <div className="flex-1">
-            <div className="ember-transition">{renderContent()}</div>
+            <div>{renderContent()}</div>
           </div>
         </div>
       </div>
@@ -93,7 +95,7 @@ export default function AccountLayout() {
       case 'profile':
         return <AccountProfile />;
       case 'addresses':
-        return <AccountAddresses />;
+        return <Addresses />;
       case 'orders':
         return <AccountOrders />;
       case 'wishlist':
@@ -102,4 +104,4 @@ export default function AccountLayout() {
         return <AccountDefault />;
     }
   }
-}
+};

@@ -1,12 +1,11 @@
 import { useRef, useState } from 'react';
 import { useNavigate } from 'react-router';
-import { Overlay, Drawer, Button } from '../../components/atoms';
-import { useClickOutside } from '../../hooks/useClickOutside';
 import { X } from 'lucide-react';
-import CartIcon from './CartIcon';
-import { useScrollLock } from '../../hooks';
+import { Overlay, Drawer, Button } from '../../components/atoms';
+import { CartIcon } from '../../features';
+import { useClickOutside, useScrollLock } from '../../hooks/';
 
-const Cart = () => {
+export const Cart = () => {
   const [isOpen, setIsOpen] = useState(false);
   const cartRef = useRef<HTMLDivElement | null>(null);
   const navigate = useNavigate();
@@ -84,5 +83,3 @@ const Cart = () => {
     </>
   );
 };
-
-export default Cart;

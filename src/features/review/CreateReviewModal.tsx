@@ -1,9 +1,9 @@
 import React, { useState, useRef } from 'react';
+import { X, Upload, FileVideo, FileImage } from 'lucide-react';
 import { Overlay, Button } from '../../components/atoms';
 import { FormField } from '../../components/molecules';
-import { X, Upload, FileVideo, FileImage } from 'lucide-react';
+import { StarRating } from '../../features';
 import { useScrollLock } from '../../hooks';
-import StarRating from './StarRating';
 import { supabase } from '../../SupabaseConfig';
 import { useAppSelector } from '../../store/hooks/hooks';
 
@@ -22,7 +22,7 @@ interface FileWithPreview {
   size: string;
 }
 
-const CreateReviewModal: React.FC<CreateReviewModalProps> = ({
+export const CreateReviewModal: React.FC<CreateReviewModalProps> = ({
   isOpen,
   onClose,
   productId,
@@ -365,5 +365,3 @@ const CreateReviewModal: React.FC<CreateReviewModalProps> = ({
     </Overlay>
   );
 };
-
-export default CreateReviewModal;

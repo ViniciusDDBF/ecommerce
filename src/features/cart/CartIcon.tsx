@@ -7,7 +7,7 @@ type CartIconProps = {
   onClick?: React.MouseEventHandler<HTMLDivElement>;
 };
 
-const CartIcon: React.FC<CartIconProps> = ({ count = 1, onClick }) => {
+export const CartIcon: React.FC<CartIconProps> = ({ count = 1, onClick }) => {
   const handleKeyDown = useKeyPress(onClick);
 
   return (
@@ -25,5 +25,3 @@ const CartIcon: React.FC<CartIconProps> = ({ count = 1, onClick }) => {
     />
   );
 };
-
-export default CartIcon;

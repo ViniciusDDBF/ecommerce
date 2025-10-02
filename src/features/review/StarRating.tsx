@@ -5,7 +5,10 @@ interface StarRatingProps {
   setRating: (value: number) => void;
 }
 
-const StarRating: React.FC<StarRatingProps> = ({ rating, setRating }) => {
+export const StarRating: React.FC<StarRatingProps> = ({
+  rating,
+  setRating,
+}) => {
   return (
     <div>
       <h2 className="text-charcoal-50 flex justify-center text-xl font-bold">
@@ -30,5 +33,3 @@ const StarRating: React.FC<StarRatingProps> = ({ rating, setRating }) => {
     </div>
   );
 };
-
-export default StarRating;

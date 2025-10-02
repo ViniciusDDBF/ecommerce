@@ -1,20 +1,17 @@
-// #region /* ---------- Imports ---------- */
+import type { FormFieldProps } from '../../../types/hooks';
+import type { SignUpArgs } from '../../../store/slices/userSlice';
 import { useEffect, useState } from 'react';
 import { UserPlus, LogIn, CircleCheck, Store, Mail } from 'lucide-react';
-import { AccountIcon, FormGrid, AccountDropdown } from '../';
+import { AccountIcon, FormGrid, AccountDropdown } from '../../molecules';
 import { Dialog, Button, Modal } from '../../atoms/';
-import type { FormFieldProps } from '../../../types/hooks';
-import { useForm } from '../../../hooks/useForm';
+import { useForm, useScrollLock } from '../../../hooks/';
 import {
   resetError,
   ThunkCreateCustomer,
   ThunkLogIn,
-  type SignUpArgs,
 } from '../../../store/slices/userSlice';
 import { supabase } from '../../../SupabaseConfig';
 import { useAppDispatch, useAppSelector } from '../../../store/hooks/hooks';
-import { useScrollLock } from '../../../hooks';
-// #endregion
 
 // #region /* ---------- Form Fields ---------- */
 const loginFields: FormFieldProps[] = [

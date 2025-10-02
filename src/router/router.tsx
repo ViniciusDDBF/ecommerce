@@ -1,15 +1,15 @@
 import { createBrowserRouter } from 'react-router-dom';
-import RootLayout from './layouts/RootLayout';
-import AccountLayout from './layouts/AccountLayout';
-import ProductPage from '../pages/ProductPage';
-import HomePage from '../pages/HomePage';
-import ErrorPage from '../pages/ErrorPage';
-import AuthCallback from '../pages/AuthCallback';
+import { RootLayout } from './layouts/RootLayout';
+import { AccountLayout } from './layouts/AccountLayout';
+import { ProductPage } from '../pages/ProductPage';
+import { Homepage } from '../pages/HomePage';
+import { ErrorPage } from '../pages/ErrorPage';
+import { AuthCallback } from '../pages/AuthCallback';
 import { rootLoader } from './loaders/rootLoader';
 import { productLoader } from './loaders/productLoader';
 import { homeLoader } from './loaders/homeLoader';
 import { LoadingOverlay } from '../components/atoms';
-import PrivateRoute from './PrivateRoute';
+import { PrivateRoute } from './PrivateRoute';
 
 export const router = createBrowserRouter([
   {
@@ -19,7 +19,7 @@ export const router = createBrowserRouter([
     HydrateFallback: LoadingOverlay,
     errorElement: <ErrorPage />,
     children: [
-      { index: true, element: <HomePage />, loader: homeLoader },
+      { index: true, element: <Homepage />, loader: homeLoader },
       {
         path: '/products/:slug',
         element: <ProductPage />,

@@ -7,7 +7,7 @@ interface AccountSectionHeaderProps {
   button?: { icon: ReactNode; text: string; onClick: () => void };
 }
 
-const AccountSectionHeader: React.FC<AccountSectionHeaderProps> = ({
+export const AccountSectionHeader: React.FC<AccountSectionHeaderProps> = ({
   title,
   subtitle,
   button,
@@ -34,5 +34,3 @@ const AccountSectionHeader: React.FC<AccountSectionHeaderProps> = ({
     </div>
   );
 };
-
-export default AccountSectionHeader;
