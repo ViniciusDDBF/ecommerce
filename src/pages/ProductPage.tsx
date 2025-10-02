@@ -129,71 +129,38 @@ export interface Product {
 export const ProductPage = () => {
   // #region /* ---------- Hooks ---------- */
   const product = useLoaderData() as Product | undefined;
-  const [selectedMedia, setSelectedMedia] = useState<{
-    url: string;
-    media_type: string;
-  } | null>(null);
-  const [selectedVariant, setSelectedVariant] = useState<number>(0);
-  const [isInitialized, setIsInitialized] = useState<boolean>(false);
-  const [selectedLinkedVariation, setSelectedLinkedVariation] =
-    useState<string>(product?.product_slug || '');
-  const [selectedAttributes, setSelectedAttributes] = useState<{
-    [key: string]: string;
-  }>({});
   const [searchParams, setSearchParams] = useSearchParams();
   const navigate = useNavigate();
   const { scrollTo } = useSmoothScroll();
   const sectionRef = useRef<HTMLDivElement>(null);
   const [wipIsOpen, setWipIsOpen] = useState<boolean>(false);
 
-  // #endregion
+  // Initialize state with proper defaults
+  const [selectedMedia, setSelectedMedia] = useState<{
+    url: string;
+    media_type: string;
+  } | null>(() => {
+    // Set initial media immediately if available
+    return product?.all_images?.[0] || null;
+  });
 
-  // #region /* ---------- Functions/Effects ---------- */
-  const updateUrlWithVariant = (attributes: { [key: string]: string }) => {
-    const newSearchParams = getUpdatedVariantParams(attributes, searchParams);
-
-    if (searchParams.get('variant') !== newSearchParams.get('variant')) {
-      setSearchParams(newSearchParams, { replace: true });
+  // Initialize variant and attributes based on URL or defaults
+  const getInitialState = () => {
+    if (
+      !product ||
+      !product.all_variants ||
+      product.all_variants.length === 0
+    ) {
+      return {
+        variant: 0,
+        attributes: {},
+        linkedVariation: '',
+      };
     }
-  };
-
-  const initializeDefaultVariant = () => {
-    if (!product) return;
-    const defaultVariant = product.all_variants[0];
-
-    const newAttributes: { [key: string]: string } = {};
-    defaultVariant.attributes.forEach((attr) => {
-      newAttributes[attr.attribute_name] = attr.attribute_value;
-    });
-
-    setSelectedAttributes(newAttributes);
-    setSelectedVariant(defaultVariant.variant_id);
-    if (Object.keys(newAttributes).length > 0)
-      updateUrlWithVariant(newAttributes);
-  };
-
-  const findCurrentVariant = () => {
-    if (!product) return;
-    if (!Object.keys(selectedAttributes).length) {
-      return isInitialized ? product.all_variants[0] : undefined;
-    }
-
-    return product.all_variants.find((variant) =>
-      variant.attributes.every(
-        (attr) =>
-          selectedAttributes[attr.attribute_name]?.toLowerCase() ===
-          attr.attribute_value.toLowerCase(),
-      ),
-    );
-  };
-
-  const currentVariant = findCurrentVariant();
-
-  /* ---------- Initialize state from URL on mount ---------- */
-  useEffect(() => {
-    if (!product || !product.all_variants || isInitialized) return;
 
     const variantHash = searchParams.get('variant');
+
+    // Try to match variant from URL
     if (variantHash) {
       const parsedAttributes = parseVariantHash(variantHash);
       const matchingVariant = product.all_variants.find((variant) => {
@@ -213,42 +180,82 @@ export const ProductPage = () => {
         matchingVariant.attributes.forEach((attr) => {
           newAttributes[attr.attribute_name] = attr.attribute_value;
         });
-        setSelectedAttributes(newAttributes);
-        setSelectedVariant(matchingVariant.variant_id);
-        updateUrlWithVariant(newAttributes);
-      } else {
-        initializeDefaultVariant();
+        return {
+          variant: matchingVariant.variant_id,
+          attributes: newAttributes,
+          linkedVariation: product.product_slug,
+        };
       }
-    } else {
-      initializeDefaultVariant();
     }
-    setIsInitialized(true);
-  }, [product, searchParams, isInitialized]);
 
-  /* ---------- Set default image ---------- */
+    // Fall back to first variant
+    const defaultVariant = product.all_variants[0];
+    const defaultAttributes: { [key: string]: string } = {};
+    defaultVariant.attributes.forEach((attr) => {
+      defaultAttributes[attr.attribute_name] = attr.attribute_value;
+    });
+
+    return {
+      variant: defaultVariant.variant_id,
+      attributes: defaultAttributes,
+      linkedVariation: product.product_slug,
+    };
+  };
+
+  const initialState = getInitialState();
+  const [selectedVariant, setSelectedVariant] = useState<number>(
+    initialState.variant,
+  );
+  const [selectedAttributes, setSelectedAttributes] = useState<{
+    [key: string]: string;
+  }>(initialState.attributes);
+  const [selectedLinkedVariation, setSelectedLinkedVariation] =
+    useState<string>(initialState.linkedVariation);
+
+  // #endregion
+
+  // #region /* ---------- Functions/Effects ---------- */
+  const updateUrlWithVariant = (attributes: { [key: string]: string }) => {
+    const newSearchParams = getUpdatedVariantParams(attributes, searchParams);
+
+    if (searchParams.get('variant') !== newSearchParams.get('variant')) {
+      setSearchParams(newSearchParams, { replace: true });
+    }
+  };
+
+  const findCurrentVariant = () => {
+    if (!product) return undefined;
+    if (!Object.keys(selectedAttributes).length) {
+      return product.all_variants[0];
+    }
+
+    return product.all_variants.find((variant) =>
+      variant.attributes.every(
+        (attr) =>
+          selectedAttributes[attr.attribute_name]?.toLowerCase() ===
+          attr.attribute_value.toLowerCase(),
+      ),
+    );
+  };
+
+  const currentVariant = findCurrentVariant();
+
+  // Update URL on initial mount if needed
+  useEffect(() => {
+    if (!product || !Object.keys(selectedAttributes).length) return;
+
+    // Only update URL if we have attributes but no variant param
+    if (!searchParams.get('variant')) {
+      updateUrlWithVariant(selectedAttributes);
+    }
+  }, []); // Run once on mount
+
+  // Set media when product changes
   useEffect(() => {
     if (product?.all_images?.length && !selectedMedia) {
       setSelectedMedia(product.all_images[0]);
     }
-  }, [product?.all_images, selectedMedia]);
-
-  /* ---------- Update selected attributes when variant changes ---------- */
-  useEffect(() => {
-    if (
-      !isInitialized ||
-      !currentVariant ||
-      currentVariant.variant_id === selectedVariant
-    )
-      return;
-
-    const newAttributes: { [key: string]: string } = {};
-    currentVariant.attributes.forEach((attr) => {
-      newAttributes[attr.attribute_name] = attr.attribute_value;
-    });
-    setSelectedAttributes(newAttributes);
-    setSelectedVariant(currentVariant.variant_id);
-    updateUrlWithVariant(newAttributes);
-  }, [currentVariant, isInitialized]);
+  }, [product]);
 
   const handleAttributeSelect = (
     attributeName: string,
@@ -386,7 +393,14 @@ export const ProductPage = () => {
   const stockStatus = getStockStatus(currentStock);
   // #endregion
 
-  if (!isInitialized || !product) return null;
+  // Show loading or error state
+  if (!product) {
+    return (
+      <div className="bg-charcoal-800 text-charcoal-300 flex min-h-screen items-center justify-center">
+        <p>Loading product...</p>
+      </div>
+    );
+  }
 
   return (
     <>
