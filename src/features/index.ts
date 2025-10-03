@@ -23,16 +23,18 @@ export { VariantSelector } from './product/VariantSelector';
 export { ProductInfoPanel } from './product/ProductInfoPanel';
 
 /* ---------- Review ---------- */
+export { Reviews } from './review/Reviews';
 export { CreateReviewModal } from './review/CreateReviewModal';
 export { RatingCircle } from './review/RatingCircle';
 export { RatingFilter } from './review/RatingFilter';
-export { ReviewCard } from './review/ReviewCard';
 export { ReviewCarousel } from './review/ReviewCarousel';
-export { ReviewSection } from './review/ReviewSection';
 export { ReviewSortBy } from './review/ReviewSortBy';
 export { StarRating } from './review/StarRating';
-export { CustomerInitialsReviewCard } from './review/CustomerInitialsReviewCard';
-export { EmptyReviewCard } from './review/EmptyReviewCard';
+/* ---------- Review Card ---------- */
+export { CustomerInitialsReviewCard } from './review/reviewCard/CustomerInitialsReviewCard';
+export { EmptyReviewCard } from './review/reviewCard/EmptyReviewCard';
+export { ReviewCard } from './review/reviewCard/ReviewCard';
+/* ---------- Selected Review ---------- */
 export { ReviewHeader } from './review/selectedReview/ReviewHeader';
 export { ReviewContent } from './review/selectedReview/ReviewContent';
 export { ReviewFooter } from './review/selectedReview/ReviewFooter';

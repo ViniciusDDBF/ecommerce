@@ -7,7 +7,7 @@ import {
   ProductHeader,
   VariantSelector,
   StockStatus,
-  ReviewSection,
+  Reviews,
   ProductInfoPanel,
 } from '../features/';
 import { useSmoothScroll } from '../hooks/';
@@ -485,7 +485,7 @@ export const ProductPage = () => {
           </div>
         </main>
         <div ref={sectionRef}>
-          <ReviewSection
+          <Reviews
             ratingSummary={product.rating_summary}
             isLoggedIn={true}
             reviews={product.reviews}

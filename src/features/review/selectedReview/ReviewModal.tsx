@@ -1,5 +1,5 @@
-import { type Review } from '../ReviewSection';
-import { type ReviewState } from '../ReviewCard';
+import { type Review } from '../Reviews';
+import type { ReviewState } from '../reviewCard/ReviewCard';
 import { X } from 'lucide-react'; // Keep minimal imports
 import { Button, Overlay } from '../../../components/atoms';
 import { useState, useRef, useEffect } from 'react';

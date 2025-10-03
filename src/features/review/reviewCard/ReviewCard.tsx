@@ -1,9 +1,9 @@
-import type { Review } from './ReviewSection';
+import type { Review } from '../Reviews';
 import { useRef } from 'react';
 import { Star, CirclePlay, ZoomIn, ThumbsUp, ThumbsDown } from 'lucide-react';
-import { Button } from '../../components/atoms';
-import { CustomerInitialsReviewCard, ReviewSortBy } from '../../features';
-import { useSmoothScroll } from '../../hooks';
+import { Button } from '../../../components/atoms';
+import { CustomerInitialsReviewCard, ReviewSortBy } from '../../../features';
+import { useSmoothScroll } from '../../../hooks';
 
 export interface ReviewState {
   positiveVotes: number;

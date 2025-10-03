@@ -1,4 +1,4 @@
-import type { Media } from '../../features/review/ReviewSection';
+import type { Media } from '../../features/review/Reviews';
 import { CirclePlay } from 'lucide-react';
 
 interface MediaThumbnailsProps {

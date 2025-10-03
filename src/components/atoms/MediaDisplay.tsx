@@ -1,4 +1,4 @@
-import type { Media } from '../../features/review/ReviewSection';
+import type { Media } from '../../features/review/Reviews';
 interface MediaDisplayProps {
   media: Media;
   index: number;

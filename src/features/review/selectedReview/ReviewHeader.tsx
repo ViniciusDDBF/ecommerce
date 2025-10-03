@@ -1,4 +1,4 @@
-import type { Review } from '../ReviewSection';
+import type { Review } from '../Reviews';
 import { Shield, Star, X } from 'lucide-react';
 import { Button } from '../../../components/atoms';
 

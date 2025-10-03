@@ -8,7 +8,7 @@ import {
   RatingFilter,
   RatingCircle,
   CreateReviewModal,
-} from '../../features';
+} from '..';
 import { useScrollLock, useSmoothScroll } from '../../hooks';
 import { useAppSelector } from '../../store/hooks/hooks';
 import { supabase } from '../../SupabaseConfig';
@@ -68,7 +68,7 @@ interface EnhancedReviewCardProps {
 // #endregion
 
 /* ---------- MAIN COMPONENT ---------- */
-export const ReviewSection = ({
+export const Reviews = ({
   reviews,
   ratingSummary,
   productId,

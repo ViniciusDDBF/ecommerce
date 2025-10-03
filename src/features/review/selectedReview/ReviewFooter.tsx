@@ -1,4 +1,4 @@
-import type { ReviewState } from '../ReviewCard';
+import type { ReviewState } from '../reviewCard/ReviewCard';
 import { ThumbsUp, ThumbsDown } from 'lucide-react';
 import { Button } from '../../../components/atoms';
 

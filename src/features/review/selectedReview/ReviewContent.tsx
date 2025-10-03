@@ -1,4 +1,4 @@
-import type { Review } from '../ReviewSection';
+import type { Review } from '../Reviews';
 
 interface ReviewContentProps {
   review: Review;
