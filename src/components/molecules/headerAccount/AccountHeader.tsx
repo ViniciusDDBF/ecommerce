@@ -1,7 +1,7 @@
 import type { FormFieldProps } from '../../../types/hooks';
 import type { SignUpArgs } from '../../../store/slices/userSlice';
 import { useEffect, useState } from 'react';
-import { UserPlus, LogIn, CircleCheck, Store, Mail } from 'lucide-react';
+import { UserPlus, LogIn, CircleCheck, Mail } from 'lucide-react';
 import { AccountIcon, FormGrid, AccountDropdown } from '../../molecules';
 import { Dialog, Button, Modal } from '../../atoms/';
 import { useForm, useScrollLock } from '../../../hooks/';
@@ -99,68 +99,6 @@ const signUpFieldsCpf: FormFieldProps[] = [
   },
 ];
 
-const signUpFieldsCnpj: FormFieldProps[] = [
-  {
-    name: 'legal_name',
-    label: 'Legal Name',
-    type: 'text',
-    placeholder: 'Enter your legal name',
-    colSpan: 1,
-    validation: { required: true },
-  },
-  {
-    name: 'company_name',
-    label: 'Company Name',
-    type: 'text',
-    placeholder: 'Enter your company name',
-    colSpan: 1,
-    validation: { required: true },
-  },
-  {
-    name: 'phone',
-    label: 'Phone',
-    type: 'text',
-    placeholder: 'Enter your phone number',
-    colSpan: 1,
-    applyMask: 'phone',
-    validation: { required: true },
-  },
-  {
-    name: 'cnpj',
-    label: 'CNPJ',
-    type: 'text',
-    placeholder: 'Enter your CNPJ',
-    colSpan: 1,
-    applyMask: 'cnpj',
-    validation: { required: true },
-    helper: { text: 'Use test CNPJ', value: '12.345.678/0001-95' },
-  },
-  {
-    name: 'email',
-    label: 'Email',
-    type: 'email',
-    placeholder: 'Enter your email',
-    colSpan: 2,
-    validation: { required: true },
-  },
-  {
-    name: 'password',
-    label: 'Password',
-    type: 'password',
-    placeholder: 'Enter your password',
-    colSpan: 1,
-    validation: { required: true },
-    confirmField: 'confirm_password',
-  },
-  {
-    name: 'confirm_password',
-    label: 'Confirm your Password',
-    type: 'password',
-    placeholder: 'Enter your password again',
-    colSpan: 1,
-    validation: { required: true },
-  },
-];
 // #endregion
 
 // #region /* ---------- Google Icon ---------- */
@@ -207,10 +145,8 @@ export const AccountHeader = () => {
   const [choicesIsOpen, setChoicesIsOpen] = useState(false);
   const [loginIsOpen, setLoginIsOpen] = useState(false);
   const [signUpCpfIsOpen, setSignUpCpfIsOpen] = useState(false);
-  const [signUpCnpjIsOpen, setSignUpCnpjIsOpen] = useState(false);
   const login = useForm(loginFields);
   const signUpCpf = useForm(signUpFieldsCpf);
-  const signUpCnpj = useForm(signUpFieldsCnpj);
   const dispatch = useAppDispatch();
   const user = useAppSelector('user');
   const [isLocked, setIsLocked] = useState(false);
@@ -218,12 +154,12 @@ export const AccountHeader = () => {
 
   /* ---------- Lock the scroll ---------- */
   useEffect(() => {
-    if (choicesIsOpen || loginIsOpen || signUpCpfIsOpen || signUpCnpjIsOpen) {
+    if (choicesIsOpen || loginIsOpen || signUpCpfIsOpen) {
       setIsLocked(true);
     } else {
       setIsLocked(false);
     }
-  }, [choicesIsOpen, loginIsOpen, signUpCpfIsOpen, signUpCnpjIsOpen]);
+  }, [choicesIsOpen, loginIsOpen, signUpCpfIsOpen]);
   useScrollLock(isLocked);
 
   // #region /* ---------- Functions ---------- */
@@ -255,19 +191,6 @@ export const AccountHeader = () => {
     }
   };
 
-  // const handleSubmitSignUpCNPJ = async () => {
-  //   if (!signUpCnpj.validate()) return;
-
-  //   const { confirm_password, ...newUser } = signUpCnpj.values;
-  //   await dispatch(ThunkCreateCustomer(newUser as SignUpArgs));
-  //   try {
-  //     signUpCnpj.setIsSubmitting(true);
-  //     setSignUpCnpjIsOpen(false);
-  //     signUpCnpj.reset();
-  //   } finally {
-  //     signUpCnpj.setIsSubmitting(false);
-  //   }
-  // };
   // #endregion
 
   return (
@@ -419,91 +342,16 @@ export const AccountHeader = () => {
                   type="button"
                   className="text-ember-400 cursor-pointer font-semibold hover:underline"
                   onClick={() => {
-                    setSignUpCnpjIsOpen(false);
+                    false;
                     setLoginIsOpen(true);
                     setSignUpCpfIsOpen(false);
                   }}
                 >
                   Log in
-                </button>
-              </span>
-
-              {/* <span className="text-charcoal-300 text-sm">
-                You have a CNPJ?{' '}
-                <button
-                  type="button"
-                  className="text-ember-400 cursor-pointer font-semibold hover:underline"
-                  onClick={() => {
-                    setSignUpCnpjIsOpen(true);
-                    setSignUpCpfIsOpen(false);
-                    setLoginIsOpen(false);
-                  }}
-                >
-                  Create as a company
-                </button>
-              </span> */}
-            </div>
-          </Dialog>
-          {/* ---------- signup as CNPJ dialog ---------- */}
-          {/* <Dialog
-            ScrollLock={false}
-            title="Sign Up as a company"
-            isOpen={signUpCnpjIsOpen}
-            description="Create your account"
-            size="lg"
-            icon={<Store />}
-            onClose={() => setSignUpCnpjIsOpen(false)}
-            buttons={{
-              cancel: {
-                text: 'Close',
-                onClick: () => setSignUpCnpjIsOpen(false),
-              },
-              confirm: {
-                text: signUpCnpj.isSubmitting ? 'Creating...' : 'Create User',
-                onClick: handleSubmitSignUpCNPJ,
-                props: { loading: signUpCnpj.isSubmitting },
-              },
-            }}
-          >
-            <FormGrid
-              fields={signUpFieldsCnpj}
-              values={signUpCnpj.values}
-              errors={signUpCnpj.errors}
-              onChange={signUpCnpj.setValue}
-              columns={2}
-            />
-            <div className="mt-4 flex flex-col gap-4 text-center">
-              <span className="text-charcoal-300 text-sm">
-                Already have a account?{' '}
-                <button
-                  type="button"
-                  className="text-ember-400 cursor-pointer font-semibold hover:underline"
-                  onClick={() => {
-                    setLoginIsOpen(true);
-                    setSignUpCnpjIsOpen(false);
-                    setSignUpCpfIsOpen(false);
-                  }}
-                >
-                  Log in
-                </button>
-              </span>
-
-              <span className="text-charcoal-300 text-sm">
-                You have a CPF?{' '}
-                <button
-                  type="button"
-                  className="text-ember-400 cursor-pointer font-semibold hover:underline"
-                  onClick={() => {
-                    setSignUpCpfIsOpen(true);
-                    setSignUpCnpjIsOpen(false);
-                    setLoginIsOpen(false);
-                  }}
-                >
-                  Create as a individual
                 </button>
               </span>
             </div>
-          </Dialog> */}
+          </Dialog>
         </main>
       </div>
     </>
