@@ -111,7 +111,7 @@ export const CarouselProductCard = ({
           <button
             key={variant.variant_id}
             onClick={() => onVariantSelect(variant.variant_id)}
-            className={`h-4 w-4 rounded-full transition-all duration-300 sm:h-3 sm:w-3 ${
+            className={`h-6 w-6 rounded-full transition-all duration-300 md:h-4 md:w-4 ${
               variant.variant_id === selectedVariantId
                 ? 'ring-ember-400 ring-offset-charcoal-700 scale-110 ring-2 ring-offset-2'
                 : 'cursor-pointer hover:scale-110'

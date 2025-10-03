@@ -30,10 +30,13 @@ export { ReviewCard } from './review/ReviewCard';
 export { ReviewCarousel } from './review/ReviewCarousel';
 export { ReviewSection } from './review/ReviewSection';
 export { ReviewSortBy } from './review/ReviewSortBy';
-export { ReviewModal } from './review/SelectedReviewModal';
 export { StarRating } from './review/StarRating';
 export { CustomerInitialsReviewCard } from './review/CustomerInitialsReviewCard';
 export { EmptyReviewCard } from './review/EmptyReviewCard';
+export { ReviewHeader } from './review/selectedReview/ReviewHeader';
+export { ReviewContent } from './review/selectedReview/ReviewContent';
+export { ReviewFooter } from './review/selectedReview/ReviewFooter';
+export { ReviewModal } from './review/selectedReview/ReviewModal';
 
 /* ---------- Header ---------- */
 export { CategoryNav } from './header/CategoryNav';

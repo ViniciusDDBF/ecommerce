@@ -15,3 +15,7 @@ export { Modal } from './Modal';
 export { Overlay } from './Overlay';
 export { ThumbnailNavigation } from './ThumbnailNavigation';
 export { CustomerInitials } from './CustomerInitials';
+export { FullMediaViewer } from './FullMediaViewer';
+export { MediaDisplay } from './MediaDisplay';
+export { MediaThumbnails } from './MediaThumbnail';
+export { MediaNavigation } from './MediaNavigation';

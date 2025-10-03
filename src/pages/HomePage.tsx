@@ -23,8 +23,8 @@ export const Homepage = () => {
           {/* ---------- Overlay for Mobile ---------- */}
           <div className="absolute inset-0 flex items-center justify-center bg-black/60 sm:hidden">
             <div className="flex flex-col items-center justify-center gap-3 px-4">
-              <h2>Luxury Redefined</h2>
-              <p className="text-charcoal-100 max-w-xs text-center text-sm leading-relaxed sm:text-base">
+              <h2 className="text-charcoal-50 text-3xl">Luxury Redefined</h2>
+              <p className="text-charcoal-200 max-w-xs text-center text-sm leading-relaxed sm:text-base">
                 Discover premium products crafted for the discerning individual.
                 Where sophistication meets innovation.
               </p>

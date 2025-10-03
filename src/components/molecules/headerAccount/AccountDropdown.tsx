@@ -103,7 +103,7 @@ export const AccountDropdown = () => {
                   size="full"
                   endIcon={
                     item.badge && (
-                      <span className="bg-ember-500 rounded-full px-1 py-0.5 text-xs font-medium text-white sm:px-1.5">
+                      <span className="bg-ember-500 text-charcoal-50 rounded-full px-1 py-0.5 text-xs font-medium sm:px-1.5">
                         {item.badge}
                       </span>
                     )

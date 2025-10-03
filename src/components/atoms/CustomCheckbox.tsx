@@ -24,7 +24,7 @@ export const CustomCheckbox: React.FC<CustomCheckboxProps> = ({
             onChange={(e) => onChange(e.target.checked)}
             className="peer border-ember-300 before:bg-ember-400 checked:border-ember-800 checked:bg-ember-800 checked:before:bg-ember-400 relative h-5 w-5 cursor-pointer appearance-none rounded border shadow transition-all before:absolute before:top-2/4 before:left-2/4 before:block before:h-12 before:w-12 before:-translate-x-2/4 before:-translate-y-2/4 before:rounded-full before:opacity-0 before:transition-opacity hover:shadow-md hover:before:opacity-10"
           />
-          <span className="pointer-events-none absolute top-2/4 left-2/4 -translate-x-2/4 -translate-y-2/4 text-white opacity-0 transition-opacity peer-checked:opacity-100">
+          <span className="pointer-events-none absolute top-2/4 left-2/4 -translate-x-2/4 -translate-y-2/4 text-charcoal-50 opacity-0 transition-opacity peer-checked:opacity-100">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="h-3.5 w-3.5"

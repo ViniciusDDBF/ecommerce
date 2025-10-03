@@ -40,16 +40,16 @@ export const RootLayout = () => {
             ].map(({ icon: Icon, title, desc }) => (
               <div
                 key={title}
-                className="from-charcoal-700/80 to-charcoal-800/80 border-charcoal-600/30 rounded-xl border bg-gradient-to-br p-4 text-center backdrop-blur-xl transition-colors sm:p-6"
+                className="bg-charcoal-800 border-charcoal-600/30 rounded-xl border bg-gradient-to-br p-4 text-center backdrop-blur-xl transition-colors sm:p-6"
               >
                 <Icon
                   className="text-charcoal-100 mx-auto mb-3 sm:mb-4"
                   size={24}
                 />
-                <h3 className="text-charcoal-200 mb-2 text-base font-semibold sm:text-lg">
+                <h3 className="text-charcoal-100 mb-2 text-base font-semibold sm:text-lg">
                   {title}
                 </h3>
-                <p className="text-charcoal-400 text-sm sm:text-base">{desc}</p>
+                <p className="text-charcoal-300 text-sm sm:text-base">{desc}</p>
               </div>
             ))}
           </div>

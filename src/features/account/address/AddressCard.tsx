@@ -27,8 +27,8 @@ export const AddressCard = ({
             </h3>
             {address.is_default && (
               <div className="bg-ember-400 shadow-ember-500/40 flex items-center gap-2 rounded-full px-2 py-1 shadow-lg sm:px-3 sm:py-1.5">
-                <Shield className="h-3 w-3 text-white sm:h-4 sm:w-4" />
-                <span className="text-xs font-semibold text-white sm:text-sm">
+                <Shield className="text-charcoal-50 h-3 w-3 sm:h-4 sm:w-4" />
+                <span className="text-charcoal-50 text-xs font-semibold sm:text-sm">
                   Default
                 </span>
               </div>

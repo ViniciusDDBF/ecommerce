@@ -29,7 +29,7 @@ export const IconOverlay: React.FC<IconOverlayProps> = ({
       {icon}
 
       {showBadge && count !== undefined && (
-        <span className="bg-ember-500 absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full text-xs font-bold text-white shadow-md sm:-top-1.5 sm:-right-1.5 sm:h-5 sm:w-5">
+        <span className="bg-ember-500 text-charcoal-50 absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full text-xs font-bold shadow-md sm:-top-1.5 sm:-right-1.5 sm:h-5 sm:w-5">
           {count}
         </span>
       )}
