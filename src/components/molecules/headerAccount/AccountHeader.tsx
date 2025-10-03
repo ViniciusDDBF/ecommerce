@@ -255,19 +255,19 @@ export const AccountHeader = () => {
     }
   };
 
-  const handleSubmitSignUpCNPJ = async () => {
-    if (!signUpCnpj.validate()) return;
+  // const handleSubmitSignUpCNPJ = async () => {
+  //   if (!signUpCnpj.validate()) return;
 
-    const { confirm_password, ...newUser } = signUpCnpj.values;
-    await dispatch(ThunkCreateCustomer(newUser as SignUpArgs));
-    try {
-      signUpCnpj.setIsSubmitting(true);
-      setSignUpCnpjIsOpen(false);
-      signUpCnpj.reset();
-    } finally {
-      signUpCnpj.setIsSubmitting(false);
-    }
-  };
+  //   const { confirm_password, ...newUser } = signUpCnpj.values;
+  //   await dispatch(ThunkCreateCustomer(newUser as SignUpArgs));
+  //   try {
+  //     signUpCnpj.setIsSubmitting(true);
+  //     setSignUpCnpjIsOpen(false);
+  //     signUpCnpj.reset();
+  //   } finally {
+  //     signUpCnpj.setIsSubmitting(false);
+  //   }
+  // };
   // #endregion
 
   return (
@@ -428,7 +428,7 @@ export const AccountHeader = () => {
                 </button>
               </span>
 
-              <span className="text-charcoal-300 text-sm">
+              {/* <span className="text-charcoal-300 text-sm">
                 You have a CNPJ?{' '}
                 <button
                   type="button"
@@ -441,11 +441,11 @@ export const AccountHeader = () => {
                 >
                   Create as a company
                 </button>
-              </span>
+              </span> */}
             </div>
           </Dialog>
           {/* ---------- signup as CNPJ dialog ---------- */}
-          <Dialog
+          {/* <Dialog
             ScrollLock={false}
             title="Sign Up as a company"
             isOpen={signUpCnpjIsOpen}
@@ -472,7 +472,6 @@ export const AccountHeader = () => {
               onChange={signUpCnpj.setValue}
               columns={2}
             />
-            {/* ---------- Already have an account link ---------- */}
             <div className="mt-4 flex flex-col gap-4 text-center">
               <span className="text-charcoal-300 text-sm">
                 Already have a account?{' '}
@@ -504,7 +503,7 @@ export const AccountHeader = () => {
                 </button>
               </span>
             </div>
-          </Dialog>
+          </Dialog> */}
         </main>
       </div>
     </>
