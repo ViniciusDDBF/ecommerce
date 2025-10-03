@@ -23,9 +23,5 @@
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true
   },
-  "include": [
-    "src",
-    "Button with switch to light.jsx",
-    "REVIEWRESPONSIVOCHECARSETEMALGOUTIL.TSX"
-  ]
+  "include": ["src"]
 }

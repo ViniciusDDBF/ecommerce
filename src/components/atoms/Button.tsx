@@ -3,7 +3,7 @@ import type {
   SpinnerLoaderProps,
   GetVariantStylesParams,
   VariantStyles,
-} from '../../types/components';
+} from '../../types';
 import React from 'react';
 
 /* ----------- Spinner Loader ----------- */
@@ -13,6 +13,7 @@ const SpinnerLoader: React.FC<SpinnerLoaderProps> = ({ size, color }) => {
     sm: { diameter: 16, strokeWidth: 2, className: 'w-4 h-4' },
     md: { diameter: 18, strokeWidth: 2, className: 'w-4.5 h-4.5' },
     lg: { diameter: 20, strokeWidth: 2.5, className: 'w-5 h-5' },
+    xl: { diameter: 22, strokeWidth: 2.75, className: 'w-6 h-6' },
     full: { diameter: 18, strokeWidth: 2, className: 'w-4.5 h-4.5' },
   };
 
@@ -51,6 +52,7 @@ const buttonSizes = {
   sm: 'px-3 py-1.5 text-sm font-medium min-h-[36px] gap-1.5 sm:px-4 sm:py-2',
   md: 'px-4 py-2 text-sm font-semibold min-h-[40px] gap-2 sm:px-5 sm:py-2.5 sm:text-base sm:min-h-[44px]',
   lg: 'px-5 py-2.5 text-base font-semibold min-h-[44px] gap-2 sm:px-6 sm:py-3 sm:min-h-[48px]',
+  xl: 'px-6 py-3 text-base font-semibold min-h-[48px] gap-2 sm:px-7 sm:py-4 sm:min-h-[52px]',
   full: 'px-4 py-2 text-sm font-semibold min-h-[40px] gap-2 sm:px-6 sm:py-3 sm:text-base sm:min-h-[44px] w-full',
 };
 

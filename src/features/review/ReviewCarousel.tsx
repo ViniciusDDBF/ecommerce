@@ -1,8 +1,8 @@
 import { useState, useRef } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { Button } from '../../components/atoms';
+import type { MediaItem } from '../../MediaThumbnailNavigation';
 
-// Define interfaces for the data structure (aligned with ReviewSection)
 interface Customer {
   id: string;
   name?: string;
@@ -15,13 +15,6 @@ interface Customer {
   legal_name?: string | null;
   cnpj?: string | null;
   is_cpf?: boolean | null;
-}
-
-interface MediaItem {
-  id: number;
-  url: string;
-  media_type: string;
-  created_at: string;
 }
 
 interface Review {

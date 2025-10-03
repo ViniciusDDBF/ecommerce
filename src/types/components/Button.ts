@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react';
-import type { Size } from '../Common';
+import type { Size } from '../../types';
 
 export type ButtonVariant = 'primary' | 'secondary' | 'ghost' | 'outline';
 
@@ -17,7 +17,7 @@ export interface ButtonProps
 }
 
 export interface SpinnerLoaderProps {
-  size: Size;
+  size: Size | 'full';
   color: string;
 }
 
@@ -26,9 +26,6 @@ export interface GetVariantStylesParams {
   selected?: boolean;
 }
 
-/**
- * Style classes for button variant states
- */
 export interface VariantStyles {
   base: string;
   hover: string;

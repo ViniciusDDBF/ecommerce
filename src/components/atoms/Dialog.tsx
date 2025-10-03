@@ -1,4 +1,4 @@
-import type { DialogProps } from '../../types/components';
+import type { DialogProps } from '../../types';
 import React, { useRef, useEffect } from 'react';
 import { X } from 'lucide-react';
 import { Button, Overlay } from '../atoms';
@@ -26,6 +26,7 @@ export const Dialog: React.FC<DialogProps> = ({
   useFocusTrap(isOpen, dialogRef, openedByClick);
 
   const sizeClasses = {
+    xs: 'max-w-[90vw] sm:max-w-xs',
     sm: 'max-w-[90vw] sm:max-w-sm',
     md: 'max-w-[90vw] sm:max-w-md',
     lg: 'max-w-[90vw] sm:max-w-lg',

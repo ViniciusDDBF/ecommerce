@@ -1,9 +1,8 @@
 import { useEffect, useRef, useState } from 'react';
 import { useNavigate, useSearchParams, useLoaderData } from 'react-router-dom';
 import { ShoppingCart } from 'lucide-react';
-import { Breadcrumbs, Button, Modal } from '../components/atoms';
+import { Breadcrumbs, Button, MediaDisplay, Modal } from '../components/atoms';
 import {
-  ProductMediaViewer,
   ProductHeader,
   VariantSelector,
   StockStatus,
@@ -13,6 +12,7 @@ import {
 import { useSmoothScroll } from '../hooks/';
 import parseVariantHash from '../utils/variants/parseVariantHash';
 import getUpdatedVariantParams from '../utils/variants/getUpdatedVariantParams';
+import { MediaThumbnailNavigation } from '../MediaThumbnailNavigation';
 
 // #region /* ---------- Types ---------- */
 export interface Product {
@@ -408,15 +408,21 @@ export const ProductPage = () => {
         <main className="mx-auto max-w-7xl px-4 py-6 sm:px-6 sm:py-8 md:px-8 lg:px-12 lg:py-10">
           <div className="flex flex-col gap-6 sm:gap-8 lg:flex-row lg:gap-10 xl:gap-12">
             {/* ---------- Images ---------- */}
-            <ProductMediaViewer
-              images={product.all_images}
-              selectedMedia={selectedMedia}
-              setSelectedMedia={setSelectedMedia}
-              productName={product.product_name}
-              thumbnailOrientation={
-                window.innerWidth < 640 ? 'horizontal' : 'vertical'
-              }
+            <MediaThumbnailNavigation
+              selectionMode="object"
+              mediaList={product.all_images}
+              selected={selectedMedia}
+              onSelect={(media) => {
+                if (typeof media !== 'number') {
+                  setSelectedMedia;
+                }
+              }}
+              thumbnailSize="large"
+              layout={window.innerWidth < 640 ? 'horizontal' : 'vertical'}
             />
+
+            {selectedMedia && <MediaDisplay media={selectedMedia} />}
+
             <div className="w-full space-y-4 sm:space-y-6 lg:w-1/2 lg:space-y-8">
               {/* ---------- Breadcrumbs ---------- */}
               <Breadcrumbs

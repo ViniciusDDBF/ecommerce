@@ -1,11 +1,5 @@
+import type { DrawerProps } from '../../types';
 import React from 'react';
-
-interface DrawerProps {
-  isOpen: boolean;
-  children?: React.ReactNode;
-  position?: 'left' | 'right';
-  className?: string;
-}
 
 export const Drawer = React.forwardRef<HTMLDivElement, DrawerProps>(
   ({ isOpen, children, position = 'right', className = '' }, ref) => {

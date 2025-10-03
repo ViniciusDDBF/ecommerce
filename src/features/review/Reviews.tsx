@@ -29,10 +29,10 @@ export interface Customer {
 }
 
 export interface Media {
-  id: number;
+  id?: number;
   media_type: string;
   url: string;
-  created_at: string;
+  created_at?: string;
 }
 
 export interface Review {
@@ -379,11 +379,13 @@ export const Reviews = ({
   return (
     <>
       {/* ---------- All images carousel ---------- */}
-      <ReviewCarousel
-        reviews={reviews}
-        openReviewModal={openReviewModal}
-        className="border-charcoal-700 mt-20 md:border-y-1"
-      />
+      {reviews !== undefined ? (
+        <ReviewCarousel
+          reviews={reviews}
+          openReviewModal={openReviewModal}
+          className="border-charcoal-700 mt-20 md:border-y-1"
+        />
+      ) : null}
 
       {/* ---------- Review Summary ---------- */}
       <div className="bg-charcoal-800 border-charcoal-700 items-center gap-4 py-10 text-center md:border-y-1">

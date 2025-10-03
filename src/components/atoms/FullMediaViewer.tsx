@@ -1,12 +1,6 @@
+import type { FullMediaViewerProps } from '../../types';
 import { X } from 'lucide-react';
 import { Button, Overlay } from '../../components/atoms';
-
-interface FullMediaViewerProps {
-  mediaUrl: string;
-  alt: string;
-  isOpen: boolean;
-  onClose: () => void;
-}
 
 export const FullMediaViewer: React.FC<FullMediaViewerProps> = ({
   mediaUrl,

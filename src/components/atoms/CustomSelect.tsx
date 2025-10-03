@@ -1,19 +1,7 @@
+import type { CustomSelectProps, SelectOption } from '../../types';
 import React, { useState, useRef, useEffect } from 'react';
 import { ChevronDown, Check } from 'lucide-react';
 import { useClickOutside } from '../../hooks/';
-
-export interface SelectOption {
-  value: string;
-  label: string;
-}
-
-export interface CustomSelectProps {
-  options?: SelectOption[];
-  placeholder?: string;
-  value?: string;
-  onChange?: (value: string) => void;
-  className?: string;
-}
 
 export const CustomSelect: React.FC<CustomSelectProps> = ({
   options = [],

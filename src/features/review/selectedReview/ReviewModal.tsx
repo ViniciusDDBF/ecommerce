@@ -102,6 +102,10 @@ export const ReviewModal: React.FC<ReviewModalProps> = ({
                 <div className="custom-scroll-y min-h-[33vh] flex-1 overflow-y-auto p-4">
                   <ReviewContent review={selectedReview} />
                   <MediaThumbnails
+                  className='bg-red-100'
+                    direction="horizontal"
+                    gridColumns={3}
+                    maxThumbnails={3}
                     mediaList={selectedReview.media}
                     currentIndex={currentMediaIndex}
                     onSelect={setCurrentMediaIndex}

@@ -1,25 +1,28 @@
-import type { ButtonProps } from './Button';
+import type { ButtonProps, Size } from '../../types';
+import type { ReactNode } from 'react';
+
+interface ModalButtons {
+  cancel?: {
+    text: string;
+    onClick?: () => void;
+    props?: Partial<Omit<ButtonProps, 'text' | 'onClick'>>;
+  };
+  confirm?: {
+    text: string;
+    onClick?: () => void;
+    props?: Partial<Omit<ButtonProps, 'text' | 'onClick'>>;
+  };
+}
 
 export interface DialogProps {
   ScrollLock?: boolean;
   isOpen: boolean;
   title: string;
   description?: string;
-  icon?: React.ReactNode;
-  size?: 'sm' | 'md' | 'lg' | 'xl';
-  children: React.ReactNode;
-  buttons?: {
-    cancel?: {
-      text: string;
-      onClick?: () => void;
-      props?: Partial<Omit<ButtonProps, 'text' | 'onClick'>>;
-    };
-    confirm?: {
-      text: string;
-      onClick?: () => void;
-      props?: Partial<Omit<ButtonProps, 'text' | 'onClick'>>;
-    };
-  };
+  icon?: ReactNode;
+  size?: Size;
+  children: ReactNode;
+  buttons?: ModalButtons;
   onClose?: () => void;
   openedByClick?: boolean;
 }

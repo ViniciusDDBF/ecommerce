@@ -17,5 +17,5 @@ export { ThumbnailNavigation } from './ThumbnailNavigation';
 export { CustomerInitials } from './CustomerInitials';
 export { FullMediaViewer } from './FullMediaViewer';
 export { MediaDisplay } from './MediaDisplay';
-export { MediaThumbnails } from './MediaThumbnail';
+export { MediaThumbnails } from './MediaThumbnails';
 export { MediaNavigation } from './MediaNavigation';

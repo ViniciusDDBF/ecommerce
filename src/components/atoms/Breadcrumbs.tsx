@@ -1,19 +1,7 @@
+import type { BreadcrumbsProps } from '../../types';
 import React, { useState } from 'react';
 import { ChevronRight } from 'lucide-react';
 import { Modal } from '../atoms';
-
-interface Breadcrumb {
-  id: number;
-  name: string;
-  path: string;
-  slug: string;
-  level: number;
-}
-
-interface BreadcrumbsProps {
-  breadcrumbs: Breadcrumb[];
-  navigate: (path: string) => void;
-}
 
 export const Breadcrumbs: React.FC<BreadcrumbsProps> = ({ breadcrumbs }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);

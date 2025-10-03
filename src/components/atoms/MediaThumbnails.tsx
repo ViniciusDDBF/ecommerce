@@ -5,22 +5,46 @@ interface MediaThumbnailsProps {
   mediaList: Array<Media>;
   currentIndex: number;
   onSelect: (index: number) => void;
+  direction?: 'horizontal' | 'vertical';
+  maxThumbnails?: number;
+  gridColumns?: number;
+  className?: string;
 }
 
 export const MediaThumbnails: React.FC<MediaThumbnailsProps> = ({
   mediaList,
   currentIndex,
   onSelect,
+  direction = 'horizontal',
+  maxThumbnails,
+  gridColumns = 4,
+  className,
 }) => {
-  if (mediaList.length <= 1) return null;
+  const effectiveList = maxThumbnails
+    ? mediaList.slice(0, maxThumbnails)
+    : mediaList;
+
+  if (effectiveList.length <= 1) return null;
 
   return (
-    <div className="grid grid-cols-4 gap-2">
-      {mediaList.map((media, index) => (
+    <div
+      style={{
+        gridTemplateColumns:
+          direction === 'vertical'
+            ? undefined
+            : `repeat(${gridColumns}, minmax(0, 1fr))`,
+        gridTemplateRows:
+          direction === 'vertical'
+            ? `repeat(${gridColumns}, minmax(0, 1fr))`
+            : undefined,
+      }}
+      className={`grid gap-2 ${className}`}
+    >
+      {effectiveList.map((media, index) => (
         <button
           key={media.id}
           onClick={() => onSelect(index)}
-          className={`relative aspect-square overflow-hidden rounded-lg border-2 transition-all duration-200 ${
+          className={`group relative aspect-square overflow-hidden rounded-lg border-2 transition-all duration-200 ${
             index === currentIndex
               ? 'border-ember-400'
               : 'hover:border-charcoal-500 border-transparent'
