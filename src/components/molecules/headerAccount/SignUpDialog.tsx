@@ -15,9 +15,9 @@ export const SignUpDialog: React.FC<SignUpDialogProps> = ({
   return (
     <Dialog
       ScrollLock={false}
-      title="Log in"
+      title="Create Account"
       isOpen={isOpen}
-      description="Log in with your existing account"
+      description="Create your account to access the full flow of the website"
       size="lg"
       icon={<UserPlus />}
       buttons={{

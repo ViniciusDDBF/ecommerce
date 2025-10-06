@@ -2,7 +2,7 @@ export type Size = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
 export type MaskType = 'phone' | 'cpf' | 'cnpj';
 export type PositionX = 'left' | 'right';
 export type PositionY = 'top' | 'bottom';
-
+export type CrudFormMode = 'create' | 'update' | 'delete';
 export type Orientation = 'horizontal' | 'vertical';
 
 export interface Media {

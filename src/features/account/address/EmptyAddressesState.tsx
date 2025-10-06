@@ -1,8 +1,5 @@
 import { Plus } from 'lucide-react';
-
-interface EmptyAddressesStateProps {
-  onAddClick: () => void;
-}
+import type { EmptyAddressesStateProps } from '../../../types';
 
 export const EmptyAddressesState = ({
   onAddClick,

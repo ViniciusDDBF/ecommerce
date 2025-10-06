@@ -1,4 +1,4 @@
-import type { FormFieldProps } from '../../../types/hooks';
+import type { AddressData } from '../../../types';
 import { useState } from 'react';
 import { Plus } from 'lucide-react';
 import {
@@ -13,91 +13,9 @@ import {
   ThunkCreateCustomerAddress,
   ThunkUpdateCustomerAddress,
   ThunkDeleteCustomerAddress,
-  type AddressData,
   ThunkUpdateCustomerDefaultAddress,
 } from '../../../store/slices/userSlice';
-
-const addressFields: FormFieldProps[] = [
-  {
-    name: 'address_name',
-    label: 'Address Name',
-    type: 'text',
-    placeholder: 'Enter your address name',
-    colSpan: 2,
-    validation: { required: true },
-  },
-  {
-    name: 'recipient_name',
-    label: 'Who is receiving?',
-    type: 'text',
-    placeholder: 'Who is receiving this product?',
-    colSpan: 2,
-    validation: { required: true },
-  },
-  {
-    name: 'postal_code',
-    label: 'Postal Code',
-    type: 'text',
-    placeholder: 'Enter your postal code',
-    colSpan: 2,
-    validation: { required: true },
-  },
-  {
-    name: 'street',
-    label: 'Street',
-    type: 'text',
-    placeholder: 'Enter your street',
-    colSpan: 2,
-    validation: { required: true },
-  },
-  {
-    name: 'number',
-    label: 'Number',
-    type: 'text',
-    placeholder: 'Residence number',
-    colSpan: 1,
-    validation: { required: true },
-  },
-  {
-    name: 'complement',
-    label: 'Complement',
-    type: 'text',
-    placeholder: 'Enter your complement',
-    colSpan: 1,
-  },
-  {
-    name: 'neighborhood',
-    label: 'Neighborhood',
-    type: 'text',
-    placeholder: 'Enter your neighborhood',
-    colSpan: 2,
-    validation: { required: true },
-  },
-  {
-    name: 'city',
-    label: 'City',
-    type: 'text',
-    placeholder: 'Enter your city',
-    colSpan: 1,
-    validation: { required: true },
-  },
-  {
-    name: 'state',
-    label: 'State',
-    type: 'text',
-    placeholder: 'Enter your state',
-    colSpan: 1,
-    validation: { required: true },
-  },
-  {
-    name: 'country',
-    label: 'Country',
-    type: 'text',
-    placeholder: 'Enter your country',
-    colSpan: 2,
-    validation: { required: true },
-  },
-];
+import { addressFields } from './constants';
 
 export const Addresses = () => {
   const [addressSelected, setAddressSelected] = useState<AddressData | null>(

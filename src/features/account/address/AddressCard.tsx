@@ -1,13 +1,6 @@
+import type { AddressCardProps } from '../../../types';
 import { Edit3, Trash2, Shield, User, MapPin, House } from 'lucide-react';
 import { Button } from '../../../components/atoms';
-import type { AddressData } from '../../../store/slices/userSlice';
-
-interface AddressCardProps {
-  address: AddressData;
-  onEdit: () => void;
-  onSetDefault: () => void;
-  onDelete: () => void;
-}
 
 export const AddressCard = ({
   address,
@@ -18,7 +11,7 @@ export const AddressCard = ({
   return (
     <div className="group relative">
       <div className="glass-effect rounded-2xl p-4 sm:p-6 md:p-8">
-        {/* Header Row - Address Name, Default Badge, and Actions */}
+        {/* ---------- Header ---------- */}
         <div className="mb-4 flex flex-col items-start justify-between gap-4 sm:mb-6 sm:flex-row sm:items-center">
           <div className="flex items-center gap-3 sm:gap-4">
             <House className="text-ember-400 h-5 w-5 sm:h-6 sm:w-6" />
@@ -35,7 +28,7 @@ export const AddressCard = ({
             )}
           </div>
 
-          {/* Action Buttons */}
+          {/* ---------- Action Buttons ---------- */}
           <div className="flex w-full flex-wrap items-center gap-2 sm:w-auto sm:gap-3">
             <Button
               text="Edit"
@@ -68,9 +61,9 @@ export const AddressCard = ({
           </div>
         </div>
 
-        {/* Address Content */}
+        {/* ---------- Address Content ---------- */}
         <div className="space-y-4 sm:space-y-6">
-          {/* Recipient Information */}
+          {/* ---------- Recipient Information ---------- */}
           <div className="bg-charcoal-800/60 rounded-xl p-4 sm:p-6">
             <div className="mb-3 flex items-center gap-2 sm:mb-4 sm:gap-3">
               <User className="text-ember-400 h-4 w-4 sm:h-5 sm:w-5" />
@@ -83,7 +76,7 @@ export const AddressCard = ({
             </p>
           </div>
 
-          {/* Address Information */}
+          {/* ---------- Address Information ---------- */}
           <div className="bg-charcoal-800/60 rounded-xl p-4 sm:p-6">
             <div className="mb-3 flex items-center gap-2 sm:mb-4 sm:gap-3">
               <MapPin className="text-ember-400 h-4 w-4 sm:h-5 sm:w-5" />

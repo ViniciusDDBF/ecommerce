@@ -1,20 +1,9 @@
-import type { FormFieldProps } from '../../../types/hooks';
-import type { AddressData } from '../../../store/slices/userSlice';
+import type { AddressFormDialogProps } from '../../../types';
 import { useEffect } from 'react';
 import { Edit3 } from 'lucide-react';
 import { Dialog } from '../../../components/atoms';
 import { FormGrid } from '../../../components/molecules';
 import { useForm } from '../../../hooks';
-
-interface AddressFormDialogProps {
-  mode: 'create' | 'update';
-  isOpen: boolean;
-  fields: FormFieldProps[];
-  initialValues?: Partial<AddressData>;
-  onSubmit: (values: Partial<AddressData>) => Promise<void>;
-  onClose: () => void;
-  isLoading: boolean;
-}
 
 export const AddressFormDialog = ({
   mode,
@@ -62,7 +51,7 @@ export const AddressFormDialog = ({
         confirm: {
           text: mode === 'create' ? 'Create Address' : 'Update Address',
           onClick: handleSubmit,
-          props: { loading: isLoading },
+          loading: isLoading,
         },
       }}
     >

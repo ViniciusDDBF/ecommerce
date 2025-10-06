@@ -1,6 +1,6 @@
 import type { SignUpArgs } from '../../../types';
 import { useEffect, useState } from 'react';
-import { LogIn, CircleCheck, Mail } from 'lucide-react';
+import { LogIn, CircleCheck, Mail, MessageCircleX } from 'lucide-react';
 import { Dialog, Button, Modal } from '../../atoms/';
 import {
   LoginDialog,
@@ -41,15 +41,31 @@ export const AccountHeader = () => {
   const user = useAppSelector('user');
   const [isLocked, setIsLocked] = useState(false);
   const [loginSuccess, setLoginSuccess] = useState(false);
+  const [signUpSuccess, setSignUpSuccess] = useState(false);
+  const [errorModal, setErrorModal] = useState(false);
 
   /* ---------- Lock the scroll ---------- */
   useEffect(() => {
-    if (choicesIsOpen || loginIsOpen || signUpIsOpen) {
+    if (
+      choicesIsOpen ||
+      loginIsOpen ||
+      signUpIsOpen ||
+      loginSuccess ||
+      signUpSuccess ||
+      errorModal
+    ) {
       setIsLocked(true);
     } else {
       setIsLocked(false);
     }
-  }, [choicesIsOpen, loginIsOpen, signUpIsOpen]);
+  }, [
+    choicesIsOpen,
+    loginIsOpen,
+    signUpIsOpen,
+    loginSuccess,
+    signUpSuccess,
+    errorModal,
+  ]);
   useScrollLock(isLocked);
 
   const handleSubmitLogin = async () => {
@@ -64,21 +80,24 @@ export const AccountHeader = () => {
       setLoginIsOpen(false);
       setLoginSuccess(true);
       login.reset();
-    } catch (err) {}
+    } catch (err) {
+      setErrorModal(true);
+    }
   };
 
   const handleSubmitSignUp = async () => {
-    console.log(signUp, 'SIGN UP');
     if (!signUp.validate()) return;
     const { confirm_password, ...newUser } = signUp.values;
-    console.log(newUser, 'NEW USER');
-    await dispatch(ThunkCreateCustomer(newUser as SignUpArgs));
     try {
       signUp.setIsSubmitting(true);
-      setSignUpIsOpen(false);
+      await dispatch(ThunkCreateCustomer(newUser as SignUpArgs));
+      setSignUpSuccess(true);
       signUp.reset();
+    } catch (err) {
+      setErrorModal(true);
     } finally {
       signUp.setIsSubmitting(false);
+      setSignUpIsOpen(false);
     }
   };
 
@@ -193,11 +212,27 @@ export const AccountHeader = () => {
               cancel: {
                 text: 'Close',
                 onClick() {
-                  setLoginSuccess(false);
+                  setSignUpSuccess(false);
                 },
               },
             }}
-            isOpen={loginSuccess}
+            isOpen={signUpSuccess}
+          />
+
+          {/* ---------- Error modal ---------- */}
+          <Modal
+            title="Error!"
+            message={`Something went wrong, i'm sorry for the inconvinience!`}
+            icon={<MessageCircleX />}
+            buttons={{
+              cancel: {
+                text: 'Close',
+                onClick() {
+                  setErrorModal(false);
+                },
+              },
+            }}
+            isOpen={errorModal}
           />
         </main>
       </div>
