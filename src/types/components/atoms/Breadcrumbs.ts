@@ -1,4 +1,4 @@
-type Breadcrumb = {
+interface IBreadcrumb {
   id: number;
   name: string;
   path: string;
@@ -7,6 +7,6 @@ type Breadcrumb = {
 };
 
 export interface BreadcrumbsProps {
-  breadcrumbs: Breadcrumb[];
+  breadcrumbs: IBreadcrumb[];
   navigate: (path: string) => void;
 }

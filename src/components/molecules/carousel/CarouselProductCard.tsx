@@ -1,27 +1,6 @@
+import type { ProductCardProps } from '../../../types';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-
-interface ProductItem {
-  group_id: number;
-  product_name: string;
-  product_slug: string | null;
-  variant_id: number;
-  variant_name: string;
-  current_price: number;
-  original_price: number;
-  stock: number;
-  image_url: string[] | null;
-  promotion_id: number | null;
-  color: string | null;
-  variant_query: string;
-}
-
-interface ProductCardProps {
-  variants: ProductItem[];
-  selectedVariantId: number;
-  onVariantSelect: (variantId: number) => void;
-  cardId: string;
-}
 
 export const CarouselProductCard = ({
   variants,
@@ -129,5 +108,3 @@ export const CarouselProductCard = ({
     </div>
   );
 };
-
-export type { ProductCardProps, ProductItem };

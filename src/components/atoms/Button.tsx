@@ -2,7 +2,7 @@ import type {
   ButtonProps,
   SpinnerLoaderProps,
   GetVariantStylesParams,
-  VariantStyles,
+  IVariantStyles,
 } from '../../types';
 import React from 'react';
 
@@ -60,7 +60,7 @@ const buttonSizes = {
 const getVariantStyles = ({
   variant,
   selected = false,
-}: GetVariantStylesParams): VariantStyles => {
+}: GetVariantStylesParams): IVariantStyles => {
   switch (variant) {
     case 'primary':
       if (selected) {
@@ -165,7 +165,6 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       className = '',
       style,
       type = 'button',
-      onClick,
       ...props
     },
     ref,
@@ -194,7 +193,6 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         disabled={isDisabled}
         className={classes}
         style={style}
-        onClick={onClick}
         {...props}
       >
         {loading ? (

@@ -19,11 +19,6 @@ export const useFocusTrap = (
       firstFocusableElement.current = focusableElements[0];
       lastFocusableElement.current =
         focusableElements[focusableElements.length - 1];
-
-      // Only set initial focus if the dialog was not opened by a click
-      if (!openedByClick) {
-        firstFocusableElement.current.focus();
-      }
     }
 
     const handleKeyDown = (event: KeyboardEvent) => {

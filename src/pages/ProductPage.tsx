@@ -12,7 +12,7 @@ import {
 import { useSmoothScroll } from '../hooks/';
 import parseVariantHash from '../utils/variants/parseVariantHash';
 import getUpdatedVariantParams from '../utils/variants/getUpdatedVariantParams';
-import { MediaThumbnailNavigation } from '../MediaThumbnailNavigation';
+import { MediaThumbnailNavigation } from '../components/atoms/MediaThumbnailNavigation';
 
 // #region /* ---------- Types ---------- */
 export interface Product {

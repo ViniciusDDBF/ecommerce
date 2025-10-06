@@ -1,63 +1,14 @@
-// #region /* ---------- Imports ---------- */
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { supabase } from '../../SupabaseConfig';
 import { isAnyOf } from '@reduxjs/toolkit';
 import type { RootState } from '../store';
-// #endregion
-
-// #region /* ---------- Types ---------- */
-export interface UserData {
-  customer_id?: number;
-  user_id: string;
-  first_name?: string | null;
-  last_name?: string | null;
-  email: string | null;
-  phone: string | null;
-  cpf?: string | null;
-  cnpj?: string | null;
-  company_name?: string | null;
-  legal_name?: string | null;
-  is_cpf: boolean;
-  addresses?: AddressData[];
-}
-
-export interface AddressData {
-  address_id?: number;
-  user_id: string;
-  customer_id: number;
-  address_name: string | null;
-  recipient_name: string | null;
-  postal_code: string | null;
-  number: string | null;
-  complement: string | null;
-  street: string | null;
-  neighborhood: string | null;
-  city: string | null;
-  state: string | null;
-  country: string | null;
-  is_default: boolean | null;
-}
-
-interface UserThunk {
-  user: UserData | null;
-  isLoading: boolean;
-  error: any;
-}
-
-interface LoginArgs {
-  email: string;
-  password: string;
-}
-
-export interface SignUpArgs {
-  first_name: string;
-  last_name: string;
-  phone: string;
-  cpf: string;
-  email: string;
-  password: string;
-}
-// #endregion
+import type {
+  UserThunk,
+  UserData,
+  AddressData,
+  LoginArgs,
+  SignUpArgs,
+} from '../../types';
 
 // #region /* ---------- Functions ---------- */
 const initialState: UserThunk = {

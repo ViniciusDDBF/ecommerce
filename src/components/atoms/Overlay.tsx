@@ -1,10 +1,5 @@
+import type { OverlayProps } from '../../types';
 import React from 'react';
-
-type OverlayProps = {
-  isOpen: boolean;
-  onClick?: () => void;
-  children?: React.ReactNode;
-};
 
 export const Overlay: React.FC<OverlayProps> = ({
   isOpen,

@@ -1,7 +1,7 @@
 import { useState, useRef } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { Button } from '../../components/atoms';
-import type { MediaItem } from '../../MediaThumbnailNavigation';
+import type { MediaItem } from '../../components/atoms/MediaThumbnailNavigation';
 
 interface Customer {
   id: string;

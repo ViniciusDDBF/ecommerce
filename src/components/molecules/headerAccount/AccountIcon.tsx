@@ -1,27 +1,19 @@
+import type { AccountIconProps } from '../../../types';
 import { User } from 'lucide-react';
 import { IconOverlay } from '../../atoms';
-
-type AccountIconProps = {
-  onClick?: React.MouseEventHandler<HTMLDivElement>;
-};
+import { useKeyPress } from '../../../hooks';
 
 export const AccountIcon: React.FC<AccountIconProps> = ({ onClick }) => {
-  // Handle keyboard events for accessibility
-  const handleKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
-    if (event.key === 'Enter' || event.key === ' ') {
-      event.preventDefault(); // Prevent default behavior like scrolling on Space
-      onClick?.(event as any); // Call the onClick handler
-    }
-  };
+  const handleKeyDown = useKeyPress(onClick);
 
   return (
     <IconOverlay
-      onClick={onClick}
       icon={<User className="text-charcoal-200 h-5 w-5 sm:h-6 sm:w-6" />}
-      tabIndex={onClick ? 0 : -1} // Focusable only if clickable
-      onKeyDown={handleKeyDown} // Handle keyboard interaction
-      role="button" // Indicate the element is interactive
-      aria-label="User account" // Accessibility label
+      onClick={onClick}
+      tabIndex={onClick ? 0 : -1}
+      onKeyDown={handleKeyDown}
+      role="button"
+      aria-label="User account"
     />
   );
 };

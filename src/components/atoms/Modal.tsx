@@ -1,4 +1,4 @@
-import type { ModalProps } from '../../types/components/Modal';
+import type { ModalProps } from '../../types/';
 import React, { useRef, useEffect } from 'react';
 import { X } from 'lucide-react';
 import { Button, Overlay } from '../atoms';
@@ -17,17 +17,12 @@ export const Modal: React.FC<ModalProps> = ({
   const titleId = `modal-title-${React.useId()}`;
   const descriptionId = `modal-description-${React.useId()}`;
 
-  // Lock browser scroll and trap focus when modal is open
-  useScrollLock(isOpen);
-  useFocusTrap(isOpen, modalRef, openedByClick);
-
   const handleCancelClick = () => {
     if (buttons.cancel.onClick) {
       buttons.cancel.onClick();
     }
   };
 
-  // Handle Escape key to close modal
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === 'Escape') {
@@ -41,11 +36,14 @@ export const Modal: React.FC<ModalProps> = ({
     }
   }, [isOpen]);
 
+  useScrollLock(isOpen);
+  useFocusTrap(isOpen, modalRef, openedByClick);
   useClickOutside(modalRef, handleCancelClick);
 
   if (!isOpen) return null;
 
   const sizeClasses = {
+    xs: 'max-w-[90vw] sm:max-w-xs',
     sm: 'max-w-[90vw] sm:max-w-sm',
     md: 'max-w-[90vw] sm:max-w-md',
     lg: 'max-w-[90vw] sm:max-w-lg',
@@ -107,7 +105,6 @@ export const Modal: React.FC<ModalProps> = ({
               variant="secondary"
               size="sm"
               onClick={handleCancelClick}
-              {...buttons.cancel.props}
             />
             {buttons.confirm && (
               <Button
@@ -115,7 +112,6 @@ export const Modal: React.FC<ModalProps> = ({
                 variant="primary"
                 size="sm"
                 onClick={buttons.confirm.onClick}
-                {...buttons.confirm.props}
               />
             )}
           </div>

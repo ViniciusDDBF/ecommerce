@@ -1,11 +1,6 @@
 import { useState } from 'react';
 import { CircleQuestionMark } from 'lucide-react';
-
-type HelperProps = {
-  tooltip: React.ReactNode | string;
-  value: React.ReactNode | string;
-  onClick?: (value: any) => void;
-};
+import type { HelperProps } from '../../types';
 
 export const Helper: React.FC<HelperProps> = ({ tooltip, value, onClick }) => {
   const [isHovered, setIsHovered] = useState(false);

@@ -1,29 +1,10 @@
-import type { ProductItem } from './CarouselProductCard';
+import type { CarouselProps, PositionX } from '../../../types';
 import { useRef, useState } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { Button } from '../../atoms';
 import { CarouselProductCard } from '../../molecules';
 
-interface CarouselItem {
-  carousel_name: string;
-  carousel_title: string;
-  carousel_display_order: number | null;
-  products: ProductItem[][];
-}
-
-interface CarouselProps {
-  data: CarouselItem[] | CarouselItem;
-  className?: string;
-  headerClassName?: string;
-  containerClassName?: string;
-}
-
-export const Carousel = ({
-  data,
-  className = '',
-  headerClassName = '',
-  containerClassName = '',
-}: CarouselProps) => {
+export const Carousel = ({ data, className = '' }: CarouselProps) => {
   const scrollRef = useRef<HTMLDivElement>(null);
   const [selectedProducts, setSelectedProducts] = useState<{
     [carouselId: string]: { [groupIndex: number]: number };
@@ -34,7 +15,7 @@ export const Carousel = ({
     (a, b) => (a.carousel_display_order || 0) - (b.carousel_display_order || 0),
   );
 
-  const scroll = (direction: 'left' | 'right') => {
+  const scroll = (direction: PositionX) => {
     if (scrollRef.current) {
       const cardWidth = window.innerWidth < 640 ? window.innerWidth * 0.8 : 320;
       const gap = window.innerWidth < 640 ? 16 : 24;
@@ -73,7 +54,7 @@ export const Carousel = ({
             className={`bg-charcoal-700 mx-auto mb-8 rounded-2xl p-4 sm:p-6 md:p-8 ${className}`}
           >
             <div
-              className={`mb-4 flex flex-col sm:flex-row sm:items-end sm:justify-between ${headerClassName}`}
+              className={`mb-4 flex flex-col sm:flex-row sm:items-end sm:justify-between`}
             >
               <h2 className="from-charcoal-200 to-charcoal-50 mb-2 bg-gradient-to-r bg-clip-text text-2xl font-bold text-transparent sm:mb-0 sm:text-3xl">
                 {carousel.carousel_title}
@@ -98,7 +79,7 @@ export const Carousel = ({
 
             <div
               ref={scrollRef}
-              className={`flex snap-x snap-mandatory gap-4 overflow-x-auto pb-4 [-ms-overflow-style:none] [scrollbar-width:none] sm:gap-6 [&::-webkit-scrollbar]:hidden ${containerClassName}`}
+              className={`flex snap-x snap-mandatory gap-4 overflow-x-auto pb-4 [-ms-overflow-style:none] [scrollbar-width:none] sm:gap-6 [&::-webkit-scrollbar]:hidden`}
               role="region"
               aria-label={`${carousel.carousel_title} carousel`}
             >

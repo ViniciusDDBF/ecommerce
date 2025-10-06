@@ -1,9 +1,4 @@
-import type { Media } from '../../features/review/Reviews';
-interface MediaDisplayProps {
-  media: Media;
-  index: number;
-  onImageClick: () => void;
-}
+import type { MediaDisplayProps } from '../../types';
 
 export const MediaDisplay: React.FC<MediaDisplayProps> = ({
   media,

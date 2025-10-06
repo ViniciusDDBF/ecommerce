@@ -1,4 +1,4 @@
-import type { CustomSelectProps, SelectOption } from '../../types';
+import type { CustomSelectProps, ISelectOption } from '../../types';
 import React, { useState, useRef, useEffect } from 'react';
 import { ChevronDown, Check } from 'lucide-react';
 import { useClickOutside } from '../../hooks/';
@@ -20,7 +20,7 @@ export const CustomSelect: React.FC<CustomSelectProps> = ({
     setSelectedValue(value);
   }, [value]);
 
-  const handleSelect = (option: SelectOption) => {
+  const handleSelect = (option: ISelectOption) => {
     setSelectedValue(option.value);
     onChange(option.value);
     setIsOpen(false);

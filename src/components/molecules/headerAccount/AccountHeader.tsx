@@ -1,9 +1,16 @@
-import type { FormFieldProps } from '../../../types/hooks';
-import type { SignUpArgs } from '../../../store/slices/userSlice';
+import type { SignUpArgs } from '../../../types';
 import { useEffect, useState } from 'react';
-import { UserPlus, LogIn, CircleCheck, Mail } from 'lucide-react';
-import { AccountIcon, FormGrid, AccountDropdown } from '../../molecules';
+import { LogIn, CircleCheck, Mail } from 'lucide-react';
 import { Dialog, Button, Modal } from '../../atoms/';
+import {
+  LoginDialog,
+  SignUpDialog,
+  AccountIcon,
+  AccountDropdown,
+  loginFields,
+  signUpFields,
+  GoogleIcon,
+} from '../../molecules';
 import { useForm, useScrollLock } from '../../../hooks/';
 import {
   resetError,
@@ -13,122 +20,6 @@ import {
 import { supabase } from '../../../SupabaseConfig';
 import { useAppDispatch, useAppSelector } from '../../../store/hooks/hooks';
 
-// #region /* ---------- Form Fields ---------- */
-const loginFields: FormFieldProps[] = [
-  {
-    name: 'email',
-    label: 'Email',
-    type: 'email',
-    placeholder: 'Enter your email',
-    colSpan: 2,
-    validation: { required: true },
-  },
-  {
-    name: 'password',
-    label: 'Password',
-    type: 'password',
-    placeholder: 'Enter your password',
-    colSpan: 2,
-    validation: { required: true },
-  },
-];
-
-const signUpFieldsCpf: FormFieldProps[] = [
-  {
-    name: 'first_name',
-    label: 'First Name',
-    type: 'text',
-    placeholder: 'Enter your first name',
-    colSpan: 1,
-    validation: { required: true },
-  },
-  {
-    name: 'last_name',
-    label: 'Last Name',
-    type: 'text',
-    placeholder: 'Enter your Last name',
-    colSpan: 1,
-    validation: { required: true },
-  },
-  {
-    name: 'phone',
-    label: 'Phone',
-    type: 'text',
-    placeholder: 'Enter your phone number',
-    colSpan: 1,
-    applyMask: 'phone',
-    validation: { required: true },
-  },
-  {
-    name: 'cpf',
-    label: 'CPF',
-    type: 'text',
-    placeholder: 'Enter your CPF',
-    colSpan: 1,
-    applyMask: 'cpf',
-    helper: {
-      text: 'Use test CPF',
-      value: '11144477735',
-    },
-    validation: { required: true },
-  },
-  {
-    name: 'email',
-    label: 'Email',
-    type: 'email',
-    placeholder: 'Enter your email',
-    colSpan: 2,
-    validation: { required: true },
-  },
-  {
-    name: 'password',
-    label: 'Password',
-    type: 'password',
-    placeholder: 'Enter your password',
-    colSpan: 1,
-    validation: { required: true },
-    confirmField: 'confirm_password',
-  },
-  {
-    name: 'confirm_password',
-    label: 'Confirm your Password',
-    type: 'password',
-    placeholder: 'Enter your password again',
-    colSpan: 1,
-    validation: { required: true },
-  },
-];
-
-// #endregion
-
-// #region /* ---------- Google Icon ---------- */
-const GoogleIcon = ({ className = 'w-5 h-5' }) => (
-  <svg
-    className={className}
-    viewBox="0 0 24 24"
-    xmlns="http://www.w3.org/2000/svg"
-  >
-    <path
-      fill="#4285F4"
-      d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
-    />
-    <path
-      fill="#34A853"
-      d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"
-    />
-    <path
-      fill="#FBBC05"
-      d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"
-    />
-    <path
-      fill="#EA4335"
-      d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"
-    />
-  </svg>
-);
-// #endregion
-
-// #region /* ---------- Google Sign in Function ---------- */
 const handleGoogleSignIn = async () => {
   try {
     await supabase.auth.signInWithOAuth({
@@ -139,14 +30,13 @@ const handleGoogleSignIn = async () => {
     });
   } catch (err) {}
 };
-// #endregion
 
 export const AccountHeader = () => {
   const [choicesIsOpen, setChoicesIsOpen] = useState(false);
   const [loginIsOpen, setLoginIsOpen] = useState(false);
-  const [signUpCpfIsOpen, setSignUpCpfIsOpen] = useState(false);
+  const [signUpIsOpen, setSignUpIsOpen] = useState(false);
   const login = useForm(loginFields);
-  const signUpCpf = useForm(signUpFieldsCpf);
+  const signUp = useForm(signUpFields);
   const dispatch = useAppDispatch();
   const user = useAppSelector('user');
   const [isLocked, setIsLocked] = useState(false);
@@ -154,15 +44,14 @@ export const AccountHeader = () => {
 
   /* ---------- Lock the scroll ---------- */
   useEffect(() => {
-    if (choicesIsOpen || loginIsOpen || signUpCpfIsOpen) {
+    if (choicesIsOpen || loginIsOpen || signUpIsOpen) {
       setIsLocked(true);
     } else {
       setIsLocked(false);
     }
-  }, [choicesIsOpen, loginIsOpen, signUpCpfIsOpen]);
+  }, [choicesIsOpen, loginIsOpen, signUpIsOpen]);
   useScrollLock(isLocked);
 
-  // #region /* ---------- Functions ---------- */
   const handleSubmitLogin = async () => {
     if (!login.validate()) return;
     try {
@@ -178,20 +67,20 @@ export const AccountHeader = () => {
     } catch (err) {}
   };
 
-  const handleSubmitSignUpCPF = async () => {
-    if (!signUpCpf.validate()) return;
-    const { confirm_password, ...newUser } = signUpCpf.values;
+  const handleSubmitSignUp = async () => {
+    console.log(signUp, 'SIGN UP');
+    if (!signUp.validate()) return;
+    const { confirm_password, ...newUser } = signUp.values;
+    console.log(newUser, 'NEW USER');
     await dispatch(ThunkCreateCustomer(newUser as SignUpArgs));
     try {
-      signUpCpf.setIsSubmitting(true);
-      setSignUpCpfIsOpen(false);
-      signUpCpf.reset();
+      signUp.setIsSubmitting(true);
+      setSignUpIsOpen(false);
+      signUp.reset();
     } finally {
-      signUpCpf.setIsSubmitting(false);
+      signUp.setIsSubmitting(false);
     }
   };
-
-  // #endregion
 
   return (
     <>
@@ -200,7 +89,7 @@ export const AccountHeader = () => {
           {!user.user && <AccountIcon onClick={() => setChoicesIsOpen(true)} />}
           {user.user && <AccountDropdown />}
 
-          {/* ---------- login with: dialog ---------- */}
+          {/* ---------- Login With: Dialog ---------- */}
           <Dialog
             ScrollLock={false}
             title="Welcome"
@@ -216,7 +105,7 @@ export const AccountHeader = () => {
             }}
           >
             <div className="flex flex-col gap-6">
-              {/* ----------  ----- Google button ----- ---------- */}
+              {/* ---------- Google button ---------- */}
               <Button
                 text="Continue with Google"
                 variant="secondary"
@@ -227,7 +116,7 @@ export const AccountHeader = () => {
                 className="bg-charcoal-800 hover:bg-charcoal-700 border-charcoal-600 hover:border-charcoal-500 glass-effect border"
               />
 
-              {/* ----------  ----- Email button ----- ---------- */}
+              {/* ---------- Email button ---------- */}
               <Button
                 text="Continue with Email"
                 variant="secondary"
@@ -243,58 +132,28 @@ export const AccountHeader = () => {
             </div>
           </Dialog>
 
-          {/* ---------- login dialog ---------- */}
-          <Dialog
-            ScrollLock={false}
-            title="Log in"
+          {/* ---------- Login Dialog ---------- */}
+          <LoginDialog
             isOpen={loginIsOpen}
-            description="Log in with your existing account"
-            size="lg"
-            icon={<LogIn />}
-            buttons={{
-              cancel: {
-                text: 'Close',
-                onClick: () => {
-                  dispatch(resetError());
-                  login.reset();
-                  setLoginIsOpen(false);
-                },
-              },
-              confirm: {
-                text: 'Log in',
-                onClick: handleSubmitLogin,
-                props: { loading: user.isLoading },
-              },
+            onClose={() => {
+              dispatch(resetError());
+              login.reset();
+              setLoginIsOpen(false);
             }}
-          >
-            <FormGrid
-              fields={loginFields}
-              values={login.values}
-              errors={login.errors}
-              onChange={login.setValue}
-              columns={2}
-            />
-            {/* ---------- Already have an account link ---------- */}
-            <div className="mt-4 text-center">
-              <span className="text-charcoal-300 text-sm">
-                Don't have a account?{' '}
-                <button
-                  type="button"
-                  className="text-ember-400 cursor-pointer font-semibold hover:underline"
-                  onClick={() => {
-                    setSignUpCpfIsOpen(true);
-                    setLoginIsOpen(false);
-                  }}
-                >
-                  Create Account
-                </button>
-              </span>
-            </div>
-          </Dialog>
+            fields={loginFields}
+            loginForm={login}
+            handleSubmitLogin={handleSubmitLogin}
+            isLoading={user.isLoading}
+            onSwitchToSignUp={() => {
+              setSignUpIsOpen(true);
+              setLoginIsOpen(false);
+            }}
+          />
 
+          {/* ---------- Login Success ---------- */}
           <Modal
             title="Success!"
-            message={`Welcome back ${user.user?.first_name}`}
+            message={`Welcome back ${user.user?.first_name}!`}
             icon={<CircleCheck />}
             buttons={{
               cancel: {
@@ -306,52 +165,40 @@ export const AccountHeader = () => {
             }}
             isOpen={loginSuccess}
           />
-          {/* ---------- signup as CPF dialog ---------- */}
-          <Dialog
-            ScrollLock={false}
-            title="Sign Up as a individual"
-            isOpen={signUpCpfIsOpen}
-            description="Create your account"
-            size="lg"
-            icon={<UserPlus />}
-            onClose={() => setSignUpCpfIsOpen(false)}
+
+          {/* ---------- Signup as CPF Dialog ---------- */}
+          <SignUpDialog
+            isOpen={signUpIsOpen}
+            onClose={() => {
+              dispatch(resetError());
+              signUp.reset();
+              setSignUpIsOpen(false);
+            }}
+            fields={signUpFields}
+            signUpForm={signUp}
+            handleSubmitSignUp={handleSubmitSignUp}
+            isLoading={user.isLoading}
+            onSwitchToLogin={() => {
+              setLoginIsOpen(true);
+              setSignUpIsOpen(false);
+            }}
+          />
+
+          {/* ---------- SignUp Success ---------- */}
+          <Modal
+            title="Success!"
+            message={`You account has been succesfully created!`}
+            icon={<CircleCheck />}
             buttons={{
               cancel: {
                 text: 'Close',
-                onClick: () => setSignUpCpfIsOpen(false),
-              },
-              confirm: {
-                text: signUpCpf.isSubmitting ? 'Creating...' : 'Create User',
-                onClick: handleSubmitSignUpCPF,
-                props: { loading: signUpCpf.isSubmitting },
+                onClick() {
+                  setLoginSuccess(false);
+                },
               },
             }}
-          >
-            <FormGrid
-              fields={signUpFieldsCpf}
-              values={signUpCpf.values}
-              errors={signUpCpf.errors}
-              onChange={signUpCpf.setValue}
-              columns={2}
-            />
-            {/* ---------- Already have an account link ---------- */}
-            <div className="mt-4 flex flex-col gap-4 text-center">
-              <span className="text-charcoal-300 text-sm">
-                Already have a account?{' '}
-                <button
-                  type="button"
-                  className="text-ember-400 cursor-pointer font-semibold hover:underline"
-                  onClick={() => {
-                    false;
-                    setLoginIsOpen(true);
-                    setSignUpCpfIsOpen(false);
-                  }}
-                >
-                  Log in
-                </button>
-              </span>
-            </div>
-          </Dialog>
+            isOpen={loginSuccess}
+          />
         </main>
       </div>
     </>

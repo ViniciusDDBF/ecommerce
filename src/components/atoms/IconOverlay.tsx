@@ -1,12 +1,4 @@
-import { type ReactNode } from 'react';
-
-type IconOverlayProps = {
-  icon?: ReactNode;
-  onClick?: React.MouseEventHandler<HTMLDivElement>;
-  count?: number;
-  showBadge?: boolean;
-  [key: string]: any; // Allows arbitrary props like tabIndex, role, etc.
-};
+import type { IconOverlayProps } from '../../types';
 
 export const IconOverlay: React.FC<IconOverlayProps> = ({
   onClick,

@@ -1,7 +1,7 @@
-import type { Size } from '../../types';
+import type { Size } from '../../../types';
 
 export interface CustomerInitialsProps {
-  firstName: string | null;
+  firstName: string;
   lastName?: string;
   email?: string;
   size?: Size;

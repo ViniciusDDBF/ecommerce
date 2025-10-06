@@ -123,7 +123,6 @@ export const Dialog: React.FC<DialogProps> = ({
                   variant="secondary"
                   size="sm"
                   onClick={handleClose}
-                  {...buttons.cancel.props}
                 />
               )}
               {buttons.confirm && (
@@ -132,7 +131,6 @@ export const Dialog: React.FC<DialogProps> = ({
                   variant="primary"
                   size="sm"
                   onClick={buttons.confirm.onClick}
-                  {...buttons.confirm.props}
                 />
               )}
             </div>

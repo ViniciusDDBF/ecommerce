@@ -1,10 +1,4 @@
-import { type ReactNode } from 'react';
-
-interface LoadingDivProps {
-  loader?: boolean;
-  children?: ReactNode;
-  [key: string]: any;
-}
+import type { LoadingDivProps } from '../../types';
 
 export const LoadingDiv = ({
   loader = false,
@@ -15,7 +9,7 @@ export const LoadingDiv = ({
     <div className="relative" {...divProps}>
       {children}
       {loader && (
-        <div className="glass-effect absolute inset-0 z-10 flex items-center justify-center bg-charcoal-800 opacity-80">
+        <div className="glass-effect bg-charcoal-800 absolute inset-0 z-10 flex items-center justify-center opacity-80">
           <div className="border-ember-500 h-16 w-16 animate-spin rounded-full border-4 border-t-transparent" />
         </div>
       )}

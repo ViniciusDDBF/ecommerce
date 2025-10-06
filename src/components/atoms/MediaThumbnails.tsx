@@ -1,21 +1,11 @@
-import type { Media } from '../../features/review/Reviews';
+import type { MediaThumbnailsProps } from '../../types';
 import { CirclePlay } from 'lucide-react';
-
-interface MediaThumbnailsProps {
-  mediaList: Array<Media>;
-  currentIndex: number;
-  onSelect: (index: number) => void;
-  direction?: 'horizontal' | 'vertical';
-  maxThumbnails?: number;
-  gridColumns?: number;
-  className?: string;
-}
 
 export const MediaThumbnails: React.FC<MediaThumbnailsProps> = ({
   mediaList,
   currentIndex,
   onSelect,
-  direction = 'horizontal',
+  orientation = 'horizontal',
   maxThumbnails,
   gridColumns = 4,
   className,
@@ -30,11 +20,11 @@ export const MediaThumbnails: React.FC<MediaThumbnailsProps> = ({
     <div
       style={{
         gridTemplateColumns:
-          direction === 'vertical'
+          orientation === 'vertical'
             ? undefined
             : `repeat(${gridColumns}, minmax(0, 1fr))`,
         gridTemplateRows:
-          direction === 'vertical'
+          orientation === 'vertical'
             ? `repeat(${gridColumns}, minmax(0, 1fr))`
             : undefined,
       }}

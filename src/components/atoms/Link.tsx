@@ -1,23 +1,8 @@
-import React, { type ReactNode } from 'react';
-
-type ButtonVariant = 'text';
-type ButtonSize = 'sm' | 'md' | 'lg';
-
-interface LinkProps
-  extends Omit<React.AnchorHTMLAttributes<HTMLAnchorElement>, 'children'> {
-  text?: string | ReactNode;
-  variant?: ButtonVariant;
-  size?: ButtonSize;
-  selected?: boolean;
-  disabled?: boolean;
-  startIcon?: ReactNode;
-  endIcon?: ReactNode;
-  style?: React.CSSProperties;
-}
+import React from 'react';
+import type { LinkProps } from '../../types';
 
 export const Link: React.FC<LinkProps> = ({
   text,
-  variant = 'text',
   size = 'md',
   selected = false,
   disabled = false,
@@ -28,14 +13,20 @@ export const Link: React.FC<LinkProps> = ({
   ...props
 }) => {
   const sizeClasses = {
+    xs: 'text-xs px-1.5 py-0.5',
     sm: 'text-sm px-2 py-1',
     md: 'text-base px-3 py-1.5',
     lg: 'text-lg px-4 py-2',
+    xl: 'text-xl px-5 py-2.5',
   }[size];
 
   const baseClasses = `inline-flex items-center font-medium ${sizeClasses} transition`;
 
-  const variantClasses = `text-charcoal-200 hover:text-ember-300   ${selected ? 'text-ember-500 font-semibold underline decoration-2 underline-offset-5' : ''}`;
+  const variantClasses = `text-charcoal-200 hover:text-ember-300 ${
+    selected
+      ? 'text-ember-500 font-semibold underline decoration-2 underline-offset-5'
+      : ''
+  }`;
 
   const disabledClasses = disabled
     ? 'opacity-50 cursor-not-allowed pointer-events-none'

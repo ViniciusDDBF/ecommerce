@@ -1,13 +1,6 @@
-import type { FormFieldProps as FormFieldType } from '../../../types/hooks';
+import type { FormFieldProps } from '../../../types';
 import React from 'react';
 import { CustomCheckbox, Input, Helper, CustomSelect } from '../../atoms/';
-
-type FormFieldProps = {
-  field: FormFieldType;
-  value: any;
-  error?: string;
-  onChange: (value: any) => void;
-};
 
 export const FormField: React.FC<FormFieldProps> = ({
   field,
@@ -26,7 +19,6 @@ export const FormField: React.FC<FormFieldProps> = ({
             placeholder={field.placeholder}
             disabled={field.disabled}
             error={!!error}
-            rows={4}
           />
         );
 
@@ -52,7 +44,7 @@ export const FormField: React.FC<FormFieldProps> = ({
       default:
         return (
           <Input
-            type={field.type as any}
+            type={'text'}
             value={value || ''}
             onChange={onChange}
             placeholder={field.placeholder}

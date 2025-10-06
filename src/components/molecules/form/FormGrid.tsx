@@ -1,14 +1,6 @@
-import type { FormFieldProps as FormFieldType } from '../../../types/hooks';
+import type { FormGridProps } from '../../../types';
 import React from 'react';
 import { FormField } from '../../molecules';
-
-type FormGridProps = {
-  fields: FormFieldType[];
-  values: Record<string, any>;
-  errors: Record<string, string>;
-  onChange: (name: string, value: any) => void;
-  columns?: 1 | 2;
-};
 
 export const FormGrid: React.FC<FormGridProps> = ({
   fields,

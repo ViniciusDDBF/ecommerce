@@ -1,48 +1,17 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
-import {
-  User,
-  ShoppingBag,
-  Heart,
-  MapPin,
-  LogOut,
-  ChevronDown,
-} from 'lucide-react';
+import { User, LogOut, ChevronDown } from 'lucide-react';
 import { Button, CustomerInitials } from '../../atoms';
 import { AccountIcon } from '../../molecules';
 import { useAppDispatch, useAppSelector } from '../../../store/hooks/hooks';
 import { ThunkLogOut } from '../../../store/slices/userSlice';
+import { menuItems } from '../../molecules';
 
 export const AccountDropdown = () => {
   const [isOpen, setIsOpen] = useState(false);
   const dispatch = useAppDispatch();
   const user = useAppSelector('user');
   const navigate = useNavigate();
-
-  const menuItems = [
-    {
-      icon: <User className="h-3 w-3 sm:h-4 sm:w-4" />,
-      label: 'Profile Settings',
-      href: '/profile',
-    },
-    {
-      icon: <MapPin className="h-3 w-3 sm:h-4 sm:w-4" />,
-      label: 'Addresses',
-      href: '/addresses',
-    },
-    {
-      icon: <ShoppingBag className="h-3 w-3 sm:h-4 sm:w-4" />,
-      label: 'My Orders',
-      href: '/orders',
-      badge: '3',
-    },
-    {
-      icon: <Heart className="h-3 w-3 sm:h-4 sm:w-4" />,
-      label: 'Wishlist',
-      href: '/wishlist',
-      badge: '12',
-    },
-  ];
 
   return (
     <div className="relative inline-block">
