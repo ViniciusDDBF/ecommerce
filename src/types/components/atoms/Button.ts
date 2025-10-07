@@ -1,5 +1,5 @@
-import type { ReactNode, ComponentPropsWithoutRef } from 'react';
-import type { Size } from '../../../types';
+import type { ComponentPropsWithoutRef } from 'react';
+import type { TSize, ReactNode } from '../../../types';
 
 export type TButtonVariant = 'primary' | 'secondary' | 'ghost' | 'outline';
 
@@ -8,7 +8,7 @@ export interface ButtonProps
   onClick: () => void;
   text?: string | ReactNode;
   variant?: TButtonVariant;
-  size?: Size | 'full';
+  size?: TSize | 'full';
   loading?: boolean;
   selected?: boolean;
   startIcon?: ReactNode;
@@ -16,7 +16,7 @@ export interface ButtonProps
 }
 
 export interface SpinnerLoaderProps {
-  size: Size | 'full';
+  size: TSize | 'full';
   color: string;
 }
 

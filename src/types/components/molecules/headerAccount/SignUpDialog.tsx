@@ -1,10 +1,10 @@
-import type { IFormField } from '../../../../types';
-import { UseFormReturn } from '../../../hooks/useForm';
+import type { IFormField, useFormReturn } from '../../../../types';
+import {} from '../../../hooks/useForm';
 
 export interface SignUpDialogProps {
   isOpen: boolean;
   fields: IFormField[];
-  signUpForm: UseFormReturn;
+  signUpForm: useFormReturn;
   handleSubmitSignUp: () => void;
   isLoading: boolean;
   onSwitchToLogin: () => void;

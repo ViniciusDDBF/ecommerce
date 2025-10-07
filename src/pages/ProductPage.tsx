@@ -1,7 +1,12 @@
 import { useEffect, useRef, useState } from 'react';
 import { useNavigate, useSearchParams, useLoaderData } from 'react-router-dom';
 import { ShoppingCart } from 'lucide-react';
-import { Breadcrumbs, Button, MediaDisplay, Modal } from '../components/atoms';
+import {
+  Breadcrumbs,
+  Button,
+  MediaMainDisplay,
+  Modal,
+} from '../components/atoms';
 import {
   ProductHeader,
   VariantSelector,
@@ -9,138 +14,22 @@ import {
   Reviews,
   ProductInfoPanel,
 } from '../features/';
-import { useSmoothScroll } from '../hooks/';
+import { useScroll } from '../hooks/';
 import parseVariantHash from '../utils/variants/parseVariantHash';
 import getUpdatedVariantParams from '../utils/variants/getUpdatedVariantParams';
-import { MediaThumbnailNavigation } from '../components/atoms/MediaThumbnailNavigation';
+import { MediaThumbnails } from '../components/atoms/MediaThumbnails';
+import type { IMedia, IProduct } from '../types';
 
-// #region /* ---------- Types ---------- */
-export interface Product {
-  product_id: number;
-  product_name: string;
-  description: string;
-  product_slug: string;
-  variant_id: number;
-  sku: string;
-  current_price: number;
-  original_price: number;
-  stock: number;
-  all_images: { url: string; media_type: string }[];
-  all_variants: {
-    variant_id: number;
-    sku: string;
-    name: string;
-    current_price: number;
-    original_price: number;
-    stock: number;
-    in_stock: boolean;
-    attributes: {
-      attribute_name: string;
-      attribute_value: string;
-      attribute_id: number;
-      value_id: number;
-    }[];
-    dimensions: {
-      weight: number;
-      height: number;
-      width: number;
-      length: number;
-    };
-  }[];
-  variant_attributes: {
-    [key: string]: {
-      value: string;
-      stock?: number;
-      available_variants?: {
-        variant_id: number;
-        stock: number;
-        sku: string;
-        name: string;
-        current_price: number;
-        original_price: number;
-        dimensions: {
-          weight: number;
-          height: number;
-          width: number;
-          length: number;
-        };
-      }[];
-      needs_redirect?: boolean;
-      variant_slug?: string;
-    }[];
-  };
-  linked_variations: {
-    product_name: string;
-    product_slug: string;
-    variant_id: number;
-    primary_image_url: string;
-    primary_image_media_type: string;
-    attributes: { [key: string]: string };
-  }[];
-  category_breadcrumbs: {
-    id: number;
-    name: string;
-    slug: string;
-    level: number;
-    path: string;
-  }[];
-  rating_summary: {
-    average_rating: number;
-    review_count: number;
-    rate1: number;
-    rate2: number;
-    rate3: number;
-    rate4: number;
-    rate5: number;
-  };
-  reviews: {
-    id: number;
-    created_at: string;
-    rating: number;
-    title: string;
-    content: string;
-    is_anonymous: boolean;
-    positive_votes: number;
-    negative_votes: number;
-    customer: {
-      id: string;
-      name?: string;
-      first_name?: string;
-      last_name?: string;
-      email?: string | null;
-      phone?: string | null;
-      cpf?: string | null;
-      company_name?: string | null;
-      legal_name?: string | null;
-      cnpj?: string | null;
-      is_cpf?: boolean | null;
-    };
-    media: {
-      id: number;
-      media_type: string;
-      url: string;
-      created_at: string;
-    }[];
-  }[];
-}
-// #endregion
-
-/* ---------- Main component ---------- */
 export const ProductPage = () => {
-  // #region /* ---------- Hooks ---------- */
-  const product = useLoaderData() as Product | undefined;
+  const product = useLoaderData() as IProduct | undefined;
   const [searchParams, setSearchParams] = useSearchParams();
   const navigate = useNavigate();
-  const { scrollTo } = useSmoothScroll();
+  const { scrollTo } = useScroll();
   const sectionRef = useRef<HTMLDivElement>(null);
   const [wipIsOpen, setWipIsOpen] = useState<boolean>(false);
 
   // Initialize state with proper defaults
-  const [selectedMedia, setSelectedMedia] = useState<{
-    url: string;
-    media_type: string;
-  } | null>(() => {
-    // Set initial media immediately if available
+  const [selectedMedia, setSelectedMedia] = useState<IMedia | null>(() => {
     return product?.all_images?.[0] || null;
   });
 
@@ -212,9 +101,6 @@ export const ProductPage = () => {
   const [selectedLinkedVariation, setSelectedLinkedVariation] =
     useState<string>(initialState.linkedVariation);
 
-  // #endregion
-
-  // #region /* ---------- Functions/Effects ---------- */
   const updateUrlWithVariant = (attributes: { [key: string]: string }) => {
     const newSearchParams = getUpdatedVariantParams(attributes, searchParams);
 
@@ -260,8 +146,8 @@ export const ProductPage = () => {
   const handleAttributeSelect = (
     attributeName: string,
     value: string,
-    needsRedirect?: boolean,
-    variantSlug?: string,
+    needsRedirect: boolean,
+    variantSlug: string | null,
   ) => {
     if (needsRedirect && variantSlug && product?.linked_variations?.length) {
       if (variantSlug !== product.product_slug) {
@@ -317,7 +203,12 @@ export const ProductPage = () => {
     if (variantSlug) {
       setSelectedLinkedVariation(variantSlug);
       const variationData = linkedVariationDataMap.get(variantSlug);
-      if (variationData && variationData.primary_image_url) {
+      if (
+        variationData &&
+        variationData.primary_image_url &&
+        (variationData.primary_image_media_type === 'image' ||
+          variationData.primary_image_media_type === 'video')
+      ) {
         setSelectedMedia({
           url: variationData.primary_image_url,
           media_type: variationData.primary_image_media_type,
@@ -391,7 +282,6 @@ export const ProductPage = () => {
     stock > 5 ? 'in_stock' : stock > 0 ? 'low_stock' : 'out_of_stock';
   const currentStock = currentVariant?.stock || product?.stock || 0;
   const stockStatus = getStockStatus(currentStock);
-  // #endregion
 
   // Show loading or error state
   if (!product) {
@@ -408,20 +298,40 @@ export const ProductPage = () => {
         <main className="mx-auto max-w-7xl px-4 py-6 sm:px-6 sm:py-8 md:px-8 lg:px-12 lg:py-10">
           <div className="flex flex-col gap-6 sm:gap-8 lg:flex-row lg:gap-10 xl:gap-12">
             {/* ---------- Images ---------- */}
-            <MediaThumbnailNavigation
-              selectionMode="object"
-              mediaList={product.all_images}
-              selected={selectedMedia}
-              onSelect={(media) => {
-                if (typeof media !== 'number') {
-                  setSelectedMedia;
-                }
-              }}
-              thumbnailSize="large"
-              layout={window.innerWidth < 640 ? 'horizontal' : 'vertical'}
-            />
 
-            {selectedMedia && <MediaDisplay media={selectedMedia} />}
+            {window.innerWidth > 640 && (
+              <MediaThumbnails
+                selectionMode="object"
+                mediaList={product.all_images}
+                selected={selectedMedia}
+                onSelect={(media) => {
+                  if (typeof media !== 'number') {
+                    setSelectedMedia(media);
+                  }
+                }}
+                thumbnailSize="xl"
+                layout={'vertical'}
+              />
+            )}
+
+            {selectedMedia && (
+              <MediaMainDisplay index={1} media={selectedMedia} />
+            )}
+
+            {window.innerWidth <= 640 && (
+              <MediaThumbnails
+                selectionMode="object"
+                mediaList={product.all_images}
+                selected={selectedMedia}
+                onSelect={(media) => {
+                  if (typeof media !== 'number') {
+                    setSelectedMedia(media);
+                  }
+                }}
+                thumbnailSize="xs"
+                layout={'horizontal'}
+              />
+            )}
 
             <div className="w-full space-y-4 sm:space-y-6 lg:w-1/2 lg:space-y-8">
               {/* ---------- Breadcrumbs ---------- */}
@@ -442,7 +352,7 @@ export const ProductPage = () => {
                   currentVariant?.original_price || product.original_price
                 }
                 onClick={() => {
-                  scrollTo(sectionRef.current);
+                  scrollTo({ target: sectionRef.current });
                 }}
               />
 

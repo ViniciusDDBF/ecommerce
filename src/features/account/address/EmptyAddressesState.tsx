@@ -1,9 +1,9 @@
+import type { EmptyAddressesStateProps, FC } from '../../../types';
 import { Plus } from 'lucide-react';
-import type { EmptyAddressesStateProps } from '../../../types';
 
-export const EmptyAddressesState = ({
+export const EmptyAddressesState: FC<EmptyAddressesStateProps> = ({
   onAddClick,
-}: EmptyAddressesStateProps) => {
+}) => {
   return (
     <div className="py-6 text-center sm:py-8">
       <div onClick={onAddClick} className="group cursor-pointer">

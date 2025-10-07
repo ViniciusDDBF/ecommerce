@@ -1,13 +1,13 @@
-import type { ProductCardProps } from '../../../types';
+import type { ProductCardProps, FC } from '../../../types';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 
-export const CarouselProductCard = ({
+export const CarouselProductCard: FC<ProductCardProps> = ({
   variants,
   selectedVariantId,
   onVariantSelect,
   cardId,
-}: ProductCardProps) => {
+}) => {
   const [hoveredCard, setHoveredCard] = useState<string | null>(null);
 
   const selectedVariant =

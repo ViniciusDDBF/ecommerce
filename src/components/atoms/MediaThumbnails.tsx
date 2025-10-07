@@ -1,14 +1,15 @@
-import type { MediaThumbnailsProps } from '../../types';
+import type { MediaThumbnailNavigationProps, FC, IMedia } from '../../types';
 import { CirclePlay } from 'lucide-react';
 
-export const MediaThumbnails: React.FC<MediaThumbnailsProps> = ({
+export const MediaThumbnails: FC<MediaThumbnailNavigationProps> = ({
   mediaList,
-  currentIndex,
+  selected,
   onSelect,
-  orientation = 'horizontal',
+  selectionMode = 'object',
+  layout = 'vertical',
   maxThumbnails,
-  gridColumns = 4,
-  className,
+  className = '',
+  thumbnailSize = 'medium',
 }) => {
   const effectiveList = maxThumbnails
     ? mediaList.slice(0, maxThumbnails)
@@ -16,56 +17,69 @@ export const MediaThumbnails: React.FC<MediaThumbnailsProps> = ({
 
   if (effectiveList.length <= 1) return null;
 
+  const handleSelect = (item: IMedia, index: number) => {
+    onSelect(selectionMode === 'index' ? index : item);
+  };
+
+  const sizeClasses = {
+    xm: 'h-12 w-16',
+    sm: 'size-16',
+    md: 'size-20',
+    lg: 'size-24',
+    xl: 'h-28 w-36',
+  }[thumbnailSize];
+
+  let containerClasses = `gap-2 sm:gap-3 md:gap-4 ${className}`;
+  if (layout === 'horizontal') {
+    containerClasses += ' flex overflow-x-auto';
+  } else if (layout === 'vertical') {
+    containerClasses += ' flex flex-col ';
+  }
+
   return (
-    <div
-      style={{
-        gridTemplateColumns:
-          orientation === 'vertical'
-            ? undefined
-            : `repeat(${gridColumns}, minmax(0, 1fr))`,
-        gridTemplateRows:
-          orientation === 'vertical'
-            ? `repeat(${gridColumns}, minmax(0, 1fr))`
-            : undefined,
-      }}
-      className={`grid gap-2 ${className}`}
-    >
-      {effectiveList.map((media, index) => (
-        <button
-          key={media.id}
-          onClick={() => onSelect(index)}
-          className={`group relative aspect-square overflow-hidden rounded-lg border-2 transition-all duration-200 ${
-            index === currentIndex
-              ? 'border-ember-400'
-              : 'hover:border-charcoal-500 border-transparent'
-          }`}
-        >
-          {media.media_type === 'image' ? (
-            <img
-              src={media.url}
-              alt={`Media ${index + 1}`}
-              className={`h-full w-full object-cover ${index === currentIndex ? '' : 'cursor-pointer'}`}
-            />
-          ) : (
-            <div className="relative size-full">
-              <div className="absolute inset-0 flex items-center justify-center">
-                <CirclePlay
-                  fill="black"
-                  fillOpacity={0.3}
-                  className="text-ember-400 h-6 w-6 rounded-full"
+    <div className={containerClasses}>
+      {effectiveList.map((item, index) => {
+        const isSelected =
+          typeof selected === 'number'
+            ? selected === index
+            : selected?.url === item.url;
+        const isVideo = item.media_type === 'video';
+
+        const commonClasses = `${sizeClasses} cursor-pointer rounded-lg border-2 object-cover aspect-square transition-all duration-200 ${
+          isSelected
+            ? 'border-ember-500'
+            : 'border-transparent hover:border-ember-500'
+        }`;
+
+        const playIcon = (
+          <div className="absolute inset-0 flex items-center justify-center bg-black/30">
+            <CirclePlay className="text-ember-400 h-6 w-6 opacity-80 sm:h-8 sm:w-8" />
+          </div>
+        );
+
+        return (
+          <button
+            key={item.id || item.url || index}
+            onClick={() => handleSelect(item, index)}
+            className={`group relative overflow-hidden`}
+          >
+            {isVideo ? (
+              <div className="relative">
+                {playIcon}
+                <video
+                  src={item.url}
+                  className={`${commonClasses}`}
+                  muted
+                  controls={false}
+                  preload="metadata"
                 />
               </div>
-              <video
-                src={media.url}
-                className="h-full w-full cursor-pointer object-cover transition-transform duration-300 group-hover:scale-110"
-                muted
-                controls={false}
-                preload="metadata"
-              />
-            </div>
-          )}
-        </button>
-      ))}
+            ) : (
+              <img src={item.url} className={`${commonClasses} `} />
+            )}
+          </button>
+        );
+      })}
     </div>
   );
 };

@@ -4,4 +4,4 @@ export { useFocusTrap } from './useFocusTrap';
 export { useForm } from './useForm';
 export { useKeyPress } from './useKeyPress';
 export { useScrollLock } from './useScrollLock';
-export { useSmoothScroll } from './useSmoothScroll';
+export { useScroll } from './useScroll';

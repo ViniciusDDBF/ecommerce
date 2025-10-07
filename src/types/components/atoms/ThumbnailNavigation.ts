@@ -1,9 +1,9 @@
-import type { MediaThumbnail } from '../../../types';
+import type { IMedia } from '../../../types';
 
 export interface ThumbnailNavigationProps {
-  images: MediaThumbnail[];
-  selectedMedia?: MediaThumbnail | null;
-  setSelectedMedia: (media: MediaThumbnail | null) => void;
+  images: IMedia[];
+  selectedMedia?: IMedia | null;
+  setSelectedMedia: (media: IMedia | null) => void;
   productName: string;
   orientation?: 'horizontal' | 'vertical';
 }

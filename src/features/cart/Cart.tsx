@@ -1,3 +1,4 @@
+import type { FC } from '../../types';
 import { useRef, useState } from 'react';
 import { useNavigate } from 'react-router';
 import { X } from 'lucide-react';
@@ -5,13 +6,13 @@ import { Overlay, Drawer, Button } from '../../components/atoms';
 import { CartIcon } from '../../features';
 import { useClickOutside, useScrollLock } from '../../hooks/';
 
-export const Cart = () => {
+export const Cart: FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const cartRef = useRef<HTMLDivElement | null>(null);
   const navigate = useNavigate();
 
-  useClickOutside(cartRef, () => setIsOpen(false));
-  useScrollLock(isOpen);
+  useClickOutside({ ref: cartRef, callback: () => setIsOpen(false) });
+  useScrollLock({ isActive: isOpen });
 
   return (
     <>

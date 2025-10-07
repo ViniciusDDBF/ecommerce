@@ -1,4 +1,4 @@
-import type { MaskType } from '../../../../types';
+import type { TMaskType } from '../../../../types';
 
 interface IValidation {
   minLength?: number;
@@ -16,7 +16,7 @@ export interface IFormField {
   validation?: IValidation;
   colSpan?: 1 | 2;
   className?: string;
-  applyMask?: MaskType;
+  applyMask?: TMaskType;
   helper?: { text: string; value?: string };
   confirmField?: string;
   disabled?: boolean;

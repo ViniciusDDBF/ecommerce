@@ -1,4 +1,4 @@
-import type { SignUpArgs } from '../../../types';
+import type { SignUpArgs, FC } from '../../../types';
 import { useEffect, useState } from 'react';
 import { LogIn, CircleCheck, Mail, MessageCircleX } from 'lucide-react';
 import { Dialog, Button, Modal } from '../../atoms/';
@@ -31,12 +31,12 @@ const handleGoogleSignIn = async () => {
   } catch (err) {}
 };
 
-export const AccountHeader = () => {
+export const AccountHeader: FC = () => {
   const [choicesIsOpen, setChoicesIsOpen] = useState(false);
   const [loginIsOpen, setLoginIsOpen] = useState(false);
   const [signUpIsOpen, setSignUpIsOpen] = useState(false);
-  const login = useForm(loginFields);
-  const signUp = useForm(signUpFields);
+  const login = useForm({ fields: loginFields, initialValues: {} });
+  const signUp = useForm({ fields: signUpFields, initialValues: {} });
   const dispatch = useAppDispatch();
   const user = useAppSelector('user');
   const [isLocked, setIsLocked] = useState(false);
@@ -66,7 +66,7 @@ export const AccountHeader = () => {
     signUpSuccess,
     errorModal,
   ]);
-  useScrollLock(isLocked);
+  useScrollLock({ isActive: isLocked });
 
   const handleSubmitLogin = async () => {
     if (!login.validate()) return;

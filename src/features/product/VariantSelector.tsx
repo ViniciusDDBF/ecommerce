@@ -1,44 +1,7 @@
-import type { Product } from '../../pages/ProductPage';
+import type { VariantSelectorProps, FC } from '../../types';
 import { Button } from '../../components/atoms';
 
-interface AttributeOption {
-  name: string;
-  values: {
-    value: string;
-    stock: number;
-    available_variants: { variant_id: number; stock: number }[];
-    needs_redirect: boolean;
-    variant_slug: string;
-  }[];
-  hasRedirect: boolean;
-}
-
-interface VariantSelectorProps {
-  attributeOptions: AttributeOption[];
-  selectedAttributes: { [key: string]: string };
-  handleAttributeSelect: (
-    attributeName: string,
-    value: string,
-    needsRedirect?: boolean,
-    variantSlug?: string,
-  ) => void;
-  handleLinkedVariationSelect: (variantSlug: string) => void;
-  linkedVariationDataMap: Map<
-    string,
-    {
-      product_name: string;
-      product_slug: string;
-      variant_id: number;
-      primary_image_url: string;
-      primary_image_media_type: string;
-      attributes: { [key: string]: string };
-    }
-  >;
-  product: Product;
-  selectedLinkedVariation: string;
-}
-
-export const VariantSelector = ({
+export const VariantSelector: FC<VariantSelectorProps> = ({
   attributeOptions,
   selectedAttributes,
   handleAttributeSelect,
@@ -46,7 +9,7 @@ export const VariantSelector = ({
   linkedVariationDataMap,
   product,
   selectedLinkedVariation,
-}: VariantSelectorProps) => {
+}) => {
   return (
     <div className="space-y-3 sm:space-y-4 lg:space-y-6">
       {attributeOptions.map((attributeOption, idx) => {

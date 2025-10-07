@@ -1,8 +1,8 @@
+import type { MediaNavigationProps, FC } from '../../types';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
-import { Button } from '../../components/atoms';
-import type { MediaNavigationProps } from '../../types';
+import { Button } from '.';
 
-export const MediaNavigation: React.FC<MediaNavigationProps> = ({
+export const MediaNavigationButtons: FC<MediaNavigationProps> = ({
   hasNavigation,
   onPrev,
   onNext,

@@ -1,13 +1,7 @@
-import React, { type ReactNode } from 'react';
+import type { AccountSectionHeaderProps, FC } from '../../types/';
 import { Button } from '../../components/atoms';
 
-interface AccountSectionHeaderProps {
-  title: string;
-  subtitle: string;
-  button?: { icon: ReactNode; text: string; onClick: () => void };
-}
-
-export const AccountSectionHeader: React.FC<AccountSectionHeaderProps> = ({
+export const AccountSectionHeader: FC<AccountSectionHeaderProps> = ({
   title,
   subtitle,
   button,
@@ -23,11 +17,11 @@ export const AccountSectionHeader: React.FC<AccountSectionHeaderProps> = ({
       </div>
       {button && (
         <Button
-          text={button?.text}
+          text={button.text}
           variant="primary"
           size="sm"
-          startIcon={button?.icon}
-          onClick={button?.onClick}
+          startIcon={button.startIcon}
+          onClick={button.onClick}
           className="w-full sm:w-auto"
         />
       )}

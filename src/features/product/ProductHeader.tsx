@@ -1,22 +1,14 @@
+import type { ProductHeaderProps, FC } from '../../types';
 import { ProductReviewsHeader } from '../../features';
 
-interface ProductHeaderProps {
-  productName: string;
-  currentPrice: number;
-  originalPrice: number;
-  averageRating: number;
-  reviewCount: number;
-  onClick?: () => void;
-}
-
-export const ProductHeader = ({
+export const ProductHeader: FC<ProductHeaderProps> = ({
   productName,
   currentPrice,
   originalPrice,
   averageRating,
   reviewCount,
   onClick,
-}: ProductHeaderProps) => {
+}) => {
   return (
     <div className="space-y-3 sm:space-y-4 lg:space-y-6">
       {/* ---------- Product Title ---------- */}

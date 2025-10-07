@@ -1,19 +1,13 @@
-import React from 'react';
+import type { RatingCircleProps, FC } from '../../types';
 import { Star } from 'lucide-react';
 
-interface RatingCircleProps extends React.HTMLAttributes<HTMLDivElement> {
-  review_count: number;
-  average: number;
-  className: string;
-}
-
-export const RatingCircle: React.FC<RatingCircleProps> = ({
+export const RatingCircle: FC<RatingCircleProps> = ({
   average,
   review_count,
   className,
 }) => {
   const circleProgress = (average / 5) * 100;
-  const circumference = 2 * Math.PI * 45; // radius = 45
+  const circumference = 2 * Math.PI * 45;
   const strokeDashoffset =
     circumference - (circleProgress / 100) * circumference;
 

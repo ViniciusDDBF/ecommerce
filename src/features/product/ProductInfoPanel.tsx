@@ -1,19 +1,10 @@
-interface ProductInfoPanelProps {
-  sku: string;
-  description: string;
-  dimensions?: {
-    weight: number;
-    height: number;
-    width: number;
-    length: number;
-  };
-}
+import type { ProductInfoPanelProps, FC } from '../../types';
 
-export const ProductInfoPanel = ({
+export const ProductInfoPanel: FC<ProductInfoPanelProps> = ({
   sku,
   description,
   dimensions,
-}: ProductInfoPanelProps) => {
+}) => {
   return (
     <div className="bg-charcoal-600 glass-effect rounded-xl p-4 sm:p-6">
       <h3 className="text-charcoal-50 mb-3 text-base font-semibold sm:mb-4 sm:text-lg md:text-xl">

@@ -3,11 +3,12 @@ import type {
   SpinnerLoaderProps,
   GetVariantStylesParams,
   IVariantStyles,
+  FC,
 } from '../../types';
 import React from 'react';
 
 /* ----------- Spinner Loader ----------- */
-const SpinnerLoader: React.FC<SpinnerLoaderProps> = ({ size, color }) => {
+const SpinnerLoader: FC<SpinnerLoaderProps> = ({ size, color }) => {
   const spinnerConfig = {
     xs: { diameter: 14, strokeWidth: 2, className: 'w-3.5 h-3.5' },
     sm: { diameter: 16, strokeWidth: 2, className: 'w-4 h-4' },

@@ -1,10 +1,10 @@
-import type { DialogProps } from '../../types';
+import type { DialogProps, FC } from '../../types';
 import React, { useRef, useEffect } from 'react';
 import { X } from 'lucide-react';
 import { Button, Overlay } from '../atoms';
 import { useScrollLock, useFocusTrap, useClickOutside } from '../../hooks';
 
-export const Dialog: React.FC<DialogProps> = ({
+export const Dialog: FC<DialogProps> = ({
   ScrollLock = true,
   isOpen,
   title,
@@ -22,8 +22,12 @@ export const Dialog: React.FC<DialogProps> = ({
     ? `dialog-description-${React.useId()}`
     : undefined;
 
-  if (ScrollLock) useScrollLock(isOpen);
-  useFocusTrap(isOpen, dialogRef, openedByClick);
+  if (ScrollLock) useScrollLock({ isActive: isOpen });
+  useFocusTrap({
+    isActive: isOpen,
+    openedByClick: openedByClick,
+    ref: dialogRef,
+  });
 
   const sizeClasses = {
     xs: 'max-w-[90vw] sm:max-w-xs',
@@ -56,7 +60,7 @@ export const Dialog: React.FC<DialogProps> = ({
     }
   }, [isOpen]);
 
-  useClickOutside(dialogRef, handleClose);
+  useClickOutside({ ref: dialogRef, callback: handleClose });
 
   if (!isOpen) return null;
 

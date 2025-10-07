@@ -1,7 +1,8 @@
+import type { EmptyReviewCardProps, FC } from '../../../types';
 import { MessageSquare, Star } from 'lucide-react';
 import { Button } from '../../../components/atoms';
 
-export const EmptyReviewCard = ({ onClick }: { onClick: () => void }) => {
+export const EmptyReviewCard: FC<EmptyReviewCardProps> = ({ onClick }) => {
   return (
     <div className="mx-auto w-full max-w-2xl p-4">
       {/* Empty State Container */}

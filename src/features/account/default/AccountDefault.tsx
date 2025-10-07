@@ -1,7 +1,8 @@
+import type { FC } from '../../../types';
 import { useNavigate } from 'react-router';
 import { User, MapPin, Package, Heart } from 'lucide-react';
 
-export const AccountDefault = () => {
+export const AccountDefault: FC = () => {
   const navigate = useNavigate();
 
   const sections = [

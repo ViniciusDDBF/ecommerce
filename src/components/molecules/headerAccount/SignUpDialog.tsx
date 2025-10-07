@@ -1,9 +1,9 @@
+import type { SignUpDialogProps, FC } from '../../../types';
 import { Dialog } from '../../atoms';
 import { UserPlus } from 'lucide-react';
 import { FormGrid } from '../form/FormGrid';
-import type { SignUpDialogProps } from '../../../types';
 
-export const SignUpDialog: React.FC<SignUpDialogProps> = ({
+export const SignUpDialog: FC<SignUpDialogProps> = ({
   isOpen,
   onClose,
   signUpForm,

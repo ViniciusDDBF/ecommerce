@@ -1,7 +1,6 @@
-import React from 'react';
-import type { LinkProps } from '../../types';
+import type { LinkProps, FC } from '../../types';
 
-export const Link: React.FC<LinkProps> = ({
+export const Link: FC<LinkProps> = ({
   text,
   size = 'md',
   selected = false,

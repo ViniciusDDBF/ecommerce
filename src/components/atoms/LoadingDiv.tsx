@@ -1,10 +1,10 @@
-import type { LoadingDivProps } from '../../types';
+import type { LoadingDivProps, FC } from '../../types';
 
-export const LoadingDiv = ({
+export const LoadingDiv: FC<LoadingDivProps> = ({
   loader = false,
   children,
   ...divProps
-}: LoadingDivProps) => {
+}) => {
   return (
     <div className="relative" {...divProps}>
       {children}

@@ -1,14 +1,7 @@
 import { Star } from 'lucide-react';
+import type { StarRatingProps, FC } from '../../types';
 
-interface StarRatingProps {
-  rating: number;
-  setRating: (value: number) => void;
-}
-
-export const StarRating: React.FC<StarRatingProps> = ({
-  rating,
-  setRating,
-}) => {
+export const StarRating: FC<StarRatingProps> = ({ rating, setRating }) => {
   return (
     <div>
       <h2 className="text-charcoal-50 flex justify-center text-xl font-bold">

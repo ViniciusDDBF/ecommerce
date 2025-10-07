@@ -1,10 +1,6 @@
-import type { Review } from '../Reviews';
+import type { ReviewContentProps, FC } from '../../../types';
 
-interface ReviewContentProps {
-  review: Review;
-}
-
-export const ReviewContent: React.FC<ReviewContentProps> = ({ review }) => {
+export const ReviewContent: FC<ReviewContentProps> = ({ review }) => {
   return (
     <div className="space-y-4">
       <h3 className="text-charcoal-50 text-lg leading-tight font-bold break-words md:text-xl">

@@ -1,3 +1,4 @@
+import type { ReviewsProps, FC, IReview } from '../../types';
 import { useState, useEffect, useMemo, useRef } from 'react';
 import { Button, Modal } from '../../components/atoms';
 import {
@@ -8,73 +9,16 @@ import {
   RatingFilter,
   RatingCircle,
   CreateReviewModal,
-} from '..';
-import { useScrollLock, useSmoothScroll } from '../../hooks';
+} from '../../features';
+import { useScrollLock, useScroll } from '../../hooks';
 import { useAppSelector } from '../../store/hooks/hooks';
 import { supabase } from '../../SupabaseConfig';
 
-// #region /* ---------- Types ---------- */
-export interface Customer {
-  id: string;
-  name?: string;
-  first_name?: string;
-  last_name?: string;
-  email?: string | null;
-  phone?: string | null;
-  cpf?: string | null;
-  company_name?: string | null;
-  legal_name?: string | null;
-  cnpj?: string | null;
-  is_cpf?: boolean | null;
-}
-
-export interface Media {
-  id?: number;
-  media_type: string;
-  url: string;
-  created_at?: string;
-}
-
-export interface Review {
-  id: number;
-  created_at: string;
-  rating: number;
-  title: string;
-  content: string;
-  is_anonymous: boolean;
-  positive_votes: number;
-  negative_votes: number;
-  customer: Customer;
-  media: Media[];
-}
-
-interface RatingSummary {
-  average_rating: number;
-  review_count: number;
-  rate1: number;
-  rate2: number;
-  rate3: number;
-  rate4: number;
-  rate5: number;
-}
-
-interface EnhancedReviewCardProps {
-  reviews: Review[];
-  isLoggedIn: boolean;
-  ratingSummary: RatingSummary;
-  productId: number;
-}
-
-// #endregion
-
-/* ---------- MAIN COMPONENT ---------- */
-export const Reviews = ({
+export const Reviews: FC<ReviewsProps> = ({
   reviews,
   ratingSummary,
   productId,
-}: EnhancedReviewCardProps) => {
-  // #region /* ---------- Hooks/State ---------- */
-
+}) => {
   const user = useAppSelector('user');
   const [needsToLogIn, setNeedsToLogIn] = useState(false);
   const [reviewStates, setReviewStates] = useState<{
@@ -86,7 +30,7 @@ export const Reviews = ({
       isExpanded: boolean;
     };
   }>({});
-  const [selectedReview, setSelectedReview] = useState<Review | null>(null);
+  const [selectedReview, setSelectedReview] = useState<IReview | null>(null);
   const [currentMediaIndex, setCurrentMediaIndex] = useState(0);
   const [isCarouselMode, setIsCarouselMode] = useState(false);
   const [error, setError] = useState('');
@@ -95,10 +39,10 @@ export const Reviews = ({
   const [sortBy, setSortBy] = useState<string>('latest'); // Being defined in ReviewSortBy
   const [createReview, setCreateReview] = useState<boolean>(false);
   const sectionRef = useRef<HTMLDivElement>(null);
-  const { scrollTo } = useSmoothScroll();
+  const { scrollTo } = useScroll();
 
   const pageSize = 5;
-  useScrollLock(selectedReview !== null);
+  useScrollLock({ isActive: selectedReview !== null });
 
   // #endregion
 
@@ -214,7 +158,7 @@ export const Reviews = ({
 
   /* ---------- Open review modal ---------- */
   const openReviewModal = (
-    review: Review,
+    review: IReview,
     mediaIndex: number = 0,
     fromCarousel: boolean = false,
   ) => {
@@ -361,9 +305,7 @@ export const Reviews = ({
         <div className="bg-charcoal-900 p-10">
           <EmptyReviewCard
             onClick={() => {
-              console.log('vini');
               setCreateReview(true);
-              console.log(createReview);
             }}
           />
         </div>
@@ -407,7 +349,9 @@ export const Reviews = ({
             onRatingSelect={(e) => {
               setRatingFilter(e);
               setCurrentPage(1);
-              scrollTo(sectionRef.current);
+              scrollTo({
+                target: sectionRef.current ? sectionRef.current : null,
+              });
             }}
             className="md:border-charcoal-700 md:border-x-1"
           />

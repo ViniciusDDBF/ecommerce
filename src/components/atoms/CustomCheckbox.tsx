@@ -1,6 +1,6 @@
-import type { CustomCheckboxProps } from '../../types';
+import type { CustomCheckboxProps, FC  } from '../../types';
 
-export const CustomCheckbox: React.FC<CustomCheckboxProps> = ({
+export const CustomCheckbox: FC<CustomCheckboxProps> = ({
   label,
   checked,
   onChange,

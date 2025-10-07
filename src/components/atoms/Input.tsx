@@ -1,7 +1,6 @@
-import React from 'react';
-import type { InputProps } from '../../types';
+import type { InputProps, FC  } from '../../types';
 
-export const Input: React.FC<InputProps> = ({
+export const Input: FC<InputProps> = ({
   type = 'text',
   value,
   onChange,

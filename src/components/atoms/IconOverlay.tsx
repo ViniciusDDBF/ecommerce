@@ -1,6 +1,6 @@
-import type { IconOverlayProps } from '../../types';
+import type { IconOverlayProps, FC  } from '../../types';
 
-export const IconOverlay: React.FC<IconOverlayProps> = ({
+export const IconOverlay: FC<IconOverlayProps> = ({
   onClick,
   icon,
   count,

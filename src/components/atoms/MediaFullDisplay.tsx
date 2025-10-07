@@ -1,8 +1,8 @@
-import type { FullMediaViewerProps } from '../../types';
+import type { FullMediaViewerProps, FC } from '../../types';
 import { X } from 'lucide-react';
-import { Button, Overlay } from '../../components/atoms';
+import { Button, Overlay } from '.';
 
-export const FullMediaViewer: React.FC<FullMediaViewerProps> = ({
+export const MediaFullDisplay: FC<FullMediaViewerProps> = ({
   mediaUrl,
   alt,
   isOpen,

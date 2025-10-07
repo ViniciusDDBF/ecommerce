@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import type { FC } from '../../types';
+import { useState } from 'react';
 import { Link, Modal } from '../../components/atoms';
 
-export const CategoryNav: React.FC = () => {
+export const CategoryNav: FC = () => {
   const [activeCategory, setActiveCategory] = useState('All');
   const [wipIsOpen, setWipIsOpen] = useState<boolean>(false);
 
@@ -25,7 +26,6 @@ export const CategoryNav: React.FC = () => {
               <Link
                 key={category}
                 text={category}
-                variant="text"
                 size="sm"
                 selected={activeCategory === category}
                 onClick={() => {

@@ -1,10 +1,10 @@
-import type { CarouselProps, PositionX } from '../../../types';
+import type { CarouselProps, TPositionX, FC } from '../../../types';
 import { useRef, useState } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { Button } from '../../atoms';
 import { CarouselProductCard } from '../../molecules';
 
-export const Carousel = ({ data, className = '' }: CarouselProps) => {
+export const Carousel: FC<CarouselProps> = ({ data, className = '' }) => {
   const scrollRef = useRef<HTMLDivElement>(null);
   const [selectedProducts, setSelectedProducts] = useState<{
     [carouselId: string]: { [groupIndex: number]: number };
@@ -15,7 +15,7 @@ export const Carousel = ({ data, className = '' }: CarouselProps) => {
     (a, b) => (a.carousel_display_order || 0) - (b.carousel_display_order || 0),
   );
 
-  const scroll = (direction: PositionX) => {
+  const scroll = (direction: TPositionX) => {
     if (scrollRef.current) {
       const cardWidth = window.innerWidth < 640 ? window.innerWidth * 0.8 : 320;
       const gap = window.innerWidth < 640 ? 16 : 24;

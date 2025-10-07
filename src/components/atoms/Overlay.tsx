@@ -1,11 +1,7 @@
-import type { OverlayProps } from '../../types';
+import type { OverlayProps, FC } from '../../types';
 import React from 'react';
 
-export const Overlay: React.FC<OverlayProps> = ({
-  isOpen,
-  onClick,
-  children,
-}) => {
+export const Overlay: FC<OverlayProps> = ({ isOpen, onClick, children }) => {
   if (!isOpen) return null;
 
   const handleClick: React.MouseEventHandler<HTMLDivElement> = (e) => {

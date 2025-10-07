@@ -1,4 +1,4 @@
-import type { AddressData } from '../../../types';
+import type { AddressData, FC } from '../../../types';
 import { useState } from 'react';
 import { Plus } from 'lucide-react';
 import {
@@ -17,7 +17,7 @@ import {
 } from '../../../store/slices/userSlice';
 import { addressFields } from './constants';
 
-export const Addresses = () => {
+export const Addresses: FC = () => {
   const [addressSelected, setAddressSelected] = useState<AddressData | null>(
     null,
   );
@@ -87,7 +87,7 @@ export const Addresses = () => {
           title="My Addresses"
           subtitle="Manage your delivery locations"
           button={{
-            icon: <Plus className="h-4 w-4 sm:h-5 sm:w-5" />,
+            startIcon: <Plus className="h-4 w-4 sm:h-5 sm:w-5" />,
             text: 'Add Address',
             onClick: () => setCreateIsOpen(true),
           }}
@@ -125,18 +125,21 @@ export const Addresses = () => {
           onSubmit={handleCreateAddress}
           onClose={() => setCreateIsOpen(false)}
           isLoading={user.isLoading}
+          initialValues={{}}
         />
 
         {/* Update Dialog */}
-        <AddressFormDialog
-          mode="update"
-          isOpen={updateIsOpen}
-          fields={addressFields}
-          initialValues={addressSelected ?? undefined}
-          onSubmit={handleUpdateAddress}
-          onClose={() => setUpdateIsOpen(false)}
-          isLoading={user.isLoading}
-        />
+        {addressSelected && (
+          <AddressFormDialog
+            mode="update"
+            isOpen={updateIsOpen}
+            fields={addressFields}
+            initialValues={addressSelected}
+            onSubmit={handleUpdateAddress}
+            onClose={() => setUpdateIsOpen(false)}
+            isLoading={user.isLoading}
+          />
+        )}
 
         {/* Delete Modal */}
         <DeleteAddressModal

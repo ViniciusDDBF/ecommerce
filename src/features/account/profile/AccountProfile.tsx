@@ -1,63 +1,26 @@
-import type { FormFieldProps } from '../../../types/hooks';
+import type { UserData, FC } from '../../../types';
 import { useState } from 'react';
 import { Edit2 } from 'lucide-react';
 import { Dialog, CustomerInitials } from '../../../components/atoms';
 import { FormGrid } from '../../../components/molecules';
-import { AccountSectionHeader } from '../../../features';
+import { AccountSectionHeader, editUserFields } from '../../../features';
 import { useForm } from '../../../hooks';
 import { useAppDispatch, useAppSelector } from '../../../store/hooks/hooks';
-import {
-  ThunkUpdateUser,
-  type UserData,
-} from '../../../store/slices/userSlice';
+import { ThunkUpdateUser } from '../../../store/slices/userSlice';
 
-const editUserFields: FormFieldProps[] = [
-  {
-    name: 'first_name',
-    label: 'First Name',
-    type: 'text',
-    placeholder: 'Enter your first name',
-    colSpan: 2,
-    validation: { required: true },
-  },
-  {
-    name: 'last_name',
-    label: 'Last Name',
-    type: 'text',
-    placeholder: 'Enter your last name',
-    colSpan: 2,
-    validation: { required: true },
-  },
-  {
-    name: 'phone',
-    label: 'Phone',
-    type: 'text',
-    placeholder: 'Enter your phone number',
-    colSpan: 2,
-    applyMask: 'phone',
-    validation: { required: true },
-  },
-  {
-    name: 'email',
-    label: 'Email',
-    type: 'email',
-    placeholder: 'Enter your email',
-    colSpan: 2,
-    validation: { required: true },
-    disabled: true,
-  },
-];
-
-export const AccountProfile = () => {
+export const AccountProfile: FC = () => {
   const user = useAppSelector('user');
   const dispatch = useAppDispatch();
 
   const [isOpen, setIsOpen] = useState(false);
-  const editUser = useForm(editUserFields, {
-    first_name: user.user?.first_name,
-    last_name: user.user?.last_name,
-    email: user.user?.email,
-    phone: user.user?.phone,
+  const editUser = useForm({
+    fields: editUserFields,
+    initialValues: {
+      first_name: user.user?.first_name,
+      last_name: user.user?.last_name,
+      email: user.user?.email,
+      phone: user.user?.phone,
+    },
   });
 
   const handleUpdateUser = async () => {
@@ -87,7 +50,7 @@ export const AccountProfile = () => {
         title="My Profile"
         subtitle="Manage your personal information"
         button={{
-          icon: <Edit2 className="h-3 w-3 sm:h-4 sm:w-4" />,
+          startIcon: <Edit2 className="h-3 w-3 sm:h-4 sm:w-4" />,
           text: 'Edit Profile',
           onClick: () => setIsOpen(true),
         }}
@@ -176,7 +139,7 @@ export const AccountProfile = () => {
           confirm: {
             text: editUser.isSubmitting ? 'Saving...' : 'Save Changes',
             onClick: handleUpdateUser,
-            props: { loading: user.isLoading },
+            loading: user.isLoading,
           },
         }}
       >

@@ -1,8 +1,7 @@
-import type { FormFieldProps } from '../../../types';
-import React from 'react';
+import type { FormFieldProps, FC } from '../../../types';
 import { CustomCheckbox, Input, Helper, CustomSelect } from '../../atoms/';
 
-export const FormField: React.FC<FormFieldProps> = ({
+export const FormField: FC<FormFieldProps> = ({
   field,
   value,
   error,

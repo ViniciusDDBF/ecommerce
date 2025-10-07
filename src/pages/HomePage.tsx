@@ -7,7 +7,6 @@ import { Carousel } from '../components/molecules';
 export const Homepage = () => {
   const data = useLoaderData();
   const [wipIsOpen, setWipIsOpen] = useState<boolean>(false);
-
   return (
     <>
       {/* ---------- Main banner ---------- */}

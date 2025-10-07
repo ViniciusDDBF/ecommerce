@@ -1,11 +1,11 @@
-import type { AddressFormDialogProps } from '../../../types';
+import type { AddressFormDialogProps, FC } from '../../../types';
 import { useEffect } from 'react';
 import { Edit3 } from 'lucide-react';
 import { Dialog } from '../../../components/atoms';
 import { FormGrid } from '../../../components/molecules';
 import { useForm } from '../../../hooks';
 
-export const AddressFormDialog = ({
+export const AddressFormDialog: FC<AddressFormDialogProps> = ({
   mode,
   isOpen,
   fields,
@@ -13,8 +13,8 @@ export const AddressFormDialog = ({
   onSubmit,
   onClose,
   isLoading,
-}: AddressFormDialogProps) => {
-  const form = useForm(fields, initialValues);
+}) => {
+  const form = useForm({ fields, initialValues });
 
   useEffect(() => {
     if (initialValues) {
@@ -40,7 +40,6 @@ export const AddressFormDialog = ({
       size="xl"
       icon={<Edit3 className="h-4 w-4 sm:h-5 sm:w-5" />}
       onClose={() => {
-        form.reset();
         onClose();
       }}
       buttons={{

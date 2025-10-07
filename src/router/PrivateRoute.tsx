@@ -3,7 +3,7 @@ import { Navigate, Outlet } from 'react-router';
 import { LoadingOverlay } from '../components/atoms';
 import { useAppSelector } from '../store/hooks/hooks';
 
-export const PrivateRoute: React.FC = () => {
+export const PrivateRoute: FC = () => {
   const user = useAppSelector('user');
 
   // If still loading (PersistGate + fetch), show overlay

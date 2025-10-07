@@ -1,9 +1,9 @@
-import type { CustomSelectProps, ISelectOption } from '../../types';
-import React, { useState, useRef, useEffect } from 'react';
+import type { CustomSelectProps, ISelectOption, FC } from '../../types';
+import { useState, useRef, useEffect } from 'react';
 import { ChevronDown, Check } from 'lucide-react';
 import { useClickOutside } from '../../hooks/';
 
-export const CustomSelect: React.FC<CustomSelectProps> = ({
+export const CustomSelect: FC<CustomSelectProps> = ({
   options = [],
   placeholder = 'Select...',
   value = '',
@@ -14,7 +14,7 @@ export const CustomSelect: React.FC<CustomSelectProps> = ({
   const [selectedValue, setSelectedValue] = useState<string>(value);
   const selectRef = useRef<HTMLDivElement>(null);
 
-  useClickOutside(selectRef, () => setIsOpen(false));
+  useClickOutside({ ref: selectRef, callback: () => setIsOpen(false) });
 
   useEffect(() => {
     setSelectedValue(value);

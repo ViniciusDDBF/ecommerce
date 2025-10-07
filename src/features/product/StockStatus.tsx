@@ -1,12 +1,9 @@
-interface StockStatusProps {
-  stockStatus: string;
-  currentStock: number;
-}
+import type { StockStatusProps, FC } from '../../types';
 
-export const StockStatus = ({
+export const StockStatus: FC<StockStatusProps> = ({
   stockStatus,
   currentStock,
-}: StockStatusProps) => {
+}) => {
   if (stockStatus === 'in_stock') return null;
 
   return (

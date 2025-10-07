@@ -1,6 +1,6 @@
-import type { MediaDisplayProps } from '../../types';
+import type { MediaDisplayProps, FC } from '../../types';
 
-export const MediaDisplay: React.FC<MediaDisplayProps> = ({
+export const MediaMainDisplay: FC<MediaDisplayProps> = ({
   media,
   index,
   onImageClick,
@@ -17,7 +17,7 @@ export const MediaDisplay: React.FC<MediaDisplayProps> = ({
       ) : (
         <div
           onClick={onImageClick}
-          className="flex h-full w-full cursor-pointer items-center justify-center"
+          className={`flex h-full w-full ${onImageClick ? 'cursor-pointer' : null} items-center justify-center`}
         >
           <img
             src={media.url}

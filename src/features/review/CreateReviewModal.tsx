@@ -1,3 +1,4 @@
+import type { CreateReviewModalProps, FC, IFileWithPreview } from '../../types';
 import React, { useState, useRef } from 'react';
 import { X, Upload, FileVideo, FileImage } from 'lucide-react';
 import { Overlay, Button } from '../../components/atoms';
@@ -7,28 +8,13 @@ import { useScrollLock } from '../../hooks';
 import { supabase } from '../../SupabaseConfig';
 import { useAppSelector } from '../../store/hooks/hooks';
 
-interface CreateReviewModalProps {
-  isOpen: boolean;
-  onClose?: () => void;
-  productId: number;
-}
-
-interface FileWithPreview {
-  id: string;
-  file: File;
-  preview: string;
-  type: 'image' | 'video';
-  name: string;
-  size: string;
-}
-
-export const CreateReviewModal: React.FC<CreateReviewModalProps> = ({
+export const CreateReviewModal: FC<CreateReviewModalProps> = ({
   isOpen,
   onClose,
   productId,
 }) => {
   const [rating, setRating] = useState(0);
-  const [files, setFiles] = useState<FileWithPreview[]>([]);
+  const [files, setFiles] = useState<IFileWithPreview[]>([]);
   const [isDragging, setIsDragging] = useState<boolean>(false);
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -36,7 +22,7 @@ export const CreateReviewModal: React.FC<CreateReviewModalProps> = ({
   const [reviewContent, setReviewContent] = useState<string | null>(null);
   const user = useAppSelector('user');
 
-  useScrollLock(isOpen);
+  useScrollLock({ isActive: isOpen });
 
   const handleClose = () => {
     if (onClose) onClose();
@@ -57,7 +43,7 @@ export const CreateReviewModal: React.FC<CreateReviewModalProps> = ({
       return isImage || isVideo;
     });
 
-    const filesWithPreview: FileWithPreview[] = validFiles.map((file) => ({
+    const filesWithPreview: IFileWithPreview[] = validFiles.map((file) => ({
       id: Math.random().toString(36).substr(2, 9),
       file,
       preview: URL.createObjectURL(file),

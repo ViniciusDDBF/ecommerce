@@ -1,8 +1,8 @@
+import type { HelperProps, FC } from '../../types';
 import { useState } from 'react';
 import { CircleQuestionMark } from 'lucide-react';
-import type { HelperProps } from '../../types';
 
-export const Helper: React.FC<HelperProps> = ({ tooltip, value, onClick }) => {
+export const Helper: FC<HelperProps> = ({ tooltip, value, onClick }) => {
   const [isHovered, setIsHovered] = useState(false);
 
   const classes = [

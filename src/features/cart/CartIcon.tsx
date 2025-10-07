@@ -1,14 +1,10 @@
+import type { CartIconProps, FC } from '../../types';
 import { ShoppingCart } from 'lucide-react';
 import { IconOverlay } from '../../components/atoms';
 import { useKeyPress } from '../../hooks';
 
-type CartIconProps = {
-  count?: number;
-  onClick?: React.MouseEventHandler<HTMLDivElement>;
-};
-
-export const CartIcon: React.FC<CartIconProps> = ({ count = 1, onClick }) => {
-  const handleKeyDown = useKeyPress(onClick);
+export const CartIcon: FC<CartIconProps> = ({ count = 1, onClick }) => {
+  const handleKeyDown = useKeyPress({ onClick });
 
   return (
     <IconOverlay

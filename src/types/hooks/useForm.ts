@@ -1,23 +1,12 @@
-import type { MaskType } from '../../types';
 import type { Dispatch, SetStateAction } from 'react';
+import type { IFormField } from '../../types';
 
-export interface ValidationProps {
-  required?: boolean;
-  minLength?: number;
-  maxLength?: number;
-  custom?: (value: string) => string | undefined;
+export interface useFormParams {
+  fields: IFormField[];
+  initialValues: Record<string, any>;
 }
 
-export interface FormFieldProps {
-  name: string;
-  type?: 'text' | 'email' | 'password' | 'checkbox' | string;
-  label?: string;
-  applyMask?: MaskType;
-  confirmField?: string;
-  validation?: ValidationProps;
-}
-
-export interface UseFormReturn {
+export interface useFormReturn {
   values: Record<string, any>;
   errors: Record<string, string>;
   isSubmitting: boolean;

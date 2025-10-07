@@ -1,7 +1,7 @@
-import type { CinematicTitleProps } from '../../types';
-import React, { useEffect, useRef } from 'react';
+import type { CinematicTitleProps, FC } from '../../types';
+import { useEffect, useRef } from 'react';
 
-export const CinematicTitle: React.FC<CinematicTitleProps> = ({
+export const CinematicTitle: FC<CinematicTitleProps> = ({
   text,
   className = '',
 }) => {

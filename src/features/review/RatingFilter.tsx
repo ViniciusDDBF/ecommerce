@@ -1,19 +1,8 @@
-import React, { useState } from 'react';
+import type { RatingFilterProps, FC } from '../../types';
+import { useState } from 'react';
 import { Star } from 'lucide-react';
 
-export interface RatingFilterProps {
-  rate1: number;
-  rate2: number;
-  rate3: number;
-  rate4: number;
-  rate5: number;
-  review_count: number;
-  average: number;
-  className?: string;
-  onRatingSelect?: (rating: number | null) => void;
-}
-
-export const RatingFilter: React.FC<RatingFilterProps> = ({
+export const RatingFilter: FC<RatingFilterProps> = ({
   rate1,
   rate2,
   rate3,

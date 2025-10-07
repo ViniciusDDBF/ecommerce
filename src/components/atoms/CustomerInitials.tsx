@@ -1,7 +1,6 @@
-import type { CustomerInitialsProps, Size } from '../../types';
-import React from 'react';
+import type { CustomerInitialsProps, TSize, FC  } from '../../types';
 
-export const CustomerInitials: React.FC<CustomerInitialsProps> = ({
+export const CustomerInitials: FC<CustomerInitialsProps> = ({
   firstName,
   lastName,
   email,
@@ -40,7 +39,7 @@ export const CustomerInitials: React.FC<CustomerInitialsProps> = ({
     },
   };
 
-  const classes = sizeClasses[size as Size];
+  const classes = sizeClasses[size as TSize];
 
   return (
     <div className={`flex items-center ${classes.container}`}>

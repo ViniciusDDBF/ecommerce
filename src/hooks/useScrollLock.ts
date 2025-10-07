@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
+import type { useScrollLockParams } from '../types/hooks/useScrollLock';
 
-export const useScrollLock = (isActive: boolean) => {
+export const useScrollLock = ({ isActive }: useScrollLockParams): void => {
   useEffect(() => {
     if (isActive) {
       document.body.classList.add('overflow-hidden');

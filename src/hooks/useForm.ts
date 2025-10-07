@@ -1,17 +1,15 @@
+import type { useFormParams, useFormReturn } from '../types';
 import { useState } from 'react';
 import { maskCNPJ } from '../utils/masks/cnpj';
 import { maskPhone } from '../utils/masks/phone';
 import { maskCPF } from '../utils/masks/cpf';
 import { validateCPF } from '../utils/validation/validateCpf';
 import { validateCNPJ } from '../utils/validation/validateCnpj';
-import type { FormFieldProps } from '../types/hooks';
 
-
-
-export const useForm = (
-  fields: FormFieldProps[],
-  initialValues: Record<string, any> = {},
-) => {
+export const useForm = ({
+  fields,
+  initialValues = {},
+}: useFormParams): useFormReturn => {
   const [values, setValues] = useState(() => {
     const defaultValues = { ...initialValues };
     fields.forEach((field) => {

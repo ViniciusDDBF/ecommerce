@@ -1,17 +1,12 @@
+import type { ProductReviewsHeaderProps, FC } from '../../types';
 import { Star, StarHalf } from 'lucide-react';
 import { Link } from '../../components/atoms';
 
-interface ProductReviewsProps {
-  averageRating: number;
-  reviewCount: number;
-  onClick?: () => void;
-}
-
-export const ProductReviewsHeader = ({
+export const ProductReviewsHeader: FC<ProductReviewsHeaderProps> = ({
   averageRating,
   reviewCount,
   onClick,
-}: ProductReviewsProps) => {
+}) => {
   const renderStars = () => {
     const stars = [];
     const roundedRating = Math.round(averageRating * 2) / 2; // Round to nearest 0.5

@@ -1,14 +1,8 @@
-import type { Review } from '../Reviews';
+import type { ReviewHeaderProps, FC } from '../../../types';
 import { Shield, Star, X } from 'lucide-react';
 import { Button } from '../../../components/atoms';
 
-interface ReviewHeaderProps {
-  review: Review;
-  onClose: () => void;
-  isMobile?: boolean; // For conditional close button
-}
-
-export const ReviewHeader: React.FC<ReviewHeaderProps> = ({
+export const ReviewHeader: FC<ReviewHeaderProps> = ({
   review,
   onClose,
   isMobile = false,
@@ -17,17 +11,10 @@ export const ReviewHeader: React.FC<ReviewHeaderProps> = ({
     <div className="border-charcoal-600 flex items-center justify-between border-b p-4">
       <div className="flex flex-col gap-4">
         <div className="flex items-center gap-3">
-          <div className="bg-charcoal-700 flex h-10 w-10 items-center justify-center rounded-full md:h-12 md:w-12">
-            <span className="text-ember-400 text-base font-bold md:text-lg">
-              {review.is_anonymous
-                ? 'AN'
-                : `${review.customer.first_name?.[0] || ''}${review.customer.last_name?.[0] || ''}`}
-            </span>
-          </div>
           <div>
             <div className="flex items-center gap-2">
               <span className="text-charcoal-50 font-medium">
-                {review.is_anonymous ? 'Anonymous' : review.customer.first_name}
+                {review.customer.first_name}
               </span>
               <span className="bg-ember-500/10 text-ember-400 border-ember-500/20 inline-flex items-center rounded-full border px-2 py-0.5 text-xs font-medium">
                 <Shield className="mr-1 h-2.5 w-2.5" />

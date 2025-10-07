@@ -1,7 +1,8 @@
+import type { FC } from '../../types';
 import { AccountHeader } from '../../components/molecules';
 import { Cart, Logo, CategoryNav } from '..';
 
-export const Header = () => {
+export const Header: FC = () => {
   return (
     <>
       {/* ---------- Main Header ---------- */}

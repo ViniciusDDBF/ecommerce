@@ -1,10 +1,11 @@
+import type { useFocusTrapParams } from '../types/hooks/useFocusTrap';
 import { useEffect, useRef } from 'react';
 
-export const useFocusTrap = (
-  isActive: boolean,
-  ref: React.RefObject<HTMLDivElement | null>,
-  openedByClick: boolean = false, // New parameter to check if opened by click
-) => {
+export const useFocusTrap = ({
+  isActive,
+  ref,
+  openedByClick,
+}: useFocusTrapParams): void => {
   const firstFocusableElement = useRef<HTMLElement | null>(null);
   const lastFocusableElement = useRef<HTMLElement | null>(null);
 

@@ -1,8 +1,9 @@
+import type { FC } from '../../types';
 import { Link } from 'react-router';
 import LogoImg from '../../img/DundichTaighDigitalLogo.png';
 import { CinematicTitle } from '../../components/atoms';
 
-export const Logo = () => {
+export const Logo: FC = () => {
   return (
     <Link className="group flex items-center gap-2 sm:gap-3" to="/">
       <div

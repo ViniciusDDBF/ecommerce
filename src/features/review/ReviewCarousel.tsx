@@ -1,46 +1,9 @@
+import type { ReviewCarouselProps, FC, TPositionX } from '../../types';
 import { useState, useRef } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { Button } from '../../components/atoms';
-import type { MediaItem } from '../../components/atoms/MediaThumbnailNavigation';
 
-interface Customer {
-  id: string;
-  name?: string;
-  first_name?: string;
-  last_name?: string;
-  email?: string | null;
-  phone?: string | null;
-  cpf?: string | null;
-  company_name?: string | null;
-  legal_name?: string | null;
-  cnpj?: string | null;
-  is_cpf?: boolean | null;
-}
-
-interface Review {
-  id: number;
-  created_at: string;
-  rating: number;
-  title: string;
-  content: string;
-  is_anonymous: boolean;
-  positive_votes: number;
-  negative_votes: number;
-  customer: Customer;
-  media: MediaItem[];
-}
-
-interface ReviewCarouselProps {
-  className?: string;
-  reviews: Review[];
-  openReviewModal: (
-    review: Review,
-    mediaIndex: number,
-    fromCarousel?: boolean,
-  ) => void;
-}
-
-export const ReviewCarousel: React.FC<ReviewCarouselProps> = ({
+export const ReviewCarousel: FC<ReviewCarouselProps> = ({
   reviews,
   openReviewModal,
   className,
@@ -53,7 +16,7 @@ export const ReviewCarousel: React.FC<ReviewCarouselProps> = ({
   const totalItems = allMedia.length;
 
   // Handle navigation
-  const scroll = (direction: 'left' | 'right') => {
+  const scroll = (direction: TPositionX) => {
     if (scrollRef.current) {
       const cardWidth =
         window.innerWidth < 640

@@ -1,16 +1,8 @@
-import type { ReviewState } from '../reviewCard/ReviewCard';
+import type { ReviewFooterProps, FC } from '../../../types';
 import { ThumbsUp, ThumbsDown } from 'lucide-react';
 import { Button } from '../../../components/atoms';
 
-interface ReviewFooterProps {
-  reviewId: number;
-  reviewState: ReviewState;
-  onLike: (id: number) => void;
-  onDislike: (id: number) => void;
-  error?: string;
-}
-
-export const ReviewFooter: React.FC<ReviewFooterProps> = ({
+export const ReviewFooter: FC<ReviewFooterProps> = ({
   reviewId,
   reviewState,
   onLike,

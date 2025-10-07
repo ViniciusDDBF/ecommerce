@@ -1,13 +1,13 @@
-import type { AddressCardProps } from '../../../types';
+import type { AddressCardProps, FC } from '../../../types';
 import { Edit3, Trash2, Shield, User, MapPin, House } from 'lucide-react';
 import { Button } from '../../../components/atoms';
 
-export const AddressCard = ({
+export const AddressCard: FC<AddressCardProps> = ({
   address,
   onEdit,
   onSetDefault,
   onDelete,
-}: AddressCardProps) => {
+}) => {
   return (
     <div className="group relative">
       <div className="glass-effect rounded-2xl p-4 sm:p-6 md:p-8">

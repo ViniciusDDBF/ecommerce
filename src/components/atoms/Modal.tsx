@@ -1,10 +1,10 @@
-import type { ModalProps } from '../../types/';
+import type { ModalProps, FC } from '../../types/';
 import React, { useRef, useEffect } from 'react';
 import { X } from 'lucide-react';
 import { Button, Overlay } from '../atoms';
 import { useClickOutside, useScrollLock, useFocusTrap } from '../../hooks';
 
-export const Modal: React.FC<ModalProps> = ({
+export const Modal: FC<ModalProps> = ({
   isOpen,
   title,
   message,
@@ -36,9 +36,9 @@ export const Modal: React.FC<ModalProps> = ({
     }
   }, [isOpen]);
 
-  useScrollLock(isOpen);
-  useFocusTrap(isOpen, modalRef, openedByClick);
-  useClickOutside(modalRef, handleCancelClick);
+  useScrollLock({ isActive: isOpen });
+  useFocusTrap({ isActive: isOpen, ref: modalRef, openedByClick });
+  useClickOutside({ ref: modalRef, callback: handleCancelClick });
 
   if (!isOpen) return null;
 

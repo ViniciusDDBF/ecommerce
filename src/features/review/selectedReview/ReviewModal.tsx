@@ -1,32 +1,17 @@
-import { type Review } from '../Reviews';
-import type { ReviewState } from '../reviewCard/ReviewCard';
-import { X } from 'lucide-react'; // Keep minimal imports
-import { Button, Overlay } from '../../../components/atoms';
+import type { ReviewModalProps, FC } from '../../../types';
 import { useState, useRef, useEffect } from 'react';
-
-// Import extracted components
+import { X } from 'lucide-react';
 import {
-  FullMediaViewer,
-  MediaDisplay,
+  MediaFullDisplay,
+  MediaMainDisplay,
   MediaThumbnails,
-  MediaNavigation,
+  MediaNavigationButtons,
+  Button,
+  Overlay,
 } from '../../../components/atoms';
 import { ReviewHeader, ReviewContent, ReviewFooter } from '../../../features';
 
-interface ReviewModalProps {
-  selectedReview: Review | null;
-  currentMediaIndex: number;
-  getReviewState: (id: number) => ReviewState;
-  setCurrentMediaIndex: (index: number) => void;
-  navigateMedia: (direction: 'next' | 'prev') => void;
-  closeReviewModal: () => void;
-  handleLikeClick: (id: number) => void;
-  handleDislikeClick: (id: number) => void;
-  isCarouselMode: boolean;
-  error?: string;
-}
-
-export const ReviewModal: React.FC<ReviewModalProps> = ({
+export const ReviewModal: FC<ReviewModalProps> = ({
   selectedReview,
   currentMediaIndex,
   getReviewState,
@@ -72,12 +57,12 @@ export const ReviewModal: React.FC<ReviewModalProps> = ({
               {/* Media Section */}
               {selectedReview.media.length > 0 && (
                 <div className="relative flex min-h-[30vh] w-full items-center md:mb-0 md:h-auto md:max-h-[90vh] md:min-h-[auto] md:flex-1 md:flex-row md:items-center md:justify-center">
-                  <MediaNavigation
+                  <MediaNavigationButtons
                     hasNavigation={hasNavigation}
                     onPrev={() => navigateMedia('prev')}
                     onNext={() => navigateMedia('next')}
                   />
-                  <MediaDisplay
+                  <MediaMainDisplay
                     media={currentMedia}
                     index={currentMediaIndex}
                     onImageClick={handleImageClick}
@@ -102,13 +87,18 @@ export const ReviewModal: React.FC<ReviewModalProps> = ({
                 <div className="custom-scroll-y min-h-[33vh] flex-1 overflow-y-auto p-4">
                   <ReviewContent review={selectedReview} />
                   <MediaThumbnails
-                  className='bg-red-100'
-                    direction="horizontal"
                     gridColumns={3}
                     maxThumbnails={3}
                     mediaList={selectedReview.media}
-                    currentIndex={currentMediaIndex}
-                    onSelect={setCurrentMediaIndex}
+                    selectionMode="index"
+                    onSelect={(e) => {
+                      if (typeof e === 'number') {
+                        setCurrentMediaIndex(e);
+                        console.log(currentMedia);
+                      }
+                    }}
+                    layout="horizontal"
+                    selected={currentMediaIndex}
                   />
                 </div>
                 <ReviewFooter
@@ -124,7 +114,7 @@ export const ReviewModal: React.FC<ReviewModalProps> = ({
         )}
       </Overlay>
 
-      <FullMediaViewer
+      <MediaFullDisplay
         mediaUrl={currentMedia?.url || ''}
         alt={`Full screen review media ${currentMediaIndex + 1}`}
         isOpen={fullMediaOpen}

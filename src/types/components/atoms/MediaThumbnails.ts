@@ -1,10 +1,10 @@
-import type { Media, Orientation } from '../../../types';
+import type { IMedia, TOrientation } from '../../../types';
 
 export interface MediaThumbnailsProps {
-  mediaList: Array<Media>;
+  mediaList: Array<IMedia>;
   currentIndex: number;
   onSelect: (index: number) => void;
-  orientation?: Orientation;
+  orientation?: TOrientation;
   maxThumbnails?: number;
   gridColumns?: number;
   className?: string;

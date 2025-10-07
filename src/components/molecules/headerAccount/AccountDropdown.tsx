@@ -1,3 +1,4 @@
+import type { FC } from '../../../types';
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
 import { User, LogOut, ChevronDown } from 'lucide-react';
@@ -7,7 +8,7 @@ import { useAppDispatch, useAppSelector } from '../../../store/hooks/hooks';
 import { ThunkLogOut } from '../../../store/slices/userSlice';
 import { menuItems } from '../../molecules';
 
-export const AccountDropdown = () => {
+export const AccountDropdown: FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const dispatch = useAppDispatch();
   const user = useAppSelector('user');

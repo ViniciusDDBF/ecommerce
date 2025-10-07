@@ -1,11 +1,7 @@
-import React from 'react';
+import type { ReviewSortByProps, FC } from '../../types';
 import { CustomSelect } from '../../components/atoms';
 
-interface onSortByProps {
-  onSortBy: (sort: string) => void;
-}
-
-export const ReviewSortBy: React.FC<onSortByProps> = ({ onSortBy }) => {
+export const ReviewSortBy: FC<ReviewSortByProps> = ({ onSortBy }) => {
   return (
     <div className="flex justify-end">
       <div className="w-40">

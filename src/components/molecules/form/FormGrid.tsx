@@ -1,8 +1,7 @@
-import type { FormGridProps } from '../../../types';
-import React from 'react';
+import type { FormGridProps, FC } from '../../../types';
 import { FormField } from '../../molecules';
 
-export const FormGrid: React.FC<FormGridProps> = ({
+export const FormGrid: FC<FormGridProps> = ({
   fields,
   values,
   errors,

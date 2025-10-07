@@ -1,24 +1,28 @@
 import React from 'react';
+import type { useFetchParams, UseFetchReturn } from '../types/hooks/useFetch';
 
-interface FetchState<T> {
-  data: T | null;
-  loading: boolean;
-  error: string | null;
-}
+/**
+ * React hook for performing CRUD requests with built-in loading and error state.
+ *
+ * @param baseUrl - Base URL for all requests.
+ * @param defaultOptions - Optional default fetch configuration (e.g., headers).
+ * @returns Object containing data, loading, error, and CRUD request methods.
+ *
+ * @example
+ * ```ts
+ * const { get, post, data, loading, error } = useFetch<User>('/api/users');
+ *
+ * const loadUsers = async () => {
+ *   const users = await get();
+ *   console.log(users);
+ * };
+ * ```
+ */
 
-interface CrudMethods<T> {
-  get: (path?: string) => Promise<T>;
-  post: (data: any, path?: string) => Promise<T>;
-  patch: (path: string, data: any) => Promise<T>;
-  delete: (path: string) => Promise<T>;
-}
-
-type UseFetchReturn<T> = FetchState<T> & CrudMethods<T>;
-
-export const useFetch = <T>(
-  baseUrl: string,
-  defaultOptions?: RequestInit,
-): UseFetchReturn<T> => {
+export const useFetch = <T>({
+  baseUrl,
+  defaultOptions,
+}: useFetchParams): UseFetchReturn<T> => {
   const [data, setData] = React.useState<T | null>(null);
   const [loading, setLoading] = React.useState(false);
   const [error, setError] = React.useState<string | null>(null);
@@ -135,34 +139,3 @@ export const useFetch = <T>(
     delete: del,
   };
 };
-
-// // Setup (no fetch happens yet)
-// const { get, post, patch, delete: del, data, loading, error } = useFetch('https://api.example.com/users', {
-//   headers: { 'Authorization': 'Bearer token123' }
-// });
-
-// // Individual operations
-// const handleGetUsers = async () => {
-//   try {
-//     const users = await get(); // GET /users
-//     console.log('Got users:', users);
-//   } catch (err) {
-//     console.error('Failed:', err);
-//   }
-// };
-
-// const handleCreateUser = async (userData) => {
-//   const newUser = await post(userData); // POST /users
-// };
-
-// const handleUpdateUser = async (id, updates) => {
-//   const updated = await patch(`/${id}`, updates); // PATCH /users/123
-// };
-
-// // Concurrent operations (your use case!)
-// const handleBulkUpdate = async () => {
-//   const results = await Promise.all(
-//     users.map(user => patch(`/${user.id}`, user))
-//   );
-//   console.log('All updates complete:', results);
-// };

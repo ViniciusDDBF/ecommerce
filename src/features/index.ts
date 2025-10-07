@@ -4,6 +4,7 @@ export { AccountSectionHeader } from './account/AccountSectionHeader';
 export { AccountDefault } from './account/default/AccountDefault';
 //* ---------- Profile ---------- */
 export { AccountProfile } from './account/profile/AccountProfile';
+export { editUserFields } from './account/profile/constants';
 //* ---------- Address ---------- */
 export { AddressCard } from './account/address/AddressCard';
 export { AddressFormDialog } from './account/address/AddressFormDialog';
@@ -26,7 +27,6 @@ export { Logo } from './header/Logo';
 
 /* ---------- Product ---------- */
 export { ProductHeader } from './product/ProductHeader';
-export { ProductMediaViewer } from './product/ProductMediaViewer';
 export { ProductReviewsHeader } from './product/ProductReviewsHeader';
 export { StockStatus } from './product/StockStatus';
 export { VariantSelector } from './product/VariantSelector';

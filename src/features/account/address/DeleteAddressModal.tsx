@@ -1,11 +1,11 @@
+import type { DeleteAddressModalProps, FC } from '../../../types';
 import { Modal } from '../../../components/atoms';
-import type { DeleteAddressModalProps } from '../../../types';
 
-export const DeleteAddressModal = ({
+export const DeleteAddressModal: FC<DeleteAddressModalProps> = ({
   isOpen,
   onClose,
   onConfirm,
-}: DeleteAddressModalProps) => {
+}) => {
   return (
     <Modal
       isOpen={isOpen}

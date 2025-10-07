@@ -1,13 +1,7 @@
-import React from 'react';
+import type { CustomerInitialsReviewCardProps, FC } from '../../../types';
 import { Shield } from 'lucide-react';
 
-interface CustomerInitialsReviewCardProps {
-  firstName: string | null;
-  lastName: string;
-  createdAt: string;
-}
-
-export const CustomerInitialsReviewCard: React.FC<
+export const CustomerInitialsReviewCard: FC<
   CustomerInitialsReviewCardProps
 > = ({ firstName, lastName, createdAt }) => {
   return (
@@ -15,7 +9,7 @@ export const CustomerInitialsReviewCard: React.FC<
       <div className="relative">
         <div className="bg-charcoal-700 flex h-12 w-12 items-center justify-center rounded-full">
           <span className="text-ember-400 text-lg font-bold">
-            {`${firstName?.[0] || ''}${lastName?.[0] || ''} `}
+            {`${firstName?.[0]}${lastName?.[0]}`}
           </span>
         </div>
       </div>

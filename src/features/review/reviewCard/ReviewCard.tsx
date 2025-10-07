@@ -1,32 +1,11 @@
-import type { Review } from '../Reviews';
+import type { ReviewCardProps, FC } from '../../../types';
 import { useRef } from 'react';
 import { Star, CirclePlay, ZoomIn, ThumbsUp, ThumbsDown } from 'lucide-react';
 import { Button } from '../../../components/atoms';
 import { CustomerInitialsReviewCard, ReviewSortBy } from '../../../features';
-import { useSmoothScroll } from '../../../hooks';
+import { useScroll } from '../../../hooks';
 
-export interface ReviewState {
-  positiveVotes: number;
-  negativeVotes: number;
-  hasLiked: boolean;
-  hasDisliked: boolean;
-  isExpanded: boolean;
-}
-
-interface ReviewCardProps {
-  currentPage: number;
-  totalPages: number;
-  reviews: Review[];
-  getReviewState: (id: number) => ReviewState;
-  updateReviewState: (id: number, updates: Partial<ReviewState>) => void;
-  openReviewModal: (review: Review, index: number) => void;
-  handleLikeClick: (id: number) => void;
-  handleDislikeClick: (id: number) => void;
-  onPageChange: (page: number) => void;
-  onSortBy: (sort: string) => void;
-}
-
-export const ReviewCard: React.FC<ReviewCardProps> = ({
+export const ReviewCard: FC<ReviewCardProps> = ({
   currentPage,
   totalPages,
   reviews,
@@ -38,7 +17,7 @@ export const ReviewCard: React.FC<ReviewCardProps> = ({
   onPageChange,
   onSortBy,
 }) => {
-  const { scrollTo } = useSmoothScroll();
+  const { scrollTo } = useScroll();
   const sectionRef = useRef<HTMLDivElement>(null);
 
   return (
@@ -206,7 +185,10 @@ export const ReviewCard: React.FC<ReviewCardProps> = ({
                 onPageChange(currentPage - 1);
                 setTimeout(() => {
                   if (sectionRef.current) {
-                    scrollTo(sectionRef.current, { offset: 0 });
+                    scrollTo({
+                      target: sectionRef.current,
+                      options: { offset: 0 },
+                    });
                   }
                 }, 0);
               }}
@@ -223,7 +205,10 @@ export const ReviewCard: React.FC<ReviewCardProps> = ({
                 onPageChange(currentPage + 1);
                 setTimeout(() => {
                   if (sectionRef.current) {
-                    scrollTo(sectionRef.current, { offset: 0 });
+                    scrollTo({
+                      target: sectionRef.current,
+                      options: { offset: 0 },
+                    });
                   }
                 }, 0);
               }}
