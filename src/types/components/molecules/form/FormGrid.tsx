@@ -1,4 +1,4 @@
-import { IFormField } from './FormField';
+import type { IFormField } from './FormField';
 
 export interface FormGridProps {
   fields: IFormField[];

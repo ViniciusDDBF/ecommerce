@@ -1,4 +1,4 @@
-import type { IReview, IReviewState } from '../../../../types';
+import type { IReviewState } from '../../../../types';
 
 export interface ReviewFooterProps {
   reviewId: number;
