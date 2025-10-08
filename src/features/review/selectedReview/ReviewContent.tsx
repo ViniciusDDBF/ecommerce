@@ -1,4 +1,4 @@
-import type { ReviewContentProps, FC } from '../../../types';
+import type { FC, ReviewContentProps } from '@/types';
 
 export const ReviewContent: FC<ReviewContentProps> = ({ review }) => {
   return (

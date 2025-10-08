@@ -1,9 +1,9 @@
-import type { ReviewCardProps, FC } from '../../../types';
+import type { FC, ReviewCardProps } from '@/types';
 import { useRef } from 'react';
-import { Star, CirclePlay, ZoomIn, ThumbsUp, ThumbsDown } from 'lucide-react';
-import { Button } from '../../../components/atoms';
-import { CustomerInitialsReviewCard, ReviewSortBy } from '../../../features';
-import { useScroll } from '../../../hooks';
+import { CirclePlay, Star, ThumbsDown, ThumbsUp, ZoomIn } from 'lucide-react';
+import { Button } from '@/components/atoms';
+import { CustomerInitialsReviewCard, ReviewSortBy } from '@/features';
+import { useScroll } from '@/hooks';
 
 export const ReviewCard: FC<ReviewCardProps> = ({
   currentPage,

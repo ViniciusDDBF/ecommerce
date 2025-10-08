@@ -1,4 +1,4 @@
-import type { InputProps, FC  } from '../../types';
+import type { FC, InputProps } from '@/types';
 
 export const Input: FC<InputProps> = ({
   type = 'text',

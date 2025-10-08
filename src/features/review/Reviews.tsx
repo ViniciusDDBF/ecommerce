@@ -1,18 +1,18 @@
-import type { ReviewsProps, FC, IReview } from '../../types';
-import { useState, useEffect, useMemo, useRef } from 'react';
-import { Button, Modal } from '../../components/atoms';
+import type { FC, IReview, ReviewsProps } from '@/types';
+import { useEffect, useMemo, useRef, useState } from 'react';
+import { Button, Modal } from '@/components/atoms';
 import {
-  EmptyReviewCard,
-  ReviewCarousel,
-  ReviewCard,
-  ReviewModal,
-  RatingFilter,
-  RatingCircle,
   CreateReviewModal,
-} from '../../features';
-import { useScrollLock, useScroll } from '../../hooks';
-import { useAppSelector } from '../../store/hooks/hooks';
-import { supabase } from '../../SupabaseConfig';
+  EmptyReviewCard,
+  RatingCircle,
+  RatingFilter,
+  ReviewCard,
+  ReviewCarousel,
+  ReviewModal,
+} from '@/features';
+import { useScroll, useScrollLock } from '@/hooks';
+import { supabase } from '@/SupabaseConfig';
+import { useAppSelector } from '@/store/hooks/hooks';
 
 export const Reviews: FC<ReviewsProps> = ({
   reviews,

@@ -1,4 +1,4 @@
-import type { IFormField } from '../../../types';
+import type { IFormField } from '@/types';
 import { Heart, MapPin, ShoppingBag, User } from 'lucide-react';
 
 export const loginFields: IFormField[] = [

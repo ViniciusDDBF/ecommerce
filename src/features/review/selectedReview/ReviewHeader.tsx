@@ -1,6 +1,6 @@
-import type { ReviewHeaderProps, FC } from '../../../types';
+import type { FC, ReviewHeaderProps } from '@/types';
 import { Shield, Star, X } from 'lucide-react';
-import { Button } from '../../../components/atoms';
+import { Button } from '@/components/atoms';
 
 export const ReviewHeader: FC<ReviewHeaderProps> = ({
   review,

@@ -1,4 +1,4 @@
-import type { TSize } from '../../../types';
+import type { TSize } from '@/types';
 
 export interface CustomerInitialsProps {
   firstName: string;

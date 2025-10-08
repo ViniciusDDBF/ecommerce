@@ -1,4 +1,4 @@
-import type { CustomerInitialsProps, TSize, FC  } from '../../types';
+import type { CustomerInitialsProps, FC, TSize } from '@/types';
 
 export const CustomerInitials: FC<CustomerInitialsProps> = ({
   firstName,

@@ -1,5 +1,5 @@
-import { useCallback, type KeyboardEventHandler } from 'react';
-import type { useKeyPressParams } from '../types/hooks/useKeyPress';
+import type { useKeyPressParams } from '@/types';
+import { type KeyboardEventHandler, useCallback } from 'react';
 
 /**
  * Triggers the provided click handler when Enter or Space is pressed.

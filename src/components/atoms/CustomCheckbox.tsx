@@ -1,4 +1,4 @@
-import type { CustomCheckboxProps, FC  } from '../../types';
+import type { CustomCheckboxProps, FC } from '@/types';
 
 export const CustomCheckbox: FC<CustomCheckboxProps> = ({
   label,

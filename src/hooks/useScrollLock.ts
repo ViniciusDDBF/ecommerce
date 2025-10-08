@@ -1,5 +1,5 @@
+import type { useScrollLockParams } from '@/types';
 import { useEffect } from 'react';
-import type { useScrollLockParams } from '../types/hooks/useScrollLock';
 
 export const useScrollLock = ({ isActive }: useScrollLockParams): void => {
   useEffect(() => {

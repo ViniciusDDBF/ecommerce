@@ -1,10 +1,10 @@
-import type { FC } from '../../types';
+import type { FC } from '@/types';
 import { useRef, useState } from 'react';
-import { useNavigate } from 'react-router';
 import { X } from 'lucide-react';
-import { Overlay, Drawer, Button } from '../../components/atoms';
-import { CartIcon } from '../../features';
-import { useClickOutside, useScrollLock } from '../../hooks/';
+import { useNavigate } from 'react-router';
+import { Button, Drawer, Overlay } from '@/components/atoms';
+import { CartIcon } from '@/features';
+import { useClickOutside, useScrollLock } from '@/hooks/';
 
 export const Cart: FC = () => {
   const [isOpen, setIsOpen] = useState(false);

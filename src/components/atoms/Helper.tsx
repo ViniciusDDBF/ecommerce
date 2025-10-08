@@ -1,4 +1,4 @@
-import type { HelperProps, FC } from '../../types';
+import type { FC, HelperProps } from '@/types';
 import { useState } from 'react';
 import { CircleQuestionMark } from 'lucide-react';
 

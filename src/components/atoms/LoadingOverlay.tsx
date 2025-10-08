@@ -1,4 +1,4 @@
-import type { FC } from '../../types';
+import type { FC } from '@/types';
 
 export const LoadingOverlay: FC = () => {
   return (

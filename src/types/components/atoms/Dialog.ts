@@ -1,4 +1,4 @@
-import type { ButtonProps, TSize, ReactNode } from '../../../types';
+import type { ButtonProps, ReactNode, TSize } from '@/types';
 
 export interface DialogProps {
   ScrollLock?: boolean;

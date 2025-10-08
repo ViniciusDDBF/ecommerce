@@ -1,14 +1,14 @@
 import { createBrowserRouter } from 'react-router-dom';
-import { RootLayout } from './layouts/RootLayout';
-import { AccountLayout } from './layouts/AccountLayout';
-import { ProductPage } from '../pages/ProductPage';
-import { Homepage } from '../pages/HomePage';
-import { ErrorPage } from '../pages/ErrorPage';
+import { LoadingOverlay } from '@/components/atoms';
 import { AuthCallback } from '../pages/AuthCallback';
-import { rootLoader } from './loaders/rootLoader';
-import { productLoader } from './loaders/productLoader';
+import { ErrorPage } from '../pages/ErrorPage';
+import { Homepage } from '../pages/HomePage';
+import { ProductPage } from '../pages/ProductPage';
+import { AccountLayout } from './layouts/AccountLayout';
+import { RootLayout } from './layouts/RootLayout';
 import { homeLoader } from './loaders/homeLoader';
-import { LoadingOverlay } from '../components/atoms';
+import { productLoader } from './loaders/productLoader';
+import { rootLoader } from './loaders/rootLoader';
 import { PrivateRoute } from './PrivateRoute';
 
 export const router = createBrowserRouter([

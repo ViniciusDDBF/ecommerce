@@ -1,4 +1,4 @@
-import type { IReview, IRatingSummary } from '../../../types';
+import type { IRatingSummary, IReview } from '@/types';
 
 export interface ReviewsProps {
   reviews: IReview[];

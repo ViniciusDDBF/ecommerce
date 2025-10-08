@@ -1,5 +1,5 @@
 import type { ComponentPropsWithoutRef } from 'react';
-import type { TSize, ReactNode } from '../../../types';
+import type { ReactNode, TSize } from '@/types';
 
 export type TButtonVariant = 'primary' | 'secondary' | 'ghost' | 'outline';
 

@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { useLoaderData } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
-import { Button, Modal } from '../components/atoms';
-import { Carousel } from '../components/molecules';
+import { Button, Modal } from '@/components/atoms';
+import { Carousel } from '@/components/molecules';
 
 export const Homepage = () => {
   const data = useLoaderData();

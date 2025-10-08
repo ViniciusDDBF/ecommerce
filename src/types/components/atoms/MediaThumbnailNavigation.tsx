@@ -1,4 +1,4 @@
-import type { IMedia, TOrientation, TSize } from '../../../types';
+import type { IMedia, TOrientation, TSize } from '@/types';
 
 export interface MediaThumbnailNavigationProps {
   mediaList: IMedia[];

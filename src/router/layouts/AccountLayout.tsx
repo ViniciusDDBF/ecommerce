@@ -1,12 +1,12 @@
 import { useState } from 'react';
+import { Heart, MapPin, Menu, Package, User, X } from 'lucide-react';
 import { useNavigate, useParams } from 'react-router';
-import { User, MapPin, Package, Heart, Menu, X } from 'lucide-react';
-import { Button } from '../../components/atoms';
+import { Button } from '@/components/atoms';
 import {
-  AccountProfile,
-  AccountOrders,
-  AccountWishlist,
   AccountDefault,
+  AccountOrders,
+  AccountProfile,
+  AccountWishlist,
   Addresses,
 } from '../../features/';
 

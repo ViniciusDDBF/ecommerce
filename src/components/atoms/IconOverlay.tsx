@@ -1,4 +1,4 @@
-import type { IconOverlayProps, FC  } from '../../types';
+import type { FC, IconOverlayProps } from '@/types';
 
 export const IconOverlay: FC<IconOverlayProps> = ({
   onClick,

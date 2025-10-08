@@ -1,4 +1,4 @@
-import type { ButtonProps } from '../../../types';
+import type { ButtonProps } from '@/types';
 
 export interface AccountSectionHeaderProps {
   title: string;

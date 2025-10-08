@@ -1,5 +1,5 @@
-import type { ReviewSortByProps, FC } from '../../types';
-import { CustomSelect } from '../../components/atoms';
+import type { FC, ReviewSortByProps } from '@/types';
+import { CustomSelect } from '@/components/atoms';
 
 export const ReviewSortBy: FC<ReviewSortByProps> = ({ onSortBy }) => {
   return (

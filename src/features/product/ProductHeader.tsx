@@ -1,5 +1,5 @@
-import type { ProductHeaderProps, FC } from '../../types';
-import { ProductReviewsHeader } from '../../features';
+import type { FC, ProductHeaderProps } from '@/types';
+import { ProductReviewsHeader } from '@/features';
 
 export const ProductHeader: FC<ProductHeaderProps> = ({
   productName,

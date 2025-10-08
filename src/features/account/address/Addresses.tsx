@@ -1,21 +1,21 @@
-import type { AddressData, FC } from '../../../types';
+import type { AddressData, FC } from '@/types';
 import { useState } from 'react';
 import { Plus } from 'lucide-react';
 import {
-  AddressFormDialog,
+  AccountSectionHeader,
   AddressCard,
+  AddressFormDialog,
+  addressFields,
   DeleteAddressModal,
   EmptyAddressesState,
-  AccountSectionHeader,
-} from '../../../features';
-import { useAppDispatch, useAppSelector } from '../../../store/hooks/hooks';
+} from '@/features';
+import { useAppDispatch, useAppSelector } from '@/store/hooks/hooks';
 import {
   ThunkCreateCustomerAddress,
-  ThunkUpdateCustomerAddress,
   ThunkDeleteCustomerAddress,
+  ThunkUpdateCustomerAddress,
   ThunkUpdateCustomerDefaultAddress,
-} from '../../../store/slices/userSlice';
-import { addressFields } from './constants';
+} from '@/store/slices/userSlice';
 
 export const Addresses: FC = () => {
   const [addressSelected, setAddressSelected] = useState<AddressData | null>(

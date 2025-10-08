@@ -1,7 +1,7 @@
-import type { ReviewCarouselProps, FC, TPositionX } from '../../types';
-import { useState, useRef } from 'react';
+import type { FC, ReviewCarouselProps, TPositionX } from '@/types';
+import { useRef, useState } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
-import { Button } from '../../components/atoms';
+import { Button } from '@/components/atoms';
 
 export const ReviewCarousel: FC<ReviewCarouselProps> = ({
   reviews,

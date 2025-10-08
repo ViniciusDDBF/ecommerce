@@ -1,4 +1,4 @@
-import type { CustomerInitialsReviewCardProps, FC } from '../../../types';
+import type { CustomerInitialsReviewCardProps, FC } from '@/types';
 import { Shield } from 'lucide-react';
 
 export const CustomerInitialsReviewCard: FC<

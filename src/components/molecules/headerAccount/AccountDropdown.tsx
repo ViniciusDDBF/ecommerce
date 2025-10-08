@@ -1,12 +1,11 @@
-import type { FC } from '../../../types';
+import type { FC } from '@/types';
 import { useState } from 'react';
+import { ChevronDown, LogOut, User } from 'lucide-react';
 import { useNavigate } from 'react-router';
-import { User, LogOut, ChevronDown } from 'lucide-react';
-import { Button, CustomerInitials } from '../../atoms';
-import { AccountIcon } from '../../molecules';
-import { useAppDispatch, useAppSelector } from '../../../store/hooks/hooks';
-import { ThunkLogOut } from '../../../store/slices/userSlice';
-import { menuItems } from '../../molecules';
+import { Button, CustomerInitials } from '@/components/atoms';
+import { AccountIcon, menuItems } from '@/components/molecules';
+import { useAppDispatch, useAppSelector } from '@/store/hooks/hooks';
+import { ThunkLogOut } from '@/store/slices/userSlice';
 
 export const AccountDropdown: FC = () => {
   const [isOpen, setIsOpen] = useState(false);

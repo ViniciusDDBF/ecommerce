@@ -1,14 +1,13 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { supabase } from '../../SupabaseConfig';
-import { isAnyOf } from '@reduxjs/toolkit';
-import type { RootState } from '../store';
 import type {
-  UserThunk,
-  UserData,
   AddressData,
   LoginArgs,
   SignUpArgs,
-} from '../../types';
+  UserData,
+  UserThunk,
+} from '@/types';
+import type { RootState } from '../store';
+import { createAsyncThunk, createSlice, isAnyOf } from '@reduxjs/toolkit';
+import { supabase } from '../../SupabaseConfig';
 
 // #region /* ---------- Functions ---------- */
 const initialState: UserThunk = {
@@ -18,7 +17,7 @@ const initialState: UserThunk = {
 };
 
 async function FetchSignUp(email: string, password: string) {
-  let { data, error } = await supabase.auth.signUp({
+  const { data, error } = await supabase.auth.signUp({
     email,
     password,
   });
@@ -27,7 +26,7 @@ async function FetchSignUp(email: string, password: string) {
 
 async function FetchLogIn(email: string, password: string) {
   try {
-    let data = await supabase.auth.signInWithPassword({
+    const data = await supabase.auth.signInWithPassword({
       email,
       password,
     });
@@ -146,7 +145,7 @@ async function FetchDeleteCustomerAddress({ address_id }: AddressData) {
 }
 
 async function FetchGetUserView(user_id: string) {
-  let data = await supabase
+  const data = await supabase
     .from('customer_information')
     .select('*')
     .eq('user_id', user_id);

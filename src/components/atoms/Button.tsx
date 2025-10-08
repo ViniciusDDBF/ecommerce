@@ -1,11 +1,11 @@
 import type {
   ButtonProps,
-  SpinnerLoaderProps,
+  FC,
   GetVariantStylesParams,
   IVariantStyles,
-  FC,
-} from '../../types';
-import React from 'react';
+  SpinnerLoaderProps,
+} from '@/types';
+import React, { useId } from 'react';
 
 /* ----------- Spinner Loader ----------- */
 const SpinnerLoader: FC<SpinnerLoaderProps> = ({ size, color }) => {
@@ -17,6 +17,7 @@ const SpinnerLoader: FC<SpinnerLoaderProps> = ({ size, color }) => {
     xl: { diameter: 22, strokeWidth: 2.75, className: 'w-6 h-6' },
     full: { diameter: 18, strokeWidth: 2, className: 'w-4.5 h-4.5' },
   };
+  const spinnerTitleId = useId();
 
   const config = spinnerConfig[size];
 
@@ -28,7 +29,11 @@ const SpinnerLoader: FC<SpinnerLoaderProps> = ({ size, color }) => {
         height={config.diameter}
         viewBox="0 0 24 24"
         fill="none"
+        role="img"
+        aria-labelledby={spinnerTitleId}
+        aria-hidden={true}
       >
+        <title id={spinnerTitleId}>Spinner</title>
         <circle
           cx="12"
           cy="12"

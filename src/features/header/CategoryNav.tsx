@@ -1,6 +1,6 @@
-import type { FC } from '../../types';
+import type { FC } from '@/types';
 import { useState } from 'react';
-import { Link, Modal } from '../../components/atoms';
+import { Link, Modal } from '@/components/atoms';
 
 export const CategoryNav: FC = () => {
   const [activeCategory, setActiveCategory] = useState('All');

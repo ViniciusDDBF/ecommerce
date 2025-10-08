@@ -1,4 +1,4 @@
-import type { RatingFilterProps, FC } from '../../types';
+import type { FC, RatingFilterProps } from '@/types';
 import { useState } from 'react';
 import { Star } from 'lucide-react';
 

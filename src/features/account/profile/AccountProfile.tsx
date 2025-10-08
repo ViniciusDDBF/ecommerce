@@ -1,12 +1,12 @@
-import type { UserData, FC } from '../../../types';
+import type { FC, UserData } from '@/types';
 import { useState } from 'react';
 import { Edit2 } from 'lucide-react';
-import { Dialog, CustomerInitials } from '../../../components/atoms';
-import { FormGrid } from '../../../components/molecules';
-import { AccountSectionHeader, editUserFields } from '../../../features';
-import { useForm } from '../../../hooks';
-import { useAppDispatch, useAppSelector } from '../../../store/hooks/hooks';
-import { ThunkUpdateUser } from '../../../store/slices/userSlice';
+import { CustomerInitials, Dialog } from '@/components/atoms';
+import { FormGrid } from '@/components/molecules';
+import { AccountSectionHeader, editUserFields } from '@/features';
+import { useForm } from '@/hooks';
+import { useAppDispatch, useAppSelector } from '@/store/hooks/hooks';
+import { ThunkUpdateUser } from '@/store/slices/userSlice';
 
 export const AccountProfile: FC = () => {
   const user = useAppSelector('user');
@@ -40,7 +40,9 @@ export const AccountProfile: FC = () => {
     try {
       await dispatch(ThunkUpdateUser(fullPayload as UserData));
       setIsOpen(false);
-    } catch (err) {}
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (

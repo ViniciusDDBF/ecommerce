@@ -1,5 +1,5 @@
+import type { UseFetchReturn, useFetchParams } from '@/types';
 import React from 'react';
-import type { useFetchParams, UseFetchReturn } from '../types/hooks/useFetch';
 
 /**
  * React hook for performing CRUD requests with built-in loading and error state.

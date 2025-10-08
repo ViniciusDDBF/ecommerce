@@ -1,6 +1,6 @@
-import type { AddressCardProps, FC } from '../../../types';
-import { Edit3, Trash2, Shield, User, MapPin, House } from 'lucide-react';
-import { Button } from '../../../components/atoms';
+import type { AddressCardProps, FC } from '@/types';
+import { Edit3, House, MapPin, Shield, Trash2, User } from 'lucide-react';
+import { Button } from '@/components/atoms';
 
 export const AddressCard: FC<AddressCardProps> = ({
   address,

@@ -1,4 +1,4 @@
-import type { MediaDisplayProps, FC } from '../../types';
+import type { FC, MediaDisplayProps } from '@/types';
 
 export const MediaMainDisplay: FC<MediaDisplayProps> = ({
   media,

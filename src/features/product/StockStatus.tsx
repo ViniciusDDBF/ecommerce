@@ -1,4 +1,4 @@
-import type { StockStatusProps, FC } from '../../types';
+import type { FC, StockStatusProps } from '@/types';
 
 export const StockStatus: FC<StockStatusProps> = ({
   stockStatus,

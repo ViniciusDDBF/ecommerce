@@ -1,4 +1,4 @@
-import type { RatingCircleProps, FC } from '../../types';
+import type { FC, RatingCircleProps } from '@/types';
 import { Star } from 'lucide-react';
 
 export const RatingCircle: FC<RatingCircleProps> = ({

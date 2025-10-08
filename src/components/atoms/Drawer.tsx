@@ -1,4 +1,4 @@
-import type { DrawerProps } from '../../types';
+import type { DrawerProps } from '@/types';
 import React from 'react';
 
 export const Drawer = React.forwardRef<HTMLDivElement, DrawerProps>(

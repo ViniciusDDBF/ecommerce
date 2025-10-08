@@ -1,5 +1,5 @@
-import type { FormGridProps, FC } from '../../../types';
-import { FormField } from '../../molecules';
+import type { FC, FormGridProps } from '@/types';
+import { FormField } from '@/components/molecules';
 
 export const FormGrid: FC<FormGridProps> = ({
   fields,

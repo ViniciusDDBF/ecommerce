@@ -1,5 +1,5 @@
-import type { TSize, ButtonProps } from '../../../types';
 import type { ReactNode } from 'react';
+import type { ButtonProps, TSize } from '@/types';
 
 export interface ModalProps {
   isOpen: boolean;

@@ -1,7 +1,7 @@
-import type { BreadcrumbsProps, FC } from '../../types';
+import type { BreadcrumbsProps, FC } from '@/types';
 import React, { useState } from 'react';
 import { ChevronRight } from 'lucide-react';
-import { Modal } from '../atoms';
+import { Link, Modal } from '@/components/atoms';
 
 export const Breadcrumbs: FC<BreadcrumbsProps> = ({ breadcrumbs }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -25,12 +25,7 @@ export const Breadcrumbs: FC<BreadcrumbsProps> = ({ breadcrumbs }) => {
                     {crumb.name}
                   </span>
                 ) : (
-                  <button
-                    onClick={() => setIsOpen(true)}
-                    className="hover:text-ember-400 cursor-pointer transition-colors"
-                  >
-                    {crumb.name}
-                  </button>
+                  <Link onClick={() => setIsOpen(true)} text={crumb.name} />
                 )}
               </li>
             </React.Fragment>

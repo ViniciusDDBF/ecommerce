@@ -1,5 +1,5 @@
-import type { VariantSelectorProps, FC } from '../../types';
-import { Button } from '../../components/atoms';
+import type { FC, VariantSelectorProps } from '@/types';
+import { Button } from '@/components/atoms';
 
 export const VariantSelector: FC<VariantSelectorProps> = ({
   attributeOptions,

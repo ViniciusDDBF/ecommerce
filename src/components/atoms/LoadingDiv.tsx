@@ -1,4 +1,4 @@
-import type { LoadingDivProps, FC } from '../../types';
+import type { FC, LoadingDivProps } from '@/types';
 
 export const LoadingDiv: FC<LoadingDivProps> = ({
   loader = false,

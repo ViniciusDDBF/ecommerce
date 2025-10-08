@@ -1,8 +1,8 @@
-import type { CarouselProps, TPositionX, FC } from '../../../types';
+import type { CarouselProps, FC, TPositionX } from '@/types';
 import { useRef, useState } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
-import { Button } from '../../atoms';
-import { CarouselProductCard } from '../../molecules';
+import { Button } from '@/components/atoms';
+import { CarouselProductCard } from '@/components/molecules';
 
 export const Carousel: FC<CarouselProps> = ({ data, className = '' }) => {
   const scrollRef = useRef<HTMLDivElement>(null);

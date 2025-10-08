@@ -1,10 +1,12 @@
-import type { useFormParams, useFormReturn } from '../types';
+import type { useFormParams, useFormReturn } from '@/types';
 import { useState } from 'react';
-import { maskCNPJ } from '../utils/masks/cnpj';
-import { maskPhone } from '../utils/masks/phone';
-import { maskCPF } from '../utils/masks/cpf';
-import { validateCPF } from '../utils/validation/validateCpf';
-import { validateCNPJ } from '../utils/validation/validateCnpj';
+import {
+  maskCNPJ,
+  maskCPF,
+  maskPhone,
+  validateCNPJ,
+  validateCPF,
+} from '@/utils';
 
 export const useForm = ({
   fields,

@@ -1,6 +1,6 @@
-import type { EmptyReviewCardProps, FC } from '../../../types';
+import type { EmptyReviewCardProps, FC } from '@/types';
 import { MessageSquare, Star } from 'lucide-react';
-import { Button } from '../../../components/atoms';
+import { Button } from '@/components/atoms';
 
 export const EmptyReviewCard: FC<EmptyReviewCardProps> = ({ onClick }) => {
   return (

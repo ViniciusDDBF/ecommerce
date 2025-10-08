@@ -1,7 +1,7 @@
-import type { LoginDialogProps, FC } from '../../../types';
+import type { FC, LoginDialogProps } from '@/types';
 import { LogIn } from 'lucide-react';
-import { Dialog } from '../../atoms';
-import { FormGrid } from '../../molecules';
+import { Dialog } from '@/components/atoms';
+import { FormGrid } from '@/components/molecules';
 
 export const LoginDialog: FC<LoginDialogProps> = ({
   isOpen,

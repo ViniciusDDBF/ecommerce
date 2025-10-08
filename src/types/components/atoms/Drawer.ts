@@ -1,4 +1,4 @@
-import type { TPositionX, ReactNode } from '../../../types';
+import type { ReactNode, TPositionX } from '@/types';
 
 export interface DrawerProps {
   isOpen: boolean;

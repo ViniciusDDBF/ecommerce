@@ -1,6 +1,6 @@
-import type { MediaNavigationProps, FC } from '../../types';
+import type { FC, MediaNavigationProps } from '@/types';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
-import { Button } from '.';
+import { Button } from '@/components/atoms';
 
 export const MediaNavigationButtons: FC<MediaNavigationProps> = ({
   hasNavigation,

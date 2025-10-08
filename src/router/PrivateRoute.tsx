@@ -1,7 +1,7 @@
 import type { FC } from '../types';
 import { Navigate, Outlet } from 'react-router';
-import { LoadingOverlay } from '../components/atoms';
-import { useAppSelector } from '../store/hooks/hooks';
+import { LoadingOverlay } from '@/components/atoms';
+import { useAppSelector } from '@/store/hooks/hooks';
 
 export const PrivateRoute: FC = () => {
   const user = useAppSelector('user');

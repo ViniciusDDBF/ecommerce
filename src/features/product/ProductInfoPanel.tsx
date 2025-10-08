@@ -1,4 +1,4 @@
-import type { ProductInfoPanelProps, FC } from '../../types';
+import type { FC, ProductInfoPanelProps } from '@/types';
 
 export const ProductInfoPanel: FC<ProductInfoPanelProps> = ({
   sku,

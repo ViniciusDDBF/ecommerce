@@ -1,4 +1,4 @@
-import type { LinkProps, FC } from '../../types';
+import type { FC, LinkProps } from '@/types';
 
 export const Link: FC<LinkProps> = ({
   text,
@@ -19,7 +19,7 @@ export const Link: FC<LinkProps> = ({
     xl: 'text-xl px-5 py-2.5',
   }[size];
 
-  const baseClasses = `inline-flex items-center font-medium ${sizeClasses} transition`;
+  const baseClasses = `inline-flex items-center font-medium cursor-pointer ${sizeClasses} transition`;
 
   const variantClasses = `text-charcoal-200 hover:text-ember-300 ${
     selected

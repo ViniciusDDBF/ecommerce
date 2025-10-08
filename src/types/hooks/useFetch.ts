@@ -1,4 +1,4 @@
-import type { FetchState, CrudMethods } from '../Common';
+import type { CrudMethods, FetchState } from '@/types';
 
 export interface useFetchParams {
   baseUrl: string;

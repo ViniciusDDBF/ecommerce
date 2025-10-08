@@ -1,5 +1,5 @@
-import type { OverlayProps, FC } from '../../types';
-import React from 'react';
+import type React from 'react';
+import type { FC, OverlayProps } from '@/types';
 
 export const Overlay: FC<OverlayProps> = ({ isOpen, onClick, children }) => {
   if (!isOpen) return null;

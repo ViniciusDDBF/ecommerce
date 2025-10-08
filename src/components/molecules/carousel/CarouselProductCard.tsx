@@ -1,4 +1,4 @@
-import type { ProductCardProps, FC } from '../../../types';
+import type { FC, ProductCardProps } from '@/types';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 

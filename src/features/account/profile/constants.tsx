@@ -1,4 +1,4 @@
-import type { IFormField } from '../../../types';
+import type { IFormField } from '@/types';
 
 export const editUserFields: IFormField[] = [
   {

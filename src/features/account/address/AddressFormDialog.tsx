@@ -1,9 +1,9 @@
-import type { AddressFormDialogProps, FC } from '../../../types';
+import type { AddressFormDialogProps, FC } from '@/types';
 import { useEffect } from 'react';
 import { Edit3 } from 'lucide-react';
-import { Dialog } from '../../../components/atoms';
-import { FormGrid } from '../../../components/molecules';
-import { useForm } from '../../../hooks';
+import { Dialog } from '@/components/atoms';
+import { FormGrid } from '@/components/molecules';
+import { useForm } from '@/hooks';
 
 export const AddressFormDialog: FC<AddressFormDialogProps> = ({
   mode,

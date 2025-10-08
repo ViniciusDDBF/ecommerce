@@ -1,24 +1,24 @@
-import type { SignUpArgs, FC } from '../../../types';
+import type { FC, SignUpArgs } from '@/types';
 import { useEffect, useState } from 'react';
-import { LogIn, CircleCheck, Mail, MessageCircleX } from 'lucide-react';
-import { Dialog, Button, Modal } from '../../atoms/';
+import { CircleCheck, LogIn, Mail, MessageCircleX } from 'lucide-react';
+import { Button, Dialog, Modal } from '@/components/atoms';
 import {
-  LoginDialog,
-  SignUpDialog,
-  AccountIcon,
   AccountDropdown,
-  loginFields,
-  signUpFields,
+  AccountIcon,
   GoogleIcon,
-} from '../../molecules';
-import { useForm, useScrollLock } from '../../../hooks/';
+  LoginDialog,
+  loginFields,
+  SignUpDialog,
+  signUpFields,
+} from '@/components/molecules';
+import { useAppDispatch, useAppSelector } from '@/store/hooks/hooks';
 import {
   resetError,
   ThunkCreateCustomer,
   ThunkLogIn,
-} from '../../../store/slices/userSlice';
+} from '@/store/slices/userSlice';
+import { useForm, useScrollLock } from '../../../hooks/';
 import { supabase } from '../../../SupabaseConfig';
-import { useAppDispatch, useAppSelector } from '../../../store/hooks/hooks';
 
 const handleGoogleSignIn = async () => {
   try {
@@ -102,140 +102,138 @@ export const AccountHeader: FC = () => {
   };
 
   return (
-    <>
-      <div>
-        <main>
-          {!user.user && <AccountIcon onClick={() => setChoicesIsOpen(true)} />}
-          {user.user && <AccountDropdown />}
+    <div>
+      <main>
+        {!user.user && <AccountIcon onClick={() => setChoicesIsOpen(true)} />}
+        {user.user && <AccountDropdown />}
 
-          {/* ---------- Login With: Dialog ---------- */}
-          <Dialog
-            ScrollLock={false}
-            title="Welcome"
-            isOpen={choicesIsOpen}
-            size="lg"
-            icon={<LogIn />}
-            onClose={() => setChoicesIsOpen(false)}
-            buttons={{
-              cancel: {
-                text: 'Close',
-                onClick: () => setChoicesIsOpen(false),
+        {/* ---------- Login With: Dialog ---------- */}
+        <Dialog
+          ScrollLock={false}
+          title="Welcome"
+          isOpen={choicesIsOpen}
+          size="lg"
+          icon={<LogIn />}
+          onClose={() => setChoicesIsOpen(false)}
+          buttons={{
+            cancel: {
+              text: 'Close',
+              onClick: () => setChoicesIsOpen(false),
+            },
+          }}
+        >
+          <div className="flex flex-col gap-6">
+            {/* ---------- Google button ---------- */}
+            <Button
+              text="Continue with Google"
+              variant="secondary"
+              size="md"
+              loading={user.isLoading}
+              onClick={handleGoogleSignIn}
+              startIcon={<GoogleIcon />}
+              className="bg-charcoal-800 hover:bg-charcoal-700 border-charcoal-600 hover:border-charcoal-500 glass-effect border"
+            />
+
+            {/* ---------- Email button ---------- */}
+            <Button
+              text="Continue with Email"
+              variant="secondary"
+              size="md"
+              loading={false}
+              onClick={() => {
+                setChoicesIsOpen(false);
+                setLoginIsOpen(true);
+              }}
+              startIcon={<Mail />}
+              className="bg-charcoal-800 hover:bg-charcoal-700 border-charcoal-600 hover:border-charcoal-500 glass-effect border"
+            />
+          </div>
+        </Dialog>
+
+        {/* ---------- Login Dialog ---------- */}
+        <LoginDialog
+          isOpen={loginIsOpen}
+          onClose={() => {
+            dispatch(resetError());
+            login.reset();
+            setLoginIsOpen(false);
+          }}
+          fields={loginFields}
+          loginForm={login}
+          handleSubmitLogin={handleSubmitLogin}
+          isLoading={user.isLoading}
+          onSwitchToSignUp={() => {
+            setSignUpIsOpen(true);
+            setLoginIsOpen(false);
+          }}
+        />
+
+        {/* ---------- Login Success ---------- */}
+        <Modal
+          title="Success!"
+          message={`Welcome back ${user.user?.first_name}!`}
+          icon={<CircleCheck />}
+          buttons={{
+            cancel: {
+              text: 'Close',
+              onClick() {
+                setLoginSuccess(false);
               },
-            }}
-          >
-            <div className="flex flex-col gap-6">
-              {/* ---------- Google button ---------- */}
-              <Button
-                text="Continue with Google"
-                variant="secondary"
-                size="md"
-                loading={user.isLoading}
-                onClick={handleGoogleSignIn}
-                startIcon={<GoogleIcon />}
-                className="bg-charcoal-800 hover:bg-charcoal-700 border-charcoal-600 hover:border-charcoal-500 glass-effect border"
-              />
+            },
+          }}
+          isOpen={loginSuccess}
+        />
 
-              {/* ---------- Email button ---------- */}
-              <Button
-                text="Continue with Email"
-                variant="secondary"
-                size="md"
-                loading={false}
-                onClick={() => {
-                  setChoicesIsOpen(false);
-                  setLoginIsOpen(true);
-                }}
-                startIcon={<Mail />}
-                className="bg-charcoal-800 hover:bg-charcoal-700 border-charcoal-600 hover:border-charcoal-500 glass-effect border"
-              />
-            </div>
-          </Dialog>
+        {/* ---------- Signup as CPF Dialog ---------- */}
+        <SignUpDialog
+          isOpen={signUpIsOpen}
+          onClose={() => {
+            dispatch(resetError());
+            signUp.reset();
+            setSignUpIsOpen(false);
+          }}
+          fields={signUpFields}
+          signUpForm={signUp}
+          handleSubmitSignUp={handleSubmitSignUp}
+          isLoading={user.isLoading}
+          onSwitchToLogin={() => {
+            setLoginIsOpen(true);
+            setSignUpIsOpen(false);
+          }}
+        />
 
-          {/* ---------- Login Dialog ---------- */}
-          <LoginDialog
-            isOpen={loginIsOpen}
-            onClose={() => {
-              dispatch(resetError());
-              login.reset();
-              setLoginIsOpen(false);
-            }}
-            fields={loginFields}
-            loginForm={login}
-            handleSubmitLogin={handleSubmitLogin}
-            isLoading={user.isLoading}
-            onSwitchToSignUp={() => {
-              setSignUpIsOpen(true);
-              setLoginIsOpen(false);
-            }}
-          />
-
-          {/* ---------- Login Success ---------- */}
-          <Modal
-            title="Success!"
-            message={`Welcome back ${user.user?.first_name}!`}
-            icon={<CircleCheck />}
-            buttons={{
-              cancel: {
-                text: 'Close',
-                onClick() {
-                  setLoginSuccess(false);
-                },
+        {/* ---------- SignUp Success ---------- */}
+        <Modal
+          title="Success!"
+          message={`You account has been succesfully created!`}
+          icon={<CircleCheck />}
+          buttons={{
+            cancel: {
+              text: 'Close',
+              onClick() {
+                setSignUpSuccess(false);
               },
-            }}
-            isOpen={loginSuccess}
-          />
+            },
+          }}
+          isOpen={signUpSuccess}
+        />
 
-          {/* ---------- Signup as CPF Dialog ---------- */}
-          <SignUpDialog
-            isOpen={signUpIsOpen}
-            onClose={() => {
-              dispatch(resetError());
-              signUp.reset();
-              setSignUpIsOpen(false);
-            }}
-            fields={signUpFields}
-            signUpForm={signUp}
-            handleSubmitSignUp={handleSubmitSignUp}
-            isLoading={user.isLoading}
-            onSwitchToLogin={() => {
-              setLoginIsOpen(true);
-              setSignUpIsOpen(false);
-            }}
-          />
-
-          {/* ---------- SignUp Success ---------- */}
-          <Modal
-            title="Success!"
-            message={`You account has been succesfully created!`}
-            icon={<CircleCheck />}
-            buttons={{
-              cancel: {
-                text: 'Close',
-                onClick() {
-                  setSignUpSuccess(false);
-                },
+        {/* ---------- Error modal ---------- */}
+        <Modal
+          title="Error!"
+          message={`Something went wrong, i'm sorry for the inconvinience!`}
+          icon={<MessageCircleX />}
+          buttons={{
+            cancel: {
+              text: 'Close',
+              onClick() {
+                setErrorModal(false);
               },
-            }}
-            isOpen={signUpSuccess}
-          />
-
-          {/* ---------- Error modal ---------- */}
-          <Modal
-            title="Error!"
-            message={`Something went wrong, i'm sorry for the inconvinience!`}
-            icon={<MessageCircleX />}
-            buttons={{
-              cancel: {
-                text: 'Close',
-                onClick() {
-                  setErrorModal(false);
-                },
-              },
-            }}
-            isOpen={errorModal}
-          />
-        </main>
-      </div>
-    </>
+            },
+          }}
+          isOpen={errorModal}
+        />
+      </main>
+    </div>
   );
 };

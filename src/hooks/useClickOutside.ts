@@ -1,4 +1,4 @@
-import type { useClickOutsideParams } from '../types/';
+import type { useClickOutsideParams } from '@/types/';
 import { useEffect } from 'react';
 
 /**

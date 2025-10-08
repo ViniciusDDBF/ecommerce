@@ -1,6 +1,6 @@
-import type { ReviewFooterProps, FC } from '../../../types';
-import { ThumbsUp, ThumbsDown } from 'lucide-react';
-import { Button } from '../../../components/atoms';
+import type { FC, ReviewFooterProps } from '@/types';
+import { ThumbsDown, ThumbsUp } from 'lucide-react';
+import { Button } from '@/components/atoms';
 
 export const ReviewFooter: FC<ReviewFooterProps> = ({
   reviewId,

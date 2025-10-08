@@ -1,5 +1,10 @@
-import type { FormFieldProps, FC } from '../../../types';
-import { CustomCheckbox, Input, Helper, CustomSelect } from '../../atoms/';
+import type { FC, FormFieldProps } from '@/types';
+import {
+  CustomCheckbox,
+  CustomSelect,
+  Helper,
+  Input,
+} from '@/components/atoms';
 
 export const FormField: FC<FormFieldProps> = ({
   field,

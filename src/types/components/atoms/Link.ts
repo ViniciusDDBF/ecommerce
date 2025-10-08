@@ -1,5 +1,5 @@
-import type { ReactNode, CSSProperties, AnchorHTMLAttributes } from 'react';
-import type { TSize, TButtonVariant } from '../../../types';
+import type { AnchorHTMLAttributes, CSSProperties, ReactNode } from 'react';
+import type { TButtonVariant, TSize } from '@/types';
 
 export interface LinkProps
   extends Omit<AnchorHTMLAttributes<HTMLAnchorElement>, 'children'> {

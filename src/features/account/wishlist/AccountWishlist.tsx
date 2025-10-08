@@ -1,5 +1,5 @@
-import type { FC } from '../../../types';
-import { AccountSectionHeader } from '../../../features';
+import type { FC } from '@/types';
+import { AccountSectionHeader } from '@/features';
 
 export const AccountWishlist: FC = () => {
   return (

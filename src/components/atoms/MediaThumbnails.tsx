@@ -1,4 +1,4 @@
-import type { MediaThumbnailNavigationProps, FC, IMedia } from '../../types';
+import type { FC, IMedia, MediaThumbnailNavigationProps } from '@/types';
 import { CirclePlay } from 'lucide-react';
 
 export const MediaThumbnails: FC<MediaThumbnailNavigationProps> = ({

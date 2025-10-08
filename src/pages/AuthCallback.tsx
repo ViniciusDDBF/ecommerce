@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router';
-import { ThunkGoogle } from '../store/slices/userSlice';
-import { useAppDispatch } from '../store/hooks/hooks';
+import { useAppDispatch } from '@/store/hooks/hooks';
+import { ThunkGoogle } from '@/store/slices/userSlice';
 
 export const AuthCallback = () => {
   const dispatch = useAppDispatch();

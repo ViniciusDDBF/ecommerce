@@ -1,4 +1,4 @@
-import type { EmptyAddressesStateProps, FC } from '../../../types';
+import type { EmptyAddressesStateProps, FC } from '@/types';
 import { Plus } from 'lucide-react';
 
 export const EmptyAddressesState: FC<EmptyAddressesStateProps> = ({

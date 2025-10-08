@@ -1,15 +1,15 @@
-import type { ReviewModalProps, FC } from '../../../types';
-import { useState, useRef, useEffect } from 'react';
+import type { FC, ReviewModalProps } from '@/types';
+import { useEffect, useRef, useState } from 'react';
 import { X } from 'lucide-react';
 import {
+  Button,
   MediaFullDisplay,
   MediaMainDisplay,
-  MediaThumbnails,
   MediaNavigationButtons,
-  Button,
+  MediaThumbnails,
   Overlay,
-} from '../../../components/atoms';
-import { ReviewHeader, ReviewContent, ReviewFooter } from '../../../features';
+} from '@/components/atoms';
+import { ReviewContent, ReviewFooter, ReviewHeader } from '@/features';
 
 export const ReviewModal: FC<ReviewModalProps> = ({
   selectedReview,

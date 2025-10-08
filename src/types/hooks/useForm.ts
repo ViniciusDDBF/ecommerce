@@ -1,5 +1,5 @@
 import type { Dispatch, SetStateAction } from 'react';
-import type { IFormField } from '../../types';
+import type { IFormField } from '@/types';
 
 export interface useFormParams {
   fields: IFormField[];

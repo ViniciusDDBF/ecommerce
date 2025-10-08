@@ -1,11 +1,7 @@
-import type { useFocusTrapParams } from '../types/hooks/useFocusTrap';
+import type { useFocusTrapParams } from '@/types';
 import { useEffect, useRef } from 'react';
 
-export const useFocusTrap = ({
-  isActive,
-  ref,
-  openedByClick,
-}: useFocusTrapParams): void => {
+export const useFocusTrap = ({ isActive, ref }: useFocusTrapParams): void => {
   const firstFocusableElement = useRef<HTMLElement | null>(null);
   const lastFocusableElement = useRef<HTMLElement | null>(null);
 
@@ -45,5 +41,5 @@ export const useFocusTrap = ({
     return () => {
       document.removeEventListener('keydown', handleKeyDown);
     };
-  }, [isActive, ref, openedByClick]);
+  }, [isActive, ref]);
 };

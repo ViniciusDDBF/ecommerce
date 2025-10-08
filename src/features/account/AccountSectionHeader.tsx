@@ -1,5 +1,5 @@
-import type { AccountSectionHeaderProps, FC } from '../../types/';
-import { Button } from '../../components/atoms';
+import type { AccountSectionHeaderProps, FC } from '@/types/';
+import { Button } from '@/components/atoms';
 
 export const AccountSectionHeader: FC<AccountSectionHeaderProps> = ({
   title,

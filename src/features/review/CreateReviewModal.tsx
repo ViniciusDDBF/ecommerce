@@ -1,12 +1,13 @@
-import type { CreateReviewModalProps, FC, IFileWithPreview } from '../../types';
-import React, { useState, useRef } from 'react';
-import { X, Upload, FileVideo, FileImage } from 'lucide-react';
-import { Overlay, Button } from '../../components/atoms';
-import { FormField } from '../../components/molecules';
-import { StarRating } from '../../features';
-import { useScrollLock } from '../../hooks';
-import { supabase } from '../../SupabaseConfig';
-import { useAppSelector } from '../../store/hooks/hooks';
+import type React from 'react';
+import type { CreateReviewModalProps, FC, IFileWithPreview } from '@/types';
+import { useRef, useState } from 'react';
+import { FileImage, FileVideo, Upload, X } from 'lucide-react';
+import { Button, Overlay } from '@/components/atoms';
+import { FormField } from '@/components/molecules';
+import { StarRating } from '@/features';
+import { useScrollLock } from '@/hooks';
+import { supabase } from '@/SupabaseConfig';
+import { useAppSelector } from '@/store/hooks/hooks';
 
 export const CreateReviewModal: FC<CreateReviewModalProps> = ({
   isOpen,

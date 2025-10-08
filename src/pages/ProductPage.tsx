@@ -1,24 +1,24 @@
+import type { IMedia, IProduct } from '../types';
 import { useEffect, useRef, useState } from 'react';
-import { useNavigate, useSearchParams, useLoaderData } from 'react-router-dom';
+import { useLoaderData, useNavigate, useSearchParams } from 'react-router-dom';
 import { ShoppingCart } from 'lucide-react';
 import {
   Breadcrumbs,
   Button,
   MediaMainDisplay,
   Modal,
-} from '../components/atoms';
+} from '@/components/atoms';
+import { MediaThumbnails } from '../components/atoms/MediaThumbnails';
 import {
   ProductHeader,
-  VariantSelector,
-  StockStatus,
-  Reviews,
   ProductInfoPanel,
+  Reviews,
+  StockStatus,
+  VariantSelector,
 } from '../features/';
 import { useScroll } from '../hooks/';
-import parseVariantHash from '../utils/variants/parseVariantHash';
 import getUpdatedVariantParams from '../utils/variants/getUpdatedVariantParams';
-import { MediaThumbnails } from '../components/atoms/MediaThumbnails';
-import type { IMedia, IProduct } from '../types';
+import parseVariantHash from '../utils/variants/parseVariantHash';
 
 export const ProductPage = () => {
   const product = useLoaderData() as IProduct | undefined;

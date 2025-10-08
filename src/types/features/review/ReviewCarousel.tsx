@@ -1,4 +1,4 @@
-import type { IReview } from '../../../types';
+import type { IReview } from '@/types';
 
 export interface ReviewCarouselProps {
   className?: string;

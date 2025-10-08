@@ -1,7 +1,7 @@
+import { RotateCcw, Shield, Truck } from 'lucide-react';
 import { Outlet, useNavigation } from 'react-router';
-import { Truck, Shield, RotateCcw } from 'lucide-react';
-import { LoadingOverlay } from '../../components/atoms';
-import { Header } from '../../features';
+import { LoadingOverlay } from '@/components/atoms';
+import { Header } from '@/features';
 
 export const RootLayout = () => {
   const navigation = useNavigation();

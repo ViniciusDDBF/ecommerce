@@ -1,4 +1,4 @@
-import type { IAttributeOption, IProduct } from '../../../types';
+import type { IAttributeOption, IProduct } from '@/types';
 
 export interface VariantSelectorProps {
   attributeOptions: IAttributeOption[];

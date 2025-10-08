@@ -1,7 +1,7 @@
-import type { FC } from '../../types';
+import type { FC } from '@/types';
 import { Link } from 'react-router';
+import { CinematicTitle } from '@/components/atoms';
 import LogoImg from '../../img/DundichTaighDigitalLogo.png';
-import { CinematicTitle } from '../../components/atoms';
 
 export const Logo: FC = () => {
   return (

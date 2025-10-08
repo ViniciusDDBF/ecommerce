@@ -1,6 +1,6 @@
-import type { ProductReviewsHeaderProps, FC } from '../../types';
+import type { FC, ProductReviewsHeaderProps } from '@/types';
 import { Star, StarHalf } from 'lucide-react';
-import { Link } from '../../components/atoms';
+import { Link } from '@/components/atoms';
 
 export const ProductReviewsHeader: FC<ProductReviewsHeaderProps> = ({
   averageRating,

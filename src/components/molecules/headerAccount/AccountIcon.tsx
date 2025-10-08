@@ -1,7 +1,7 @@
-import type { AccountIconProps, FC } from '../../../types';
+import type { AccountIconProps, FC } from '@/types';
 import { User } from 'lucide-react';
-import { IconOverlay } from '../../atoms';
-import { useKeyPress } from '../../../hooks';
+import { IconOverlay } from '@/components/atoms';
+import { useKeyPress } from '@/hooks';
 
 export const AccountIcon: FC<AccountIconProps> = ({ onClick }) => {
   const handleKeyDown = useKeyPress({ onClick });

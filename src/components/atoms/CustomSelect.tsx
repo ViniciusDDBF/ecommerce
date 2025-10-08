@@ -1,7 +1,7 @@
-import type { CustomSelectProps, ISelectOption, FC } from '../../types';
-import { useState, useRef, useEffect } from 'react';
-import { ChevronDown, Check } from 'lucide-react';
-import { useClickOutside } from '../../hooks/';
+import type { CustomSelectProps, FC, ISelectOption } from '@/types';
+import { useEffect, useRef, useState } from 'react';
+import { Check, ChevronDown } from 'lucide-react';
+import { useClickOutside } from '@/hooks/';
 
 export const CustomSelect: FC<CustomSelectProps> = ({
   options = [],

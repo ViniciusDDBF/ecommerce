@@ -1,4 +1,4 @@
-import type { IMedia } from '../../../types';
+import type { IMedia } from '@/types';
 
 export interface ThumbnailNavigationProps {
   images: IMedia[];
