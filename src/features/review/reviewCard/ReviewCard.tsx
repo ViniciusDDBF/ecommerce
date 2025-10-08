@@ -88,6 +88,7 @@ export const ReviewCard: FC<ReviewCardProps> = ({
                           isExpanded: !isExpanded,
                         })
                       }
+                      type="button"
                     >
                       {isExpanded ? 'Read Less' : 'Read More'}
                     </button>
@@ -99,15 +100,15 @@ export const ReviewCard: FC<ReviewCardProps> = ({
                   <div className="flex justify-center">
                     <div className="grid w-full max-w-xs grid-cols-2 gap-2 sm:max-w-sm sm:grid-cols-3">
                       {review.media.map((media, index) => (
-                        <div
+                        <button
                           key={media.id}
                           className="group relative cursor-pointer touch-manipulation"
                           onClick={() => openReviewModal(review, index)}
                           onKeyDown={(e) =>
                             e.key === 'Enter' && openReviewModal(review, index)
                           }
-                          role="button"
                           tabIndex={0}
+                          type="button"
                         >
                           <div className="bg-charcoal-700 aspect-square overflow-hidden rounded-md">
                             {media.media_type === 'video' ? (
@@ -144,7 +145,7 @@ export const ReviewCard: FC<ReviewCardProps> = ({
                               </div>
                             )}
                           </div>
-                        </div>
+                        </button>
                       ))}
                     </div>
                   </div>

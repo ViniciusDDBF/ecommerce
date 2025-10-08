@@ -52,18 +52,18 @@ export const ReviewCarousel: FC<ReviewCarouselProps> = ({
       <div className="relative mx-auto max-w-7xl px-4 sm:px-6 md:px-8">
         {/* ---------- Carousel Container ---------- */}
         <div className="bg-charcoal-700 glass-effect mx-auto mb-8 overflow-hidden rounded-2xl p-4 sm:p-6 md:p-8">
-          <div
+          <section
             ref={scrollRef}
             aria-label="Review media carousel"
             className="hide-scrollbar flex snap-x snap-mandatory gap-4 overflow-x-auto scroll-smooth sm:gap-6"
-            role="region"
           >
             {reviews.map((item1) =>
               item1.media.map((item2, idx) => (
-                <div
+                <button
                   key={item2.id}
                   className="group relative h-64 w-[80vw] flex-shrink-0 cursor-pointer snap-center sm:w-[40vw] md:h-80 md:w-[25vw] lg:w-[20vw]"
                   onClick={() => openReviewModal(item1, idx, true)}
+                  type="button"
                 >
                   {item2.media_type === 'video' ? (
                     <video
@@ -75,16 +75,16 @@ export const ReviewCarousel: FC<ReviewCarouselProps> = ({
                     />
                   ) : (
                     <img
-                      alt={`Review image ${item2.id}`}
+                      alt={`Review img ${item2.id}`}
                       className="h-full w-full rounded-xl object-cover object-center transition-transform duration-300"
                       src={item2.url}
                     />
                   )}
                   <div className="bg-gradient-charcoal absolute inset-0 rounded-xl opacity-0 transition-opacity duration-300 group-hover:opacity-30" />
-                </div>
+                </button>
               )),
             )}
-          </div>
+          </section>
         </div>
 
         {/* ---------- Navigation Buttons ---------- */}

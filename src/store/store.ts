@@ -1,11 +1,11 @@
-import { configureStore, type Reducer } from '@reduxjs/toolkit';
-import { persistStore, persistReducer } from 'redux-persist';
+import {
+  combineReducers,
+  configureStore,
+  type Reducer,
+} from '@reduxjs/toolkit';
+import { createTransform, persistReducer, persistStore } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
-import counter from './slices/counterSlice';
-import modal from './slices/modal';
 import user from './slices/userSlice';
-import { combineReducers } from '@reduxjs/toolkit';
-import { createTransform } from 'redux-persist';
 
 // Persist only `state.user.user`
 const userTransform = createTransform(
@@ -30,8 +30,6 @@ const persistConfig = {
 
 const rootReducer = combineReducers({
   user,
-  counter,
-  modal,
 });
 // Create persisted reducer
 const persistedReducer = persistReducer(
@@ -59,7 +57,5 @@ export const persistor = persistStore(store);
 
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
-
-
 
 export default store;

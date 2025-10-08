@@ -46,10 +46,11 @@ export const AccountDefault: FC = () => {
         {sections.map((item) => {
           const Icon = item.icon;
           return (
-            <div
+            <button
               key={item.id}
               className="glass-effect ember-transition hover:ember-hover-border cursor-pointer rounded-lg p-4 sm:p-6"
               onClick={() => navigate(`/account/${item.id}`)}
+              type="button"
             >
               <Icon
                 className="text-ember-500 mb-3 sm:mb-4 sm:size-28 md:size-32"
@@ -61,7 +62,7 @@ export const AccountDefault: FC = () => {
               <p className="text-charcoal-300 text-sm sm:text-base">
                 {item.desc}
               </p>
-            </div>
+            </button>
           );
         })}
       </div>

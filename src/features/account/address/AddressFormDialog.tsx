@@ -20,7 +20,7 @@ export const AddressFormDialog: FC<AddressFormDialogProps> = ({
     if (initialValues) {
       form.setValuesAll(initialValues);
     }
-  }, [initialValues]);
+  }, [initialValues, form.setValuesAll]);
 
   const handleSubmit = async () => {
     if (!form.validate()) return;

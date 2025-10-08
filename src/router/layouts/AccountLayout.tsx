@@ -71,6 +71,7 @@ export const AccountLayout = () => {
                         navigate(`/account/${item.id}`);
                         setIsMobileMenuOpen(false);
                       }}
+                      type="button"
                     >
                       <Icon className="h-4 w-4 flex-shrink-0 sm:h-5 sm:w-5" />
                       <span className="font-medium">{item.label}</span>

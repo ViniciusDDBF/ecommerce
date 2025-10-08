@@ -24,7 +24,7 @@ export const useKeyPress = ({
     (event: React.KeyboardEvent<HTMLElement>) => {
       if (event.key === 'Enter' || event.key === ' ') {
         event.preventDefault();
-        onClick?.(event as any);
+       onClick?.(event as unknown as React.MouseEvent<HTMLElement>);
       }
     },
     [onClick],

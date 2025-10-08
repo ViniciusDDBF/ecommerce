@@ -1,5 +1,5 @@
 import type { FC, IReview, ReviewsProps } from '@/types';
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Button, Modal } from '@/components/atoms';
 import {
   CreateReviewModal,
@@ -124,7 +124,7 @@ export const Reviews: FC<ReviewsProps> = ({
         hasDisliked: false,
       });
       setError('');
-    } catch (err) {
+    } catch (_err) {
       setError('Failed to like review. Please try again.');
     }
   };
@@ -151,7 +151,7 @@ export const Reviews: FC<ReviewsProps> = ({
         hasDisliked: true,
       });
       setError('');
-    } catch (err) {
+    } catch (_err) {
       setError('Failed to dislike review. Please try again.');
     }
   };
@@ -168,62 +168,65 @@ export const Reviews: FC<ReviewsProps> = ({
   };
 
   /* ---------- Close review modal ---------- */
-  const closeReviewModal = () => {
+  const closeReviewModal = useCallback(() => {
     setSelectedReview(null);
     setCurrentMediaIndex(0);
     setIsCarouselMode(false);
     setError('');
-  };
+  }, []);
 
   /* ---------- Navigate the images ---------- */
-  const navigateMedia = (direction: 'prev' | 'next') => {
-    if (!selectedReview) return;
+  const navigateMedia = useCallback(
+    (direction: 'prev' | 'next') => {
+      if (!selectedReview) return;
 
-    if (!isCarouselMode || selectedReview.media.length === 0) {
-      // Default cycling behavior within the current review
-      if (direction === 'prev') {
-        setCurrentMediaIndex((prev) =>
-          prev === 0 ? selectedReview.media.length - 1 : prev - 1,
-        );
-      } else {
-        setCurrentMediaIndex((prev) =>
-          prev === selectedReview.media.length - 1 ? 0 : prev + 1,
-        );
+      if (!isCarouselMode || selectedReview.media.length === 0) {
+        // Default cycling behavior within the current review
+        if (direction === 'prev') {
+          setCurrentMediaIndex((prev) =>
+            prev === 0 ? selectedReview.media.length - 1 : prev - 1,
+          );
+        } else {
+          setCurrentMediaIndex((prev) =>
+            prev === selectedReview.media.length - 1 ? 0 : prev + 1,
+          );
+        }
+        return;
       }
-      return;
-    }
 
-    // Carousel mode: Navigate within review, overflow to next/prev review with media
-    const reviewsWithMedia = reviews.filter((r) => r.media.length > 0);
-    const currentReviewIndex = reviewsWithMedia.findIndex(
-      (r) => r.id === selectedReview.id,
-    );
-    if (currentReviewIndex === -1) return;
+      // Carousel mode: Navigate within review, overflow to next/prev review with media
+      const reviewsWithMedia = reviews.filter((r) => r.media.length > 0);
+      const currentReviewIndex = reviewsWithMedia.findIndex(
+        (r) => r.id === selectedReview.id,
+      );
+      if (currentReviewIndex === -1) return;
 
-    if (direction === 'next') {
-      if (currentMediaIndex < selectedReview.media.length - 1) {
-        setCurrentMediaIndex(currentMediaIndex + 1);
+      if (direction === 'next') {
+        if (currentMediaIndex < selectedReview.media.length - 1) {
+          setCurrentMediaIndex(currentMediaIndex + 1);
+        } else {
+          const nextReviewIndex =
+            (currentReviewIndex + 1) % reviewsWithMedia.length;
+          setSelectedReview(reviewsWithMedia[nextReviewIndex]);
+          setCurrentMediaIndex(0);
+        }
       } else {
-        const nextReviewIndex =
-          (currentReviewIndex + 1) % reviewsWithMedia.length;
-        setSelectedReview(reviewsWithMedia[nextReviewIndex]);
-        setCurrentMediaIndex(0);
+        // 'prev'
+        if (currentMediaIndex > 0) {
+          setCurrentMediaIndex(currentMediaIndex - 1);
+        } else {
+          const prevReviewIndex =
+            (currentReviewIndex - 1 + reviewsWithMedia.length) %
+            reviewsWithMedia.length;
+          setSelectedReview(reviewsWithMedia[prevReviewIndex]);
+          setCurrentMediaIndex(
+            reviewsWithMedia[prevReviewIndex].media.length - 1,
+          );
+        }
       }
-    } else {
-      // 'prev'
-      if (currentMediaIndex > 0) {
-        setCurrentMediaIndex(currentMediaIndex - 1);
-      } else {
-        const prevReviewIndex =
-          (currentReviewIndex - 1 + reviewsWithMedia.length) %
-          reviewsWithMedia.length;
-        setSelectedReview(reviewsWithMedia[prevReviewIndex]);
-        setCurrentMediaIndex(
-          reviewsWithMedia[prevReviewIndex].media.length - 1,
-        );
-      }
-    }
-  };
+    },
+    [currentMediaIndex, isCarouselMode, reviews, selectedReview],
+  );
 
   /* ---------- Handle keyboard navigation ---------- */
   useEffect(() => {
@@ -252,7 +255,7 @@ export const Reviews: FC<ReviewsProps> = ({
     return () => {
       window.removeEventListener('keydown', handleKeyDown);
     };
-  }, [selectedReview, currentMediaIndex, isCarouselMode, reviews]);
+  }, [selectedReview, closeReviewModal, navigateMedia]);
 
   /* ---------- Sorting / Filtering / Pagination ---------- */
   const processedReviews = useMemo(() => {

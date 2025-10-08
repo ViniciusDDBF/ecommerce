@@ -28,7 +28,7 @@ export const LoginDialog: FC<LoginDialogProps> = ({
       description="Log in with your existing account"
       icon={<LogIn />}
       isOpen={isOpen}
-      ScrollLock={false}
+      scrollLock={false}
       size="lg"
       title="Log in"
     >

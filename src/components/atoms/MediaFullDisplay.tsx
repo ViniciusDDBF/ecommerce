@@ -11,7 +11,8 @@ export const MediaFullDisplay: FC<FullMediaViewerProps> = ({
   if (!isOpen) return null;
 
   return (
-    <Overlay isOpen={true} onClick={onClose}>
+    <>
+      <Overlay isOpen={true} onClick={onClose} />
       <div className="bg-charcoal-900/90 pointer-events-auto fixed inset-0 z-40 flex items-center justify-center">
         <img alt={alt} className="size-full object-contain" src={mediaUrl} />
         <Button
@@ -23,6 +24,6 @@ export const MediaFullDisplay: FC<FullMediaViewerProps> = ({
           variant="secondary"
         />
       </div>
-    </Overlay>
+    </>
   );
 };

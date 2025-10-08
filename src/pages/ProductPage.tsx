@@ -1,5 +1,5 @@
 import type { IMedia, IProduct } from '../types';
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { useLoaderData, useNavigate, useSearchParams } from 'react-router-dom';
 import { ShoppingCart } from 'lucide-react';
 import {
@@ -101,13 +101,16 @@ export const ProductPage = () => {
   const [selectedLinkedVariation, setSelectedLinkedVariation] =
     useState<string>(initialState.linkedVariation);
 
-  const updateUrlWithVariant = (attributes: { [key: string]: string }) => {
-    const newSearchParams = getUpdatedVariantParams(attributes, searchParams);
+  const updateUrlWithVariant = useCallback(
+    (attributes: { [key: string]: string }) => {
+      const newSearchParams = getUpdatedVariantParams(attributes, searchParams);
 
-    if (searchParams.get('variant') !== newSearchParams.get('variant')) {
-      setSearchParams(newSearchParams, { replace: true });
-    }
-  };
+      if (searchParams.get('variant') !== newSearchParams.get('variant')) {
+        setSearchParams(newSearchParams, { replace: true });
+      }
+    },
+    [searchParams, setSearchParams],
+  );
 
   const findCurrentVariant = () => {
     if (!product) return undefined;
@@ -134,14 +137,14 @@ export const ProductPage = () => {
     if (!searchParams.get('variant')) {
       updateUrlWithVariant(selectedAttributes);
     }
-  }, []);
+  }, [product, searchParams, selectedAttributes, updateUrlWithVariant]);
 
   // Set media when product changes
   useEffect(() => {
     if (product?.all_images?.length && !selectedMedia) {
       setSelectedMedia(product.all_images[0]);
     }
-  }, [product]);
+  }, [product, selectedMedia]);
 
   const handleAttributeSelect = (
     attributeName: string,

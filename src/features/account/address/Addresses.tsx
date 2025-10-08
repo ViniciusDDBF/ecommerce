@@ -1,6 +1,7 @@
 import type { AddressData, FC } from '@/types';
 import { useState } from 'react';
 import { Plus } from 'lucide-react';
+import { nanoid } from '@reduxjs/toolkit';
 import {
   AccountSectionHeader,
   AddressCard,
@@ -95,9 +96,9 @@ export const Addresses: FC = () => {
 
         {/* Address Cards */}
         <div className="space-y-6 sm:space-y-8">
-          {sortedAddresses.map((address, idx) => (
+          {sortedAddresses.map((address) => (
             <AddressCard
-              key={idx}
+              key={nanoid()}
               address={address}
               onDelete={() => {
                 setAddressSelected(address);

@@ -1,5 +1,6 @@
 import type { FC, StarRatingProps } from '@/types';
 import { Star } from 'lucide-react';
+import { nanoid } from '@reduxjs/toolkit';
 
 export const StarRating: FC<StarRatingProps> = ({ rating, setRating }) => {
   return (
@@ -11,9 +12,10 @@ export const StarRating: FC<StarRatingProps> = ({ rating, setRating }) => {
       <div className="mb-6 flex justify-center space-x-2">
         {[...Array(5)].map((_, i) => (
           <button
-            key={i}
+            key={nanoid()}
             className="cursor-pointer transition-transform hover:scale-110 focus:outline-none"
             onClick={() => setRating(i + 1)}
+            type="button"
           >
             <Star
               className={`h-8 w-8 ${rating >= i + 1 ? 'text-ember-500' : 'text-charcoal-400'}`}

@@ -28,7 +28,7 @@ export const SignUpDialog: FC<SignUpDialogProps> = ({
       description="Create your account to access the full flow of the website"
       icon={<UserPlus />}
       isOpen={isOpen}
-      ScrollLock={false}
+      scrollLock={false}
       size="lg"
       title="Create Account"
     >

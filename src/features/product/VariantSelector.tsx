@@ -1,4 +1,5 @@
 import type { FC, VariantSelectorProps } from '@/types';
+import { nanoid } from '@reduxjs/toolkit';
 import { Button } from '@/components/atoms';
 
 export const VariantSelector: FC<VariantSelectorProps> = ({
@@ -12,13 +13,13 @@ export const VariantSelector: FC<VariantSelectorProps> = ({
 }) => {
   return (
     <div className="space-y-3 sm:space-y-4 lg:space-y-6">
-      {attributeOptions.map((attributeOption, idx) => {
+      {attributeOptions.map((attributeOption) => {
         const isLinkedVariationAttribute = attributeOption.values.some(
           (v) => v.needs_redirect,
         );
 
         return (
-          <div key={idx} className="space-y-2 sm:space-y-3">
+          <div key={nanoid()} className="space-y-2 sm:space-y-3">
             {
               <span className="text-charcoal-200 block text-sm font-medium sm:text-base md:text-lg">
                 {attributeOption.values.length > 0 && attributeOption.name}
@@ -27,7 +28,7 @@ export const VariantSelector: FC<VariantSelectorProps> = ({
 
             {isLinkedVariationAttribute && product.linked_variations?.length ? (
               <div className="flex flex-wrap gap-2 overflow-x-auto pb-2 sm:gap-3">
-                {attributeOption.values.map((value, idx) => {
+                {attributeOption.values.map((value) => {
                   const isCurrentProduct =
                     value.variant_slug === product.product_slug;
                   const isSelected =
@@ -41,13 +42,14 @@ export const VariantSelector: FC<VariantSelectorProps> = ({
                     : linkedVariationDataMap.get(value.variant_slug);
 
                   return (
-                    <div
-                      key={idx}
+                    <button
+                      key={nanoid()}
                       className={`group relative flex-shrink-0 cursor-pointer transition-all duration-200`}
                       onClick={() => {
                         if (value.variant_slug)
                           handleLinkedVariationSelect(value.variant_slug);
                       }}
+                      type="button"
                     >
                       <div
                         className={`bg-charcoal-800 rounded-lg p-2 transition-all duration-200 sm:p-3 ${
@@ -70,7 +72,7 @@ export const VariantSelector: FC<VariantSelectorProps> = ({
                             />
                           )}
                       </div>
-                    </div>
+                    </button>
                   );
                 })}
               </div>

@@ -8,7 +8,7 @@ export const homeLoader = async () => {
       .eq('carousel_name', 'elements_kit')
       .single();
     return [data1.data];
-  } catch (error) {
+  } catch (_err) {
     throw new Response('Product not found', { status: 404 });
   }
 };

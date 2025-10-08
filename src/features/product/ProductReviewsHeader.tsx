@@ -38,9 +38,10 @@ export const ProductReviewsHeader: FC<ProductReviewsHeaderProps> = ({
   };
 
   return (
-    <div
+    <button
       className="group flex size-fit cursor-pointer items-center space-x-2"
       onClick={onClick}
+      type="button"
     >
       <div className="flex items-center">{renderStars()}</div>
       <span className="text-charcoal-300 flex items-center text-sm sm:text-base">
@@ -51,6 +52,6 @@ export const ProductReviewsHeader: FC<ProductReviewsHeaderProps> = ({
           text={`${reviewCount} reviews`}
         />
       </span>
-    </div>
+    </button>
   );
 };

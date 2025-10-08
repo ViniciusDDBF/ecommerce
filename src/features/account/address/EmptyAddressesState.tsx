@@ -6,7 +6,11 @@ export const EmptyAddressesState: FC<EmptyAddressesStateProps> = ({
 }) => {
   return (
     <div className="py-6 text-center sm:py-8">
-      <div className="group cursor-pointer" onClick={onAddClick}>
+      <button
+        className="group cursor-pointer"
+        onClick={onAddClick}
+        type="button"
+      >
         <div className="border-charcoal-600 hover:border-ember-400/50 bg-charcoal-800/30 hover:bg-charcoal-800/50 rounded-2xl border-2 border-dashed p-8 text-center transition-all duration-300 sm:p-12 md:p-16">
           <h3 className="text-charcoal-300 group-hover:text-charcoal-200 mb-6 text-xl font-light transition sm:mb-8 sm:text-2xl md:text-3xl">
             No addresses saved yet!
@@ -18,7 +22,7 @@ export const EmptyAddressesState: FC<EmptyAddressesStateProps> = ({
             Add New Address
           </h3>
         </div>
-      </div>
+      </button>
     </div>
   );
 };

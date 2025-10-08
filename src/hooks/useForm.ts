@@ -1,5 +1,5 @@
 import type { useFormParams, useFormReturn } from '@/types';
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import {
   maskCNPJ,
   maskCPF,
@@ -25,126 +25,83 @@ export const useForm = ({
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const setValue = (name: string, value: any) => {
-    const field = fields.find((f) => f.name === name);
+  const setValue = useCallback(
+    (name: string, value: unknown) => {
+      const field = fields.find((f) => f.name === name);
 
-    // Handle checkbox separately
-    if (field?.type === 'checkbox') {
-      setValues((prev) => ({ ...prev, [name]: !!value }));
-      setErrors((prev) => ({ ...prev, [name]: '' }));
-      return;
-    }
+      setValues((prev) => {
+        const updated = { ...prev, [name]: value };
+        return updated;
+      });
 
-    if (typeof value !== 'string') {
-      setValues((prev) => ({ ...prev, [name]: '' }));
-      setErrors((prev) => ({ ...prev, [name]: 'Invalid input' }));
-      return;
-    }
+      setErrors((prevErrors) => {
+        const newErrors = { ...prevErrors };
 
-    let maskedValue = value;
-
-    if (field?.applyMask === 'cpf') {
-      maskedValue = maskCPF(value);
-    } else if (field?.applyMask === 'cnpj') {
-      maskedValue = maskCNPJ(value);
-    } else if (field?.applyMask === 'phone') {
-      maskedValue = maskPhone(value);
-    }
-
-    setValues((prev) => ({ ...prev, [name]: maskedValue }));
-
-    const newErrors: Record<string, string> = { ...errors };
-
-    if (field?.applyMask === 'cpf') {
-      const cleaned = maskedValue.replace(/\D/g, '');
-      newErrors[name] =
-        cleaned.length === 11 && !validateCPF(maskedValue)
-          ? 'Invalid CPF'
-          : cleaned.length > 0 && cleaned.length !== 11
-            ? 'CPF must have 11 digits'
-            : '';
-    }
-
-    if (field?.applyMask === 'cnpj') {
-      const cleaned = maskedValue.replace(/\D/g, '');
-      newErrors[name] =
-        cleaned.length === 14 && !validateCNPJ(maskedValue)
-          ? 'Invalid CNPJ'
-          : cleaned.length > 0 && cleaned.length !== 14
-            ? 'CNPJ must have 14 digits'
-            : '';
-    }
-
-    if (field?.applyMask === 'phone') {
-      const cleaned = maskedValue.replace(/\D/g, '');
-      newErrors[name] =
-        cleaned.length > 0 && cleaned.length < 10
-          ? 'Phone must have at least 10 digits'
-          : '';
-    }
-
-    if (field?.confirmField) {
-      const confirmValue = values[field.confirmField];
-      newErrors[name] =
-        maskedValue && confirmValue && maskedValue !== confirmValue
-          ? 'Passwords do not match'
-          : '';
-    }
-
-    if (field?.validation) {
-      const { minLength, maxLength, required, custom } = field.validation;
-      if (
-        required &&
-        (!maskedValue ||
-          (typeof maskedValue === 'string' && !maskedValue.trim()))
-      ) {
-        newErrors[name] = `${field.label} is required`;
-      } else if (minLength && maskedValue.length < minLength) {
-        newErrors[name] =
-          `${field.label} must have at least ${minLength} characters`;
-      } else if (maxLength && maskedValue.length > maxLength) {
-        newErrors[name] =
-          `${field.label} must have at most ${maxLength} characters`;
-      } else if (custom) {
-        const customError = custom(maskedValue);
-        if (customError) newErrors[name] = customError;
-      } else if (newErrors[name]) {
-        newErrors[name] = '';
-      }
-    }
-
-    setErrors(newErrors);
-  };
-
-  const setValuesAll = (newValues: Record<string, any>, replace = false) => {
-    setValues((prev) => {
-      // if replace=true, wipe everything first
-      const updated = replace ? {} : { ...prev };
-
-      // ensure fields exist in definition
-      fields.forEach((field) => {
-        if (field.name in newValues) {
-          updated[field.name] =
-            field.type === 'checkbox'
-              ? !!newValues[field.name]
-              : newValues[field.name];
+        // Handle checkbox separately
+        if (field?.type === 'checkbox') {
+          newErrors[name] = '';
+          return newErrors;
         }
+
+        if (typeof value !== 'string') {
+          newErrors[name] = 'Invalid input';
+          return newErrors;
+        }
+
+        let maskedValue = value;
+        if (field?.applyMask === 'cpf') maskedValue = maskCPF(value);
+        if (field?.applyMask === 'cnpj') maskedValue = maskCNPJ(value);
+        if (field?.applyMask === 'phone') maskedValue = maskPhone(value);
+
+        // Example CPF validation
+        if (field?.applyMask === 'cpf') {
+          const cleaned = maskedValue.replace(/\D/g, '');
+          newErrors[name] =
+            cleaned.length === 11 && !validateCPF(maskedValue)
+              ? 'Invalid CPF'
+              : cleaned.length > 0 && cleaned.length !== 11
+                ? 'CPF must have 11 digits'
+                : '';
+        }
+
+        return newErrors;
+      });
+    },
+    [fields], // no errors or values in dependencies anymore
+  );
+
+  const setValuesAll = useCallback(
+    (newValues: Record<string, unknown>, replace = false) => {
+      setValues((prev) => {
+        // if replace=true, wipe everything first
+        const updated = replace ? {} : { ...prev };
+
+        // ensure fields exist in definition
+        fields.forEach((field) => {
+          if (field.name in newValues) {
+            updated[field.name] =
+              field.type === 'checkbox'
+                ? !!newValues[field.name]
+                : newValues[field.name];
+          }
+        });
+
+        return updated;
       });
 
-      return updated;
-    });
-
-    // clear errors for all updated fields
-    setErrors((prev) => {
-      const cleared = { ...prev };
-      Object.keys(newValues).forEach((name) => {
-        cleared[name] = '';
+      // clear errors for all updated fields
+      setErrors((prev) => {
+        const cleared = { ...prev };
+        Object.keys(newValues).forEach((name) => {
+          cleared[name] = '';
+        });
+        return cleared;
       });
-      return cleared;
-    });
-  };
+    },
+    [fields],
+  );
 
-  const validate = () => {
+  const validate = useCallback(() => {
     const newErrors: Record<string, string> = {};
 
     fields.forEach((field) => {
@@ -229,23 +186,23 @@ export const useForm = ({
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
-  };
+  }, [fields, values]);
 
-  const reset = () => {
-    const defaultValues: Record<string, any> = {};
+  const reset = useCallback(() => {
+    const defaultValues: Record<string, unknown> = {};
     fields.forEach((field) => {
       defaultValues[field.name] = field.type === 'checkbox' ? false : '';
     });
     setValues(defaultValues);
     setErrors({});
     setIsSubmitting(false);
-  };
+  }, [fields]);
 
-  const resetToInitial = () => {
+  const resetToInitial = useCallback(() => {
     setValues({ ...initialValues });
     setErrors({});
     setIsSubmitting(false);
-  };
+  }, [initialValues]);
 
   return {
     values,

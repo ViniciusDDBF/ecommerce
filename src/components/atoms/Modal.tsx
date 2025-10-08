@@ -51,7 +51,8 @@ export const Modal: FC<ModalProps> = ({
   };
 
   return (
-    <Overlay isOpen={isOpen}>
+    <>
+      <Overlay isOpen={isOpen} />
       <div className="fixed inset-0 z-50 flex items-center justify-center px-4 py-6 sm:px-6">
         <div
           ref={modalRef}
@@ -117,6 +118,6 @@ export const Modal: FC<ModalProps> = ({
           </div>
         </div>
       </div>
-    </Overlay>
+    </>
   );
 };

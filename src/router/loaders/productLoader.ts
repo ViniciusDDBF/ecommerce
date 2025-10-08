@@ -1,4 +1,4 @@
-import { type LoaderFunctionArgs } from 'react-router';
+import type { LoaderFunctionArgs } from 'react-router';
 import { supabase } from '../../SupabaseConfig';
 
 export const productLoader = async ({ params }: LoaderFunctionArgs) => {

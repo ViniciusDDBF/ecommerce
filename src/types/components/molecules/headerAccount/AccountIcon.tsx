@@ -1,4 +1,4 @@
 export interface AccountIconProps {
-  onClick?: React.MouseEventHandler<HTMLDivElement>;
+  onClick?: React.MouseEventHandler<HTMLButtonElement>;
 }
   

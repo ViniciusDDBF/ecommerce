@@ -1,4 +1,5 @@
 import type { FC, RatingCircleProps } from '@/types';
+import { useId } from 'react';
 import { Star } from 'lucide-react';
 
 export const RatingCircle: FC<RatingCircleProps> = ({
@@ -6,6 +7,7 @@ export const RatingCircle: FC<RatingCircleProps> = ({
   review_count,
   className,
 }) => {
+  const backgroundCircleId = useId();
   const circleProgress = (average / 5) * 100;
   const circumference = 2 * Math.PI * 45;
   const strokeDashoffset =
@@ -19,6 +21,7 @@ export const RatingCircle: FC<RatingCircleProps> = ({
         {/* Background circle */}
         <svg className="h-full w-full -rotate-90 transform">
           <circle
+            aria-labelledby={backgroundCircleId}
             className="text-charcoal-600"
             cx="64"
             cy="64"
@@ -27,6 +30,7 @@ export const RatingCircle: FC<RatingCircleProps> = ({
             stroke="currentColor"
             strokeWidth="8"
           />
+          <title id={backgroundCircleId}>Background circle</title>
           {/* Progress circle */}
           <circle
             className="text-ember-500 transition-all duration-500"

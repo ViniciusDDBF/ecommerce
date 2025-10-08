@@ -51,6 +51,7 @@ export const RatingFilter: FC<RatingFilterProps> = ({
                 isSelected ? 'ring-ember-500 ring-1' : 'hover:bg-charcoal-600'
               }`}
               onClick={() => handleRatingClick(stars)}
+              type="button"
             >
               {/* Star rating number */}
               <div className="flex min-w-[3rem] items-center gap-1">
