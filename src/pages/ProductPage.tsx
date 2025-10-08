@@ -134,7 +134,7 @@ export const ProductPage = () => {
     if (!searchParams.get('variant')) {
       updateUrlWithVariant(selectedAttributes);
     }
-  }, []); // Run once on mount
+  }, []);
 
   // Set media when product changes
   useEffect(() => {
@@ -187,33 +187,15 @@ export const ProductPage = () => {
   };
 
   const handleLinkedVariationSelect = async (variantSlug: string) => {
-    if (!product || !product.linked_variations?.length) {
-      if (product) setSelectedLinkedVariation(product.product_slug);
-      if (product && product.all_images?.length)
-        setSelectedMedia(product.all_images[0]);
-      return;
-    }
+    if (!product) return null;
 
     if (variantSlug === product.product_slug) {
-      setSelectedLinkedVariation(product.product_slug);
-      if (product.all_images?.length) setSelectedMedia(product.all_images[0]);
       return;
     }
 
     if (variantSlug) {
       setSelectedLinkedVariation(variantSlug);
-      const variationData = linkedVariationDataMap.get(variantSlug);
-      if (
-        variationData &&
-        variationData.primary_image_url &&
-        (variationData.primary_image_media_type === 'image' ||
-          variationData.primary_image_media_type === 'video')
-      ) {
-        setSelectedMedia({
-          url: variationData.primary_image_url,
-          media_type: variationData.primary_image_media_type,
-        });
-      }
+
       window.location.href = `/products/${variantSlug}`;
     }
   };
