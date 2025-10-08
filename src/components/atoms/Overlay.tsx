@@ -6,7 +6,7 @@ export const Overlay: FC<OverlayProps> = ({ isOpen, onClick }) => {
   return (
     <button
       aria-label="Close overlay"
-      className="bg-charcoal-700/70 fixed inset-0 z-20 backdrop-blur-sm"
+      className="bg-charcoal-700/70 fixed inset-0 z-20 h-[100vh] backdrop-blur-sm"
       onClick={onClick}
       type="button"
     />
