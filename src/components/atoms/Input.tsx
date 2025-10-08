@@ -16,23 +16,23 @@ export const Input: FC<InputProps> = ({
   if (type === 'textarea') {
     return (
       <textarea
-        value={value || ''}
-        onChange={(e) => onChange(e.target.value)}
-        placeholder={placeholder}
         className={`${baseClasses} resize-none`}
         disabled={disabled}
+        onChange={(e) => onChange(e.target.value)}
+        placeholder={placeholder}
+        value={value || ''}
       />
     );
   }
 
   return (
     <input
-      type={type}
-      value={value || ''}
-      onChange={(e) => onChange(e.target.value)}
-      placeholder={placeholder}
       className={baseClasses}
       disabled={disabled}
+      onChange={(e) => onChange(e.target.value)}
+      placeholder={placeholder}
+      type={type}
+      value={value || ''}
     />
   );
 };

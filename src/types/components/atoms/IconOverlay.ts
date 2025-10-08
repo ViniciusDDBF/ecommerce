@@ -1,9 +1,9 @@
-import type { ReactNode, MouseEventHandler } from 'react';
+import type { MouseEventHandler, ReactNode } from 'react';
 
 export interface IconOverlayProps {
+  onClick?: MouseEventHandler<HTMLButtonElement>;
   icon?: ReactNode;
-  onClick?: MouseEventHandler<HTMLDivElement>;
   count?: number;
   showBadge?: boolean;
-  [key: string]: any;
+  [key: string]: unknown;
 }

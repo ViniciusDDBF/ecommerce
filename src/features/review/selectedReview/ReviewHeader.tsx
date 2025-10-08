@@ -49,12 +49,12 @@ export const ReviewHeader: FC<ReviewHeaderProps> = ({
         </div>
       </div>
       <Button
-        variant="outline"
-        size="xs"
-        startIcon={<X className="h-4 w-4 md:h-5 md:w-5" />}
-        onClick={onClose}
         aria-label="Close modal"
         className={`${isMobile ? 'md:hidden' : 'hidden md:inline-flex'}`}
+        onClick={onClose}
+        size="xs"
+        startIcon={<X className="h-4 w-4 md:h-5 md:w-5" />}
+        variant="outline"
       />
     </div>
   );

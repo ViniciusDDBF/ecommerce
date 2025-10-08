@@ -28,7 +28,9 @@ const handleGoogleSignIn = async () => {
         redirectTo: `${window.location.origin}/auth/callback`,
       },
     });
-  } catch (err) {}
+  } catch (err) {
+    console.log(err);
+  }
 };
 
 export const AccountHeader: FC = () => {
@@ -80,20 +82,20 @@ export const AccountHeader: FC = () => {
       setLoginIsOpen(false);
       setLoginSuccess(true);
       login.reset();
-    } catch (err) {
+    } catch (_err) {
       setErrorModal(true);
     }
   };
 
   const handleSubmitSignUp = async () => {
     if (!signUp.validate()) return;
-    const { confirm_password, ...newUser } = signUp.values;
+    const { ...newUser } = signUp.values;
     try {
       signUp.setIsSubmitting(true);
       await dispatch(ThunkCreateCustomer(newUser as SignUpArgs));
       setSignUpSuccess(true);
       signUp.reset();
-    } catch (err) {
+    } catch (_err) {
       setErrorModal(true);
     } finally {
       signUp.setIsSubmitting(false);
@@ -109,59 +111,59 @@ export const AccountHeader: FC = () => {
 
         {/* ---------- Login With: Dialog ---------- */}
         <Dialog
-          ScrollLock={false}
-          title="Welcome"
-          isOpen={choicesIsOpen}
-          size="lg"
-          icon={<LogIn />}
-          onClose={() => setChoicesIsOpen(false)}
           buttons={{
             cancel: {
               text: 'Close',
               onClick: () => setChoicesIsOpen(false),
             },
           }}
+          icon={<LogIn />}
+          isOpen={choicesIsOpen}
+          onClose={() => setChoicesIsOpen(false)}
+          scrollLock={false}
+          size="lg"
+          title="Welcome"
         >
           <div className="flex flex-col gap-6">
             {/* ---------- Google button ---------- */}
             <Button
-              text="Continue with Google"
-              variant="secondary"
-              size="md"
+              className="bg-charcoal-800 hover:bg-charcoal-700 border-charcoal-600 hover:border-charcoal-500 glass-effect border"
               loading={user.isLoading}
               onClick={handleGoogleSignIn}
+              size="md"
               startIcon={<GoogleIcon />}
-              className="bg-charcoal-800 hover:bg-charcoal-700 border-charcoal-600 hover:border-charcoal-500 glass-effect border"
+              text="Continue with Google"
+              variant="secondary"
             />
 
             {/* ---------- Email button ---------- */}
             <Button
-              text="Continue with Email"
-              variant="secondary"
-              size="md"
+              className="bg-charcoal-800 hover:bg-charcoal-700 border-charcoal-600 hover:border-charcoal-500 glass-effect border"
               loading={false}
               onClick={() => {
                 setChoicesIsOpen(false);
                 setLoginIsOpen(true);
               }}
+              size="md"
               startIcon={<Mail />}
-              className="bg-charcoal-800 hover:bg-charcoal-700 border-charcoal-600 hover:border-charcoal-500 glass-effect border"
+              text="Continue with Email"
+              variant="secondary"
             />
           </div>
         </Dialog>
 
         {/* ---------- Login Dialog ---------- */}
         <LoginDialog
+          fields={loginFields}
+          handleSubmitLogin={handleSubmitLogin}
+          isLoading={user.isLoading}
           isOpen={loginIsOpen}
+          loginForm={login}
           onClose={() => {
             dispatch(resetError());
             login.reset();
             setLoginIsOpen(false);
           }}
-          fields={loginFields}
-          loginForm={login}
-          handleSubmitLogin={handleSubmitLogin}
-          isLoading={user.isLoading}
           onSwitchToSignUp={() => {
             setSignUpIsOpen(true);
             setLoginIsOpen(false);
@@ -170,9 +172,6 @@ export const AccountHeader: FC = () => {
 
         {/* ---------- Login Success ---------- */}
         <Modal
-          title="Success!"
-          message={`Welcome back ${user.user?.first_name}!`}
-          icon={<CircleCheck />}
           buttons={{
             cancel: {
               text: 'Close',
@@ -181,32 +180,32 @@ export const AccountHeader: FC = () => {
               },
             },
           }}
+          icon={<CircleCheck />}
           isOpen={loginSuccess}
+          message={`Welcome back ${user.user?.first_name}!`}
+          title="Success!"
         />
 
         {/* ---------- Signup as CPF Dialog ---------- */}
         <SignUpDialog
+          fields={signUpFields}
+          handleSubmitSignUp={handleSubmitSignUp}
+          isLoading={user.isLoading}
           isOpen={signUpIsOpen}
           onClose={() => {
             dispatch(resetError());
             signUp.reset();
             setSignUpIsOpen(false);
           }}
-          fields={signUpFields}
-          signUpForm={signUp}
-          handleSubmitSignUp={handleSubmitSignUp}
-          isLoading={user.isLoading}
           onSwitchToLogin={() => {
             setLoginIsOpen(true);
             setSignUpIsOpen(false);
           }}
+          signUpForm={signUp}
         />
 
         {/* ---------- SignUp Success ---------- */}
         <Modal
-          title="Success!"
-          message={`You account has been succesfully created!`}
-          icon={<CircleCheck />}
           buttons={{
             cancel: {
               text: 'Close',
@@ -215,14 +214,14 @@ export const AccountHeader: FC = () => {
               },
             },
           }}
+          icon={<CircleCheck />}
           isOpen={signUpSuccess}
+          message={`You account has been succesfully created!`}
+          title="Success!"
         />
 
         {/* ---------- Error modal ---------- */}
         <Modal
-          title="Error!"
-          message={`Something went wrong, i'm sorry for the inconvinience!`}
-          icon={<MessageCircleX />}
           buttons={{
             cancel: {
               text: 'Close',
@@ -231,7 +230,10 @@ export const AccountHeader: FC = () => {
               },
             },
           }}
+          icon={<MessageCircleX />}
           isOpen={errorModal}
+          message={`Something went wrong, i'm sorry for the inconvinience!`}
+          title="Error!"
         />
       </main>
     </div>

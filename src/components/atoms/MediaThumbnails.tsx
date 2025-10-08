@@ -60,22 +60,27 @@ export const MediaThumbnails: FC<MediaThumbnailNavigationProps> = ({
         return (
           <button
             key={item.id || item.url || index}
-            onClick={() => handleSelect(item, index)}
             className={`group relative overflow-hidden`}
+            onClick={() => handleSelect(item, index)}
+            type="button"
           >
             {isVideo ? (
               <div className="relative">
                 {playIcon}
                 <video
-                  src={item.url}
                   className={`${commonClasses}`}
-                  muted
                   controls={false}
+                  muted
                   preload="metadata"
+                  src={item.url}
                 />
               </div>
             ) : (
-              <img src={item.url} className={`${commonClasses} `} />
+              <img
+              alt="Product Thumbnail"
+              className={`${commonClasses} `}
+              src={item.url}
+              />
             )}
           </button>
         );

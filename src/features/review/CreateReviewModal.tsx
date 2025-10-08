@@ -154,7 +154,7 @@ export const CreateReviewModal: FC<CreateReviewModalProps> = ({
   };
 
   return (
-    <Overlay onClick={handleClose} isOpen={isOpen}>
+    <Overlay isOpen={isOpen} onClick={handleClose}>
       <div className="custom-scroll-y pointer-events-none fixed inset-0 z-50 flex items-center justify-center px-4 py-6 sm:px-6">
         <div className="bg-gradient-charcoal border-ember-600/30 pointer-events-auto relative mx-auto flex max-h-[90vh] w-full max-w-[90vw] flex-col rounded-xl border shadow-2xl backdrop-blur-xl sm:max-w-lg">
           {/* Header */}
@@ -163,14 +163,14 @@ export const CreateReviewModal: FC<CreateReviewModalProps> = ({
               Create Review
             </h2>
             <Button
-              variant="ghost"
+              aria-label="Close cart"
+              className="p-2"
+              onClick={handleClose}
               size="xs"
               startIcon={
                 <X className="text-charcoal-200 h-4 w-4 sm:h-5 sm:w-5" />
               }
-              onClick={handleClose}
-              aria-label="Close cart"
-              className="p-2"
+              variant="ghost"
             />
           </div>
 
@@ -180,10 +180,6 @@ export const CreateReviewModal: FC<CreateReviewModalProps> = ({
 
             {/* Review title */}
             <FormField
-              value={reviewTitle}
-              onChange={(e) => {
-                setReviewTitle(e);
-              }}
               field={{
                 name: 'title',
                 label: 'Review Title',
@@ -191,14 +187,14 @@ export const CreateReviewModal: FC<CreateReviewModalProps> = ({
                 placeholder: 'Enter the title of your review',
                 validation: { required: true },
               }}
+              onChange={(e) => {
+                setReviewTitle(e);
+              }}
+              value={reviewTitle}
             />
 
             {/* Review title */}
             <FormField
-              value={reviewContent}
-              onChange={(e) => {
-                setReviewContent(e);
-              }}
               field={{
                 name: 'content',
                 label: 'Review Content',
@@ -206,20 +202,24 @@ export const CreateReviewModal: FC<CreateReviewModalProps> = ({
                 placeholder: 'Write your review',
                 validation: { required: true },
               }}
+              onChange={(e) => {
+                setReviewContent(e);
+              }}
+              value={reviewContent}
             />
 
             {/* Drop Zone */}
             <h1>Upload files (optional)</h1>
             <div
-              onDrop={handleDrop}
-              onDragOver={handleDragOver}
-              onDragLeave={handleDragLeave}
-              onClick={() => fileInputRef.current?.click()}
               className={`relative cursor-pointer overflow-hidden rounded-2xl border-2 border-dashed transition-all duration-300 ${
                 isDragging
                   ? 'border-ember-500 bg-ember-500/5'
                   : 'border-charcoal-700 hover:border-charcoal-600'
               } p-6`}
+              onClick={() => fileInputRef.current?.click()}
+              onDragLeave={handleDragLeave}
+              onDragOver={handleDragOver}
+              onDrop={handleDrop}
             >
               <div className="glass-effect rounded-xl p-6 text-center">
                 <div className="bg-charcoal-800 mb-4 inline-flex h-12 w-12 items-center justify-center rounded-full">
@@ -244,11 +244,11 @@ export const CreateReviewModal: FC<CreateReviewModalProps> = ({
               </div>
               <input
                 ref={fileInputRef}
-                type="file"
                 accept="image/*,video/*"
+                className="hidden"
                 multiple
                 onChange={(e) => handleFileSelect(e.target.files)}
-                className="hidden"
+                type="file"
               />
             </div>
 
@@ -260,13 +260,13 @@ export const CreateReviewModal: FC<CreateReviewModalProps> = ({
                     Selected Files ({files.length})
                   </h3>
                   <Button
-                    text="Clear all"
-                    variant="ghost"
-                    size="sm"
                     onClick={() => {
                       files.forEach((f) => URL.revokeObjectURL(f.preview));
                       setFiles([]);
                     }}
+                    size="sm"
+                    text="Clear all"
+                    variant="ghost"
                   />
                 </div>
                 <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
@@ -279,14 +279,14 @@ export const CreateReviewModal: FC<CreateReviewModalProps> = ({
                       <div className="bg-charcoal-800 relative aspect-video overflow-hidden">
                         {file.type === 'image' ? (
                           <img
-                            src={file.preview}
                             alt={file.name}
                             className="h-full w-full object-cover"
+                            src={file.preview}
                           />
                         ) : (
                           <video
-                            src={file.preview}
                             className="h-full w-full object-cover"
+                            src={file.preview}
                           />
                         )}
 
@@ -304,13 +304,13 @@ export const CreateReviewModal: FC<CreateReviewModalProps> = ({
 
                         {/* Remove Button */}
                         <Button
-                          variant="outline"
+                          className="absolute top-2 right-2 border-red-400"
+                          onClick={() => removeFile(file.id)}
                           size="xs"
                           startIcon={
                             <X className="h-4 w-4 text-red-400 sm:h-5 sm:w-5" />
                           }
-                          onClick={() => removeFile(file.id)}
-                          className="absolute top-2 right-2 border-red-400"
+                          variant="outline"
                         />
                       </div>
 
@@ -331,10 +331,6 @@ export const CreateReviewModal: FC<CreateReviewModalProps> = ({
           {/* Footer */}
           <div className="border-charcoal-600 flex justify-end border-t p-4">
             <Button
-              text={isSubmitting ? 'Submitting...' : 'Submit Review'}
-              variant="primary"
-              size="lg"
-              loading={isSubmitting}
               disabled={
                 isSubmitting ||
                 rating === 0 ||
@@ -343,8 +339,12 @@ export const CreateReviewModal: FC<CreateReviewModalProps> = ({
                 reviewContent === null ||
                 reviewContent === ''
               }
-              startIcon={!isSubmitting && <Upload className="h-5 w-5" />}
+              loading={isSubmitting}
               onClick={handleSubmit}
+              size="lg"
+              startIcon={!isSubmitting && <Upload className="h-5 w-5" />}
+              text={isSubmitting ? 'Submitting...' : 'Submit Review'}
+              variant="primary"
             />
           </div>
         </div>

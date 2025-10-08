@@ -1,7 +1,7 @@
 import type { ButtonProps, ReactNode, TSize } from '@/types';
 
 export interface DialogProps {
-  ScrollLock?: boolean;
+  scrollLock?: boolean;
   isOpen: boolean;
   title: string;
   description?: string;

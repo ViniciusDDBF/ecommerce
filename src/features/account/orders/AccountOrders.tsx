@@ -5,7 +5,7 @@ export const AccountOrders: FC = () => {
   return (
     <div className="bg-charcoal-900 min-h-screen">
       <div className="mx-auto max-w-4xl px-4 py-6 sm:px-6 sm:py-8 md:px-8">
-        <AccountSectionHeader title="My Orders" subtitle="Manage your orders" />
+        <AccountSectionHeader subtitle="Manage your orders" title="My Orders" />
 
         <div className="space-y-6 sm:space-y-8">
           <div className="group relative">

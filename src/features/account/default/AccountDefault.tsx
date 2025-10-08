@@ -48,12 +48,12 @@ export const AccountDefault: FC = () => {
           return (
             <div
               key={item.id}
-              onClick={() => navigate(`/account/${item.id}`)}
               className="glass-effect ember-transition hover:ember-hover-border cursor-pointer rounded-lg p-4 sm:p-6"
+              onClick={() => navigate(`/account/${item.id}`)}
             >
               <Icon
-                size={24}
                 className="text-ember-500 mb-3 sm:mb-4 sm:size-28 md:size-32"
+                size={24}
               />
               <h3 className="text-ember-400 mb-2 text-base font-semibold sm:text-lg md:text-xl">
                 {item.label}

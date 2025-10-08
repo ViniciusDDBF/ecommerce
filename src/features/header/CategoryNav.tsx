@@ -25,23 +25,21 @@ export const CategoryNav: FC = () => {
             {categories.map((category) => (
               <Link
                 key={category}
-                text={category}
-                size="sm"
-                selected={activeCategory === category}
+                className="min-w-max flex-shrink-0 whitespace-nowrap"
+                href={`#${category.toLowerCase()}`}
                 onClick={() => {
                   setWipIsOpen(true);
                   setActiveCategory(category);
                 }}
-                className="min-w-max flex-shrink-0 whitespace-nowrap"
-                href={`#${category.toLowerCase()}`}
+                selected={activeCategory === category}
+                size="sm"
+                text={category}
               />
             ))}
           </div>
         </div>
       </section>
       <Modal
-        title="WIP"
-        message="I'm still developing this feature!"
         buttons={{
           cancel: {
             text: 'OK',
@@ -51,6 +49,8 @@ export const CategoryNav: FC = () => {
           },
         }}
         isOpen={wipIsOpen}
+        message="I'm still developing this feature!"
+        title="WIP"
       />
     </>
   );

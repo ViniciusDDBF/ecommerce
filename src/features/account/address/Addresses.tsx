@@ -84,13 +84,13 @@ export const Addresses: FC = () => {
     <div className="bg-charcoal-900 min-h-screen">
       <div className="mx-auto max-w-4xl px-4 py-6 sm:px-6 sm:py-8 md:px-8">
         <AccountSectionHeader
-          title="My Addresses"
-          subtitle="Manage your delivery locations"
           button={{
             startIcon: <Plus className="h-4 w-4 sm:h-5 sm:w-5" />,
             text: 'Add Address',
             onClick: () => setCreateIsOpen(true),
           }}
+          subtitle="Manage your delivery locations"
+          title="My Addresses"
         />
 
         {/* Address Cards */}
@@ -99,15 +99,15 @@ export const Addresses: FC = () => {
             <AddressCard
               key={idx}
               address={address}
+              onDelete={() => {
+                setAddressSelected(address);
+                setDeleteIsOpen(true);
+              }}
               onEdit={() => {
                 setAddressSelected(address);
                 setUpdateIsOpen(true);
               }}
               onSetDefault={() => handleSetDefault(address)}
-              onDelete={() => {
-                setAddressSelected(address);
-                setDeleteIsOpen(true);
-              }}
             />
           ))}
         </div>
@@ -119,25 +119,25 @@ export const Addresses: FC = () => {
 
         {/* Create Dialog */}
         <AddressFormDialog
-          mode="create"
-          isOpen={createIsOpen}
           fields={addressFields}
-          onSubmit={handleCreateAddress}
-          onClose={() => setCreateIsOpen(false)}
-          isLoading={user.isLoading}
           initialValues={{}}
+          isLoading={user.isLoading}
+          isOpen={createIsOpen}
+          mode="create"
+          onClose={() => setCreateIsOpen(false)}
+          onSubmit={handleCreateAddress}
         />
 
         {/* Update Dialog */}
         {addressSelected && (
           <AddressFormDialog
-            mode="update"
-            isOpen={updateIsOpen}
             fields={addressFields}
             initialValues={addressSelected}
-            onSubmit={handleUpdateAddress}
-            onClose={() => setUpdateIsOpen(false)}
             isLoading={user.isLoading}
+            isOpen={updateIsOpen}
+            mode="update"
+            onClose={() => setUpdateIsOpen(false)}
+            onSubmit={handleUpdateAddress}
           />
         )}
 

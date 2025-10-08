@@ -1,11 +1,11 @@
 import type { DialogProps, FC } from '@/types';
-import React, { useEffect, useRef } from 'react';
+import React, { useCallback, useEffect, useId, useRef } from 'react';
 import { X } from 'lucide-react';
 import { Button, Overlay } from '@/components/atoms';
 import { useClickOutside, useFocusTrap, useScrollLock } from '@/hooks';
 
 export const Dialog: FC<DialogProps> = ({
-  ScrollLock = true,
+  scrollLock = true,
   isOpen,
   title,
   description,
@@ -18,11 +18,10 @@ export const Dialog: FC<DialogProps> = ({
 }) => {
   const dialogRef = useRef<HTMLDivElement | null>(null);
   const titleId = `dialog-title-${React.useId()}`;
-  const descriptionId = description
-    ? `dialog-description-${React.useId()}`
-    : undefined;
+  const descriptionId = useId();
 
-  if (ScrollLock) useScrollLock({ isActive: isOpen });
+  useScrollLock({ isActive: isOpen && scrollLock });
+
   useFocusTrap({
     isActive: isOpen,
     openedByClick: openedByClick,
@@ -37,14 +36,14 @@ export const Dialog: FC<DialogProps> = ({
     xl: 'max-w-[90vw] sm:max-w-xl',
   };
 
-  const handleClose = () => {
+  const handleClose = useCallback(() => {
     if (buttons?.cancel?.onClick) {
       buttons.cancel.onClick();
     }
     if (onClose) {
       onClose();
     }
-  };
+  }, [buttons, onClose]);
 
   // Handle Escape key to close dialog
   useEffect(() => {
@@ -58,7 +57,7 @@ export const Dialog: FC<DialogProps> = ({
       document.addEventListener('keydown', handleKeyDown);
       return () => document.removeEventListener('keydown', handleKeyDown);
     }
-  }, [isOpen]);
+  }, [isOpen, handleClose]);
 
   useClickOutside({ ref: dialogRef, callback: handleClose });
 
@@ -69,11 +68,11 @@ export const Dialog: FC<DialogProps> = ({
       <div className="fixed inset-0 z-50 flex items-center justify-center px-4 py-6 sm:px-6">
         <div
           ref={dialogRef}
-          role="dialog"
-          aria-modal="true"
-          aria-labelledby={titleId}
           aria-describedby={descriptionId}
+          aria-labelledby={titleId}
+          aria-modal="true"
           className={`relative w-full ${sizeClasses[size]} bg-gradient-charcoal border-ember-600/30 mx-auto flex max-h-[90vh] flex-col rounded-xl border shadow-2xl backdrop-blur-xl`}
+          role="dialog"
         >
           {/* ---------- Header ---------- */}
           <div className="border-charcoal-700/50 flex items-center justify-between border-b p-4 sm:p-6">
@@ -87,15 +86,15 @@ export const Dialog: FC<DialogProps> = ({
               )}
               <div>
                 <h2
-                  id={titleId}
                   className="text-ember-50 text-base font-semibold sm:text-lg md:text-xl"
+                  id={titleId}
                 >
                   {title}
                 </h2>
                 {description && (
                   <p
-                    id={descriptionId}
                     className="text-charcoal-300 mt-1 text-xs sm:text-sm"
+                    id={descriptionId}
                   >
                     {description}
                   </p>
@@ -104,14 +103,14 @@ export const Dialog: FC<DialogProps> = ({
             </div>
 
             <Button
-              variant="ghost"
+              aria-label="Close cart"
+              className="p-2"
+              onClick={handleClose}
               size="xs"
               startIcon={
                 <X className="text-charcoal-200 h-4 w-4 sm:h-5 sm:w-5" />
               }
-              onClick={handleClose}
-              aria-label="Close cart"
-              className="p-2"
+              variant="ghost"
             />
           </div>
 
@@ -123,18 +122,18 @@ export const Dialog: FC<DialogProps> = ({
             <div className="border-charcoal-700/50 flex items-center justify-end gap-2 border-t p-4 sm:gap-3 sm:p-6">
               {buttons.cancel && (
                 <Button
+                  onClick={handleClose}
+                  size="sm"
                   text={buttons.cancel.text}
                   variant="secondary"
-                  size="sm"
-                  onClick={handleClose}
                 />
               )}
               {buttons.confirm && (
                 <Button
+                  onClick={buttons.confirm.onClick}
+                  size="sm"
                   text={buttons.confirm.text}
                   variant="primary"
-                  size="sm"
-                  onClick={buttons.confirm.onClick}
                 />
               )}
             </div>

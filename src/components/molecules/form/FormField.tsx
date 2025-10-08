@@ -17,30 +17,30 @@ export const FormField: FC<FormFieldProps> = ({
       case 'textarea':
         return (
           <Input
-            type="textarea"
-            value={value || ''}
-            onChange={onChange}
-            placeholder={field.placeholder}
             disabled={field.disabled}
             error={!!error}
+            onChange={onChange}
+            placeholder={field.placeholder}
+            type="textarea"
+            value={value || ''}
           />
         );
 
       case 'select':
         return (
           <CustomSelect
-            options={field.options}
             onChange={onChange}
-            value={value || ''}
+            options={field.options}
             placeholder={field.placeholder}
+            value={value || ''}
           />
         );
 
       case 'checkbox':
         return (
           <CustomCheckbox
-            label={field.label}
             checked={value || false}
+            label={field.label}
             onChange={onChange}
           />
         );
@@ -48,12 +48,12 @@ export const FormField: FC<FormFieldProps> = ({
       default:
         return (
           <Input
-            type={'text'}
-            value={value || ''}
-            onChange={onChange}
-            placeholder={field.placeholder}
             disabled={field.disabled}
             error={!!error}
+            onChange={onChange}
+            placeholder={field.placeholder}
+            type={'text'}
+            value={value || ''}
           />
         );
     }
@@ -62,7 +62,7 @@ export const FormField: FC<FormFieldProps> = ({
   return (
     <div className={`relative space-y-2 ${field.className || ''}`}>
       {field.type !== 'checkbox' && (
-        <label className="text-charcoal-200 flex items-center justify-between gap-2 text-sm font-medium">
+        <span className="text-charcoal-200 flex items-center justify-between gap-2 text-sm font-medium">
           <div>
             {field.label}
             {field.validation?.required && (
@@ -73,13 +73,13 @@ export const FormField: FC<FormFieldProps> = ({
           {field.helper && (
             <Helper
               onClick={() => {
-                onChange(field.helper!.value);
+                onChange(field.helper?.value);
               }}
-              value={field.helper.value}
               tooltip={field.helper.text}
+              value={field.helper.value}
             />
           )}
-        </label>
+        </span>
       )}
 
       {renderInput()}

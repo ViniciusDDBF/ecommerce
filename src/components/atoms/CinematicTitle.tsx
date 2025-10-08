@@ -1,5 +1,6 @@
 import type { CinematicTitleProps, FC } from '@/types';
 import { useEffect, useRef } from 'react';
+import { nanoid } from '@reduxjs/toolkit';
 
 export const CinematicTitle: FC<CinematicTitleProps> = ({
   text,
@@ -19,8 +20,8 @@ export const CinematicTitle: FC<CinematicTitleProps> = ({
       ref={titleRef}
       className={`text-charcoal-900 inline-flex text-4xl leading-tight font-bold tracking-tight wrap-break-word ${className}`}
     >
-      {text.split('').map((char, i) => (
-        <span key={i} className="relative inline-block">
+      {text.split('').map((char) => (
+        <span key={nanoid()} className="relative inline-block">
           {/* ---------- Shadow behind letter ---------- */}
           <span
             className="absolute"

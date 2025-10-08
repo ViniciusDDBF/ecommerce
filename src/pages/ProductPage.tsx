@@ -283,16 +283,16 @@ export const ProductPage = () => {
 
             {window.innerWidth > 640 && (
               <MediaThumbnails
-                selectionMode="object"
+                layout={'vertical'}
                 mediaList={product.all_images}
-                selected={selectedMedia}
                 onSelect={(media) => {
                   if (typeof media !== 'number') {
                     setSelectedMedia(media);
                   }
                 }}
+                selected={selectedMedia}
+                selectionMode="object"
                 thumbnailSize="xl"
-                layout={'vertical'}
               />
             )}
 
@@ -302,16 +302,16 @@ export const ProductPage = () => {
 
             {window.innerWidth <= 640 && (
               <MediaThumbnails
-                selectionMode="object"
+                layout={'horizontal'}
                 mediaList={product.all_images}
-                selected={selectedMedia}
                 onSelect={(media) => {
                   if (typeof media !== 'number') {
                     setSelectedMedia(media);
                   }
                 }}
+                selected={selectedMedia}
+                selectionMode="object"
                 thumbnailSize="xs"
-                layout={'horizontal'}
               />
             )}
 
@@ -325,43 +325,40 @@ export const ProductPage = () => {
               {/* ---------- Product Main info ---------- */}
               <ProductHeader
                 averageRating={product?.rating_summary?.average_rating}
-                reviewCount={product?.rating_summary?.review_count}
-                productName={product.product_name}
                 currentPrice={
                   currentVariant?.current_price || product.current_price
-                }
-                originalPrice={
-                  currentVariant?.original_price || product.original_price
                 }
                 onClick={() => {
                   scrollTo({ target: sectionRef.current });
                 }}
+                originalPrice={
+                  currentVariant?.original_price || product.original_price
+                }
+                productName={product.product_name}
+                reviewCount={product?.rating_summary?.review_count}
               />
 
               {/* ---------- Product Attribute ---------- */}
               <VariantSelector
                 attributeOptions={attributeOptions}
-                selectedAttributes={selectedAttributes}
                 handleAttributeSelect={handleAttributeSelect}
                 handleLinkedVariationSelect={handleLinkedVariationSelect}
                 linkedVariationDataMap={linkedVariationDataMap}
                 product={product}
+                selectedAttributes={selectedAttributes}
                 selectedLinkedVariation={selectedLinkedVariation}
               />
 
               {/* ---------- Stock Status ---------- */}
               <StockStatus
-                stockStatus={stockStatus}
                 currentStock={currentStock}
+                stockStatus={stockStatus}
               />
 
               {/* ---------- Add to cart ---------- */}
               <Button
-                text="Add to Cart"
-                variant="primary"
-                size="full"
-                endIcon={<ShoppingCart />}
                 disabled={stockStatus === 'out_of_stock'}
+                endIcon={<ShoppingCart />}
                 onClick={() => {
                   setWipIsOpen(true);
                   console.log('Adding to cart:', {
@@ -369,13 +366,16 @@ export const ProductPage = () => {
                     quantity: 1,
                   });
                 }}
+                size="full"
+                text="Add to Cart"
+                variant="primary"
               />
 
               {/* ---------- Product Details information ---------- */}
               <ProductInfoPanel
                 description={product.description}
-                sku={currentVariant?.sku || product.sku}
                 dimensions={currentVariant?.dimensions}
+                sku={currentVariant?.sku || product.sku}
               />
 
               {/* ---------- Review Card ---------- */}
@@ -384,16 +384,14 @@ export const ProductPage = () => {
         </main>
         <div ref={sectionRef}>
           <Reviews
-            ratingSummary={product.rating_summary}
             isLoggedIn={true}
-            reviews={product.reviews}
             productId={product.product_id}
+            ratingSummary={product.rating_summary}
+            reviews={product.reviews}
           />
         </div>
       </div>
       <Modal
-        title="WIP"
-        message="I'm still developing this feature!"
         buttons={{
           cancel: {
             text: 'OK',
@@ -403,6 +401,8 @@ export const ProductPage = () => {
           },
         }}
         isOpen={wipIsOpen}
+        message="I'm still developing this feature!"
+        title="WIP"
       />
     </>
   );

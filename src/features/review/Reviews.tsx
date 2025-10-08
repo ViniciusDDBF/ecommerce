@@ -310,8 +310,8 @@ export const Reviews: FC<ReviewsProps> = ({
           />
         </div>
         <CreateReviewModal
-          onClose={() => setCreateReview(!createReview)}
           isOpen={createReview}
+          onClose={() => setCreateReview(!createReview)}
           productId={productId}
         />
       </>
@@ -323,9 +323,9 @@ export const Reviews: FC<ReviewsProps> = ({
       {/* ---------- All images carousel ---------- */}
       {reviews !== undefined ? (
         <ReviewCarousel
-          reviews={reviews}
-          openReviewModal={openReviewModal}
           className="border-charcoal-700 mt-20 md:border-y-1"
+          openReviewModal={openReviewModal}
+          reviews={reviews}
         />
       ) : null}
 
@@ -335,17 +335,12 @@ export const Reviews: FC<ReviewsProps> = ({
         <div className="md:flex md:justify-center">
           <RatingCircle
             average={ratingSummary.average_rating}
-            review_count={ratingSummary.review_count}
             className=""
+            review_count={ratingSummary.review_count}
           />
           <RatingFilter
-            rate1={ratingSummary.rate1}
-            rate2={ratingSummary.rate2}
-            rate3={ratingSummary.rate3}
-            rate4={ratingSummary.rate4}
-            rate5={ratingSummary.rate5}
-            review_count={ratingSummary.review_count}
             average={ratingSummary.average_rating}
+            className="md:border-charcoal-700 md:border-x-1"
             onRatingSelect={(e) => {
               setRatingFilter(e);
               setCurrentPage(1);
@@ -353,7 +348,12 @@ export const Reviews: FC<ReviewsProps> = ({
                 target: sectionRef.current ? sectionRef.current : null,
               });
             }}
-            className="md:border-charcoal-700 md:border-x-1"
+            rate1={ratingSummary.rate1}
+            rate2={ratingSummary.rate2}
+            rate3={ratingSummary.rate3}
+            rate4={ratingSummary.rate4}
+            rate5={ratingSummary.rate5}
+            review_count={ratingSummary.review_count}
           />
           <div className="flex items-center justify-center p-4">
             <Button
@@ -373,52 +373,52 @@ export const Reviews: FC<ReviewsProps> = ({
       {/* ---------- Review card ---------- */}
       <div ref={sectionRef}>
         <ReviewCard
-          updateReviewState={updateReviewState}
-          getReviewState={getReviewState}
-          openReviewModal={openReviewModal}
-          handleLikeClick={handleLikeClick}
-          handleDislikeClick={handleDislikeClick}
-          reviews={processedReviews ? processedReviews : reviews}
           currentPage={currentPage}
+          getReviewState={getReviewState}
+          handleDislikeClick={handleDislikeClick}
+          handleLikeClick={handleLikeClick}
           onPageChange={(page) => setCurrentPage(page)}
-          totalPages={totalPages}
           onSortBy={(e) => {
             setSortBy(e);
           }}
+          openReviewModal={openReviewModal}
+          reviews={processedReviews ? processedReviews : reviews}
+          totalPages={totalPages}
+          updateReviewState={updateReviewState}
         />
       </div>
 
       {/* ---------- Review modal ---------- */}
       <ReviewModal
-        selectedReview={selectedReview}
-        currentMediaIndex={currentMediaIndex}
-        getReviewState={getReviewState}
-        setCurrentMediaIndex={setCurrentMediaIndex}
-        navigateMedia={navigateMedia}
         closeReviewModal={closeReviewModal}
-        handleLikeClick={handleLikeClick}
-        handleDislikeClick={handleDislikeClick}
-        isCarouselMode={isCarouselMode}
+        currentMediaIndex={currentMediaIndex}
         error={error}
+        getReviewState={getReviewState}
+        handleDislikeClick={handleDislikeClick}
+        handleLikeClick={handleLikeClick}
+        isCarouselMode={isCarouselMode}
+        navigateMedia={navigateMedia}
+        selectedReview={selectedReview}
+        setCurrentMediaIndex={setCurrentMediaIndex}
       />
 
       {/* ---------- Create Review modal ---------- */}
       <CreateReviewModal
-        onClose={() => setCreateReview(!createReview)}
         isOpen={createReview}
+        onClose={() => setCreateReview(!createReview)}
         productId={productId}
       />
 
       <Modal
-        isOpen={needsToLogIn}
-        title="Need to log in"
-        message="You need to be logged in to create a review"
         buttons={{
           cancel: {
             text: 'Close',
             onClick: () => setNeedsToLogIn(false),
           },
         }}
+        isOpen={needsToLogIn}
+        message="You need to be logged in to create a review"
+        title="Need to log in"
       />
     </>
   );

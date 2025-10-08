@@ -8,9 +8,6 @@ export const DeleteAddressModal: FC<DeleteAddressModalProps> = ({
 }) => {
   return (
     <Modal
-      isOpen={isOpen}
-      title="Delete Address"
-      message="This action is permanent"
       buttons={{
         cancel: {
           text: 'Close',
@@ -21,6 +18,9 @@ export const DeleteAddressModal: FC<DeleteAddressModalProps> = ({
           onClick: onConfirm,
         },
       }}
+      isOpen={isOpen}
+      message="This action is permanent"
+      title="Delete Address"
     />
   );
 };

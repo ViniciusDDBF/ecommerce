@@ -37,9 +37,9 @@ export const Link: FC<LinkProps> = ({
   return (
     <a
       {...props}
+      aria-disabled={disabled ? 'true' : undefined}
       className={combinedClasses}
       style={style}
-      aria-disabled={disabled ? 'true' : undefined}
     >
       {startIcon && <span className="mr-2">{startIcon}</span>}
       {text}

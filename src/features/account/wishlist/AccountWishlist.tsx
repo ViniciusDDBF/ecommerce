@@ -6,8 +6,8 @@ export const AccountWishlist: FC = () => {
     <div className="bg-charcoal-900 min-h-screen">
       <div className="mx-auto max-w-4xl px-4 py-6 sm:px-6 sm:py-8 md:px-8">
         <AccountSectionHeader
-          title="My wishlist"
           subtitle="Manage your wishlist"
+          title="My wishlist"
         />
 
         <div className="space-y-6 sm:space-y-8">

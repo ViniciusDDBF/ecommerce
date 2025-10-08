@@ -19,24 +19,24 @@ export const RatingCircle: FC<RatingCircleProps> = ({
         {/* Background circle */}
         <svg className="h-full w-full -rotate-90 transform">
           <circle
+            className="text-charcoal-600"
             cx="64"
             cy="64"
+            fill="none"
             r="45"
             stroke="currentColor"
             strokeWidth="8"
-            fill="none"
-            className="text-charcoal-600"
           />
           {/* Progress circle */}
           <circle
+            className="text-ember-500 transition-all duration-500"
             cx="64"
             cy="64"
+            fill="none"
             r="45"
             stroke="currentColor"
-            strokeWidth="8"
-            fill="none"
             strokeLinecap="round"
-            className="text-ember-500 transition-all duration-500"
+            strokeWidth="8"
             style={{
               strokeDasharray: circumference,
               strokeDashoffset: strokeDashoffset,

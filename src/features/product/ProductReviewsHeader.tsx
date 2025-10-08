@@ -39,16 +39,16 @@ export const ProductReviewsHeader: FC<ProductReviewsHeaderProps> = ({
 
   return (
     <div
-      onClick={onClick}
       className="group flex size-fit cursor-pointer items-center space-x-2"
+      onClick={onClick}
     >
       <div className="flex items-center">{renderStars()}</div>
       <span className="text-charcoal-300 flex items-center text-sm sm:text-base">
         {averageRating.toFixed(1)}
         <Link
-          text={`${reviewCount} reviews`}
           className="group-hover:text-ember-300"
           selected={true}
+          text={`${reviewCount} reviews`}
         />
       </span>
     </div>

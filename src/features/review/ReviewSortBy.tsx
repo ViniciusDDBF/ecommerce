@@ -7,15 +7,15 @@ export const ReviewSortBy: FC<ReviewSortByProps> = ({ onSortBy }) => {
       <div className="w-40">
         <h1>Sort by</h1>
         <CustomSelect
-          value="latest"
-          placeholder="Sort"
+          onChange={onSortBy}
           options={[
             { label: 'Latest', value: 'latest' },
             { label: 'Oldest', value: 'oldest' },
             { label: 'Positive Votes', value: 'positive_votes' },
             { label: 'Negative Votes', value: 'negative_votes' },
           ]}
-          onChange={onSortBy}
+          placeholder="Sort"
+          value="latest"
         />
       </div>
     </div>

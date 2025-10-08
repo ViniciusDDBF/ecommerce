@@ -14,12 +14,6 @@ export const SignUpDialog: FC<SignUpDialogProps> = ({
 }) => {
   return (
     <Dialog
-      ScrollLock={false}
-      title="Create Account"
-      isOpen={isOpen}
-      description="Create your account to access the full flow of the website"
-      size="lg"
-      icon={<UserPlus />}
       buttons={{
         cancel: {
           text: 'Close',
@@ -31,21 +25,27 @@ export const SignUpDialog: FC<SignUpDialogProps> = ({
           loading: isLoading,
         },
       }}
+      description="Create your account to access the full flow of the website"
+      icon={<UserPlus />}
+      isOpen={isOpen}
+      ScrollLock={false}
+      size="lg"
+      title="Create Account"
     >
       <FormGrid
-        fields={fields}
-        values={signUpForm.values}
-        errors={signUpForm.errors}
-        onChange={signUpForm.setValue}
         columns={2}
+        errors={signUpForm.errors}
+        fields={fields}
+        onChange={signUpForm.setValue}
+        values={signUpForm.values}
       />
       <div className="mt-4 text-center">
         <span className="text-charcoal-300 text-sm">
           Already have a account?{' '}
           <button
-            type="button"
             className="text-ember-400 cursor-pointer font-semibold hover:underline"
             onClick={onSwitchToLogin}
+            type="button"
           >
             Log in
           </button>

@@ -14,9 +14,9 @@ export const Homepage = () => {
         {/* ---------- Image ---------- */}
         <div className="relative h-[70vh] sm:h-full sm:flex-[2]">
           <img
-            src="https://niihlyofonxtmzgzanpv.supabase.co/storage/v1/object/public/loja-do-vini/banners/homePage/Miauzinho.png"
             alt="Hero"
             className="h-full w-full object-cover grayscale-20"
+            src="https://niihlyofonxtmzgzanpv.supabase.co/storage/v1/object/public/loja-do-vini/banners/homePage/Miauzinho.png"
           />
 
           {/* ---------- Overlay for Mobile ---------- */}
@@ -28,12 +28,12 @@ export const Homepage = () => {
                 Where sophistication meets innovation.
               </p>
               <Button
-                size="sm"
-                text="Explore Collection"
                 className="mt-2"
                 onClick={() => {
                   setWipIsOpen(true);
                 }}
+                size="sm"
+                text="Explore Collection"
               />
             </div>
           </div>
@@ -48,14 +48,14 @@ export const Homepage = () => {
               Where sophistication meets innovation.
             </p>
             <Button
-              text="Explore Collection"
+              className="sm:px-4 sm:py-2"
+              endIcon={<ArrowRight size={18} />}
               onClick={() => {
                 setWipIsOpen(true);
               }}
-              variant="primary"
               size="md"
-              endIcon={<ArrowRight size={18} />}
-              className="sm:px-4 sm:py-2"
+              text="Explore Collection"
+              variant="primary"
             />
           </div>
         </div>
@@ -65,8 +65,6 @@ export const Homepage = () => {
       {data && <Carousel data={data} />}
 
       <Modal
-        title="WIP"
-        message="I'm still developing this feature!"
         buttons={{
           cancel: {
             text: 'OK',
@@ -76,6 +74,8 @@ export const Homepage = () => {
           },
         }}
         isOpen={wipIsOpen}
+        message="I'm still developing this feature!"
+        title="WIP"
       />
     </>
   );

@@ -43,7 +43,7 @@ export const ReviewModal: FC<ReviewModalProps> = ({
 
   return (
     <>
-      <Overlay onClick={closeReviewModal} isOpen={selectedReview !== null}>
+      <Overlay isOpen={selectedReview !== null} onClick={closeReviewModal}>
         {!fullMediaOpen && (
           <div
             ref={scrollRef}
@@ -59,54 +59,54 @@ export const ReviewModal: FC<ReviewModalProps> = ({
                 <div className="relative flex min-h-[30vh] w-full items-center md:mb-0 md:h-auto md:max-h-[90vh] md:min-h-[auto] md:flex-1 md:flex-row md:items-center md:justify-center">
                   <MediaNavigationButtons
                     hasNavigation={hasNavigation}
-                    onPrev={() => navigateMedia('prev')}
                     onNext={() => navigateMedia('next')}
+                    onPrev={() => navigateMedia('prev')}
                   />
                   <MediaMainDisplay
-                    media={currentMedia}
                     index={currentMediaIndex}
+                    media={currentMedia}
                     onImageClick={handleImageClick}
                   />
                   {/* Mobile close button */}
                   <Button
-                    variant="secondary"
-                    size="xs"
-                    startIcon={<X className="h-5 w-5" />}
-                    onClick={closeReviewModal}
                     aria-label="Close modal"
                     className="absolute top-4 right-4 md:hidden"
+                    onClick={closeReviewModal}
+                    size="xs"
+                    startIcon={<X className="h-5 w-5" />}
+                    variant="secondary"
                   />
                 </div>
               )}
               {/* Review Details Section */}
               <div className="flex w-full flex-col md:w-96 md:overflow-hidden">
                 <ReviewHeader
-                  review={selectedReview}
                   onClose={closeReviewModal}
+                  review={selectedReview}
                 />
                 <div className="custom-scroll-y min-h-[33vh] flex-1 overflow-y-auto p-4">
                   <ReviewContent review={selectedReview} />
                   <MediaThumbnails
                     gridColumns={3}
+                    layout="horizontal"
                     maxThumbnails={3}
                     mediaList={selectedReview.media}
-                    selectionMode="index"
                     onSelect={(e) => {
                       if (typeof e === 'number') {
                         setCurrentMediaIndex(e);
                         console.log(currentMedia);
                       }
                     }}
-                    layout="horizontal"
                     selected={currentMediaIndex}
+                    selectionMode="index"
                   />
                 </div>
                 <ReviewFooter
+                  error={error}
+                  onDislike={handleDislikeClick}
+                  onLike={handleLikeClick}
                   reviewId={selectedReview.id}
                   reviewState={reviewState}
-                  onLike={handleLikeClick}
-                  onDislike={handleDislikeClick}
-                  error={error}
                 />
               </div>
             </div>
@@ -115,9 +115,9 @@ export const ReviewModal: FC<ReviewModalProps> = ({
       </Overlay>
 
       <MediaFullDisplay
-        mediaUrl={currentMedia?.url || ''}
         alt={`Full screen review media ${currentMediaIndex + 1}`}
         isOpen={fullMediaOpen}
+        mediaUrl={currentMedia?.url || ''}
         onClose={handleFullMediaClose}
       />
     </>

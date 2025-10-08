@@ -24,10 +24,10 @@ export const FormGrid: FC<FormGridProps> = ({
       {fields.map((field) => (
         <div key={field.name} className={colSpanClass(field.colSpan || 1)}>
           <FormField
-            field={field}
-            value={values[field.name]}
             error={errors[field.name]}
+            field={field}
             onChange={(value) => onChange(field.name, value)}
+            value={values[field.name]}
           />
         </div>
       ))}

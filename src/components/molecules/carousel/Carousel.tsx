@@ -61,27 +61,26 @@ export const Carousel: FC<CarouselProps> = ({ data, className = '' }) => {
               </h2>
               <div className="flex gap-2 self-end sm:self-auto">
                 <Button
-                  size="sm"
-                  variant="outline"
-                  startIcon={<ChevronLeft size={16} />}
-                  onClick={() => scroll('left')}
                   className="p-2 sm:p-3"
+                  onClick={() => scroll('left')}
+                  size="sm"
+                  startIcon={<ChevronLeft size={16} />}
+                  variant="outline"
                 />
                 <Button
-                  size="sm"
-                  variant="outline"
-                  startIcon={<ChevronRight size={16} />}
-                  onClick={() => scroll('right')}
                   className="p-2 sm:p-3"
+                  onClick={() => scroll('right')}
+                  size="sm"
+                  startIcon={<ChevronRight size={16} />}
+                  variant="outline"
                 />
               </div>
             </div>
 
-            <div
+            <section
               ref={scrollRef}
-              className={`flex snap-x snap-mandatory gap-4 overflow-x-auto pb-4 [-ms-overflow-style:none] [scrollbar-width:none] sm:gap-6 [&::-webkit-scrollbar]:hidden`}
-              role="region"
               aria-label={`${carousel.carousel_title} carousel`}
+              className={`flex snap-x snap-mandatory gap-4 overflow-x-auto pb-4 [-ms-overflow-style:none] [scrollbar-width:none] sm:gap-6 [&::-webkit-scrollbar]:hidden`}
             >
               {carousel.products.map((groupVariants, groupIndex) => {
                 const selectedVariantId =
@@ -93,8 +92,7 @@ export const Carousel: FC<CarouselProps> = ({ data, className = '' }) => {
                 return (
                   <CarouselProductCard
                     key={cardId}
-                    variants={groupVariants}
-                    selectedVariantId={selectedVariantId}
+                    cardId={cardId}
                     onVariantSelect={(variantId) =>
                       handleProductSelect(
                         carousel.carousel_name,
@@ -102,11 +100,12 @@ export const Carousel: FC<CarouselProps> = ({ data, className = '' }) => {
                         variantId,
                       )
                     }
-                    cardId={cardId}
+                    selectedVariantId={selectedVariantId}
+                    variants={groupVariants}
                   />
                 );
               })}
-            </div>
+            </section>
           </div>
         ))
       )}

@@ -30,18 +30,6 @@ export const AddressFormDialog: FC<AddressFormDialogProps> = ({
 
   return (
     <Dialog
-      title={mode === 'create' ? 'Create Address' : 'Edit Address'}
-      isOpen={isOpen}
-      description={
-        mode === 'create'
-          ? 'Add a new delivery address'
-          : 'Update your address information'
-      }
-      size="xl"
-      icon={<Edit3 className="h-4 w-4 sm:h-5 sm:w-5" />}
-      onClose={() => {
-        onClose();
-      }}
       buttons={{
         cancel: {
           text: 'Close',
@@ -53,13 +41,25 @@ export const AddressFormDialog: FC<AddressFormDialogProps> = ({
           loading: isLoading,
         },
       }}
+      description={
+        mode === 'create'
+          ? 'Add a new delivery address'
+          : 'Update your address information'
+      }
+      icon={<Edit3 className="h-4 w-4 sm:h-5 sm:w-5" />}
+      isOpen={isOpen}
+      onClose={() => {
+        onClose();
+      }}
+      size="xl"
+      title={mode === 'create' ? 'Create Address' : 'Edit Address'}
     >
       <FormGrid
-        fields={fields}
-        values={form.values}
-        errors={form.errors}
-        onChange={form.setValue}
         columns={1}
+        errors={form.errors}
+        fields={fields}
+        onChange={form.setValue}
+        values={form.values}
       />
     </Dialog>
   );

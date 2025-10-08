@@ -29,12 +29,12 @@ export const CustomSelect: FC<CustomSelectProps> = ({
   const selectedOption = options.find((opt) => opt.value === selectedValue);
 
   return (
-    <div className={`relative w-full ${className}`} ref={selectRef}>
+    <div ref={selectRef} className={`relative w-full ${className}`}>
       {/* ---------- Select Button ---------- */}
       <button
-        type="button"
-        onClick={() => setIsOpen(!isOpen)}
         className="bg-charcoal-800 text-ember-50 placeholder-charcoal-400 focus:ring-ember-500 border-charcoal-600 hover:border-charcoal-500 flex w-full cursor-pointer items-center justify-between rounded-lg border px-4 py-3 text-left transition-colors focus:border-transparent focus:ring-2 focus:outline-none"
+        onClick={() => setIsOpen(!isOpen)}
+        type="button"
       >
         {/* ---------- Selected Value or Placeholder ---------- */}
         <span
@@ -59,21 +59,22 @@ export const CustomSelect: FC<CustomSelectProps> = ({
             : 'pointer-events-none -translate-y-2 scale-95 opacity-0'
         } `}
       >
-        {options.map((option, index) => (
-          <div
-            key={option.value || index}
-            onClick={() => handleSelect(option)}
-            className={`flex cursor-pointer items-center gap-2 px-4 py-3 font-medium transition-all duration-200 last:rounded-b-lg ${
+        {options.map((option) => (
+          <button
+            key={option.value}
+            className={`flex w-full cursor-pointer items-center gap-2 px-4 py-3 font-medium transition-all duration-200 last:rounded-b-lg ${
               selectedValue === option.value
                 ? 'bg-charcoal-800 text-ember-300 hover:bg-charcoal-700'
                 : 'text-charcoal-200 hover:bg-charcoal-700'
-            } `}
+            }`}
+            onClick={() => handleSelect(option)}
+            type="button"
           >
             {selectedValue === option.value && (
               <Check className="h-4 w-4 shrink-0 opacity-80" />
             )}
             <span className="truncate text-sm">{option.label}</span>
-          </div>
+          </button>
         ))}
       </div>
     </div>

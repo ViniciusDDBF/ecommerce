@@ -12,8 +12,8 @@ export const StarRating: FC<StarRatingProps> = ({ rating, setRating }) => {
         {[...Array(5)].map((_, i) => (
           <button
             key={i}
-            onClick={() => setRating(i + 1)}
             className="cursor-pointer transition-transform hover:scale-110 focus:outline-none"
+            onClick={() => setRating(i + 1)}
           >
             <Star
               className={`h-8 w-8 ${rating >= i + 1 ? 'text-ember-500' : 'text-charcoal-400'}`}

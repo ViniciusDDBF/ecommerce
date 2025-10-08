@@ -12,16 +12,17 @@ export const Helper: FC<HelperProps> = ({ tooltip, value, onClick }) => {
     .filter(Boolean)
     .join(' ');
   return (
-    <div
+    <button
+      className={classes}
       onClick={() => {
         if (onClick) onClick(value);
       }}
-      className={classes}
+      type="button"
     >
       <CircleQuestionMark
+        className="text-ember-400 w-6"
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
-        className="text-ember-400 w-6"
       />
 
       {isHovered && (
@@ -29,6 +30,6 @@ export const Helper: FC<HelperProps> = ({ tooltip, value, onClick }) => {
           {tooltip}
         </div>
       )}
-    </div>
+    </button>
   );
 };

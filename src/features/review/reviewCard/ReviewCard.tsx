@@ -42,9 +42,9 @@ export const ReviewCard: FC<ReviewCardProps> = ({
               <div className="border-charcoal-600 mb-4 flex flex-col justify-between gap-4 border-b pb-4 sm:flex-row sm:items-center">
                 {review.customer.first_name && review.customer.last_name && (
                   <CustomerInitialsReviewCard
+                    createdAt={review.created_at}
                     firstName={review.customer.first_name}
                     lastName={review.customer.last_name}
-                    createdAt={review.created_at}
                   />
                 )}
                 <div className="space-y-1 text-left sm:text-right">
@@ -103,42 +103,42 @@ export const ReviewCard: FC<ReviewCardProps> = ({
                           key={media.id}
                           className="group relative cursor-pointer touch-manipulation"
                           onClick={() => openReviewModal(review, index)}
-                          role="button"
-                          tabIndex={0}
                           onKeyDown={(e) =>
                             e.key === 'Enter' && openReviewModal(review, index)
                           }
+                          role="button"
+                          tabIndex={0}
                         >
                           <div className="bg-charcoal-700 aspect-square overflow-hidden rounded-md">
                             {media.media_type === 'video' ? (
                               <div className="relative size-full">
                                 <video
-                                  src={media.url}
                                   className="h-full w-full object-cover object-center transition-transform duration-300 group-hover:scale-105"
-                                  muted
                                   controls={false}
+                                  muted
                                   preload="metadata"
+                                  src={media.url}
                                 />
                                 <div className="absolute inset-0 flex items-center justify-center">
                                   <CirclePlay
+                                    className="text-ember-400 h-8 w-8 rounded-full opacity-0 transition-opacity duration-300 group-hover:opacity-100"
                                     fill="black"
                                     fillOpacity={0.3}
-                                    className="text-ember-400 h-8 w-8 rounded-full opacity-0 transition-opacity duration-300 group-hover:opacity-100"
                                   />
                                 </div>
                               </div>
                             ) : (
                               <div className="relative size-full">
                                 <img
-                                  src={media.url}
                                   alt={`Review media ${index + 1}`}
                                   className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+                                  src={media.url}
                                 />
                                 <div className="absolute inset-0 flex items-center justify-center">
                                   <ZoomIn
+                                    className="text-ember-400 h-8 w-8 rounded-full opacity-0 transition-opacity duration-300 group-hover:opacity-100"
                                     fill="black"
                                     fillOpacity={0.3}
-                                    className="text-ember-400 h-8 w-8 rounded-full opacity-0 transition-opacity duration-300 group-hover:opacity-100"
                                   />
                                 </div>
                               </div>
@@ -153,20 +153,20 @@ export const ReviewCard: FC<ReviewCardProps> = ({
                 {/* ---------- Vote Buttons ---------- */}
                 <div className="border-charcoal-700/50 flex items-center justify-center gap-3 border-t pt-3">
                   <Button
+                    className="px-3 py-1.5 text-xs"
+                    disabled={hasLiked || hasDisliked}
+                    onClick={() => handleLikeClick(review.id)}
                     startIcon={<ThumbsUp className="h-3.5 w-3.5" />}
                     text={`Helpful (${positiveVotes})`}
                     variant={hasLiked ? 'secondary' : 'outline'}
-                    disabled={hasLiked || hasDisliked}
-                    onClick={() => handleLikeClick(review.id)}
-                    className="px-3 py-1.5 text-xs"
                   />
                   <Button
+                    className="px-3 py-1.5 text-xs"
+                    disabled={hasLiked || hasDisliked}
+                    onClick={() => handleDislikeClick(review.id)}
                     startIcon={<ThumbsDown className="h-3.5 w-3.5" />}
                     text={`Not Helpful (${negativeVotes})`}
                     variant={hasDisliked ? 'secondary' : 'outline'}
-                    disabled={hasLiked || hasDisliked}
-                    onClick={() => handleDislikeClick(review.id)}
-                    className="px-3 py-1.5 text-xs"
                   />
                 </div>
               </div>
@@ -178,8 +178,7 @@ export const ReviewCard: FC<ReviewCardProps> = ({
         {totalPages > 1 && (
           <div className="flex items-center justify-center gap-4 pt-6">
             <Button
-              text="Previous"
-              variant="outline"
+              className="px-3 py-1.5 text-sm"
               disabled={currentPage === 1}
               onClick={() => {
                 onPageChange(currentPage - 1);
@@ -192,14 +191,14 @@ export const ReviewCard: FC<ReviewCardProps> = ({
                   }
                 }, 0);
               }}
-              className="px-3 py-1.5 text-sm"
+              text="Previous"
+              variant="outline"
             />
             <span className="text-charcoal-300 text-sm font-medium">
               Page {currentPage} of {totalPages}
             </span>
             <Button
-              text="Next"
-              variant="outline"
+              className="px-3 py-1.5 text-sm"
               disabled={currentPage === totalPages}
               onClick={() => {
                 onPageChange(currentPage + 1);
@@ -212,7 +211,8 @@ export const ReviewCard: FC<ReviewCardProps> = ({
                   }
                 }, 0);
               }}
-              className="px-3 py-1.5 text-sm"
+              text="Next"
+              variant="outline"
             />
           </div>
         )}

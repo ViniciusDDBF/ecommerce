@@ -33,8 +33,6 @@ export const Breadcrumbs: FC<BreadcrumbsProps> = ({ breadcrumbs }) => {
         </ol>
       </nav>
       <Modal
-        title="WIP"
-        message="I'm still developing this feature!"
         buttons={{
           cancel: {
             text: 'OK',
@@ -44,6 +42,8 @@ export const Breadcrumbs: FC<BreadcrumbsProps> = ({ breadcrumbs }) => {
           },
         }}
         isOpen={isOpen}
+        message="I'm still developing this feature!"
+        title="WIP"
       />
     </>
   );

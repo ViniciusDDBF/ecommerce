@@ -19,8 +19,8 @@ export const ProductHeader: FC<ProductHeaderProps> = ({
       {/* ---------- Reviews ---------- */}
       <ProductReviewsHeader
         averageRating={averageRating}
-        reviewCount={reviewCount}
         onClick={onClick}
+        reviewCount={reviewCount}
       />
 
       {/* ---------- Price ---------- */}

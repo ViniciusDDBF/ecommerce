@@ -30,8 +30,8 @@ export const AccountLayout = () => {
           {/* ---------- Mobile Menu Toggle ---------- */}
           <div className="lg:hidden">
             <Button
-              text=""
-              variant="secondary"
+              className="p-2 sm:p-3"
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               size="xs"
               startIcon={
                 isMobileMenuOpen ? (
@@ -40,8 +40,8 @@ export const AccountLayout = () => {
                   <Menu className="h-4 w-4 sm:h-5 sm:w-5" />
                 )
               }
-              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="p-2 sm:p-3"
+              text=""
+              variant="secondary"
             />
           </div>
         </div>
@@ -61,16 +61,16 @@ export const AccountLayout = () => {
                   return (
                     <button
                       key={item.id}
-                      onClick={() => {
-                        if (section === item.id) return;
-                        navigate(`/account/${item.id}`);
-                        setIsMobileMenuOpen(false);
-                      }}
                       className={`ember-transition flex w-full items-center space-x-2 rounded-lg px-3 py-2 text-left text-sm sm:space-x-3 sm:px-4 sm:py-3 sm:text-base ${
                         section === item.id
                           ? 'bg-ember-500 text-charcoal-50 shadow-md'
                           : 'text-charcoal-200 hover:bg-charcoal-600 hover:ember-hover-border'
                       }`}
+                      onClick={() => {
+                        if (section === item.id) return;
+                        navigate(`/account/${item.id}`);
+                        setIsMobileMenuOpen(false);
+                      }}
                     >
                       <Icon className="h-4 w-4 flex-shrink-0 sm:h-5 sm:w-5" />
                       <span className="font-medium">{item.label}</span>

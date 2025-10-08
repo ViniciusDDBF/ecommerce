@@ -17,12 +17,12 @@ export const AccountSectionHeader: FC<AccountSectionHeaderProps> = ({
       </div>
       {button && (
         <Button
-          text={button.text}
-          variant="primary"
+          className="w-full sm:w-auto"
+          onClick={button.onClick}
           size="sm"
           startIcon={button.startIcon}
-          onClick={button.onClick}
-          className="w-full sm:w-auto"
+          text={button.text}
+          variant="primary"
         />
       )}
     </div>

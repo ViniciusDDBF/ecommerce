@@ -23,9 +23,9 @@ export const Cart: FC = () => {
           <Overlay isOpen={isOpen} onClick={() => setIsOpen(false)} />
           <Drawer
             ref={cartRef}
+            className="w-11/12 sm:w-96 md:w-[28rem]"
             isOpen={isOpen}
             position="right"
-            className="w-11/12 sm:w-96 md:w-[28rem]"
           >
             <div className="bg-charcoal-900 flex h-full flex-col p-4 sm:p-6">
               {/* ---------- Drawer Header ---------- */}
@@ -34,14 +34,14 @@ export const Cart: FC = () => {
                   Your Cart
                 </h2>
                 <Button
-                  variant="ghost"
+                  aria-label="Close cart"
+                  className="p-2"
+                  onClick={() => setIsOpen(false)}
                   size="xs"
                   startIcon={
                     <X className="text-charcoal-200 h-4 w-4 sm:h-5 sm:w-5" />
                   }
-                  onClick={() => setIsOpen(false)}
-                  aria-label="Close cart"
-                  className="p-2"
+                  variant="ghost"
                 />
               </div>
 
@@ -71,15 +71,15 @@ export const Cart: FC = () => {
               {/* ---------- Drawer Footer ---------- */}
               <div className="border-charcoal-600/30 border-t pt-3 sm:pt-4">
                 <Button
-                  text="Proceed to Checkout"
-                  variant="primary"
-                  size="full"
+                  className="text-sm sm:text-base"
+                  disabled
                   onClick={() => {
                     navigate('/checkout');
                     setIsOpen(false);
                   }}
-                  disabled
-                  className="text-sm sm:text-base"
+                  size="full"
+                  text="Proceed to Checkout"
+                  variant="primary"
                 />
               </div>
             </div>

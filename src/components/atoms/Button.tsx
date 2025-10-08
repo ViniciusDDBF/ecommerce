@@ -24,24 +24,24 @@ const SpinnerLoader: FC<SpinnerLoaderProps> = ({ size, color }) => {
   return (
     <div className={`relative ${config.className}`}>
       <svg
-        className="absolute inset-0 animate-spin"
-        width={config.diameter}
-        height={config.diameter}
-        viewBox="0 0 24 24"
-        fill="none"
-        role="img"
-        aria-labelledby={spinnerTitleId}
         aria-hidden={true}
+        aria-labelledby={spinnerTitleId}
+        className="absolute inset-0 animate-spin"
+        fill="none"
+        height={config.diameter}
+        role="img"
+        viewBox="0 0 24 24"
+        width={config.diameter}
       >
         <title id={spinnerTitleId}>Spinner</title>
         <circle
+          className="opacity-25"
           cx="12"
           cy="12"
           r="10"
           stroke={color}
-          strokeWidth={config.strokeWidth}
           strokeLinecap="round"
-          className="opacity-25"
+          strokeWidth={config.strokeWidth}
         />
         <path
           d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
@@ -195,14 +195,14 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     return (
       <button
         ref={ref}
-        type={type}
-        disabled={isDisabled}
         className={classes}
+        disabled={isDisabled}
         style={style}
+        type={type}
         {...props}
       >
         {loading ? (
-          <SpinnerLoader size={size} color={variantStyles.loaderColor} />
+          <SpinnerLoader color={variantStyles.loaderColor} size={size} />
         ) : (
           startIcon && (
             <span className="flex flex-shrink-0 items-center justify-center">

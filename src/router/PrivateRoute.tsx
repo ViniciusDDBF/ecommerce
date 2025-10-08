@@ -18,7 +18,7 @@ export const PrivateRoute: FC = () => {
 
   // If user is not logged in, redirect to home or login
   if (!user.user) {
-    return <Navigate to="/" replace />;
+    return <Navigate replace to="/" />;
   }
 
   // Otherwise, render the child route

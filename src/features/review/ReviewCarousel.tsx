@@ -54,9 +54,9 @@ export const ReviewCarousel: FC<ReviewCarouselProps> = ({
         <div className="bg-charcoal-700 glass-effect mx-auto mb-8 overflow-hidden rounded-2xl p-4 sm:p-6 md:p-8">
           <div
             ref={scrollRef}
+            aria-label="Review media carousel"
             className="hide-scrollbar flex snap-x snap-mandatory gap-4 overflow-x-auto scroll-smooth sm:gap-6"
             role="region"
-            aria-label="Review media carousel"
           >
             {reviews.map((item1) =>
               item1.media.map((item2, idx) => (
@@ -67,17 +67,17 @@ export const ReviewCarousel: FC<ReviewCarouselProps> = ({
                 >
                   {item2.media_type === 'video' ? (
                     <video
-                      src={item2.url}
                       className="h-full w-full rounded-xl object-cover object-center transition-transform duration-300"
-                      muted
                       controls={false}
+                      muted
                       preload="metadata"
+                      src={item2.url}
                     />
                   ) : (
                     <img
-                      src={item2.url}
                       alt={`Review image ${item2.id}`}
                       className="h-full w-full rounded-xl object-cover object-center transition-transform duration-300"
+                      src={item2.url}
                     />
                   )}
                   <div className="bg-gradient-charcoal absolute inset-0 rounded-xl opacity-0 transition-opacity duration-300 group-hover:opacity-30" />
@@ -91,23 +91,23 @@ export const ReviewCarousel: FC<ReviewCarouselProps> = ({
         {totalItems > 1 && (
           <div className="mt-4 flex items-center justify-between md:mt-6">
             <Button
-              variant="outline"
-              size="sm"
+              disabled={totalItems <= 1}
               onClick={() => scroll('left')}
+              size="sm"
               startIcon={
                 <ChevronLeft className="text-charcoal-300 group-hover:text-ember-400 h-5 w-5" />
               }
-              disabled={totalItems <= 1}
+              variant="outline"
             />
 
             <Button
-              variant="outline"
-              size="sm"
+              disabled={totalItems <= 1}
               onClick={() => scroll('right')}
+              size="sm"
               startIcon={
                 <ChevronRight className="text-charcoal-300 group-hover:text-ember-400 h-5 w-5" />
               }
-              disabled={totalItems <= 1}
+              variant="outline"
             />
           </div>
         )}

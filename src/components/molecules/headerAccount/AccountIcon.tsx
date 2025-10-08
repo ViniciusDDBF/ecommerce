@@ -8,12 +8,12 @@ export const AccountIcon: FC<AccountIconProps> = ({ onClick }) => {
 
   return (
     <IconOverlay
+      aria-label="User account"
       icon={<User className="text-charcoal-200 h-5 w-5 sm:h-6 sm:w-6" />}
       onClick={onClick}
-      tabIndex={onClick ? 0 : -1}
       onKeyDown={handleKeyDown}
       role="button"
-      aria-label="User account"
+      tabIndex={onClick ? 0 : -1}
     />
   );
 };

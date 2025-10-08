@@ -49,13 +49,13 @@ export const AccountProfile: FC = () => {
     <main className="mx-auto max-w-4xl px-4 py-6 sm:px-6 sm:py-8 md:px-8">
       {/* ---------- Header Section ---------- */}
       <AccountSectionHeader
-        title="My Profile"
-        subtitle="Manage your personal information"
         button={{
           startIcon: <Edit2 className="h-3 w-3 sm:h-4 sm:w-4" />,
           text: 'Edit Profile',
           onClick: () => setIsOpen(true),
         }}
+        subtitle="Manage your personal information"
+        title="My Profile"
       />
 
       {/* ---------- Profile Card ---------- */}
@@ -70,10 +70,10 @@ export const AccountProfile: FC = () => {
                   user.user?.email &&
                   user.user?.last_name && (
                     <CustomerInitials
-                      size="xl"
-                      lastName={user.user?.last_name}
-                      firstName={user.user?.first_name}
                       email={user.user?.email}
+                      firstName={user.user?.first_name}
+                      lastName={user.user?.last_name}
+                      size="xl"
                     />
                   )}
               </div>
@@ -121,15 +121,6 @@ export const AccountProfile: FC = () => {
 
       {/* ---------- Update Info Dialog ---------- */}
       <Dialog
-        title="Edit Profile"
-        isOpen={isOpen}
-        description="Update your personal information"
-        size="md"
-        icon={<Edit2 className="h-4 w-4 sm:h-5 sm:w-5" />}
-        onClose={() => {
-          editUser.resetToInitial();
-          setIsOpen(false);
-        }}
         buttons={{
           cancel: {
             text: 'Close',
@@ -144,13 +135,22 @@ export const AccountProfile: FC = () => {
             loading: user.isLoading,
           },
         }}
+        description="Update your personal information"
+        icon={<Edit2 className="h-4 w-4 sm:h-5 sm:w-5" />}
+        isOpen={isOpen}
+        onClose={() => {
+          editUser.resetToInitial();
+          setIsOpen(false);
+        }}
+        size="md"
+        title="Edit Profile"
       >
         <FormGrid
-          fields={editUserFields}
-          values={editUser.values}
-          errors={editUser.errors}
-          onChange={editUser.setValue}
           columns={1}
+          errors={editUser.errors}
+          fields={editUserFields}
+          onChange={editUser.setValue}
+          values={editUser.values}
         />
       </Dialog>
     </main>

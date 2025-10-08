@@ -32,33 +32,31 @@ export const CarouselProductCard: FC<ProductCardProps> = ({
   return (
     <div className="relative w-[80vw] flex-shrink-0 snap-center sm:w-[320px]">
       <Link
+        onMouseEnter={() => {
+          setHoveredCard(cardId);
+        }}
+        onMouseLeave={() => setHoveredCard(null)}
         to={{
           pathname: `/products/${slug}`,
           search: `${selectedVariant.variant_query}`,
         }}
       >
         <div className="bg-charcoal-800 relative overflow-hidden rounded-lg">
-          <div
-            className="relative aspect-[3/4] sm:aspect-[4/5]"
-            onMouseEnter={() => {
-              setHoveredCard(cardId);
-            }}
-            onMouseLeave={() => setHoveredCard(null)}
-          >
+          <div className="relative aspect-[3/4] sm:aspect-[4/5]">
             <img
-              src={primaryImage}
               alt={selectedVariant.product_name || 'Product'}
               className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-300 ease-in-out ${
                 isHovered && hasHoverImage ? 'opacity-0' : 'opacity-100'
               }`}
+              src={primaryImage}
             />
             {hasHoverImage && (
               <img
-                src={hoverImage}
                 alt={selectedVariant.product_name || 'Product'}
                 className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-300 ease-in-out ${
                   isHovered ? 'opacity-100' : 'opacity-0'
                 }`}
+                src={hoverImage}
               />
             )}
           </div>
@@ -89,19 +87,20 @@ export const CarouselProductCard: FC<ProductCardProps> = ({
         {variants.map((variant) => (
           <button
             key={variant.variant_id}
-            onClick={() => onVariantSelect(variant.variant_id)}
+            aria-label={`Select ${variant.variant_name || 'variant'}`}
             className={`h-6 w-6 rounded-full transition-all duration-300 md:h-4 md:w-4 ${
               variant.variant_id === selectedVariantId
                 ? 'ring-ember-400 ring-offset-charcoal-700 scale-110 ring-2 ring-offset-2'
                 : 'cursor-pointer hover:scale-110'
             } `}
+            onClick={() => onVariantSelect(variant.variant_id)}
             style={{
               backgroundColor:
                 variant.color && variant.color !== 'Unknown'
                   ? variant.color
                   : '#cccccc',
             }}
-            aria-label={`Select ${variant.variant_name || 'variant'}`}
+            type="button"
           />
         ))}
       </div>

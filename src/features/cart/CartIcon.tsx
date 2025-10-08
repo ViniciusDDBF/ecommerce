@@ -8,16 +8,16 @@ export const CartIcon: FC<CartIconProps> = ({ count = 1, onClick }) => {
 
   return (
     <IconOverlay
+      aria-label={`Cart with ${count} item${count !== 1 ? 's' : ''}`}
+      count={count}
       icon={
         <ShoppingCart className="text-charcoal-200 h-5 w-5 sm:h-6 sm:w-6" />
       }
-      showBadge={count > 0}
-      count={count}
       onClick={onClick}
-      tabIndex={onClick ? 0 : -1}
       onKeyDown={handleKeyDown}
       role="button"
-      aria-label={`Cart with ${count} item${count !== 1 ? 's' : ''}`}
+      showBadge={count > 0}
+      tabIndex={onClick ? 0 : -1}
     />
   );
 };

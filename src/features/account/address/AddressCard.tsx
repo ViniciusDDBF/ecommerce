@@ -31,30 +31,30 @@ export const AddressCard: FC<AddressCardProps> = ({
           {/* ---------- Action Buttons ---------- */}
           <div className="flex w-full flex-wrap items-center gap-2 sm:w-auto sm:gap-3">
             <Button
-              text="Edit"
-              variant="secondary"
+              className="w-full sm:w-auto"
+              onClick={onEdit}
               size="sm"
               startIcon={<Edit3 className="h-3 w-3 sm:h-4 sm:w-4" />}
-              onClick={onEdit}
-              className="w-full sm:w-auto"
+              text="Edit"
+              variant="secondary"
             />
             {!address.is_default && (
               <>
                 <Button
-                  text="Set Default"
-                  variant="primary"
+                  className="w-full sm:w-auto"
+                  onClick={onSetDefault}
                   size="sm"
                   startIcon={<Shield className="h-3 w-3 sm:h-4 sm:w-4" />}
-                  onClick={onSetDefault}
-                  className="w-full sm:w-auto"
+                  text="Set Default"
+                  variant="primary"
                 />
                 <Button
-                  text="Delete"
-                  variant="secondary"
+                  className="w-full sm:w-auto"
+                  onClick={onDelete}
                   size="sm"
                   startIcon={<Trash2 className="h-3 w-3 sm:h-4 sm:w-4" />}
-                  onClick={onDelete}
-                  className="w-full sm:w-auto"
+                  text="Delete"
+                  variant="secondary"
                 />
               </>
             )}

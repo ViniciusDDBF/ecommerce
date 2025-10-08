@@ -64,9 +64,9 @@ export const VariantSelector: FC<VariantSelectorProps> = ({
                         {variationData &&
                           'primary_image_url' in variationData && (
                             <img
-                              src={variationData.primary_image_url}
                               alt={value.value}
                               className="mb-1 h-20 w-16 rounded-lg object-cover sm:h-24 sm:w-20"
+                              src={variationData.primary_image_url}
                             />
                           )}
                       </div>
@@ -87,10 +87,6 @@ export const VariantSelector: FC<VariantSelectorProps> = ({
                   return (
                     <Button
                       key={value.variant_slug || value.value}
-                      text={value.value}
-                      variant="outline"
-                      size="sm"
-                      selected={isSelected}
                       disabled={!hasStock}
                       onClick={() =>
                         handleAttributeSelect(
@@ -100,6 +96,10 @@ export const VariantSelector: FC<VariantSelectorProps> = ({
                           value.variant_slug,
                         )
                       }
+                      selected={isSelected}
+                      size="sm"
+                      text={value.value}
+                      variant="outline"
                     />
                   );
                 })}

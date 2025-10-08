@@ -8,13 +8,13 @@ export const IconOverlay: FC<IconOverlayProps> = ({
   ...props
 }) => {
   return (
-    <div
-      onClick={onClick}
-      className="bg-charcoal-700 hover:bg-charcoal-600 relative inline-flex h-10 w-10 cursor-pointer items-center justify-center rounded-full align-middle transition-colors sm:h-12 sm:w-12"
-      role="button"
+    <button
       aria-label={
         showBadge && count ? `Icon with ${count} notifications` : 'Icon button'
       }
+      className="bg-charcoal-700 hover:bg-charcoal-600 relative inline-flex h-10 w-10 cursor-pointer items-center justify-center rounded-full align-middle transition-colors sm:h-12 sm:w-12"
+      onClick={onClick}
+      type="button"
       {...props}
     >
       {/* ---------- Icon ---------- */}
@@ -25,6 +25,6 @@ export const IconOverlay: FC<IconOverlayProps> = ({
           {count}
         </span>
       )}
-    </div>
+    </button>
   );
 };
