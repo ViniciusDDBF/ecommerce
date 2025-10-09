@@ -1,6 +1,6 @@
-import type { FC, MediaDisplayProps } from '@/types';
+import type { FC, MediaMainDisplayProps } from '@/types';
 
-export const MediaMainDisplay: FC<MediaDisplayProps> = ({
+export const MediaMainDisplay: FC<MediaMainDisplayProps> = ({
   media,
   index,
   onImageClick,

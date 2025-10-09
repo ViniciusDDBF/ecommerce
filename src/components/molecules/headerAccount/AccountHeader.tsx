@@ -1,4 +1,4 @@
-import type { FC, SignUpArgs } from '@/types';
+import type { FC } from '@/types';
 import { useEffect, useState } from 'react';
 import { CircleCheck, LogIn, Mail, MessageCircleX } from 'lucide-react';
 import { Button, Dialog, Modal } from '@/components/atoms';
@@ -89,10 +89,10 @@ export const AccountHeader: FC = () => {
 
   const handleSubmitSignUp = async () => {
     if (!signUp.validate()) return;
-    const { ...newUser } = signUp.values;
+    const { confirm_password: _, ...newUser } = signUp.values;
     try {
       signUp.setIsSubmitting(true);
-      await dispatch(ThunkCreateCustomer(newUser as SignUpArgs));
+      await dispatch(ThunkCreateCustomer(newUser));
       setSignUpSuccess(true);
       signUp.reset();
     } catch (_err) {

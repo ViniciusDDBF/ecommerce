@@ -1,4 +1,4 @@
-import type { CarouselProps, FC, TPositionX } from '@/types';
+import type { CarouselProps, FC, TpositionX } from '@/types';
 import { useRef, useState } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { Button } from '@/components/atoms';
@@ -15,7 +15,7 @@ export const Carousel: FC<CarouselProps> = ({ data, className = '' }) => {
     (a, b) => (a.carousel_display_order || 0) - (b.carousel_display_order || 0),
   );
 
-  const scroll = (direction: TPositionX) => {
+  const scroll = (direction: TpositionX) => {
     if (scrollRef.current) {
       const cardWidth = window.innerWidth < 640 ? window.innerWidth * 0.8 : 320;
       const gap = window.innerWidth < 640 ? 16 : 24;

@@ -1,4 +1,4 @@
-import type { FC, UserData } from '@/types';
+import type { FC, Iuser } from '@/types';
 import { useState } from 'react';
 import { Edit2 } from 'lucide-react';
 import { CustomerInitials, Dialog } from '@/components/atoms';
@@ -38,7 +38,7 @@ export const AccountProfile: FC = () => {
     }
     const fullPayload = { ...editUser.values, user_id: user.user.user_id };
     try {
-      await dispatch(ThunkUpdateUser(fullPayload as UserData));
+      await dispatch(ThunkUpdateUser(fullPayload as Iuser));
       setIsOpen(false);
     } catch (err) {
       console.log(err);
@@ -150,7 +150,7 @@ export const AccountProfile: FC = () => {
           errors={editUser.errors}
           fields={editUserFields}
           onChange={editUser.setValue}
-          values={editUser.values}
+          values={editUser.values as Record<string, string>}
         />
       </Dialog>
     </main>

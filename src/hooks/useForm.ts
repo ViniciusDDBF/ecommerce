@@ -138,7 +138,7 @@ export const useForm = ({
         return;
       }
 
-      if (field.applyMask === 'cpf' && value) {
+      if (field.applyMask === 'cpf' && typeof value === 'string') {
         const cleaned = value.replace(/\D/g, '');
         if (cleaned.length !== 11) {
           newErrors[field.name] = 'CPF must have 11 digits';
@@ -147,7 +147,7 @@ export const useForm = ({
         }
       }
 
-      if (field.applyMask === 'cnpj' && value) {
+      if (field.applyMask === 'cnpj' && typeof value === 'string') {
         const cleaned = value.replace(/\D/g, '');
         if (cleaned.length !== 14) {
           newErrors[field.name] = 'CNPJ must have 14 digits';
@@ -156,7 +156,7 @@ export const useForm = ({
         }
       }
 
-      if (field.applyMask === 'phone' && value) {
+      if (field.applyMask === 'phone' && typeof value === 'string') {
         const cleaned = value.replace(/\D/g, '');
         if (cleaned.length < 10) {
           newErrors[field.name] = 'Phone must have at least 10 digits';
@@ -172,7 +172,7 @@ export const useForm = ({
 
       if (
         field.type === 'email' &&
-        value &&
+        typeof value === 'string' &&
         !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)
       ) {
         newErrors[field.name] = 'Please, provide a valid email';

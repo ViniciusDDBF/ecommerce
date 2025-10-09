@@ -1,5 +1,5 @@
-import type { IReview } from '../../../../types';
+import type { Ireview } from '@/types';
 
 export interface ReviewContentProps {
-  review: Pick<IReview, 'title' | 'content'>;
+  review: Pick<Ireview, 'title' | 'content'>;
 }

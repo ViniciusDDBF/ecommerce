@@ -1,4 +1,4 @@
-import type { AddressData, FC } from '@/types';
+import type { FC, Iaddress } from '@/types';
 import { useState } from 'react';
 import { Plus } from 'lucide-react';
 import { nanoid } from '@reduxjs/toolkit';
@@ -19,9 +19,7 @@ import {
 } from '@/store/slices/userSlice';
 
 export const Addresses: FC = () => {
-  const [addressSelected, setAddressSelected] = useState<AddressData | null>(
-    null,
-  );
+  const [addressSelected, setAddressSelected] = useState<Iaddress | null>(null);
   const [createIsOpen, setCreateIsOpen] = useState(false);
   const [updateIsOpen, setUpdateIsOpen] = useState(false);
   const [deleteIsOpen, setDeleteIsOpen] = useState(false);
@@ -33,27 +31,27 @@ export const Addresses: FC = () => {
       ?.slice()
       .sort((a, b) => Number(b.is_default) - Number(a.is_default)) || [];
 
-  const handleCreateAddress = async (values: Partial<AddressData>) => {
+  const handleCreateAddress = async (values: Partial<Iaddress>) => {
     if (user.user) {
       const fullPayload = {
         ...values,
         customer_id: user.user.customer_id,
         user_id: user.user.user_id,
         is_default: !user.user.addresses?.length,
-      } as AddressData;
+      } as Iaddress;
       await dispatch(ThunkCreateCustomerAddress(fullPayload));
       setCreateIsOpen(false);
     }
   };
 
-  const handleUpdateAddress = async (values: Partial<AddressData>) => {
+  const handleUpdateAddress = async (values: Partial<Iaddress>) => {
     if (user.user && addressSelected) {
       const fullPayload = {
         ...values,
         customer_id: user.user.customer_id,
         user_id: user.user.user_id,
         address_id: addressSelected.address_id,
-      } as AddressData;
+      } as Iaddress;
       await dispatch(ThunkUpdateCustomerAddress(fullPayload));
       setUpdateIsOpen(false);
     }
@@ -64,19 +62,19 @@ export const Addresses: FC = () => {
       const payload = {
         ...addressSelected,
         user_id: user.user.user_id,
-      } as AddressData;
+      } as Iaddress;
       await dispatch(ThunkDeleteCustomerAddress(payload));
       setDeleteIsOpen(false);
     }
   };
 
-  const handleSetDefault = async (address: AddressData) => {
+  const handleSetDefault = async (address: Iaddress) => {
     if (user.user) {
       const payload = {
         address_id: address.address_id,
         customer_id: user.user.customer_id,
         user_id: user.user.user_id,
-      } as AddressData;
+      } as Iaddress;
       await dispatch(ThunkUpdateCustomerDefaultAddress(payload));
     }
   };

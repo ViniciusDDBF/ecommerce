@@ -10,7 +10,7 @@ export const validateCPF = (cpf: string): boolean => {
   const calculateDigit = (cpfSlice: string, factorStart: number) => {
     let sum = 0;
     for (let i = 0; i < cpfSlice.length; i++) {
-      sum += parseInt(cpfSlice[i]) * (factorStart - i);
+      sum += parseInt(cpfSlice[i], 10) * (factorStart - i);
     }
     const remainder = sum % 11;
     return remainder < 2 ? 0 : 11 - remainder;

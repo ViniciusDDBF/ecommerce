@@ -1,9 +1,9 @@
-import type { IReview, IReviewState } from '../../../../types';
+import type { Ireview, IreviewState } from '@/types';
 
 export interface ReviewModalProps {
-  selectedReview: IReview | null;
+  selectedReview: Ireview | null;
   currentMediaIndex: number;
-  getReviewState: (id: number) => IReviewState;
+  getReviewState: (id: number) => IreviewState;
   setCurrentMediaIndex: (index: number) => void;
   navigateMedia: (direction: 'next' | 'prev') => void;
   closeReviewModal: () => void;

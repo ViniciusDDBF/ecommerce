@@ -1,6 +1,6 @@
-import type { IFormField } from '@/types';
+import type { IformField } from '@/types';
 
-export const editUserFields: IFormField[] = [
+export const editUserFields: IformField[] = [
   {
     name: 'first_name',
     label: 'First Name',

@@ -1,3 +1,4 @@
+import type { IuserSlice } from '@/types';
 import {
   combineReducers,
   configureStore,
@@ -7,16 +8,21 @@ import { createTransform, persistReducer, persistStore } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 import user from './slices/userSlice';
 
-// Persist only `state.user.user`
-const userTransform = createTransform(
+const userTransform = createTransform<IuserSlice, IuserSlice>(
   // Save only `user`
-  (inboundState: any) => ({ user: inboundState.user }),
+  (inboundState) => ({
+    user: inboundState.user,
+    isLoading: false,
+    error: null,
+  }),
+
   // Rehydrate by merging `user` back, leaving isLoading/error reset
-  (outboundState: any) => ({
+  (outboundState) => ({
     user: outboundState.user,
     isLoading: false,
     error: null,
   }),
+
   { whitelist: ['user'] },
 );
 

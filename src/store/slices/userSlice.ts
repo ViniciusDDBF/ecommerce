@@ -1,22 +1,29 @@
+import type { AuthTokenResponsePassword } from '@supabase/supabase-js';
 import type {
-  AddressData,
-  LoginArgs,
-  SignUpArgs,
-  UserData,
-  UserThunk,
+  FetchCreateCustomerArgs,
+  Iaddress,
+  Iuser,
+  IuserSlice,
+  SupabaseUserArgs,
+  ThunkCreateCustomerArgs,
 } from '@/types';
-import type { RootState } from '../store';
-import { createAsyncThunk, createSlice, isAnyOf } from '@reduxjs/toolkit';
-import { supabase } from '../../SupabaseConfig';
+import type { RootState } from '../store.ts';
+import {
+  createAsyncThunk,
+  createSlice,
+  isAnyOf,
+  type PayloadAction,
+} from '@reduxjs/toolkit';
+import { supabase } from '../../SupabaseConfig.tsx';
 
 // #region /* ---------- Functions ---------- */
-const initialState: UserThunk = {
+const initialState: IuserSlice = {
   user: null,
   isLoading: false,
   error: null,
 };
 
-async function FetchSignUp(email: string, password: string) {
+async function FetchSignUp({ email, password }: SupabaseUserArgs) {
   const { data, error } = await supabase.auth.signUp({
     email,
     password,
@@ -24,16 +31,15 @@ async function FetchSignUp(email: string, password: string) {
   return { data, error };
 }
 
-async function FetchLogIn(email: string, password: string) {
-  try {
-    const data = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    });
-    return data;
-  } catch (err) {
-    return err;
-  }
+async function FetchLogIn({
+  email,
+  password,
+}: SupabaseUserArgs): Promise<AuthTokenResponsePassword> {
+  const data = await supabase.auth.signInWithPassword({
+    email,
+    password,
+  });
+  return data;
 }
 
 async function FetchGetUser() {
@@ -48,21 +54,25 @@ async function FetchGetSession() {
   return data;
 }
 
-async function FetchCreateCustomer(formPayload: any, fetchPayload: any) {
+async function FetchCreateCustomer({
+  user_id,
+  first_name,
+  last_name,
+  email,
+  phone,
+  cpf,
+}: FetchCreateCustomerArgs) {
   const { data, error } = await supabase
     .from('customers')
     .insert([
       {
-        user_id: fetchPayload.user_id,
-        first_name: formPayload.first_name,
-        last_name: formPayload.last_name,
-        email: formPayload.email,
-        phone: formPayload.phone,
-        cpf: formPayload.cpf,
-        company_name: formPayload.company_name,
-        legal_name: formPayload.legal_name,
-        cnpj: formPayload.cnpj,
-        is_cpf: !!formPayload.cpf,
+        user_id,
+        first_name,
+        last_name,
+        email,
+        phone,
+        cpf,
+        is_cpf: !!cpf,
       },
     ])
     .select();
@@ -71,7 +81,7 @@ async function FetchCreateCustomer(formPayload: any, fetchPayload: any) {
   return data;
 }
 
-async function FetchUpdateCustomer(formPayload: UserData) {
+async function FetchUpdateCustomer(formPayload: Iuser) {
   const { data } = await supabase
     .from('customers')
     .update({
@@ -84,23 +94,36 @@ async function FetchUpdateCustomer(formPayload: UserData) {
   return data;
 }
 
-async function FetchCreateCustomerAddress(formPayload: AddressData) {
+async function FetchCreateCustomerAddress({
+  address_name,
+  recipient_name,
+  postal_code,
+  number,
+  complement,
+  street,
+  neighborhood,
+  city,
+  state,
+  country,
+  is_default,
+  customer_id,
+}: Iaddress) {
   const { data, error } = await supabase
     .from('customer_addresses')
     .insert([
       {
-        address_name: formPayload.address_name,
-        recipient_name: formPayload.recipient_name,
-        postal_code: formPayload.postal_code,
-        number: formPayload.number,
-        complement: formPayload.complement,
-        street: formPayload.street,
-        neighborhood: formPayload.neighborhood,
-        city: formPayload.city,
-        state: formPayload.state,
-        country: formPayload.country,
-        is_default: formPayload.is_default,
-        customer_id: formPayload.customer_id,
+        address_name,
+        recipient_name,
+        postal_code,
+        number,
+        complement,
+        street,
+        neighborhood,
+        city,
+        state,
+        country,
+        is_default,
+        customer_id,
       },
     ])
     .select();
@@ -109,46 +132,63 @@ async function FetchCreateCustomerAddress(formPayload: AddressData) {
   return { data, error };
 }
 
-async function FetchUpdateCustomerAddress(formPayload: AddressData) {
+async function FetchUpdateCustomerAddress({
+  address_name,
+  recipient_name,
+  postal_code,
+  number,
+  complement,
+  street,
+  neighborhood,
+  city,
+  state,
+  country,
+  is_default,
+  customer_id,
+  address_id,
+}: Iaddress) {
   const { data, error } = await supabase
     .from('customer_addresses')
     .update({
-      address_name: formPayload.address_name,
-      recipient_name: formPayload.recipient_name,
-      postal_code: formPayload.postal_code,
-      number: formPayload.number,
-      complement: formPayload.complement,
-      street: formPayload.street,
-      neighborhood: formPayload.neighborhood,
-      city: formPayload.city,
-      state: formPayload.state,
-      country: formPayload.country,
+      address_name,
+      recipient_name,
+      postal_code,
+      number,
+      complement,
+      street,
+      neighborhood,
+      city,
+      state,
+      country,
+      is_default,
+      customer_id,
     })
-    .eq('id', formPayload.address_id)
+    .eq('id', address_id)
     .select();
   if (error) {
   }
   return { data, error };
 }
 
-async function FetchUpdateCustomerDefaultAddress(formPayload: AddressData) {
-  const address_id = formPayload.address_id;
-  const customer_id = formPayload.customer_id;
+async function FetchUpdateCustomerDefaultAddress({
+  address_id,
+  customer_id,
+}: Iaddress) {
   await supabase.rpc('set_default_address', {
     p_address_id: address_id,
     p_customer_id: customer_id,
   });
 }
 
-async function FetchDeleteCustomerAddress({ address_id }: AddressData) {
+async function FetchDeleteCustomerAddress({ address_id }: Iaddress) {
   await supabase.from('customer_addresses').delete().eq('id', address_id);
 }
 
-async function FetchGetUserView(user_id: string) {
+async function FetchGetUserView(userId: string) {
   const data = await supabase
     .from('customer_information')
     .select('*')
-    .eq('user_id', user_id);
+    .eq('user_id', userId);
   return data;
 }
 
@@ -158,25 +198,39 @@ async function FetchLogOut() {
 // #endregion
 
 // #region /* ---------- Thunks ---------- */
-export const ThunkCreateCustomer = createAsyncThunk<any, SignUpArgs>(
+export const ThunkCreateCustomer = createAsyncThunk<
+  Iuser,
+  ThunkCreateCustomerArgs
+>(
   'user/CreateCustomer',
-  async (payload) => {
-    const signupData = await FetchSignUp(payload.email, payload.password);
+  async ({ email, password, cpf, first_name, last_name, phone }) => {
+    if (!password) return null;
 
-    await FetchCreateCustomer(payload, {
-      user_id: signupData.data.user?.id,
+    const signupData = await FetchSignUp({
+      email,
+      password,
     });
+
     if (signupData.data.user?.id) {
+      await FetchCreateCustomer({
+        email,
+        password,
+        cpf,
+        first_name,
+        last_name,
+        phone,
+        user_id: signupData.data.user.id,
+      });
       const userView = await FetchGetUserView(signupData.data.user?.id);
       if (userView.data) return userView.data[0];
     }
   },
 );
 
-export const ThunkUpdateUser = createAsyncThunk<UserData, UserData>(
+export const ThunkUpdateUser = createAsyncThunk<Iuser, Iuser>(
   'user/UpdateUser',
-  async (payload, thunkAPI) => {
-    const state = thunkAPI.getState() as RootState;
+  async (payload, thunkApi) => {
+    const state = thunkApi.getState() as RootState;
     const userDes = state.user.user;
     if (!userDes?.user_id) return;
     const completePayload = {
@@ -191,7 +245,7 @@ export const ThunkUpdateUser = createAsyncThunk<UserData, UserData>(
   },
 );
 
-export const ThunkCreateCustomerAddress = createAsyncThunk<any, AddressData>(
+export const ThunkCreateCustomerAddress = createAsyncThunk<Iuser, Iaddress>(
   'user/CreateCustomerAddress',
   async (payload) => {
     await FetchCreateCustomerAddress(payload);
@@ -200,7 +254,7 @@ export const ThunkCreateCustomerAddress = createAsyncThunk<any, AddressData>(
   },
 );
 
-export const ThunkUpdateCustomerAddress = createAsyncThunk<any, AddressData>(
+export const ThunkUpdateCustomerAddress = createAsyncThunk<Iuser, Iaddress>(
   'user/UpdateCustomerAddress',
   async (payload) => {
     await FetchUpdateCustomerAddress(payload);
@@ -210,15 +264,15 @@ export const ThunkUpdateCustomerAddress = createAsyncThunk<any, AddressData>(
 );
 
 export const ThunkUpdateCustomerDefaultAddress = createAsyncThunk<
-  any,
-  AddressData
+  Iuser,
+  Iaddress
 >('user/UpdateCustomerDefaultAddress', async (payload) => {
   await FetchUpdateCustomerDefaultAddress(payload);
   const userView = await FetchGetUserView(payload.user_id);
   if (userView?.data) return userView?.data[0];
 });
 
-export const ThunkDeleteCustomerAddress = createAsyncThunk<any, AddressData>(
+export const ThunkDeleteCustomerAddress = createAsyncThunk<Iuser, Iaddress>(
   'user/DeleteCustomerAddress',
   async (payload) => {
     await FetchDeleteCustomerAddress(payload);
@@ -227,13 +281,14 @@ export const ThunkDeleteCustomerAddress = createAsyncThunk<any, AddressData>(
   },
 );
 
-export const ThunkLogIn = createAsyncThunk<UserData, LoginArgs>(
+export const ThunkLogIn = createAsyncThunk<Iuser, SupabaseUserArgs>(
   'user/LogIn',
   async ({ email, password }, { rejectWithValue }) => {
     try {
-      const loginData = (await FetchLogIn(email, password)) as {
-        data?: { user?: { id: string } };
-      };
+      const loginData = await FetchLogIn({
+        email,
+        password,
+      });
       if (loginData.data?.user) {
         const tableData = await FetchGetUserView(loginData.data.user.id);
         if (tableData.data) {
@@ -247,81 +302,64 @@ export const ThunkLogIn = createAsyncThunk<UserData, LoginArgs>(
   },
 );
 
-export const ThunkGetUser = createAsyncThunk<UserData, void>(
-  'user/GetUser',
-  async () => {
-    const userData = await FetchGetUser();
-    if (userData) {
-      const userViewData = await FetchGetUserView(userData.id);
-      if (userViewData.data) {
-        return userViewData.data[0];
-      }
-    }
-  },
-);
-
-export const ThunkGoogle = createAsyncThunk<UserData, void>(
+export const ThunkGoogle = createAsyncThunk<Iuser, void>(
   'user/GoogleSignIn',
   async () => {
     const userData = await FetchGetUser();
+    console.log(userData, 'USER DATA');
+
     if (userData) {
       const userViewData = await FetchGetUserView(userData.id);
       if (userViewData.data?.length) {
         return userViewData.data[0];
-      } else {
-        const parts = userData.user_metadata.full_name.split(' '); // split by spaces
-        const firstName = parts[0];
-        const lastName = parts[parts.length - 1];
-        const createCustomerData = await FetchCreateCustomer(
-          {
-            email: userData.user_metadata.email,
-            first_name: firstName,
-            last_name: lastName,
-            phone: userData.phone,
-          },
-          {
-            user_id: userData.id,
-          },
-        );
-        if (createCustomerData) {
-          const userViewData = await FetchGetUserView(userData.id);
-          if (userViewData.data) {
-            return userViewData.data[0];
-          }
+      }
+      const parts = userData.user_metadata.full_name.split(' ');
+      const firstName = parts[0];
+      const lastName = parts[parts.length - 1];
+      const createCustomerData = await FetchCreateCustomer({
+        email: userData.user_metadata.email,
+        first_name: firstName,
+        last_name: lastName,
+        user_id: userData.id,
+      });
+      if (createCustomerData) {
+        const userViewData = await FetchGetUserView(userData.id);
+        if (userViewData.data) {
+          return userViewData.data[0];
         }
       }
     }
   },
 );
 
-export const ThunkGetSession = createAsyncThunk<UserData | null, void>(
+export const ThunkGetSession = createAsyncThunk<Iuser | null, void>(
   'user/GetSession',
-  async (_, thunkAPI) => {
+  async (_, thunkApi) => {
     try {
-      const state = thunkAPI.getState() as RootState;
+      const state = thunkApi.getState() as RootState;
       const cachedUser = state.user.user;
-      const isUserPopulated = cachedUser && cachedUser.user_id;
+      const isUserPopulated = cachedUser?.user_id;
       const isUserEqual =
         JSON.stringify(state.user.user) === JSON.stringify(cachedUser);
       const session = await FetchGetSession();
       if (isUserPopulated && isUserEqual) return cachedUser;
 
-      if (session.session && session.session.user?.id) {
+      if (session.session?.user?.id) {
         const userViewData = await FetchGetUserView(session.session.user.id);
 
-        if (userViewData.data && userViewData.data[0]) {
+        if (userViewData.data?.[0]) {
           return userViewData.data[0];
         }
       }
 
       return initialState;
     } catch (error) {
-      return thunkAPI.rejectWithValue(error || 'Failed to fetch session');
+      return thunkApi.rejectWithValue(error || 'Failed to fetch session');
     }
   },
 );
 
-export const ThunkLogOut = createAsyncThunk<any, void>(
+export const ThunkLogOut = createAsyncThunk<void, void>(
   'user/LogOut',
   async () => {
     await FetchLogOut();
@@ -358,7 +396,6 @@ const userSlice = createSlice({
       .addMatcher(
         isAnyOf(
           ThunkLogIn.pending,
-          ThunkGetUser.pending,
           ThunkGetSession.pending,
           ThunkCreateCustomer.pending,
           ThunkGoogle.pending,
@@ -376,7 +413,6 @@ const userSlice = createSlice({
       .addMatcher(
         isAnyOf(
           ThunkLogIn.fulfilled,
-          ThunkGetUser.fulfilled,
           ThunkGetSession.fulfilled,
           ThunkCreateCustomer.fulfilled,
           ThunkGoogle.fulfilled,
@@ -386,7 +422,7 @@ const userSlice = createSlice({
           ThunkDeleteCustomerAddress.fulfilled,
           ThunkUpdateCustomerDefaultAddress.fulfilled,
         ),
-        (state, action) => {
+        (state, action: PayloadAction<Iuser | null>) => {
           state.isLoading = false;
           state.user = action.payload;
         },
@@ -394,7 +430,6 @@ const userSlice = createSlice({
       .addMatcher(
         isAnyOf(
           ThunkLogIn.rejected,
-          ThunkGetUser.rejected,
           ThunkGetSession.rejected,
           ThunkCreateCustomer.rejected,
           ThunkGoogle.rejected,
@@ -416,10 +451,10 @@ export const { resetError } = userSlice.actions;
 export default userSlice.reducer;
 
 /* ---------- CreateAsyncThuynk definition ---------- */
-// ThunkGetUserData = createAsyncThunk<UserData, {}>
+// ThunkGetUserData = createAsyncThunk<Iuser, {}>
 // createAsyncThunk<Returned, ThunkArg, ThunkApiConfig>()
 // Returned → the type the thunk will return (your payload).
-// In your case: UserData.
+// In your case: Iuser.
 
 // ThunkArg → the type of the argument you pass when you call dispatch(ThunkGetUserData(arg)).
 // In your code you used {}, which means “an empty object”.

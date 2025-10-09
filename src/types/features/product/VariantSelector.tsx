@@ -1,7 +1,7 @@
-import type { IAttributeOption, IProduct } from '@/types';
+import type { IattributeOption, Iproduct } from '@/types';
 
 export interface VariantSelectorProps {
-  attributeOptions: IAttributeOption[];
+  attributeOptions: IattributeOption[];
   selectedAttributes: { [key: string]: string };
   handleAttributeSelect: (
     attributeName: string,
@@ -21,6 +21,6 @@ export interface VariantSelectorProps {
       attributes: { [key: string]: string };
     }
   >;
-  product: IProduct;
+  product: Iproduct;
   selectedLinkedVariation: string;
 }

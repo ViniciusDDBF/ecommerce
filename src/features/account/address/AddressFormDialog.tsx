@@ -59,7 +59,7 @@ export const AddressFormDialog: FC<AddressFormDialogProps> = ({
         errors={form.errors}
         fields={fields}
         onChange={form.setValue}
-        values={form.values}
+        values={form.values as Record<string, string>}
       />
     </Dialog>
   );

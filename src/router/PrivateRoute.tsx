@@ -1,4 +1,4 @@
-import type { FC } from '../types';
+import type { FC } from '@/types';
 import { Navigate, Outlet } from 'react-router';
 import { LoadingOverlay } from '@/components/atoms';
 import { useAppSelector } from '@/store/hooks/hooks';

@@ -26,7 +26,7 @@ export const FormGrid: FC<FormGridProps> = ({
           <FormField
             error={errors[field.name]}
             field={field}
-            onChange={(value) => onChange(field.name, value)}
+            onChange={(value: string) => onChange(field.name, value)}
             value={values[field.name]}
           />
         </div>

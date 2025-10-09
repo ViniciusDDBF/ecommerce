@@ -12,7 +12,7 @@ export const validateCNPJ = (cnpj: unknown): boolean => {
   const calcCheckDigit = (digits: string, factors: number[]): number => {
     const sum = digits
       .split('')
-      .reduce((acc, digit, i) => acc + parseInt(digit) * factors[i], 0);
+      .reduce((acc, digit, i) => acc + parseInt(digit, 10) * factors[i], 0);
     const remainder = sum % 11;
     return remainder < 2 ? 0 : 11 - remainder;
   };

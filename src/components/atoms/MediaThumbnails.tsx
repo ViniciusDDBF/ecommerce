@@ -1,7 +1,7 @@
-import type { FC, IMedia, MediaThumbnailNavigationProps } from '@/types';
+import type { FC, Imedia, MediaThumbnailsProps } from '@/types';
 import { CirclePlay } from 'lucide-react';
 
-export const MediaThumbnails: FC<MediaThumbnailNavigationProps> = ({
+export const MediaThumbnails: FC<MediaThumbnailsProps> = ({
   mediaList,
   selected,
   onSelect,
@@ -17,7 +17,7 @@ export const MediaThumbnails: FC<MediaThumbnailNavigationProps> = ({
 
   if (effectiveList.length <= 1) return null;
 
-  const handleSelect = (item: IMedia, index: number) => {
+  const handleSelect = (item: Imedia, index: number) => {
     onSelect(selectionMode === 'index' ? index : item);
   };
 
@@ -77,9 +77,9 @@ export const MediaThumbnails: FC<MediaThumbnailNavigationProps> = ({
               </div>
             ) : (
               <img
-              alt="Product Thumbnail"
-              className={`${commonClasses} `}
-              src={item.url}
+                alt="Product Thumbnail"
+                className={`${commonClasses} `}
+                src={item.url}
               />
             )}
           </button>

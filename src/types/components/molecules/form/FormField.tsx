@@ -1,13 +1,13 @@
-import type { TMaskType } from '../../../../types';
+import type { TmaskType } from '@/types';
 
 interface IValidation {
   minLength?: number;
   maxLength?: number;
   required?: boolean;
-  custom?: (value: any) => string | null;
+  custom?: (value: unknown) => string | null;
 }
 
-export interface IFormField {
+export interface IformField {
   name: string;
   label: string;
   type: 'text' | 'email' | 'password' | 'textarea' | 'select' | 'checkbox';
@@ -16,15 +16,15 @@ export interface IFormField {
   validation?: IValidation;
   colSpan?: 1 | 2;
   className?: string;
-  applyMask?: TMaskType;
+  applyMask?: TmaskType;
   helper?: { text: string; value?: string };
   confirmField?: string;
   disabled?: boolean;
 }
 
-export interface FormFieldProps {
-  field: IFormField;
-  value: any;
+export interface FormFieldProps<T = string | number | boolean> {
+  field: IformField;
+  value: T;
   error?: string;
-  onChange: (value: any) => void;
+  onChange: (value: T) => void;
 }

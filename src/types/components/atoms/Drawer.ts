@@ -1,8 +1,8 @@
-import type { ReactNode, TPositionX } from '@/types';
+import type { ReactNode, TpositionX } from '@/types';
 
 export interface DrawerProps {
   isOpen: boolean;
   children?: ReactNode;
-  position?: TPositionX;
+  position?: TpositionX;
   className?: string;
 }

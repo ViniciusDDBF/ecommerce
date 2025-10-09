@@ -1,4 +1,4 @@
-import type { FC, FormFieldProps } from '@/types';
+import type { FormFieldProps } from '@/types';
 import {
   CustomCheckbox,
   CustomSelect,
@@ -6,12 +6,12 @@ import {
   Input,
 } from '@/components/atoms';
 
-export const FormField: FC<FormFieldProps> = ({
+export const FormField = <T extends string | number | boolean>({
   field,
   value,
   error,
   onChange,
-}) => {
+}: FormFieldProps<T>) => {
   const renderInput = () => {
     switch (field.type) {
       case 'textarea':
@@ -19,29 +19,29 @@ export const FormField: FC<FormFieldProps> = ({
           <Input
             disabled={field.disabled}
             error={!!error}
-            onChange={onChange}
+            onChange={(val: string) => onChange(val as T)}
             placeholder={field.placeholder}
             type="textarea"
-            value={value || ''}
+            value={(value as string) || ''}
           />
         );
 
       case 'select':
         return (
           <CustomSelect
-            onChange={onChange}
+            onChange={(val: string) => onChange(val as T)}
             options={field.options}
             placeholder={field.placeholder}
-            value={value || ''}
+            value={(value as string) || ''}
           />
         );
 
       case 'checkbox':
         return (
           <CustomCheckbox
-            checked={value || false}
+            checked={Boolean(value)}
             label={field.label}
-            onChange={onChange}
+            onChange={(val: boolean) => onChange(val as T)}
           />
         );
 
@@ -50,15 +50,14 @@ export const FormField: FC<FormFieldProps> = ({
           <Input
             disabled={field.disabled}
             error={!!error}
-            onChange={onChange}
+            onChange={(val: string) => onChange(val as T)}
             placeholder={field.placeholder}
-            type={'text'}
-            value={value || ''}
+            type="text"
+            value={(value as string) || ''}
           />
         );
     }
   };
-
   return (
     <div className={`relative space-y-2 ${field.className || ''}`}>
       {field.type !== 'checkbox' && (
@@ -72,9 +71,7 @@ export const FormField: FC<FormFieldProps> = ({
 
           {field.helper && (
             <Helper
-              onClick={() => {
-                onChange(field.helper?.value);
-              }}
+              onClick={() => onChange(field.helper?.value as T)}
               tooltip={field.helper.text}
               value={field.helper.value}
             />

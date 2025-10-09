@@ -1,8 +1,8 @@
-import type { IFormField } from '@/types';
+import type { IformField } from '@/types';
 import { useId } from 'react';
 import { Heart, MapPin, ShoppingBag, User } from 'lucide-react';
 
-export const loginFields: IFormField[] = [
+export const loginFields: IformField[] = [
   {
     name: 'email',
     label: 'Email',
@@ -21,7 +21,7 @@ export const loginFields: IFormField[] = [
   },
 ];
 
-export const signUpFields: IFormField[] = [
+export const signUpFields: IformField[] = [
   {
     name: 'first_name',
     label: 'First Name',

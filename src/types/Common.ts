@@ -1,29 +1,37 @@
 export type { FC, ReactNode } from 'react';
-export type TSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
-export type TMaskType = 'phone' | 'cpf' | 'cnpj';
-export type TPositionX = 'left' | 'right';
-export type TPositionY = 'top' | 'bottom';
-export type TCrudFormMode = 'create' | 'update' | 'delete';
-export type TOrientation = 'horizontal' | 'vertical';
-export type TMediaType = 'image' | 'video';
+export type Tsize = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
+export type TmaskType = 'phone' | 'cpf' | 'cnpj';
+export type TpositionX = 'left' | 'right';
+export type TpositionY = 'top' | 'bottom';
+export type TcrudFormMode = 'create' | 'update' | 'delete';
+export type Torientation = 'horizontal' | 'vertical';
+export type TmediaType = 'image' | 'video';
 
-export interface IMedia {
-  media_type: TMediaType;
+export interface IsizeObject {
+  xs: string;
+  sm: string;
+  md: string;
+  lg: string;
+  xl: string;
+}
+
+export interface Imedia {
+  media_type: TmediaType;
   url: string;
   id?: number;
   created_at?: string;
 }
 
-export interface IFileWithPreview {
+export interface IfileWithPreview {
   id: string;
   file: File;
   preview: string;
-  type: TMediaType;
+  type: TmediaType;
   name: string;
   size: string;
 }
 
-export interface IAttributeOption {
+export interface IattributeOption {
   name: string;
   hasRedirect: boolean;
   values: {
@@ -35,7 +43,7 @@ export interface IAttributeOption {
   }[];
 }
 
-export interface IVariant {
+export interface Ivariant {
   variant_id: number;
   sku: string;
   name: string;
@@ -57,7 +65,7 @@ export interface IVariant {
   };
 }
 
-export interface IProduct {
+export interface Iproduct {
   product_id: number;
   product_name: string;
   description: string;
@@ -67,8 +75,8 @@ export interface IProduct {
   current_price: number;
   original_price: number;
   stock: number;
-  all_images: IMedia[];
-  all_variants: IVariant[];
+  all_images: Imedia[];
+  all_variants: Ivariant[];
   variant_attributes: {
     [key: string]: {
       value: string;
@@ -106,11 +114,11 @@ export interface IProduct {
     level: number;
     path: string;
   }[];
-  rating_summary: IRatingSummary;
-  reviews: IReview[];
+  rating_summary: IratingSummary;
+  reviews: Ireview[];
 }
 
-export interface ICustomer {
+export interface Icustomer {
   id: string;
   name?: string;
   first_name?: string;
@@ -124,7 +132,7 @@ export interface ICustomer {
   is_cpf?: boolean | null;
 }
 
-export interface IReview {
+export interface Ireview {
   id: number;
   created_at: string;
   rating: number;
@@ -133,11 +141,11 @@ export interface IReview {
   is_anonymous: boolean;
   positive_votes: number;
   negative_votes: number;
-  customer: ICustomer;
-  media: IMedia[];
+  customer: Icustomer;
+  media: Imedia[];
 }
 
-export interface IReviewState {
+export interface IreviewState {
   positiveVotes: number;
   negativeVotes: number;
   hasLiked: boolean;
@@ -145,7 +153,7 @@ export interface IReviewState {
   isExpanded: boolean;
 }
 
-export interface IRatingSummary {
+export interface IratingSummary {
   average_rating: number;
   review_count: number;
   rate1: number;
@@ -156,9 +164,9 @@ export interface IRatingSummary {
 }
 
 export interface IEnhancedReviewCardProps {
-  reviews: IReview[];
+  reviews: Ireview[];
   isLoggedIn: boolean;
-  ratingSummary: IRatingSummary;
+  ratingSummary: IratingSummary;
   productId: number;
 }
 
@@ -170,7 +178,7 @@ export interface FetchState<T> {
 
 export interface CrudMethods<T> {
   get: (path?: string) => Promise<T>;
-  post: (data: any, path?: string) => Promise<T>;
-  patch: (path: string, data: any) => Promise<T>;
+  post: (data: unknown, path?: string) => Promise<T>;
+  patch: (path: string, data: unknown) => Promise<T>;
   delete: (path: string) => Promise<T>;
 }

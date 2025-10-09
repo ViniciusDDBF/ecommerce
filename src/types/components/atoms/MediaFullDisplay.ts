@@ -1,4 +1,4 @@
-export interface FullMediaViewerProps {
+export interface MediaFullDisplayProps {
   mediaUrl: string;
   alt: string;
   isOpen: boolean;

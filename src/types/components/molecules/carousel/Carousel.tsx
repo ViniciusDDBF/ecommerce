@@ -1,4 +1,4 @@
-import type { ProductItem } from '../../../../types';
+import type { ProductItem } from '@/types';
 
 interface CarouselItem {
   carousel_name: string;

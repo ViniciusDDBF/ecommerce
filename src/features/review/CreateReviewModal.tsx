@@ -1,5 +1,5 @@
 import type React from 'react';
-import type { CreateReviewModalProps, FC, IFileWithPreview } from '@/types';
+import type { CreateReviewModalProps, FC, IfileWithPreview } from '@/types';
 import { useRef, useState } from 'react';
 import { FileImage, FileVideo, Upload, X } from 'lucide-react';
 import { Button, Overlay } from '@/components/atoms';
@@ -15,7 +15,7 @@ export const CreateReviewModal: FC<CreateReviewModalProps> = ({
   productId,
 }) => {
   const [rating, setRating] = useState(0);
-  const [files, setFiles] = useState<IFileWithPreview[]>([]);
+  const [files, setFiles] = useState<IfileWithPreview[]>([]);
   const [isDragging, setIsDragging] = useState<boolean>(false);
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -46,7 +46,7 @@ export const CreateReviewModal: FC<CreateReviewModalProps> = ({
       return isImage || isVideo;
     });
 
-    const filesWithPreview: IFileWithPreview[] = validFiles.map((file) => ({
+    const filesWithPreview: IfileWithPreview[] = validFiles.map((file) => ({
       id: Math.random().toString(36).substr(2, 9),
       file,
       preview: URL.createObjectURL(file),
@@ -193,10 +193,10 @@ export const CreateReviewModal: FC<CreateReviewModalProps> = ({
                   placeholder: 'Enter the title of your review',
                   validation: { required: true },
                 }}
-                onChange={(e) => {
+                onChange={(e: string) => {
                   setReviewTitle(e);
                 }}
-                value={reviewTitle}
+                value={reviewTitle as string}
               />
 
               {/* Review title */}
@@ -208,10 +208,10 @@ export const CreateReviewModal: FC<CreateReviewModalProps> = ({
                   placeholder: 'Write your review',
                   validation: { required: true },
                 }}
-                onChange={(e) => {
+                onChange={(e: string) => {
                   setReviewContent(e);
                 }}
-                value={reviewContent}
+                value={reviewContent as string}
               />
 
               {/* Drop Zone */}

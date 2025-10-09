@@ -37,7 +37,7 @@ export const SignUpDialog: FC<SignUpDialogProps> = ({
         errors={signUpForm.errors}
         fields={fields}
         onChange={signUpForm.setValue}
-        values={signUpForm.values}
+        values={signUpForm.values as Record<string, string>}
       />
       <div className="mt-4 text-center">
         <span className="text-charcoal-300 text-sm">

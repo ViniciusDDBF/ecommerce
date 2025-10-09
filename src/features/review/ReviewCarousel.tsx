@@ -1,4 +1,4 @@
-import type { FC, ReviewCarouselProps, TPositionX } from '@/types';
+import type { FC, ReviewCarouselProps, TpositionX } from '@/types';
 import { useRef, useState } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { Button } from '@/components/atoms';
@@ -16,7 +16,7 @@ export const ReviewCarousel: FC<ReviewCarouselProps> = ({
   const totalItems = allMedia.length;
 
   // Handle navigation
-  const scroll = (direction: TPositionX) => {
+  const scroll = (direction: TpositionX) => {
     if (scrollRef.current) {
       const cardWidth =
         window.innerWidth < 640

@@ -1,8 +1,8 @@
-import type { IReviewState } from '../../../../types';
+import type { IreviewState } from '@/types';
 
 export interface ReviewFooterProps {
   reviewId: number;
-  reviewState: IReviewState;
+  reviewState: IreviewState;
   onLike: (id: number) => void;
   onDislike: (id: number) => void;
   error?: string;

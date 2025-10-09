@@ -9,19 +9,17 @@ export * from './components/atoms/CustomerInitials';
 export * from './components/atoms/CustomSelect';
 export * from './components/atoms/Dialog';
 export * from './components/atoms/Drawer';
-export * from './components/atoms/FullMediaViewer';
 export * from './components/atoms/Helper';
 export * from './components/atoms/IconOverlay';
 export * from './components/atoms/Input';
 export * from './components/atoms/Link';
 export * from './components/atoms/LoadingDiv';
-export * from './components/atoms/MediaDisplay';
-export * from './components/atoms/MediaNavigation';
-export * from './components/atoms/MediaThumbnailNavigation';
+export * from './components/atoms/MediaFullDisplay';
+export * from './components/atoms/MediaMainDisplay';
+export * from './components/atoms/MediaNavigationButtons';
 export * from './components/atoms/MediaThumbnails';
 export * from './components/atoms/Modal';
 export * from './components/atoms/Overlay';
-export * from './components/atoms/ThumbnailNavigation';
 /* ---------- Molecules ---------- */
 //* ---------- Carousel ---------- */
 export * from './components/molecules/carousel/Carousel';

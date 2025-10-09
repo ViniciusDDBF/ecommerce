@@ -37,7 +37,7 @@ export const LoginDialog: FC<LoginDialogProps> = ({
         errors={loginForm.errors}
         fields={fields}
         onChange={loginForm.setValue}
-        values={loginForm.values}
+        values={loginForm.values as Record<string, string>}
       />
       <div className="mt-4 text-center">
         <span className="text-charcoal-300 text-sm">
