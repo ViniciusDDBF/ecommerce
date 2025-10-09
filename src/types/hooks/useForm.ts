@@ -1,18 +1,18 @@
 import type { Dispatch, SetStateAction } from 'react';
 import type { IformField } from '@/types';
 
-export interface useFormParams<T> {
+export interface useFormParams {
   fields: IformField[];
-  initialValues: T;
+  initialValues: Record<string, unknown>;
 }
 
-export interface useFormReturn<T> {
-  values: T;
+export interface useFormReturn {
+  values: Record<string, unknown | string>;
   errors: Record<string, string>;
   isSubmitting: boolean;
   setIsSubmitting: Dispatch<SetStateAction<boolean>>;
   setValue: (name: string, value: unknown) => void;
-  setValuesAll: (newValues: T, replace?: boolean) => void;
+  setValuesAll: (newValues: Record<string, unknown>, replace?: boolean) => void;
   validate: () => boolean;
   reset: () => void;
   resetToInitial: () => void;
