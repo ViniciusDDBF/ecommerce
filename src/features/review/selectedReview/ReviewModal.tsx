@@ -92,7 +92,6 @@ export const ReviewModal: FC<ReviewModalProps> = ({
                   onSelect={(e) => {
                     if (typeof e === 'number') {
                       setCurrentMediaIndex(e);
-                      console.log(currentMedia);
                     }
                   }}
                   selected={currentMediaIndex}

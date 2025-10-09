@@ -67,7 +67,7 @@ export const useForm = ({
         return newErrors;
       });
     },
-    [fields], // no errors or values in dependencies anymore
+    [fields],
   );
 
   const setValuesAll = useCallback(

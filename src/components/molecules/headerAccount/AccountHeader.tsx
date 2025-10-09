@@ -1,4 +1,4 @@
-import type { FC } from '@/types';
+import type { FC, SupabaseUserArgs } from '@/types';
 import { useEffect, useState } from 'react';
 import { CircleCheck, LogIn, Mail, MessageCircleX } from 'lucide-react';
 import { Button, Dialog, Modal } from '@/components/atoms';
@@ -28,9 +28,7 @@ const handleGoogleSignIn = async () => {
         redirectTo: `${window.location.origin}/auth/callback`,
       },
     });
-  } catch (err) {
-    console.log(err);
-  }
+  } catch (_err) {}
 };
 
 export const AccountHeader: FC = () => {
@@ -77,7 +75,7 @@ export const AccountHeader: FC = () => {
         ThunkLogIn({
           email: login.values.email,
           password: login.values.password,
-        }),
+        } as SupabaseUserArgs),
       );
       setLoginIsOpen(false);
       setLoginSuccess(true);

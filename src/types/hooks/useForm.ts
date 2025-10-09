@@ -7,7 +7,7 @@ export interface useFormParams {
 }
 
 export interface useFormReturn {
-  values: Record<string, unknown | string>;
+  values: Record<string, unknown>;
   errors: Record<string, string>;
   isSubmitting: boolean;
   setIsSubmitting: Dispatch<SetStateAction<boolean>>;

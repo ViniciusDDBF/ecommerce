@@ -1,6 +1,6 @@
 import type { TmaskType } from '@/types';
 
-interface IValidation {
+interface Ivalidation {
   minLength?: number;
   maxLength?: number;
   required?: boolean;
@@ -13,7 +13,7 @@ export interface IformField {
   type: 'text' | 'email' | 'password' | 'textarea' | 'select' | 'checkbox';
   placeholder?: string;
   options?: { value: string; label: string }[];
-  validation?: IValidation;
+  validation?: Ivalidation;
   colSpan?: 1 | 2;
   className?: string;
   applyMask?: TmaskType;

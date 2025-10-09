@@ -306,7 +306,6 @@ export const ThunkGoogle = createAsyncThunk<Iuser, void>(
   'user/GoogleSignIn',
   async () => {
     const userData = await FetchGetUser();
-    console.log(userData, 'USER DATA');
 
     if (userData) {
       const userViewData = await FetchGetUserView(userData.id);

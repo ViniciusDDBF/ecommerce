@@ -40,9 +40,7 @@ export const AccountProfile: FC = () => {
     try {
       await dispatch(ThunkUpdateUser(fullPayload as Iuser));
       setIsOpen(false);
-    } catch (err) {
-      console.log(err);
-    }
+    } catch (_err) {}
   };
 
   return (
