@@ -84,13 +84,23 @@ export const AccountHeader: FC = () => {
       setErrorModal(true);
     }
   };
-
   const handleSubmitSignUp = async () => {
     if (!signUp.validate()) return;
     const { confirm_password: _, ...newUser } = signUp.values;
     try {
       signUp.setIsSubmitting(true);
-      await dispatch(ThunkCreateCustomer(newUser));
+      await dispatch(
+        ThunkCreateCustomer(
+          newUser as {
+            first_name: string;
+            last_name: string;
+            phone?: string;
+            cpf?: string;
+            email: string;
+            password?: string;
+          },
+        ),
+      );
       setSignUpSuccess(true);
       signUp.reset();
     } catch (_err) {
