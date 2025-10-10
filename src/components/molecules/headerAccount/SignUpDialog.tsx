@@ -47,7 +47,7 @@ export const SignUpDialog: FC<SignUpDialogProps> = ({
             onClick={onSwitchToLogin}
             type="button"
           >
-            Log in
+            Sign Up
           </button>
         </span>
       </div>

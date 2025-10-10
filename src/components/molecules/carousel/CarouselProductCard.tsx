@@ -62,12 +62,12 @@ export const CarouselProductCard: FC<ProductCardProps> = ({
           </div>
 
           {isOnSale && (
-            <span className="bg-ember-500 text-charcoal-50 absolute top-0 left-0 px-2 py-1 text-xs font-bold">
+            <span className="bg-charcoal-900 text-ember-500 absolute top-0 left-0 px-2 py-1 text-sm font-bold">
               Sale
             </span>
           )}
           <div className="p-3 sm:p-4">
-            <h3 className="text-charcoal-100 truncate text-base font-semibold sm:text-lg">
+            <h3 className="text-charcoal-50 truncate text-base font-semibold sm:text-lg">
               {selectedVariant.product_name || 'Unknown Product'}
             </h3>
             <div className="mt-2 flex items-center gap-2">
@@ -75,7 +75,7 @@ export const CarouselProductCard: FC<ProductCardProps> = ({
                 ${selectedVariant.current_price.toFixed(2)}
               </span>
               {isOnSale && (
-                <span className="text-charcoal-400 text-xs line-through sm:text-sm">
+                <span className="text-charcoal-300 text-xs line-through sm:text-sm">
                   ${selectedVariant.original_price.toFixed(2)}
                 </span>
               )}

@@ -57,7 +57,7 @@ export const RootLayout = () => {
       </section>
 
       {/* ---------- Footer ---------- */}
-      <footer className="bg-charcoal-800 text-charcoal-400 px-4 py-4 text-center text-sm sm:px-6 sm:py-6 sm:text-base">
+      <footer className="bg-charcoal-800 text-charcoal-300 px-4 py-4 text-center text-sm sm:px-6 sm:py-6 sm:text-base">
         © Vinicius Dundich
       </footer>
     </div>
