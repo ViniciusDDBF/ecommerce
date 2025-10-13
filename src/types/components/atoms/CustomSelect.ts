@@ -1,12 +1,14 @@
-export interface ISelectOption {
-  value: string;
-  label: string;
-}
+import type { Classname, Label, Placeholder, Value } from '@/types/Common';
 
 export interface CustomSelectProps {
-  options?: ISelectOption[];
-  placeholder?: string;
-  value?: string;
+  className?: Classname;
   onChange?: (value: string) => void;
-  className?: string;
+  options?: SelectOption[];
+  placeholder?: Placeholder;
+  value?: Value;
+}
+
+export interface SelectOption {
+  label: Label;
+  value: Value;
 }

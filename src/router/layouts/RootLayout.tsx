@@ -39,8 +39,8 @@ export const RootLayout = () => {
               },
             ].map(({ icon: Icon, title, desc }) => (
               <div
-                key={title}
                 className="bg-charcoal-800 border-charcoal-600/30 rounded-xl border bg-gradient-to-br p-4 text-center backdrop-blur-xl transition-colors sm:p-6"
+                key={title}
               >
                 <Icon
                   className="text-charcoal-100 mx-auto mb-3 sm:mb-4"
@@ -57,7 +57,7 @@ export const RootLayout = () => {
       </section>
 
       {/* ---------- Footer ---------- */}
-      <footer className="bg-charcoal-800 text-charcoal-400 px-4 py-4 text-center text-sm sm:px-6 sm:py-6 sm:text-base">
+      <footer className="bg-charcoal-800 text-charcoal-300 px-4 py-4 text-center text-sm sm:px-6 sm:py-6 sm:text-base">
         © Vinicius Dundich
       </footer>
     </div>

@@ -1,4 +1,4 @@
-import type { FC, Ireview, ReviewsProps } from '@/types';
+import type { FC, Review, ReviewsProps } from '@/types';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Button, Modal } from '@/components/atoms';
 import {
@@ -30,7 +30,7 @@ export const Reviews: FC<ReviewsProps> = ({
       isExpanded: boolean;
     };
   }>({});
-  const [selectedReview, setSelectedReview] = useState<Ireview | null>(null);
+  const [selectedReview, setSelectedReview] = useState<Review | null>(null);
   const [currentMediaIndex, setCurrentMediaIndex] = useState(0);
   const [isCarouselMode, setIsCarouselMode] = useState(false);
   const [error, setError] = useState('');
@@ -158,7 +158,7 @@ export const Reviews: FC<ReviewsProps> = ({
 
   /* ---------- Open review modal ---------- */
   const openReviewModal = (
-    review: Ireview,
+    review: Review,
     mediaIndex: number = 0,
     fromCarousel: boolean = false,
   ) => {

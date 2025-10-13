@@ -47,8 +47,8 @@ export const AccountDefault: FC = () => {
           const Icon = item.icon;
           return (
             <button
-              key={item.id}
               className="glass-effect ember-transition hover:ember-hover-border cursor-pointer rounded-lg p-4 sm:p-6"
+              key={item.id}
               onClick={() => navigate(`/account/${item.id}`)}
               type="button"
             >

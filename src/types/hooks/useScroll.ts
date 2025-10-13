@@ -1,9 +1,9 @@
 export interface IScrollOptions {
-  offset?: number;
   behavior?: ScrollBehavior;
+  offset?: number;
 }
 
 export interface useScrollParams {
-  target: HTMLElement | null;
   options?: IScrollOptions;
+  target: HTMLElement | null;
 }

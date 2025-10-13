@@ -1,6 +1,6 @@
 export interface MediaFullDisplayProps {
-  mediaUrl: string;
   alt: string;
   isOpen: boolean;
+  mediaUrl: string;
   onClose: () => void;
 }

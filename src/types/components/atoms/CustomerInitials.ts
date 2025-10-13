@@ -1,8 +1,8 @@
-import type { Tsize } from '@/types';
+import type { Email, FirstName, LastName, Size } from '@/types';
 
 export interface CustomerInitialsProps {
-  firstName: string;
-  lastName?: string;
-  email?: string;
-  size?: Tsize;
+  email?: Email;
+  firstName: FirstName;
+  lastName?: LastName;
+  size?: Size;
 }

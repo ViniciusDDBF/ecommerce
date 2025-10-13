@@ -1,6 +1,6 @@
-import type { IformField } from '@/types';
+import type { FormFieldConfig } from '@/types';
 
-export const addressFields: IformField[] = [
+export const addressFields: FormFieldConfig[] = [
   {
     name: 'address_name',
     label: 'Address Name',

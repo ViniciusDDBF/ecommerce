@@ -14,13 +14,13 @@ export const ProductReviewsHeader: FC<ProductReviewsHeaderProps> = ({
       if (i < Math.floor(roundedRating)) {
         stars.push(
           <Star
-            key={i}
             className="text-ember-400 fill-ember-400 ember-transition h-3 w-3 sm:h-5 sm:w-5"
+            key={i}
           />,
         );
       } else if (i === Math.floor(roundedRating) && roundedRating % 1 !== 0) {
         stars.push(
-          <div key={i} className="relative inline-block">
+          <div className="relative inline-block" key={i}>
             <Star className="text-charcoal-200 fill-charcoal-200 ember-transition absolute top-0 left-0 z-0 h-3 w-3 sm:h-5 sm:w-5" />
             <StarHalf className="text-ember-400 fill-ember-400 ember-transition relative z-10 h-3 w-3 sm:h-5 sm:w-5" />
           </div>,
@@ -28,8 +28,8 @@ export const ProductReviewsHeader: FC<ProductReviewsHeaderProps> = ({
       } else {
         stars.push(
           <Star
-            key={i}
             className="text-charcoal-200 fill-charcoal-200 ember-transition h-3 w-3 sm:h-5 sm:w-5"
+            key={i}
           />,
         );
       }

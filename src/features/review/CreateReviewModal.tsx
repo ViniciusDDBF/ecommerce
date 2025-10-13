@@ -1,5 +1,5 @@
 import type React from 'react';
-import type { CreateReviewModalProps, FC, IfileWithPreview } from '@/types';
+import type { CreateReviewModalProps, FC, FileWithPreview } from '@/types';
 import { useRef, useState } from 'react';
 import { FileImage, FileVideo, Upload, X } from 'lucide-react';
 import { Button, Overlay } from '@/components/atoms';
@@ -15,7 +15,7 @@ export const CreateReviewModal: FC<CreateReviewModalProps> = ({
   productId,
 }) => {
   const [rating, setRating] = useState(0);
-  const [files, setFiles] = useState<IfileWithPreview[]>([]);
+  const [files, setFiles] = useState<FileWithPreview[]>([]);
   const [isDragging, setIsDragging] = useState<boolean>(false);
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -46,13 +46,13 @@ export const CreateReviewModal: FC<CreateReviewModalProps> = ({
       return isImage || isVideo;
     });
 
-    const filesWithPreview: IfileWithPreview[] = validFiles.map((file) => ({
+    const filesWithPreview: FileWithPreview[] = validFiles.map((file) => ({
       id: Math.random().toString(36).substr(2, 9),
       file,
       preview: URL.createObjectURL(file),
       type: file.type.startsWith('image/') ? 'image' : 'video',
       name: file.name,
-      size: `${(file.size / 1024 / 1024).toFixed(2)} MB`,
+      file_size: `${(file.size / 1024 / 1024).toFixed(2)} MB`,
     }));
     setFiles((prev) => [...prev, ...filesWithPreview]);
   };
@@ -250,11 +250,11 @@ export const CreateReviewModal: FC<CreateReviewModalProps> = ({
                   </div>
                 </div>
                 <input
-                  ref={fileInputRef}
                   accept="image/*,video/*"
                   className="hidden"
                   multiple
                   onChange={(e) => handleFileSelect(e.target.files)}
+                  ref={fileInputRef}
                   type="file"
                 />
               </button>
@@ -281,8 +281,8 @@ export const CreateReviewModal: FC<CreateReviewModalProps> = ({
                   <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                     {files.map((file) => (
                       <div
-                        key={file.id}
                         className="group glass-effect relative overflow-hidden rounded-xl transition-transform duration-200 hover:scale-[1.02]"
+                        key={file.id}
                       >
                         {/* Preview */}
                         <div className="bg-charcoal-800 relative aspect-video overflow-hidden">
@@ -334,7 +334,7 @@ export const CreateReviewModal: FC<CreateReviewModalProps> = ({
                             {file.name}
                           </p>
                           <p className="text-charcoal-500 text-xs">
-                            {file.size}
+                            {file.file_size}
                           </p>
                         </div>
                       </div>

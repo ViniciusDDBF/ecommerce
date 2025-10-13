@@ -1,4 +1,4 @@
-import type { CarouselProps, FC, TpositionX } from '@/types';
+import type { CarouselProps, FC, PositionX } from '@/types';
 import { useRef, useState } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { Button } from '@/components/atoms';
@@ -15,7 +15,7 @@ export const Carousel: FC<CarouselProps> = ({ data, className = '' }) => {
     (a, b) => (a.carousel_display_order || 0) - (b.carousel_display_order || 0),
   );
 
-  const scroll = (direction: TpositionX) => {
+  const scroll = (direction: PositionX) => {
     if (scrollRef.current) {
       const cardWidth = window.innerWidth < 640 ? window.innerWidth * 0.8 : 320;
       const gap = window.innerWidth < 640 ? 16 : 24;
@@ -50,8 +50,8 @@ export const Carousel: FC<CarouselProps> = ({ data, className = '' }) => {
       ) : (
         sortedCarousels.map((carousel) => (
           <div
-            key={carousel.carousel_name}
             className={`bg-charcoal-700 mx-auto mb-8 rounded-2xl p-4 sm:p-6 md:p-8 ${className}`}
+            key={carousel.carousel_name}
           >
             <div
               className={`mb-4 flex flex-col sm:flex-row sm:items-end sm:justify-between`}
@@ -78,9 +78,9 @@ export const Carousel: FC<CarouselProps> = ({ data, className = '' }) => {
             </div>
 
             <section
-              ref={scrollRef}
               aria-label={`${carousel.carousel_title} carousel`}
               className={`flex snap-x snap-mandatory gap-4 overflow-x-auto pb-4 [-ms-overflow-style:none] [scrollbar-width:none] sm:gap-6 [&::-webkit-scrollbar]:hidden`}
+              ref={scrollRef}
             >
               {carousel.products.map((groupVariants, groupIndex) => {
                 const selectedVariantId =
@@ -91,8 +91,8 @@ export const Carousel: FC<CarouselProps> = ({ data, className = '' }) => {
 
                 return (
                   <CarouselProductCard
-                    key={cardId}
                     cardId={cardId}
+                    key={cardId}
                     onVariantSelect={(variantId) =>
                       handleProductSelect(
                         carousel.carousel_name,

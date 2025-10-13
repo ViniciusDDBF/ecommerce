@@ -1,5 +1,7 @@
+import type { Label } from '@/types/Common';
+
 export interface CustomCheckboxProps {
-  label: string;
   checked: boolean;
+  label: Label;
   onChange: (checked: boolean) => void;
 }

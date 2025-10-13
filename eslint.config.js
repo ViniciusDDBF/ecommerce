@@ -1,5 +1,6 @@
-import react from 'eslint-plugin-react';
 import tsParser from '@typescript-eslint/parser';
+import perfectionist from 'eslint-plugin-perfectionist';
+import react from 'eslint-plugin-react';
 
 export default [
   {
@@ -16,17 +17,70 @@ export default [
     },
     plugins: {
       react,
+      perfectionist,
     },
     rules: {
-      'react/jsx-sort-props': [
-        'warn',
+      'perfectionist/sort-modules': [
+        'error',
         {
-          callbacksLast: false,
-          shorthandFirst: false,
-          shorthandLast: false,
+          type: 'alphabetical',
+          order: 'asc',
+          fallbackSort: { type: 'unsorted' },
           ignoreCase: true,
-          noSortAlphabetically: false,
-          reservedFirst: true,
+          specialCharacters: 'keep',
+          partitionByComment: false,
+          partitionByNewLine: false,
+          newlinesBetween: 'ignore',
+          groups: [
+            'declare-enum',
+            'export-enum',
+            'enum',
+            ['declare-interface', 'declare-type'],
+            ['export-interface', 'export-type'],
+            ['interface', 'type'],
+            'declare-class',
+            'class',
+            'export-class',
+            'declare-function',
+            'export-function',
+            'function',
+          ],
+          customGroups: [],
+        },
+      ],
+      'perfectionist/sort-jsx-props': [
+        'error',
+        {
+          type: 'alphabetical',
+          order: 'asc',
+          fallbackSort: { type: 'unsorted' },
+          ignoreCase: true,
+          specialCharacters: 'keep',
+          ignorePattern: [],
+          partitionByNewLine: false,
+          newlinesBetween: 'ignore',
+          useConfigurationIf: {},
+          groups: [],
+          customGroups: {},
+        },
+      ],
+      'perfectionist/sort-interfaces': [
+        'error',
+        {
+          type: 'alphabetical',
+          order: 'asc',
+          fallbackSort: { type: 'unsorted' },
+          ignoreCase: true,
+          specialCharacters: 'keep',
+          sortBy: 'name',
+          ignorePattern: [],
+          partitionByComment: false,
+          partitionByNewLine: false,
+          newlinesBetween: 'ignore',
+          useConfigurationIf: {},
+          groupKind: 'mixed',
+          groups: [],
+          customGroups: [],
         },
       ],
     },

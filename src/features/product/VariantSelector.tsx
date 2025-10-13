@@ -19,7 +19,7 @@ export const VariantSelector: FC<VariantSelectorProps> = ({
         );
 
         return (
-          <div key={nanoid()} className="space-y-2 sm:space-y-3">
+          <div className="space-y-2 sm:space-y-3" key={nanoid()}>
             {
               <span className="text-charcoal-200 block text-sm font-medium sm:text-base md:text-lg">
                 {attributeOption.values.length > 0 && attributeOption.name}
@@ -43,8 +43,8 @@ export const VariantSelector: FC<VariantSelectorProps> = ({
 
                   return (
                     <button
-                      key={nanoid()}
                       className={`group relative flex-shrink-0 cursor-pointer transition-all duration-200`}
+                      key={nanoid()}
                       onClick={() => {
                         if (value.variant_slug)
                           handleLinkedVariationSelect(value.variant_slug);
@@ -88,8 +88,8 @@ export const VariantSelector: FC<VariantSelectorProps> = ({
 
                   return (
                     <Button
-                      key={value.variant_slug || value.value}
                       disabled={!hasStock}
+                      key={value.variant_slug || value.value}
                       onClick={() =>
                         handleAttributeSelect(
                           attributeOption.name,

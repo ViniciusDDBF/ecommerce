@@ -1,5 +1,5 @@
 export interface CustomerInitialsReviewCardProps {
+  createdAt: string;
   firstName: string;
   lastName: string;
-  createdAt: string;
 }

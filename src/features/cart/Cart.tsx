@@ -22,10 +22,10 @@ export const Cart: FC = () => {
         <>
           <Overlay isOpen={isOpen} onClick={() => setIsOpen(false)} />
           <Drawer
-            ref={cartRef}
             className="w-11/12 sm:w-96 md:w-[28rem]"
             isOpen={isOpen}
             position="right"
+            ref={cartRef}
           >
             <div className="bg-charcoal-900 flex h-full flex-col p-4 sm:p-6">
               {/* ---------- Drawer Header ---------- */}

@@ -21,7 +21,7 @@ export const ReviewCard: FC<ReviewCardProps> = ({
   const sectionRef = useRef<HTMLDivElement>(null);
 
   return (
-    <div ref={sectionRef} className="bg-charcoal-900 p-4 sm:p-6">
+    <div className="bg-charcoal-900 p-4 sm:p-6" ref={sectionRef}>
       <div className="mx-auto max-w-4xl space-y-6">
         <ReviewSortBy onSortBy={onSortBy} />
         {reviews.map((review) => {
@@ -35,8 +35,8 @@ export const ReviewCard: FC<ReviewCardProps> = ({
 
           return (
             <div
-              key={review.id}
               className="glass-effect rounded-lg border border-transparent p-4 transition-colors sm:p-6"
+              key={review.id}
             >
               {/* ---------- Top Section: User Profile ---------- */}
               <div className="border-charcoal-600 mb-4 flex flex-col justify-between gap-4 border-b pb-4 sm:flex-row sm:items-center">
@@ -51,12 +51,12 @@ export const ReviewCard: FC<ReviewCardProps> = ({
                   <div className="flex items-center gap-1">
                     {[1, 2, 3, 4, 5].map((star) => (
                       <Star
-                        key={star}
                         className={`h-4 w-4 ${
                           star <= review.rating
                             ? 'fill-ember-400 text-ember-400'
                             : 'text-charcoal-400'
                         }`}
+                        key={star}
                       />
                     ))}
                     <span className="text-charcoal-300 ml-1 text-xs font-medium">
@@ -101,8 +101,8 @@ export const ReviewCard: FC<ReviewCardProps> = ({
                     <div className="grid w-full max-w-xs grid-cols-2 gap-2 sm:max-w-sm sm:grid-cols-3">
                       {review.media.map((media, index) => (
                         <button
-                          key={media.id}
                           className="group relative cursor-pointer touch-manipulation"
+                          key={media.id}
                           onClick={() => openReviewModal(review, index)}
                           onKeyDown={(e) =>
                             e.key === 'Enter' && openReviewModal(review, index)

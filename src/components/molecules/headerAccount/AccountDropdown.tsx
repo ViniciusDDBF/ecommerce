@@ -70,7 +70,6 @@ export const AccountDropdown: FC = () => {
             <div className="py-1 sm:py-2">
               {menuItems.map((item) => (
                 <Button
-                  key={nanoid()}
                   className="flex justify-start text-sm sm:text-base"
                   endIcon={
                     item.badge && (
@@ -79,6 +78,7 @@ export const AccountDropdown: FC = () => {
                       </span>
                     )
                   }
+                  key={nanoid()}
                   onClick={() => {
                     navigate(`/account${item.href}`);
                     setIsOpen(false);

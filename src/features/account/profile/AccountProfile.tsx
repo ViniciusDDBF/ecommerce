@@ -1,4 +1,4 @@
-import type { FC, Iuser } from '@/types';
+import type { FC, User } from '@/types';
 import { useState } from 'react';
 import { Edit2 } from 'lucide-react';
 import { CustomerInitials, Dialog } from '@/components/atoms';
@@ -38,7 +38,7 @@ export const AccountProfile: FC = () => {
     }
     const fullPayload = { ...editUser.values, user_id: user.user.user_id };
     try {
-      await dispatch(ThunkUpdateUser(fullPayload as Iuser));
+      await dispatch(ThunkUpdateUser(fullPayload as User));
       setIsOpen(false);
     } catch (_err) {}
   };

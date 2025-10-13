@@ -12,8 +12,8 @@ export const StarRating: FC<StarRatingProps> = ({ rating, setRating }) => {
       <div className="mb-6 flex justify-center space-x-2">
         {[...Array(5)].map((_, i) => (
           <button
-            key={nanoid()}
             className="cursor-pointer transition-transform hover:scale-110 focus:outline-none"
+            key={nanoid()}
             onClick={() => setRating(i + 1)}
             type="button"
           >

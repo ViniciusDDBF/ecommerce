@@ -1,30 +1,30 @@
-import type { TmaskType } from '@/types';
+import type { MaskType } from '@/types';
 
-interface Ivalidation {
-  minLength?: number;
-  maxLength?: number;
-  required?: boolean;
-  custom?: (value: unknown) => string | null;
-}
-
-export interface IformField {
-  name: string;
-  label: string;
-  type: 'text' | 'email' | 'password' | 'textarea' | 'select' | 'checkbox';
-  placeholder?: string;
-  options?: { value: string; label: string }[];
-  validation?: Ivalidation;
-  colSpan?: 1 | 2;
+export interface FormFieldConfig {
+  applyMask?: MaskType;
   className?: string;
-  applyMask?: TmaskType;
-  helper?: { text: string; value?: string };
+  colSpan?: 1 | 2;
   confirmField?: string;
   disabled?: boolean;
+  helper?: { text: string; value?: string };
+  label: string;
+  name: string;
+  options?: { value: string; label: string }[];
+  placeholder?: string;
+  type: 'text' | 'email' | 'password' | 'textarea' | 'select' | 'checkbox';
+  validation?: ValidationRules;
 }
 
 export interface FormFieldProps<T = string | number | boolean> {
-  field: IformField;
-  value: T;
   error?: string;
+  field: FormFieldConfig;
   onChange: (value: T) => void;
+  value: T;
+}
+
+interface ValidationRules {
+  custom?: (value: unknown) => string | null;
+  maxLength?: number;
+  minLength?: number;
+  required?: boolean;
 }

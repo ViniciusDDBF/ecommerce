@@ -1,14 +1,14 @@
-import type { Ireview, IreviewState } from '@/types';
+import type { Review, ReviewState } from '@/types';
 
 export interface ReviewModalProps {
-  selectedReview: Ireview | null;
-  currentMediaIndex: number;
-  getReviewState: (id: number) => IreviewState;
-  setCurrentMediaIndex: (index: number) => void;
-  navigateMedia: (direction: 'next' | 'prev') => void;
   closeReviewModal: () => void;
-  handleLikeClick: (id: number) => void;
-  handleDislikeClick: (id: number) => void;
-  isCarouselMode: boolean;
+  currentMediaIndex: number;
   error?: string;
+  getReviewState: (id: number) => ReviewState;
+  handleDislikeClick: (id: number) => void;
+  handleLikeClick: (id: number) => void;
+  isCarouselMode: boolean;
+  navigateMedia: (direction: 'next' | 'prev') => void;
+  selectedReview: Review | null;
+  setCurrentMediaIndex: (index: number) => void;
 }

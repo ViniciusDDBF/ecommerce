@@ -1,4 +1,4 @@
-import type { CustomSelectProps, FC, ISelectOption } from '@/types';
+import type { CustomSelectProps, FC, SelectOption } from '@/types';
 import { useEffect, useRef, useState } from 'react';
 import { Check, ChevronDown } from 'lucide-react';
 import { useClickOutside } from '@/hooks/';
@@ -20,7 +20,7 @@ export const CustomSelect: FC<CustomSelectProps> = ({
     setSelectedValue(value);
   }, [value]);
 
-  const handleSelect = (option: ISelectOption) => {
+  const handleSelect = (option: SelectOption) => {
     setSelectedValue(option.value);
     onChange(option.value);
     setIsOpen(false);
@@ -29,7 +29,7 @@ export const CustomSelect: FC<CustomSelectProps> = ({
   const selectedOption = options.find((opt) => opt.value === selectedValue);
 
   return (
-    <div ref={selectRef} className={`relative w-full ${className}`}>
+    <div className={`relative w-full ${className}`} ref={selectRef}>
       {/* ---------- Select Button ---------- */}
       <button
         className="bg-charcoal-800 text-ember-50 placeholder-charcoal-400 focus:ring-ember-500 border-charcoal-600 hover:border-charcoal-500 flex w-full cursor-pointer items-center justify-between rounded-lg border px-4 py-3 text-left transition-colors focus:border-transparent focus:ring-2 focus:outline-none"
@@ -61,12 +61,12 @@ export const CustomSelect: FC<CustomSelectProps> = ({
       >
         {options.map((option) => (
           <button
-            key={option.value}
             className={`flex w-full cursor-pointer items-center gap-2 px-4 py-3 font-medium transition-all duration-200 last:rounded-b-lg ${
               selectedValue === option.value
                 ? 'bg-charcoal-800 text-ember-300 hover:bg-charcoal-700'
                 : 'text-charcoal-200 hover:bg-charcoal-700'
             }`}
+            key={option.value}
             onClick={() => handleSelect(option)}
             type="button"
           >

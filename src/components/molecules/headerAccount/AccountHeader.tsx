@@ -11,14 +11,14 @@ import {
   SignUpDialog,
   signUpFields,
 } from '@/components/molecules';
+import { useForm, useScrollLock } from '@/hooks/';
+import { supabase } from '@/SupabaseConfig';
 import { useAppDispatch, useAppSelector } from '@/store/hooks/hooks';
 import {
   resetError,
   ThunkCreateCustomer,
   ThunkLogIn,
 } from '@/store/slices/userSlice';
-import { useForm, useScrollLock } from '../../../hooks/';
-import { supabase } from '../../../SupabaseConfig';
 
 const handleGoogleSignIn = async () => {
   try {
@@ -66,6 +66,7 @@ export const AccountHeader: FC = () => {
     signUpSuccess,
     errorModal,
   ]);
+
   useScrollLock({ isActive: isLocked });
 
   const handleSubmitLogin = async () => {
@@ -84,23 +85,13 @@ export const AccountHeader: FC = () => {
       setErrorModal(true);
     }
   };
+
   const handleSubmitSignUp = async () => {
     if (!signUp.validate()) return;
     const { confirm_password: _, ...newUser } = signUp.values;
     try {
       signUp.setIsSubmitting(true);
-      await dispatch(
-        ThunkCreateCustomer(
-          newUser as {
-            first_name: string;
-            last_name: string;
-            phone?: string;
-            cpf?: string;
-            email: string;
-            password?: string;
-          },
-        ),
-      );
+      await dispatch(ThunkCreateCustomer(newUser));
       setSignUpSuccess(true);
       signUp.reset();
     } catch (_err) {

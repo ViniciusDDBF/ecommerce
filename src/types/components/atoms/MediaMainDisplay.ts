@@ -1,7 +1,7 @@
-import type { Imedia } from '@/types';
+import type { Media } from '@/types';
 
 export interface MediaMainDisplayProps {
-  media: Imedia;
   index: number;
+  media: Media;
   onImageClick?: () => void;
 }

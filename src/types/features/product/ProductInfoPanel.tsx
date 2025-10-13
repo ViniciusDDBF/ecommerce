@@ -1,5 +1,4 @@
 export interface ProductInfoPanelProps {
-  sku: string;
   description: string;
   dimensions?: {
     weight: number;
@@ -7,4 +6,5 @@ export interface ProductInfoPanelProps {
     width: number;
     length: number;
   };
+  sku: string;
 }

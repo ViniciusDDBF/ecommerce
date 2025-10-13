@@ -22,7 +22,7 @@ export const FormGrid: FC<FormGridProps> = ({
   return (
     <div className={`grid ${gridClass} gap-4`}>
       {fields.map((field) => (
-        <div key={field.name} className={colSpanClass(field.colSpan || 1)}>
+        <div className={colSpanClass(field.colSpan || 1)} key={field.name}>
           <FormField
             error={errors[field.name]}
             field={field}

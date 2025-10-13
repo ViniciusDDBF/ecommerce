@@ -1,8 +1,8 @@
 import type {
   ButtonProps,
+  ButtonVariantStyles,
   FC,
-  GetVariantStylesParams,
-  IVariantStyles,
+  GetButtonVariantStylesParams,
   SpinnerLoaderProps,
 } from '@/types';
 import React, { useId } from 'react';
@@ -66,7 +66,7 @@ const buttonSizes = {
 const getVariantStyles = ({
   variant,
   selected = false,
-}: GetVariantStylesParams): IVariantStyles => {
+}: GetButtonVariantStylesParams): ButtonVariantStyles => {
   switch (variant) {
     case 'primary':
       if (selected) {
@@ -194,9 +194,9 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
 
     return (
       <button
-        ref={ref}
         className={classes}
         disabled={isDisabled}
+        ref={ref}
         style={style}
         type={type}
         {...props}

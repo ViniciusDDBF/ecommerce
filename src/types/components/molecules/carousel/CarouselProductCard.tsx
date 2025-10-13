@@ -1,21 +1,21 @@
-export interface ProductItem {
-  group_id: number;
-  product_name: string;
-  product_slug: string;
-  variant_id: number;
-  variant_name: string;
-  current_price: number;
-  original_price: number;
-  stock: number;
-  image_url: string[];
-  promotion_id: number | null;
-  variant_query: string;
-  color: string | null;
+export interface ProductCardProps {
+  cardId: string;
+  onVariantSelect: (variantId: number) => void;
+  selectedVariantId: number;
+  variants: ProductItem[];
 }
 
-export interface ProductCardProps {
-  variants: ProductItem[];
-  selectedVariantId: number;
-  onVariantSelect: (variantId: number) => void;
-  cardId: string; 
+export interface ProductItem {
+  color: string | null;
+  current_price: number;
+  group_id: number;
+  image_url: string[];
+  original_price: number;
+  product_name: string;
+  product_slug: string;
+  promotion_id: number | null;
+  stock: number;
+  variant_id: number;
+  variant_name: string;
+  variant_query: string;
 }
