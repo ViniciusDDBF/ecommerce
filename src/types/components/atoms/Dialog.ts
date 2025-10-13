@@ -1,4 +1,4 @@
-import type { ButtonProps, ReactNode, Tsize } from '@/types';
+import type { ButtonProps, ReactNode, Size } from '@/types';
 
 export interface DialogProps {
   scrollLock?: boolean;
@@ -6,7 +6,7 @@ export interface DialogProps {
   title: string;
   description?: string;
   icon?: ReactNode;
-  size?: Tsize;
+  size?: Size;
   children: ReactNode;
   buttons: {
     cancel: ButtonProps;

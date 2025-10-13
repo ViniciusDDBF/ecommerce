@@ -1,8 +1,8 @@
-import type { IformField, useFormReturn } from '@/types';
+import type { FormFieldConfig, useFormReturn } from '@/types';
 
 export interface LoginDialogProps {
   isOpen: boolean;
-  fields: IformField[];
+  fields: FormFieldConfig[];
   loginForm: useFormReturn;
   handleSubmitLogin: () => void;
   isLoading: boolean;

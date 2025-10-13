@@ -1,13 +1,13 @@
-import type { Imedia, Torientation, Tsize } from '@/types';
+import type { Media, Orientation, Size } from '@/types';
 
 export interface MediaThumbnailsProps {
-  mediaList: Imedia[];
-  selected: Imedia | number | null;
-  onSelect: (selected: Imedia | number) => void;
+  mediaList: Media[];
+  selected: Media | number | null;
+  onSelect: (selected: Media | number) => void;
   selectionMode?: 'object' | 'index';
-  layout?: Torientation;
+  layout?: Orientation;
   maxThumbnails?: number;
   gridColumns?: number;
   className?: string;
-  thumbnailSize?: Tsize;
+  thumbnailSize?: Size;
 }

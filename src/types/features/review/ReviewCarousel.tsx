@@ -1,10 +1,10 @@
-import type { Ireview } from '@/types';
+import type { Review } from '@/types';
 
 export interface ReviewCarouselProps {
   className?: string;
-  reviews: Ireview[];
+  reviews: Review[];
   openReviewModal: (
-    review: Ireview,
+    review: Review,
     mediaIndex: number,
     fromCarousel?: boolean,
   ) => void;

@@ -1,14 +1,14 @@
 import type { Dispatch, SetStateAction } from 'react';
-import type { IformField } from '@/types';
+import type { FormFieldConfig } from '@/types';
 
 export interface useFormParams {
-  fields: IformField[];
+  fields: FormFieldConfig[];
   initialValues: Record<string, unknown>;
 }
 
 export interface useFormReturn {
   values: Record<string, unknown>;
-  errors: Record<string, unknown>;
+  errors: Record<string, string>;
   isSubmitting: boolean;
   setIsSubmitting: Dispatch<SetStateAction<boolean>>;
   setValue: (name: string, value: unknown) => void;
@@ -20,7 +20,7 @@ export interface useFormReturn {
 
 export interface useFormReturn {
   values: Record<string, unknown>;
-  errors: Record<string, unknown>;
+  errors: Record<string, string>;
   isSubmitting: boolean;
   setIsSubmitting: Dispatch<SetStateAction<boolean>>;
   setValue: (name: string, value: unknown) => void;
@@ -33,8 +33,4 @@ export interface useFormReturn {
 export type Tlog<Message, Level = 'info'> = {
   message: Message;
   level: Level;
-  
 };
-
-type TexplicitDebugLog = Tlog<'explicit debug', 'debug'>;
-type ImplicitInfo = Tlog<'implicit info'>;

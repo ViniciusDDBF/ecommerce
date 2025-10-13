@@ -1,4 +1,4 @@
-import type { FC, Imedia, MediaThumbnailsProps } from '@/types';
+import type { FC, Media, MediaThumbnailsProps } from '@/types';
 import { CirclePlay } from 'lucide-react';
 
 export const MediaThumbnails: FC<MediaThumbnailsProps> = ({
@@ -17,7 +17,7 @@ export const MediaThumbnails: FC<MediaThumbnailsProps> = ({
 
   if (effectiveList.length <= 1) return null;
 
-  const handleSelect = (item: Imedia, index: number) => {
+  const handleSelect = (item: Media, index: number) => {
     onSelect(selectionMode === 'index' ? index : item);
   };
 

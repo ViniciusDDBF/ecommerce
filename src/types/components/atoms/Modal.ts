@@ -1,12 +1,12 @@
 import type { ReactNode } from 'react';
-import type { ButtonProps, Tsize } from '@/types';
+import type { ButtonProps, Size } from '@/types';
 
 export interface ModalProps {
   isOpen: boolean;
   title: string;
   message: string;
   icon?: ReactNode;
-  size?: Tsize;
+  size?: Size;
   buttons: {
     cancel: ButtonProps;
     confirm?: ButtonProps;

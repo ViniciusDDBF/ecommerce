@@ -1,7 +1,7 @@
-import type { IformField } from '@/types';
+import type { FormFieldConfig } from '@/types';
 
 export interface FormGridProps {
-  fields: IformField[];
+  fields: FormFieldConfig[];
   values: Record<string, string>;
   errors: Record<string, string>;
   onChange: (name: string, value: unknown) => void;

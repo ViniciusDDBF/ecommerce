@@ -1,12 +1,12 @@
-import type { Ireview, IreviewState } from '@/types';
+import type { Review, ReviewState } from '@/types';
 
 export interface ReviewCardProps {
   currentPage: number;
   totalPages: number;
-  reviews: Ireview[];
-  getReviewState: (id: number) => IreviewState;
-  updateReviewState: (id: number, updates: Partial<IreviewState>) => void;
-  openReviewModal: (review: Ireview, index: number) => void;
+  reviews: Review[];
+  getReviewState: (id: number) => ReviewState;
+  updateReviewState: (id: number, updates: Partial<ReviewState>) => void;
+  openReviewModal: (review: Review, index: number) => void;
   handleLikeClick: (id: number) => void;
   handleDislikeClick: (id: number) => void;
   onPageChange: (page: number) => void;

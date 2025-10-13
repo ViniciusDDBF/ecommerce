@@ -1,11 +1,11 @@
 import type { AnchorHTMLAttributes, CSSProperties, ReactNode } from 'react';
-import type { TButtonVariant, Tsize } from '@/types';
+import type { Size, TButtonVariant } from '@/types';
 
 export interface LinkProps
   extends Omit<AnchorHTMLAttributes<HTMLAnchorElement>, 'children'> {
   text?: string | ReactNode;
   variant?: TButtonVariant;
-  size?: Tsize;
+  size?: Size;
   selected?: boolean;
   disabled?: boolean;
   startIcon?: ReactNode;

@@ -1,8 +1,8 @@
-import type { IratingSummary, Ireview } from '@/types';
+import type { RatingSummary, Review } from '@/types';
 
 export interface ReviewsProps {
-  reviews: Ireview[];
+  reviews: Review[];
   isLoggedIn: boolean;
-  ratingSummary: IratingSummary;
+  ratingSummary: RatingSummary;
   productId: number;
 }

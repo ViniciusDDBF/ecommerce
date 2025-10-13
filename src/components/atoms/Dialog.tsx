@@ -1,4 +1,4 @@
-import type { DialogProps, FC, IsizeObject } from '@/types';
+import type { DialogProps, FC, SizeMap } from '@/types';
 import React, { useCallback, useEffect, useId, useRef } from 'react';
 import { X } from 'lucide-react';
 import { Button, Overlay } from '@/components/atoms';
@@ -28,7 +28,7 @@ export const Dialog: FC<DialogProps> = ({
     ref: dialogRef,
   });
 
-  const sizeClasses: IsizeObject = {
+  const sizeClasses: SizeMap = {
     xs: 'max-w-[90vw] sm:max-w-xs',
     sm: 'max-w-[90vw] sm:max-w-sm',
     md: 'max-w-[90vw] sm:max-w-md',

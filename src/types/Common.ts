@@ -1,13 +1,13 @@
 export type { FC, ReactNode } from 'react';
-export type Tsize = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
-export type TmaskType = 'phone' | 'cpf' | 'cnpj';
-export type TpositionX = 'left' | 'right';
-export type TpositionY = 'top' | 'bottom';
-export type TcrudFormMode = 'create' | 'update' | 'delete';
-export type Torientation = 'horizontal' | 'vertical';
-export type TmediaType = 'image' | 'video';
+export type Size = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
+export type MaskType = 'phone' | 'cpf' | 'cnpj';
+export type PositionX = 'left' | 'right';
+export type PositionY = 'top' | 'bottom';
+export type CrudFormMode = 'read' | 'create' | 'update' | 'delete';
+export type Orientation = 'horizontal' | 'vertical';
+export type MediaType = 'image' | 'video';
 
-export interface IsizeObject {
+export interface SizeMap {
   xs: string;
   sm: string;
   md: string;
@@ -15,23 +15,23 @@ export interface IsizeObject {
   xl: string;
 }
 
-export interface Imedia {
-  media_type: TmediaType;
+export interface Media {
+  media_type: MediaType;
   url: string;
   id?: number;
   created_at?: string;
 }
 
-export interface IfileWithPreview {
+export interface FileWithPreview {
   id: string;
   file: File;
   preview: string;
-  type: TmediaType;
+  type: MediaType;
   name: string;
   size: string;
 }
 
-export interface IattributeOption {
+export interface AttributeOption {
   name: string;
   hasRedirect: boolean;
   values: {
@@ -43,7 +43,7 @@ export interface IattributeOption {
   }[];
 }
 
-export interface Ivariant {
+export interface Variant {
   variant_id: number;
   sku: string;
   name: string;
@@ -65,7 +65,7 @@ export interface Ivariant {
   };
 }
 
-export interface Iproduct {
+export interface Product {
   product_id: number;
   product_name: string;
   description: string;
@@ -75,8 +75,8 @@ export interface Iproduct {
   current_price: number;
   original_price: number;
   stock: number;
-  all_images: Imedia[];
-  all_variants: Ivariant[];
+  all_images: Media[];
+  all_variants: Variant[];
   variant_attributes: {
     [key: string]: {
       value: string;
@@ -114,11 +114,11 @@ export interface Iproduct {
     level: number;
     path: string;
   }[];
-  rating_summary: IratingSummary;
-  reviews: Ireview[];
+  rating_summary: RatingSummary;
+  reviews: Review[];
 }
 
-export interface Icustomer {
+export interface Customer {
   id: string;
   name?: string;
   first_name?: string;
@@ -132,7 +132,7 @@ export interface Icustomer {
   is_cpf?: boolean | null;
 }
 
-export interface Ireview {
+export interface Review {
   id: number;
   created_at: string;
   rating: number;
@@ -141,11 +141,11 @@ export interface Ireview {
   is_anonymous: boolean;
   positive_votes: number;
   negative_votes: number;
-  customer: Icustomer;
-  media: Imedia[];
+  customer: Customer;
+  media: Media[];
 }
 
-export interface IreviewState {
+export interface ReviewState {
   positiveVotes: number;
   negativeVotes: number;
   hasLiked: boolean;
@@ -153,7 +153,7 @@ export interface IreviewState {
   isExpanded: boolean;
 }
 
-export interface IratingSummary {
+export interface RatingSummary {
   average_rating: number;
   review_count: number;
   rate1: number;
@@ -164,19 +164,19 @@ export interface IratingSummary {
 }
 
 export interface IEnhancedReviewCardProps {
-  reviews: Ireview[];
+  reviews: Review[];
   isLoggedIn: boolean;
-  ratingSummary: IratingSummary;
+  ratingSummary: RatingSummary;
   productId: number;
 }
 
-export interface FetchState<T> {
+export interface ApiFetchState<T> {
   data: T | null;
   loading: boolean;
   error: string | null;
 }
 
-export interface CrudMethods<T> {
+export interface ApiCrudMethods<T> {
   get: (path?: string) => Promise<T>;
   post: (data: unknown, path?: string) => Promise<T>;
   patch: (path: string, data: unknown) => Promise<T>;

@@ -1,4 +1,4 @@
-import type { Imedia, Iproduct } from '@/types';
+import type { Media, Product } from '@/types';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useLoaderData, useNavigate, useSearchParams } from 'react-router-dom';
 import { ShoppingCart } from 'lucide-react';
@@ -21,7 +21,7 @@ import getUpdatedVariantParams from '../utils/variants/getUpdatedVariantParams';
 import parseVariantHash from '../utils/variants/parseVariantHash';
 
 export const ProductPage = () => {
-  const product = useLoaderData() as Iproduct | undefined;
+  const product = useLoaderData() as Product | undefined;
   const [searchParams, setSearchParams] = useSearchParams();
   const navigate = useNavigate();
   const { scrollTo } = useScroll();
@@ -29,7 +29,7 @@ export const ProductPage = () => {
   const [wipIsOpen, setWipIsOpen] = useState<boolean>(false);
 
   // Initialize state with proper defaults
-  const [selectedMedia, setSelectedMedia] = useState<Imedia | null>(() => {
+  const [selectedMedia, setSelectedMedia] = useState<Media | null>(() => {
     return product?.all_images?.[0] || null;
   });
 

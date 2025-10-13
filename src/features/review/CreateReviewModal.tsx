@@ -1,5 +1,5 @@
 import type React from 'react';
-import type { CreateReviewModalProps, FC, IfileWithPreview } from '@/types';
+import type { CreateReviewModalProps, FC, FileWithPreview } from '@/types';
 import { useRef, useState } from 'react';
 import { FileImage, FileVideo, Upload, X } from 'lucide-react';
 import { Button, Overlay } from '@/components/atoms';
@@ -15,7 +15,7 @@ export const CreateReviewModal: FC<CreateReviewModalProps> = ({
   productId,
 }) => {
   const [rating, setRating] = useState(0);
-  const [files, setFiles] = useState<IfileWithPreview[]>([]);
+  const [files, setFiles] = useState<FileWithPreview[]>([]);
   const [isDragging, setIsDragging] = useState<boolean>(false);
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -46,7 +46,7 @@ export const CreateReviewModal: FC<CreateReviewModalProps> = ({
       return isImage || isVideo;
     });
 
-    const filesWithPreview: IfileWithPreview[] = validFiles.map((file) => ({
+    const filesWithPreview: FileWithPreview[] = validFiles.map((file) => ({
       id: Math.random().toString(36).substr(2, 9),
       file,
       preview: URL.createObjectURL(file),
