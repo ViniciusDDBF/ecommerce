@@ -23,37 +23,6 @@ const initialState: UserSlice = {
   error: null,
 };
 
-async function FetchSignUp({ email, password }: SupabaseUserArgs) {
-  const { data, error } = await supabase.auth.signUp({
-    email,
-    password,
-  });
-  return { data, error };
-}
-
-async function FetchLogIn({
-  email,
-  password,
-}: SupabaseUserArgs): Promise<AuthTokenResponsePassword> {
-  const data = await supabase.auth.signInWithPassword({
-    email,
-    password,
-  });
-  return data;
-}
-
-async function FetchGetUser() {
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-  return user;
-}
-
-async function FetchGetSession() {
-  const { data } = await supabase.auth.getSession();
-  return data;
-}
-
 async function FetchCreateCustomer({
   user_id,
   first_name,
@@ -78,19 +47,6 @@ async function FetchCreateCustomer({
     .select();
   if (error) {
   }
-  return data;
-}
-
-async function FetchUpdateCustomer(formPayload: User) {
-  const { data } = await supabase
-    .from('customers')
-    .update({
-      first_name: formPayload.first_name,
-      last_name: formPayload.last_name,
-      phone: formPayload.phone,
-    })
-    .eq('user_id', formPayload.user_id)
-    .select();
   return data;
 }
 
@@ -130,6 +86,66 @@ async function FetchCreateCustomerAddress({
   if (error) {
   }
   return { data, error };
+}
+
+async function FetchDeleteCustomerAddress({ address_id }: Address) {
+  await supabase.from('customer_addresses').delete().eq('id', address_id);
+}
+
+async function FetchGetSession() {
+  const { data } = await supabase.auth.getSession();
+  return data;
+}
+
+async function FetchGetUser() {
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  return user;
+}
+
+async function FetchGetUserView(userId: string) {
+  const data = await supabase
+    .from('customer_information')
+    .select('*')
+    .eq('user_id', userId);
+  return data;
+}
+
+async function FetchLogIn({
+  email,
+  password,
+}: SupabaseUserArgs): Promise<AuthTokenResponsePassword> {
+  const data = await supabase.auth.signInWithPassword({
+    email,
+    password,
+  });
+  return data;
+}
+
+async function FetchLogOut() {
+  await supabase.auth.signOut();
+}
+
+async function FetchSignUp({ email, password }: SupabaseUserArgs) {
+  const { data, error } = await supabase.auth.signUp({
+    email,
+    password,
+  });
+  return { data, error };
+}
+
+async function FetchUpdateCustomer(formPayload: User) {
+  const { data } = await supabase
+    .from('customers')
+    .update({
+      first_name: formPayload.first_name,
+      last_name: formPayload.last_name,
+      phone: formPayload.phone,
+    })
+    .eq('user_id', formPayload.user_id)
+    .select();
+  return data;
 }
 
 async function FetchUpdateCustomerAddress({
@@ -178,22 +194,6 @@ async function FetchUpdateCustomerDefaultAddress({
     p_address_id: address_id,
     p_customer_id: customer_id,
   });
-}
-
-async function FetchDeleteCustomerAddress({ address_id }: Address) {
-  await supabase.from('customer_addresses').delete().eq('id', address_id);
-}
-
-async function FetchGetUserView(userId: string) {
-  const data = await supabase
-    .from('customer_information')
-    .select('*')
-    .eq('user_id', userId);
-  return data;
-}
-
-async function FetchLogOut() {
-  await supabase.auth.signOut();
 }
 // #endregion
 

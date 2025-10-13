@@ -1,6 +1,11 @@
 import type { Dispatch, SetStateAction } from 'react';
 import type { FormFieldConfig } from '@/types';
 
+export type Tlog<Message, Level = 'info'> = {
+  message: Message;
+  level: Level;
+};
+
 export interface useFormParams {
   fields: FormFieldConfig[];
   initialValues: Record<string, unknown>;
@@ -29,8 +34,3 @@ export interface useFormReturn {
   validate: () => boolean;
   values: Record<string, unknown>;
 }
-
-export type Tlog<Message, Level = 'info'> = {
-  message: Message;
-  level: Level;
-};

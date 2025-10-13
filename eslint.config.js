@@ -20,6 +20,34 @@ export default [
       perfectionist,
     },
     rules: {
+      'perfectionist/sort-modules': [
+        'error',
+        {
+          type: 'alphabetical',
+          order: 'asc',
+          fallbackSort: { type: 'unsorted' },
+          ignoreCase: true,
+          specialCharacters: 'keep',
+          partitionByComment: false,
+          partitionByNewLine: false,
+          newlinesBetween: 'ignore',
+          groups: [
+            'declare-enum',
+            'export-enum',
+            'enum',
+            ['declare-interface', 'declare-type'],
+            ['export-interface', 'export-type'],
+            ['interface', 'type'],
+            'declare-class',
+            'class',
+            'export-class',
+            'declare-function',
+            'export-function',
+            'function',
+          ],
+          customGroups: [],
+        },
+      ],
       'perfectionist/sort-jsx-props': [
         'error',
         {

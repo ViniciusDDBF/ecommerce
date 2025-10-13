@@ -7,8 +7,6 @@ import type {
   Text,
 } from '@/types';
 
-export type ButtonVariant = 'primary' | 'secondary' | 'ghost' | 'outline';
-
 export interface ButtonProps
   extends Omit<ComponentPropsWithoutRef<'button'>, 'children'> {
   endIcon?: ReactNode;
@@ -21,15 +19,7 @@ export interface ButtonProps
   variant?: ButtonVariant;
 }
 
-export interface SpinnerLoaderProps {
-  color: string;
-  size: Size | 'full';
-}
-
-export interface GetButtonVariantStylesParams {
-  selected?: Selected;
-  variant: ButtonVariant;
-}
+export type ButtonVariant = 'primary' | 'secondary' | 'ghost' | 'outline';
 
 export interface ButtonVariantStyles {
   active: string;
@@ -37,4 +27,14 @@ export interface ButtonVariantStyles {
   focus: string;
   hover: string;
   loaderColor: string;
+}
+
+export interface GetButtonVariantStylesParams {
+  selected?: Selected;
+  variant: ButtonVariant;
+}
+
+export interface SpinnerLoaderProps {
+  color: string;
+  size: Size | 'full';
 }

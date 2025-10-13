@@ -1,3 +1,10 @@
+export interface ProductCardProps {
+  cardId: string;
+  onVariantSelect: (variantId: number) => void;
+  selectedVariantId: number;
+  variants: ProductItem[];
+}
+
 export interface ProductItem {
   color: string | null;
   current_price: number;
@@ -11,11 +18,4 @@ export interface ProductItem {
   variant_id: number;
   variant_name: string;
   variant_query: string;
-}
-
-export interface ProductCardProps {
-  cardId: string;
-  onVariantSelect: (variantId: number) => void;
-  selectedVariantId: number;
-  variants: ProductItem[];
 }

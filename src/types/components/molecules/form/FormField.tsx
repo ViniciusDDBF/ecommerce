@@ -1,12 +1,5 @@
 import type { MaskType } from '@/types';
 
-interface ValidationRules {
-  custom?: (value: unknown) => string | null;
-  maxLength?: number;
-  minLength?: number;
-  required?: boolean;
-}
-
 export interface FormFieldConfig {
   applyMask?: MaskType;
   className?: string;
@@ -27,4 +20,11 @@ export interface FormFieldProps<T = string | number | boolean> {
   field: FormFieldConfig;
   onChange: (value: T) => void;
   value: T;
+}
+
+interface ValidationRules {
+  custom?: (value: unknown) => string | null;
+  maxLength?: number;
+  minLength?: number;
+  required?: boolean;
 }

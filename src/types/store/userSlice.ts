@@ -1,9 +1,7 @@
 import type { User } from '@/types';
 
-export interface UserSlice {
-  error: unknown;
-  isLoading: boolean;
-  user: User | null;
+export interface FetchCreateCustomerArgs extends ThunkCreateCustomerArgs {
+  user_id: string;
 }
 
 export interface SupabaseUserArgs {
@@ -20,6 +18,8 @@ export interface ThunkCreateCustomerArgs {
   phone?: string;
 }
 
-export interface FetchCreateCustomerArgs extends ThunkCreateCustomerArgs {
-  user_id: string;
+export interface UserSlice {
+  error: unknown;
+  isLoading: boolean;
+  user: User | null;
 }
