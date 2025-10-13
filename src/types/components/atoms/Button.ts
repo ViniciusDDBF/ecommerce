@@ -1,34 +1,40 @@
-import type { ComponentPropsWithoutRef } from 'react';
-import type { ReactNode, Size } from '@/types';
+import type {
+  ComponentPropsWithoutRef,
+  Loading,
+  ReactNode,
+  Selected,
+  Size,
+  Text,
+} from '@/types';
 
-export type TButtonVariant = 'primary' | 'secondary' | 'ghost' | 'outline';
+export type ButtonVariant = 'primary' | 'secondary' | 'ghost' | 'outline';
 
 export interface ButtonProps
   extends Omit<ComponentPropsWithoutRef<'button'>, 'children'> {
-  onClick: () => void;
-  text?: string | ReactNode;
-  variant?: TButtonVariant;
-  size?: Size | 'full';
-  loading?: boolean;
-  selected?: boolean;
-  startIcon?: ReactNode;
   endIcon?: ReactNode;
+  loading?: Loading;
+  onClick: () => void;
+  selected?: Selected;
+  size?: Size | 'full';
+  startIcon?: ReactNode;
+  text?: Text;
+  variant?: ButtonVariant;
 }
 
 export interface SpinnerLoaderProps {
-  size: Size | 'full';
   color: string;
+  size: Size | 'full';
 }
 
-export interface GetVariantStylesParams {
-  variant: TButtonVariant;
-  selected?: boolean;
+export interface GetButtonVariantStylesParams {
+  selected?: Selected;
+  variant: ButtonVariant;
 }
 
-export interface IVariantStyles {
-  base: string;
-  hover: string;
+export interface ButtonVariantStyles {
   active: string;
+  base: string;
   focus: string;
+  hover: string;
   loaderColor: string;
 }

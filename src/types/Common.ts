@@ -1,4 +1,6 @@
-export type { FC, ReactNode } from 'react';
+import type { ReactNode } from 'react';
+
+export type { ComponentPropsWithoutRef, FC, ReactNode } from 'react';
 export type Size = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
 export type MaskType = 'phone' | 'cpf' | 'cnpj';
 export type PositionX = 'left' | 'right';
@@ -6,6 +8,17 @@ export type PositionY = 'top' | 'bottom';
 export type CrudFormMode = 'read' | 'create' | 'update' | 'delete';
 export type Orientation = 'horizontal' | 'vertical';
 export type MediaType = 'image' | 'video';
+export type FirstName = string;
+export type LastName = string;
+export type Email = string;
+export type Text = string | ReactNode;
+export type Loading = boolean;
+export type Selected = boolean;
+export type Disabled = boolean;
+export type Value = string;
+export type Label = string;
+export type Classname = string;
+export type Placeholder = string;
 
 export interface SizeMap {
   xs: string;
@@ -28,7 +41,7 @@ export interface FileWithPreview {
   preview: string;
   type: MediaType;
   name: string;
-  size: string;
+  file_size: string;
 }
 
 export interface AttributeOption {
@@ -118,6 +131,21 @@ export interface Product {
   reviews: Review[];
 }
 
+export interface User {
+  addresses: Address[];
+  cnpj: string | null;
+  company_name: string | null;
+  cpf: string | null;
+  customer_id: number;
+  email: string;
+  first_name: string | null;
+  is_cpf: boolean;
+  last_name: string | null;
+  legal_name: string | null;
+  phone: string;
+  user_id: string;
+}
+
 export interface Customer {
   id: string;
   name?: string;
@@ -130,6 +158,23 @@ export interface Customer {
   legal_name?: string | null;
   cnpj?: string | null;
   is_cpf?: boolean | null;
+}
+
+export interface Address {
+  address_id: number;
+  address_name: string;
+  city: string;
+  complement: string | null;
+  country: string;
+  customer_id: number;
+  is_default: boolean;
+  neighborhood: string;
+  number: string;
+  postal_code: string;
+  recipient_name: string;
+  state: string;
+  street: string;
+  user_id: string;
 }
 
 export interface Review {
@@ -161,13 +206,6 @@ export interface RatingSummary {
   rate3: number;
   rate4: number;
   rate5: number;
-}
-
-export interface IEnhancedReviewCardProps {
-  reviews: Review[];
-  isLoggedIn: boolean;
-  ratingSummary: RatingSummary;
-  productId: number;
 }
 
 export interface ApiFetchState<T> {

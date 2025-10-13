@@ -1,12 +1,12 @@
-interface IBreadcrumb {
+export interface Breadcrumb {
   id: number;
+  level: number;
   name: string;
   path: string;
   slug: string;
-  level: number;
-};
+}
 
 export interface BreadcrumbsProps {
-  breadcrumbs: IBreadcrumb[];
+  breadcrumbs: Breadcrumb[];
   navigate: (path: string) => void;
 }

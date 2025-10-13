@@ -68,11 +68,11 @@ export const Dialog: FC<DialogProps> = ({
       <Overlay isOpen={isOpen} />
       <div className="fixed inset-0 z-50 flex items-center justify-center px-4 py-6 sm:px-6">
         <div
-          ref={dialogRef}
           aria-describedby={descriptionId}
           aria-labelledby={titleId}
           aria-modal="true"
           className={`relative w-full ${sizeClasses[size]} bg-gradient-charcoal border-ember-600/30 mx-auto flex max-h-[90vh] flex-col rounded-xl border shadow-2xl backdrop-blur-xl`}
+          ref={dialogRef}
           role="dialog"
         >
           {/* ---------- Header ---------- */}

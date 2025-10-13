@@ -86,13 +86,13 @@ export const CarouselProductCard: FC<ProductCardProps> = ({
       <div className="mt-2 flex justify-center gap-2 sm:gap-3">
         {variants.map((variant) => (
           <button
-            key={variant.variant_id}
             aria-label={`Select ${variant.variant_name || 'variant'}`}
             className={`h-6 w-6 rounded-full transition-all duration-300 md:h-4 md:w-4 ${
               variant.variant_id === selectedVariantId
                 ? 'ring-ember-400 ring-offset-charcoal-700 scale-110 ring-2 ring-offset-2'
                 : 'cursor-pointer hover:scale-110'
             } `}
+            key={variant.variant_id}
             onClick={() => onVariantSelect(variant.variant_id)}
             style={{
               backgroundColor:

@@ -1,11 +1,11 @@
-import type { CrudFormMode, FormFieldConfig, Iaddress } from '@/types';
+import type { Address, CrudFormMode, FormFieldConfig } from '@/types';
 
 export interface AddressFormDialogProps {
+  fields: FormFieldConfig[];
+  initialValues: Partial<Address>;
+  isLoading: boolean;
   isOpen: boolean;
   mode: Omit<CrudFormMode, 'delete'>;
-  fields: FormFieldConfig[];
-  initialValues: Partial<Iaddress>;
-  onSubmit: (values: Partial<Iaddress>) => Promise<void>;
   onClose: () => void;
-  isLoading: boolean;
+  onSubmit: (values: Partial<Address>) => Promise<void>;
 }

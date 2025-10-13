@@ -59,8 +59,8 @@ export const MediaThumbnails: FC<MediaThumbnailsProps> = ({
 
         return (
           <button
-            key={item.id || item.url || index}
             className={`group relative overflow-hidden`}
+            key={item.id || item.url || index}
             onClick={() => handleSelect(item, index)}
             type="button"
           >

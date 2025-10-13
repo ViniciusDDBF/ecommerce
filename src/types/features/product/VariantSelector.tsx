@@ -2,7 +2,6 @@ import type { AttributeOption, Product } from '@/types';
 
 export interface VariantSelectorProps {
   attributeOptions: AttributeOption[];
-  selectedAttributes: { [key: string]: string };
   handleAttributeSelect: (
     attributeName: string,
     value: string,
@@ -22,5 +21,6 @@ export interface VariantSelectorProps {
     }
   >;
   product: Product;
+  selectedAttributes: { [key: string]: string };
   selectedLinkedVariation: string;
 }

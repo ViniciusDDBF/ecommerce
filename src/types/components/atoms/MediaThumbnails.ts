@@ -1,13 +1,13 @@
 import type { Media, Orientation, Size } from '@/types';
 
 export interface MediaThumbnailsProps {
-  mediaList: Media[];
-  selected: Media | number | null;
-  onSelect: (selected: Media | number) => void;
-  selectionMode?: 'object' | 'index';
+  className?: string;
+  gridColumns?: number;
   layout?: Orientation;
   maxThumbnails?: number;
-  gridColumns?: number;
-  className?: string;
+  mediaList: Media[];
+  onSelect: (selected: Media | number) => void;
+  selected: Media | number | null;
+  selectionMode?: 'object' | 'index';
   thumbnailSize?: Size;
 }

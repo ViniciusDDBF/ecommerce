@@ -60,12 +60,12 @@ export const AccountLayout = () => {
                   const Icon = item.icon;
                   return (
                     <button
-                      key={item.id}
                       className={`ember-transition flex w-full items-center space-x-2 rounded-lg px-3 py-2 text-left text-sm sm:space-x-3 sm:px-4 sm:py-3 sm:text-base ${
                         section === item.id
                           ? 'bg-ember-500 text-charcoal-50 shadow-md'
                           : 'text-charcoal-200 hover:bg-charcoal-600 hover:ember-hover-border'
                       }`}
+                      key={item.id}
                       onClick={() => {
                         if (section === item.id) return;
                         navigate(`/account/${item.id}`);

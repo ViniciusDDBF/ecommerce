@@ -7,27 +7,27 @@ export interface useFormParams {
 }
 
 export interface useFormReturn {
-  values: Record<string, unknown>;
   errors: Record<string, string>;
   isSubmitting: boolean;
+  reset: () => void;
+  resetToInitial: () => void;
   setIsSubmitting: Dispatch<SetStateAction<boolean>>;
   setValue: (name: string, value: unknown) => void;
   setValuesAll: (newValues: Record<string, unknown>, replace?: boolean) => void;
   validate: () => boolean;
-  reset: () => void;
-  resetToInitial: () => void;
+  values: Record<string, unknown>;
 }
 
 export interface useFormReturn {
-  values: Record<string, unknown>;
   errors: Record<string, string>;
   isSubmitting: boolean;
+  reset: () => void;
+  resetToInitial: () => void;
   setIsSubmitting: Dispatch<SetStateAction<boolean>>;
   setValue: (name: string, value: unknown) => void;
   setValuesAll: (newValues: Record<string, unknown>, replace?: boolean) => void;
   validate: () => boolean;
-  reset: () => void;
-  resetToInitial: () => void;
+  values: Record<string, unknown>;
 }
 
 export type Tlog<Message, Level = 'info'> = {

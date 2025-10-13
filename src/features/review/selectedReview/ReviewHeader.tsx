@@ -34,12 +34,12 @@ export const ReviewHeader: FC<ReviewHeaderProps> = ({
           <div className="flex items-center gap-1">
             {[1, 2, 3, 4, 5].map((star) => (
               <Star
-                key={star}
                 className={`h-4 w-4 md:h-5 md:w-5 ${
                   star <= review.rating
                     ? 'fill-ember-400 text-ember-400'
                     : 'text-charcoal-400'
                 }`}
+                key={star}
               />
             ))}
           </div>

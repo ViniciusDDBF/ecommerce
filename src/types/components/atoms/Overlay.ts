@@ -1,5 +1,5 @@
 export interface OverlayProps {
+  children?: React.ReactNode;
   isOpen: boolean;
   onClick?: () => void;
-  children?: React.ReactNode;
 }

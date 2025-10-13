@@ -44,8 +44,8 @@ export const ReviewModal: FC<ReviewModalProps> = ({
       <Overlay isOpen={selectedReview !== null} onClick={closeReviewModal} />
       {!fullMediaOpen && (
         <div
-          ref={scrollRef}
           className={`animate-slide-up custom-scroll-y pointer-events-none fixed inset-0 z-30 flex items-start justify-center overflow-y-auto p-2 md:items-center md:p-6 md:pt-4`}
+          ref={scrollRef}
         >
           <div
             className={`bg-charcoal-800 border-charcoal-600 pointer-events-auto flex w-full max-w-md flex-col rounded-lg md:max-h-[90vh] md:w-auto md:max-w-7xl md:flex-row md:overflow-hidden ${

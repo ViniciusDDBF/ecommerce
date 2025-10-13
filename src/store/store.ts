@@ -1,4 +1,4 @@
-import type { IuserSlice } from '@/types';
+import type { UserSlice } from '@/types';
 import {
   combineReducers,
   configureStore,
@@ -8,7 +8,7 @@ import { createTransform, persistReducer, persistStore } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 import user from './slices/userSlice';
 
-const userTransform = createTransform<IuserSlice, IuserSlice>(
+const userTransform = createTransform<UserSlice, UserSlice>(
   // Save only `user`
   (inboundState) => ({
     user: inboundState.user,

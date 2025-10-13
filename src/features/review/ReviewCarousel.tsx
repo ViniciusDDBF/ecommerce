@@ -53,15 +53,15 @@ export const ReviewCarousel: FC<ReviewCarouselProps> = ({
         {/* ---------- Carousel Container ---------- */}
         <div className="bg-charcoal-700 glass-effect mx-auto mb-8 overflow-hidden rounded-2xl p-4 sm:p-6 md:p-8">
           <section
-            ref={scrollRef}
             aria-label="Review media carousel"
             className="hide-scrollbar flex snap-x snap-mandatory gap-4 overflow-x-auto scroll-smooth sm:gap-6"
+            ref={scrollRef}
           >
             {reviews.map((item1) =>
               item1.media.map((item2, idx) => (
                 <button
-                  key={item2.id}
                   className="group relative h-64 w-[80vw] flex-shrink-0 cursor-pointer snap-center sm:w-[40vw] md:h-80 md:w-[25vw] lg:w-[20vw]"
+                  key={item2.id}
                   onClick={() => openReviewModal(item1, idx, true)}
                   type="button"
                 >

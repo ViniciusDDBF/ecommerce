@@ -24,9 +24,9 @@ export const CategoryNav: FC = () => {
           <div className="custom-scroll-x flex justify-start gap-1 overflow-x-auto pb-2 sm:gap-2">
             {categories.map((category) => (
               <Link
-                key={category}
                 className="min-w-max flex-shrink-0 whitespace-nowrap"
                 href={`#${category.toLowerCase()}`}
+                key={category}
                 onClick={() => {
                   setWipIsOpen(true);
                   setActiveCategory(category);

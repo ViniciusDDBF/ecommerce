@@ -1,8 +1,8 @@
-import type { Iaddress } from '@/types';
+import type { Address } from '@/types';
 
 export interface AddressCardProps {
-  address: Iaddress;
+  address: Address;
+  onDelete: () => void;
   onEdit: () => void;
   onSetDefault: () => void;
-  onDelete: () => void;
 }

@@ -1,4 +1,6 @@
+import type { Classname, Text } from '@/types/Common';
+
 export interface CinematicTitleProps {
-  text: string;
-  className?: string;
+  className?: Classname;
+  text: Text;
 }

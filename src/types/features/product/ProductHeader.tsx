@@ -1,8 +1,8 @@
 export interface ProductHeaderProps {
-  productName: string;
-  currentPrice: number;
-  originalPrice: number;
   averageRating: number;
-  reviewCount: number;
+  currentPrice: number;
   onClick?: () => void;
+  originalPrice: number;
+  productName: string;
+  reviewCount: number;
 }

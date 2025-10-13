@@ -46,10 +46,10 @@ export const RatingFilter: FC<RatingFilterProps> = ({
 
           return (
             <button
-              key={stars}
               className={`flex w-full cursor-pointer items-center gap-3 rounded-lg p-3 transition-all duration-200 ${
                 isSelected ? 'ring-ember-500 ring-1' : 'hover:bg-charcoal-600'
               }`}
+              key={stars}
               onClick={() => handleRatingClick(stars)}
               type="button"
             >
