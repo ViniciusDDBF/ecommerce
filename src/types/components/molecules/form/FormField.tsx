@@ -1,16 +1,23 @@
-import type { MaskType } from '@/types';
+import type {
+  Classname,
+  Disabled,
+  Label,
+  MaskType,
+  Placeholder,
+  Value,
+} from '@/types';
 
 export interface FormFieldConfig {
   applyMask?: MaskType;
-  className?: string;
+  className?: Classname;
   colSpan?: 1 | 2;
   confirmField?: string;
-  disabled?: boolean;
+  disabled?: Disabled;
   helper?: { text: string; value?: string };
-  label: string;
+  label: Label;
   name: string;
-  options?: { value: string; label: string }[];
-  placeholder?: string;
+  options?: { value: Value; label: Label }[];
+  placeholder?: Placeholder;
   type: 'text' | 'email' | 'password' | 'textarea' | 'select' | 'checkbox';
   validation?: ValidationRules;
 }

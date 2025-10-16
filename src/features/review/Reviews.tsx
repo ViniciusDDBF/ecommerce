@@ -44,9 +44,7 @@ export const Reviews: FC<ReviewsProps> = ({
   const pageSize = 5;
   useScrollLock({ isActive: selectedReview !== null });
 
-  // #endregion
-
-  // #region /* ---------- Function/Effects ---------- */
+  /* ---------- Function/Effects ---------- */
 
   const getReviewState = (reviewId: number) => {
     if (!reviewStates[reviewId]) {
@@ -181,7 +179,6 @@ export const Reviews: FC<ReviewsProps> = ({
       if (!selectedReview) return;
 
       if (!isCarouselMode || selectedReview.media.length === 0) {
-        // Default cycling behavior within the current review
         if (direction === 'prev') {
           setCurrentMediaIndex((prev) =>
             prev === 0 ? selectedReview.media.length - 1 : prev - 1,
@@ -194,7 +191,6 @@ export const Reviews: FC<ReviewsProps> = ({
         return;
       }
 
-      // Carousel mode: Navigate within review, overflow to next/prev review with media
       const reviewsWithMedia = reviews.filter((r) => r.media.length > 0);
       const currentReviewIndex = reviewsWithMedia.findIndex(
         (r) => r.id === selectedReview.id,
@@ -211,7 +207,6 @@ export const Reviews: FC<ReviewsProps> = ({
           setCurrentMediaIndex(0);
         }
       } else {
-        // 'prev'
         if (currentMediaIndex > 0) {
           setCurrentMediaIndex(currentMediaIndex - 1);
         } else {
@@ -298,8 +293,6 @@ export const Reviews: FC<ReviewsProps> = ({
       : reviews;
     return Math.ceil(base.length / pageSize);
   }, [reviews, ratingFilter]);
-
-  // #endregion
 
   /* ---------- No reviews card ---------- */
   if (!reviews || reviews.length === 0) {

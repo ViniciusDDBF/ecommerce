@@ -9,14 +9,12 @@ import storage from 'redux-persist/lib/storage';
 import user from './slices/userSlice';
 
 const userTransform = createTransform<UserSlice, UserSlice>(
-  // Save only `user`
   (inboundState) => ({
     user: inboundState.user,
     isLoading: false,
     error: null,
   }),
 
-  // Rehydrate by merging `user` back, leaving isLoading/error reset
   (outboundState) => ({
     user: outboundState.user,
     isLoading: false,
@@ -26,7 +24,6 @@ const userTransform = createTransform<UserSlice, UserSlice>(
   { whitelist: ['user'] },
 );
 
-// Persist configuration
 const persistConfig = {
   key: 'root',
   storage,
@@ -37,7 +34,6 @@ const persistConfig = {
 const rootReducer = combineReducers({
   user,
 });
-// Create persisted reducer
 const persistedReducer = persistReducer(
   persistConfig,
   rootReducer as Reducer<ReturnType<typeof rootReducer>>,
@@ -48,7 +44,6 @@ export const store = configureStore({
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: {
-        // Ignore redux-persist actions for serializable check
         ignoredActions: [
           'persist/PERSIST',
           'persist/REHYDRATE',
@@ -58,7 +53,6 @@ export const store = configureStore({
     }),
 });
 
-// Export persistor for PersistGate
 export const persistor = persistStore(store);
 
 export type AppDispatch = typeof store.dispatch;

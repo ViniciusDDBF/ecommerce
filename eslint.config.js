@@ -4,6 +4,9 @@ import react from 'eslint-plugin-react';
 
 export default [
   {
+    ignores: ['node_modules/**'],
+  },
+  {
     files: ['**/*.{js,jsx,ts,tsx}'],
     languageOptions: {
       parser: tsParser,

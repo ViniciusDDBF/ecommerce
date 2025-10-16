@@ -11,11 +11,9 @@ export const ReviewCarousel: FC<ReviewCarouselProps> = ({
   const [currentIndex, setCurrentIndex] = useState<number>(0);
   const scrollRef = useRef<HTMLDivElement>(null);
 
-  // Calculate total media items
   const allMedia = reviews.flatMap((item) => item.media);
   const totalItems = allMedia.length;
 
-  // Handle navigation
   const scroll = (direction: PositionX) => {
     if (scrollRef.current) {
       const cardWidth =
@@ -26,13 +24,12 @@ export const ReviewCarousel: FC<ReviewCarouselProps> = ({
             : window.innerWidth < 1024
               ? window.innerWidth * 0.25
               : window.innerWidth * 0.2;
-      const gap = window.innerWidth < 640 ? 16 : 24; // gap-4 (16px) or gap-6 (24px) for sm+
+      const gap = window.innerWidth < 640 ? 16 : 24;
       const scrollAmount = cardWidth + gap;
       scrollRef.current.scrollBy({
         left: direction === 'left' ? -scrollAmount : scrollAmount,
         behavior: 'smooth',
       });
-      // Update currentIndex for dot indicators
       const newIndex =
         direction === 'left'
           ? Math.max(currentIndex - 1, 0)

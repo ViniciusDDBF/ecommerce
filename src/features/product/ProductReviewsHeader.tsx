@@ -9,7 +9,7 @@ export const ProductReviewsHeader: FC<ProductReviewsHeaderProps> = ({
 }) => {
   const renderStars = () => {
     const stars = [];
-    const roundedRating = Math.round(averageRating * 2) / 2; // Round to nearest 0.5
+    const roundedRating = Math.round(averageRating * 2) / 2;
     for (let i = 0; i < 5; i++) {
       if (i < Math.floor(roundedRating)) {
         stars.push(

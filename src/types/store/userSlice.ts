@@ -10,6 +10,7 @@ export interface SupabaseUserArgs {
 }
 
 export interface ThunkCreateCustomerArgs {
+  [key: string]: unknown;
   cpf?: string;
   email: string;
   first_name: string;

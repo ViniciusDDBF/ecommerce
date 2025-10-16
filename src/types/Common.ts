@@ -1,6 +1,7 @@
 import type { ReactNode } from 'react';
 
 export type { ComponentPropsWithoutRef, FC, ReactNode } from 'react';
+
 export interface Address {
   address_id: number;
   address_name: string;
@@ -46,10 +47,10 @@ export interface Customer {
   company_name?: string | null;
   cpf?: string | null;
   email?: string | null;
-  first_name?: string;
+  first_name?: FirstName;
   id: string;
   is_cpf?: boolean | null;
-  last_name?: string;
+  last_name?: LastName;
   legal_name?: string | null;
   name?: string;
   phone?: string | null;

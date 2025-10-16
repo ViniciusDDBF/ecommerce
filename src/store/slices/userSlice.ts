@@ -16,7 +16,7 @@ import {
 } from '@reduxjs/toolkit';
 import { supabase } from '../../SupabaseConfig.tsx';
 
-// #region /* ---------- Functions ---------- */
+/* ---------- Functions ---------- */
 const initialState: UserSlice = {
   user: null,
   isLoading: false,
@@ -195,9 +195,8 @@ async function FetchUpdateCustomerDefaultAddress({
     p_customer_id: customer_id,
   });
 }
-// #endregion
 
-// #region /* ---------- Thunks ---------- */
+/* ---------- Thunks ---------- */
 export const ThunkCreateCustomer = createAsyncThunk<
   User,
   ThunkCreateCustomerArgs
@@ -364,7 +363,6 @@ export const ThunkLogOut = createAsyncThunk<void, void>(
     await FetchLogOut();
   },
 );
-// #endregion
 
 /* ---------- User Slice ---------- */
 const userSlice = createSlice({
@@ -390,7 +388,6 @@ const userSlice = createSlice({
         state.error = action.payload;
       });
 
-    // Generic matchers for all thunks
     builder
       .addMatcher(
         isAnyOf(
@@ -449,25 +446,4 @@ const userSlice = createSlice({
 export const { resetError } = userSlice.actions;
 export default userSlice.reducer;
 
-/* ---------- CreateAsyncThuynk definition ---------- */
-// ThunkGetUserData = createAsyncThunk<User, {}>
 // createAsyncThunk<Returned, ThunkArg, ThunkApiConfig>()
-// Returned → the type the thunk will return (your payload).
-// In your case: User.
-
-// ThunkArg → the type of the argument you pass when you call dispatch(ThunkGetUserData(arg)).
-// In your code you used {}, which means “an empty object”.
-// That tells TypeScript this thunk expects an object, but with no defined properties.
-
-// ThunkApiConfig → (optional) extra typing for dispatch, state, and rejectWithValue.
-
-/* ---------- AddMatcher definition ---------- */
-// addMatcher<ActionType extends AnyAction>(
-//   matcher: (action: AnyAction) => action is ActionType,
-//   reducer: (state: StateType, action: ActionType) => void
-// ): void;
-// ActionType → the type of action the matcher will handle.
-
-// matcher → a type guard function that receives any action and returns true if it should be handled. If the function is a TypeScript type predicate (action is ActionType), then action in the reducer is typed safely.
-
-// reducer → a function that updates the state when the action matches. Its action parameter is typed as ActionType.
