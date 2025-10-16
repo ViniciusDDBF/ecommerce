@@ -45,7 +45,7 @@ export const Dialog: FC<DialogProps> = ({
     }
   }, [buttons, onClose]);
 
-  // Handle Escape key to close dialog
+  /* ---------- Handle Escape key to close dialog ---------- */
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === 'Escape') {

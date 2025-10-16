@@ -1,10 +1,8 @@
 export const validateCPF = (cpf: string): boolean => {
-  // Remove non-numeric characters
   const cleanedCpf = cpf.replace(/\D/g, '');
 
   if (cleanedCpf.length !== 11) return false;
 
-  // Avoid CPFs with all identical digits
   if (/^(\d)\1{10}$/.test(cleanedCpf)) return false;
 
   const calculateDigit = (cpfSlice: string, factorStart: number) => {
@@ -20,7 +18,7 @@ export const validateCPF = (cpf: string): boolean => {
   const firstCheckDigit = calculateDigit(firstNineDigits, 10);
   const secondCheckDigit = calculateDigit(
     firstNineDigits + firstCheckDigit,
-    11
+    11,
   );
 
   return (
@@ -28,11 +26,3 @@ export const validateCPF = (cpf: string): boolean => {
     firstNineDigits + firstCheckDigit.toString() + secondCheckDigit.toString()
   );
 };
-
-// Example
-// import { validateCPF } from './utils/validateCPF';
-// const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-//   const value = e.target.value;
-//   setCpf(value);
-//   setIsValid(validateCPF(value));
-// };

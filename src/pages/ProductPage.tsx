@@ -28,12 +28,10 @@ export const ProductPage = () => {
   const sectionRef = useRef<HTMLDivElement>(null);
   const [wipIsOpen, setWipIsOpen] = useState<boolean>(false);
 
-  // Initialize state with proper defaults
   const [selectedMedia, setSelectedMedia] = useState<Media | null>(() => {
     return product?.all_images?.[0] || null;
   });
 
-  // Initialize variant and attributes based on URL or defaults
   const getInitialState = () => {
     if (
       !product ||
@@ -49,7 +47,6 @@ export const ProductPage = () => {
 
     const variantHash = searchParams.get('variant');
 
-    // Try to match variant from URL
     if (variantHash) {
       const parsedAttributes = parseVariantHash(variantHash);
       const matchingVariant = product.all_variants.find((variant) => {
@@ -77,7 +74,6 @@ export const ProductPage = () => {
       }
     }
 
-    // Fall back to first variant
     const defaultVariant = product.all_variants[0];
     const defaultAttributes: { [key: string]: string } = {};
     defaultVariant.attributes.forEach((attr) => {
@@ -129,17 +125,14 @@ export const ProductPage = () => {
 
   const currentVariant = findCurrentVariant();
 
-  // Update URL on initial mount if needed
   useEffect(() => {
     if (!product || !Object.keys(selectedAttributes).length) return;
 
-    // Only update URL if we have attributes but no variant param
     if (!searchParams.get('variant')) {
       updateUrlWithVariant(selectedAttributes);
     }
   }, [product, searchParams, selectedAttributes, updateUrlWithVariant]);
 
-  // Set media when product changes
   useEffect(() => {
     if (product?.all_images?.length && !selectedMedia) {
       setSelectedMedia(product.all_images[0]);
@@ -203,7 +196,6 @@ export const ProductPage = () => {
     }
   };
 
-  // Transform variant_attributes with consolidated logic
   const attributeOptions = (() => {
     if (!product?.variant_attributes) return [];
 
@@ -211,7 +203,6 @@ export const ProductPage = () => {
       .map(([name, origValues]) => {
         let values = [...origValues];
 
-        // Sort sizes if applicable
         if (name.toLowerCase() === 'size') {
           const sizeOrder: { [key: string]: number } = {
             xs: -1,
@@ -268,7 +259,6 @@ export const ProductPage = () => {
   const currentStock = currentVariant?.stock || product?.stock || 0;
   const stockStatus = getStockStatus(currentStock);
 
-  // Show loading or error state
   if (!product) {
     return (
       <div className="bg-charcoal-800 text-charcoal-300 flex min-h-screen items-center justify-center">

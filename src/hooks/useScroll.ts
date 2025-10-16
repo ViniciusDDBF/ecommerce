@@ -12,7 +12,6 @@ export const useScroll = () => {
 
       if (!element) return;
 
-      // Calculate absolute top position relative to document
       const rect = element.getBoundingClientRect();
       const elementTop = rect.top + window.scrollY - offset;
 

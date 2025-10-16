@@ -1,4 +1,4 @@
-import type { FC, SupabaseUserArgs } from '@/types';
+import type { FC, SupabaseUserArgs, ThunkCreateCustomerArgs } from '@/types';
 import { useEffect, useState } from 'react';
 import { CircleCheck, LogIn, Mail, MessageCircleX } from 'lucide-react';
 import { Button, Dialog, Modal } from '@/components/atoms';
@@ -36,7 +36,10 @@ export const AccountHeader: FC = () => {
   const [loginIsOpen, setLoginIsOpen] = useState(false);
   const [signUpIsOpen, setSignUpIsOpen] = useState(false);
   const login = useForm({ fields: loginFields, initialValues: {} });
-  const signUp = useForm({ fields: signUpFields, initialValues: {} });
+  const signUp = useForm<ThunkCreateCustomerArgs>({
+    fields: signUpFields,
+    initialValues: {},
+  });
   const dispatch = useAppDispatch();
   const user = useAppSelector('user');
   const [isLocked, setIsLocked] = useState(false);
@@ -88,7 +91,23 @@ export const AccountHeader: FC = () => {
 
   const handleSubmitSignUp = async () => {
     if (!signUp.validate()) return;
-    const { confirm_password: _, ...newUser } = signUp.values;
+    const {
+      confirm_password: _,
+      cpf,
+      email,
+      first_name,
+      last_name,
+      password,
+      phone,
+    } = signUp.values;
+    const newUser: ThunkCreateCustomerArgs = {
+      cpf,
+      email,
+      first_name,
+      last_name,
+      password,
+      phone,
+    };
     try {
       signUp.setIsSubmitting(true);
       await dispatch(ThunkCreateCustomer(newUser));

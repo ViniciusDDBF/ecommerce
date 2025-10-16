@@ -1,4 +1,4 @@
-import type { useFormParams, useFormReturn } from '@/types';
+import type { UseFormParams, UseFormReturn } from '@/types';
 import { useCallback, useState } from 'react';
 import {
   maskCNPJ,
@@ -8,18 +8,18 @@ import {
   validateCPF,
 } from '@/utils';
 
-export const useForm = ({
+export const useForm = <T extends Record<string, unknown>>({
   fields,
   initialValues = {},
-}: useFormParams): useFormReturn => {
-  const [values, setValues] = useState(() => {
-    const defaultValues = { ...initialValues };
+}: UseFormParams): UseFormReturn<T> => {
+  const [values, setValues] = useState<T>(() => {
+    const defaultValues: Record<string, unknown> = { ...initialValues };
     fields.forEach((field) => {
       if (!(field.name in defaultValues)) {
         defaultValues[field.name] = field.type === 'checkbox' ? false : '';
       }
     });
-    return defaultValues;
+    return defaultValues as T;
   });
 
   const [errors, setErrors] = useState<Record<string, string>>({});
@@ -30,14 +30,13 @@ export const useForm = ({
       const field = fields.find((f) => f.name === name);
 
       setValues((prev) => {
-        const updated = { ...prev, [name]: value };
-        return updated;
+        const updated: Record<string, unknown> = { ...prev, [name]: value };
+        return updated as T;
       });
 
       setErrors((prevErrors) => {
         const newErrors = { ...prevErrors };
 
-        // Handle checkbox separately
         if (field?.type === 'checkbox') {
           newErrors[name] = '';
           return newErrors;
@@ -53,7 +52,6 @@ export const useForm = ({
         if (field?.applyMask === 'cnpj') maskedValue = maskCNPJ(value);
         if (field?.applyMask === 'phone') maskedValue = maskPhone(value);
 
-        // Example CPF validation
         if (field?.applyMask === 'cpf') {
           const cleaned = maskedValue.replace(/\D/g, '');
           newErrors[name] =
@@ -73,10 +71,8 @@ export const useForm = ({
   const setValuesAll = useCallback(
     (newValues: Record<string, unknown>, replace = false) => {
       setValues((prev) => {
-        // if replace=true, wipe everything first
-        const updated = replace ? {} : { ...prev };
+        const updated: Record<string, unknown> = replace ? {} : { ...prev };
 
-        // ensure fields exist in definition
         fields.forEach((field) => {
           if (field.name in newValues) {
             updated[field.name] =
@@ -86,10 +82,9 @@ export const useForm = ({
           }
         });
 
-        return updated;
+        return updated as T;
       });
 
-      // clear errors for all updated fields
       setErrors((prev) => {
         const cleared = { ...prev };
         Object.keys(newValues).forEach((name) => {
@@ -107,7 +102,6 @@ export const useForm = ({
     fields.forEach((field) => {
       const value = values[field.name];
 
-      // Handle checkbox required validation
       if (field.type === 'checkbox' && field.validation?.required && !value) {
         newErrors[field.name] = `${field.label} is required`;
         return;
@@ -193,13 +187,13 @@ export const useForm = ({
     fields.forEach((field) => {
       defaultValues[field.name] = field.type === 'checkbox' ? false : '';
     });
-    setValues(defaultValues);
+  setValues(defaultValues as T);
     setErrors({});
     setIsSubmitting(false);
   }, [fields]);
 
   const resetToInitial = useCallback(() => {
-    setValues({ ...initialValues });
+  setValues({ ...initialValues } as T);
     setErrors({});
     setIsSubmitting(false);
   }, [initialValues]);

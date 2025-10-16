@@ -6,14 +6,6 @@ export const maskCPF = (value: string): string => {
     return `${digits.slice(0, 3)}.${digits.slice(3, 6)}.${digits.slice(6)}`;
   return `${digits.slice(0, 3)}.${digits.slice(3, 6)}.${digits.slice(
     6,
-    9
+    9,
   )}-${digits.slice(9, 11)}`;
 };
-
-// Example
-// import { maskCPF } from './utils/masks';
-// <input
-//   placeholder="CPF"
-//   value={cpf}
-//   onChange={(e) => setCpf(maskCPF(e.target.value))}
-// />;

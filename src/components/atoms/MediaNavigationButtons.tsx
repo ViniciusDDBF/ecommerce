@@ -13,7 +13,7 @@ export const MediaNavigationButtons: FC<MediaNavigationButtonsProps> = ({
     <>
       <Button
         aria-label="Previous media"
-        className="absolute left-0 z-10 mx-4 hidden md:left-2 md:inline-flex" // Added z-10
+        className="absolute left-0 z-10 mx-4 hidden md:left-2 md:inline-flex" 
         onClick={onPrev}
         size="xs"
         startIcon={<ChevronLeft className="h-5 w-5 md:h-6 md:w-6" />}
@@ -21,7 +21,7 @@ export const MediaNavigationButtons: FC<MediaNavigationButtonsProps> = ({
       />
       <Button
         aria-label="Next media"
-        className="absolute right-0 z-10 mx-4 hidden md:right-2 md:inline-flex" // Added z-10
+        className="absolute right-0 z-10 mx-4 hidden md:right-2 md:inline-flex" 
         onClick={onNext}
         size="xs"
         startIcon={<ChevronRight className="h-5 w-5 md:h-6 md:w-6" />}

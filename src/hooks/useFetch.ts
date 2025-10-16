@@ -62,10 +62,8 @@ export const useFetch = <T>({
           ...customOptions,
         };
 
-        // Add body for POST/PATCH requests
         if (body && (method === 'POST' || method === 'PATCH')) {
           options.body = JSON.stringify(body);
-          // Set content-type if not already provided
           if (!options.headers) {
             options.headers = {};
           }
@@ -81,7 +79,6 @@ export const useFetch = <T>({
           throw new Error(`HTTP ${response.status}: ${response.statusText}`);
         }
 
-        // Handle empty responses (common for POST/DELETE operations)
         const contentType = response.headers.get('content-type');
         let responseData: T;
 
@@ -89,7 +86,6 @@ export const useFetch = <T>({
           const text = await response.text();
           responseData = text ? (JSON.parse(text) as T) : (null as T);
         } else {
-          // For non-JSON responses or empty responses, return null
           responseData = null as T;
         }
 
@@ -103,7 +99,7 @@ export const useFetch = <T>({
           const errorMessage =
             err instanceof Error ? err.message : 'Unknown error occurred';
           setError(errorMessage);
-          throw err; // Re-throw so caller can handle it
+          throw err;
         }
         throw err;
       } finally {
