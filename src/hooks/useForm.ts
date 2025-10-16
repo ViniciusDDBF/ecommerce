@@ -1,4 +1,4 @@
-import type { UseFormParams, UseFormReturn } from '@/types';
+import type { useFormParams, useFormReturn } from '@/types';
 import { useCallback, useState } from 'react';
 import {
   maskCNPJ,
@@ -11,7 +11,7 @@ import {
 export const useForm = <T extends Record<string, unknown>>({
   fields,
   initialValues = {},
-}: UseFormParams): UseFormReturn<T> => {
+}: useFormParams): useFormReturn<T> => {
   const [values, setValues] = useState<T>(() => {
     const defaultValues: Record<string, unknown> = { ...initialValues };
     fields.forEach((field) => {
@@ -187,13 +187,13 @@ export const useForm = <T extends Record<string, unknown>>({
     fields.forEach((field) => {
       defaultValues[field.name] = field.type === 'checkbox' ? false : '';
     });
-  setValues(defaultValues as T);
+    setValues(defaultValues as T);
     setErrors({});
     setIsSubmitting(false);
   }, [fields]);
 
   const resetToInitial = useCallback(() => {
-  setValues({ ...initialValues } as T);
+    setValues({ ...initialValues } as T);
     setErrors({});
     setIsSubmitting(false);
   }, [initialValues]);

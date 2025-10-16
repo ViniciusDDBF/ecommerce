@@ -1,14 +1,14 @@
 import type { Dispatch, SetStateAction } from 'react';
 import type { FormFieldConfig } from '@/types';
 
-export type UseForm = UseFormParams;
+export type useForm = useFormParams;
 
-export interface UseFormParams {
+export interface useFormParams {
   fields: FormFieldConfig[];
   initialValues: Record<string, unknown>;
 }
 
-export interface UseFormReturn<T> {
+export interface useFormReturn<T> {
   errors: Record<string, string>;
   isSubmitting: boolean;
   reset: () => void;
