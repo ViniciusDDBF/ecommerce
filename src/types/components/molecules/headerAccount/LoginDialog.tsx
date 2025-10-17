@@ -1,11 +1,11 @@
 import type { FormFieldConfig, useFormReturn } from '@/types';
 
-export interface LoginDialogProps {
+export interface LoginDialogProps<T> {
   fields: FormFieldConfig[];
   handleSubmitLogin: () => void;
   isLoading: boolean;
   isOpen: boolean;
-  loginForm: useFormReturn;
+  loginForm: useFormReturn<T>;
   onClose: () => void;
   onSwitchToSignUp: () => void;
 }
